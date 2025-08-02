@@ -77,7 +77,7 @@ public class BorealisMaleModel extends AdvancedHumanoidModel<BorealisMaleEntity>
         this.LeftPad = this.LeftFoot.getChild("LeftPad");
 
         animator = HumanoidAnimator.of(this).hipOffset(-1.5f)
-                .addPreset(AnimatorPresets.wolfLike(
+                .addPreset(AnimatorPresets.catLike(
                         Head, Head.getChild("LeftEar"), Head.getChild("RightEar"),
                         Torso, LeftArm, RightArm,
                         Tail, List.of(TailPrimary, TailSecondary, TailTertiary, TailQuaternary),
