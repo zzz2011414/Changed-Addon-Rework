@@ -5,7 +5,6 @@ import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.model.advanced.BorealisFemaleModel;
 import net.foxyas.changedaddon.client.renderer.layers.ProtogenDisplay;
 import net.foxyas.changedaddon.entity.advanced.BorealisFemaleEntity;
-import net.foxyas.changedaddon.entity.advanced.BorealisMaleEntity;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer;
 import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
@@ -23,7 +22,7 @@ public class BorealisFemaleRenderer extends AdvancedHumanoidRenderer<BorealisFem
         super(context, new BorealisFemaleModel(context.bakeLayer(BorealisFemaleModel.LAYER_LOCATION)), ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);
         this.addLayer(new ProtogenDisplay<>(this, getModel(),
                 new ResourceLocation("changed_addon:textures/entities/borealis_male/protogen_eyes_display.png"),
-                new ResourceLocation("changed_addon:textures/entities/borealis_male/protogen_display.png")){
+                new ResourceLocation("changed_addon:textures/entities/borealis_male/protogen_display.png")) {
             @Override
             public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, @NotNull BorealisFemaleEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
                 if (!entity.isInvisible()) {

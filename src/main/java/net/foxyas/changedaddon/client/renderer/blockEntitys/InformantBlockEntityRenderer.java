@@ -58,7 +58,8 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
         });
 
         if (entity == null) return;
-        if(!(Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity) instanceof AdvancedHumanoidRenderer<?,?,?> renderer)) return;
+        if (!(Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity) instanceof AdvancedHumanoidRenderer<?, ?, ?> renderer))
+            return;
 
         assert Minecraft.getInstance().player != null;
         entity.tickCount = Minecraft.getInstance().player.tickCount;
@@ -74,7 +75,7 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
 
         //This stuff was used when i try render only the model
         AdvancedHumanoidModel model = renderer.getModel();
-        ResourceLocation texture = ((LivingEntityRenderer)renderer).getTextureLocation(entity);
+        ResourceLocation texture = ((LivingEntityRenderer) renderer).getTextureLocation(entity);
         var vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(texture));
         float alpha = 0.5f;
 
@@ -85,7 +86,7 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
             List<RenderLayer<LivingEntity, EntityModel<LivingEntity>>> layers = livingEntityRendererAccessor.getLayers();
             if (layers != null && !layers.isEmpty()) {
                 layers.forEach((renderlayer) -> {
-                    renderlayer.render(poseStack, bufferSource, LightTexture.FULL_BRIGHT, entity, 0, 0, partialTick, entity.tickCount + partialTick, 0 ,0);
+                    renderlayer.render(poseStack, bufferSource, LightTexture.FULL_BRIGHT, entity, 0, 0, partialTick, entity.tickCount + partialTick, 0, 0);
                 });
             }
         }

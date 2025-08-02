@@ -5,7 +5,6 @@ import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.model.advanced.BorealisMaleModel;
 import net.foxyas.changedaddon.client.renderer.layers.ProtogenDisplay;
 import net.foxyas.changedaddon.entity.advanced.BorealisMaleEntity;
-import net.foxyas.changedaddon.entity.advanced.ProtogenEntity;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer;
 import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
