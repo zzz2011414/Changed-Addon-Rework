@@ -12,7 +12,9 @@ public class ChangedAddonAnimationDefinitionsRegistry {
     public static void registerAnimations(AnimationDefinitions.GatherAnimationsEvent event) {
         event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_left"), ChangedAddonAnimationsDefinitions.DODGE_LEFT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
         event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_right"), ChangedAddonAnimationsDefinitions.DODGE_RIGHT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
-        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_down"), ChangedAddonAnimationsDefinitions.DODGE_RIGHT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
-        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_weave"), ChangedAddonAnimationsDefinitions.DODGE_WEAVE, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
+        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_down_left"), ChangedAddonAnimationsDefinitions.DODGE_DOWN_LEFT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
+        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_down_right"), ChangedAddonAnimationsDefinitions.DODGE_DOWN_RIGHT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
+        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_weave_left"), ChangedAddonAnimationsDefinitions.DODGE_WEAVE_LEFT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
+        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_weave_right"), ChangedAddonAnimationsDefinitions.DODGE_WEAVE_RIGHT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
     }
 }

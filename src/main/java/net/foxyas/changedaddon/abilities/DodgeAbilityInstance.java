@@ -68,12 +68,14 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
             event.setCanceled(true);
         }
         spawnDodgeParticles(serverLevel, player, 0.5f, 0.3f, 0.3f, 0.3f, 10, 0.25f);
-        int randomValue = serverLevel.getRandom().nextInt(4);
+        int randomValue = serverLevel.getRandom().nextInt(6);
         switch (randomValue) {
             case 0 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_LEFT.get(), null);
             case 1 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_RIGHT.get(), null);
-            case 2 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_WEAVE.get(), null);
-            case 3 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_DOWN.get(), null);
+            case 2 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_WEAVE_LEFT.get(), null);
+            case 3 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_WEAVE_RIGHT.get(), null);
+            case 4 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_DOWN_LEFT.get(), null);
+            case 5 -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_DOWN_RIGHT.get(), null);
             //default -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_LEFT.get(), null);
         }
     }

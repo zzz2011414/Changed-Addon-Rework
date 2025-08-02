@@ -17,20 +17,47 @@
       }
     ]
   },
-  "changed_addon:dodge_weave": {
+  "changed_addon:dodge_down_left": {
     "category": "idle",
     "animations": [
       {
-        "name": "changed_addon:dodge_weave",
+        "name": "changed_addon:dodge_down_left",
         "criteria": {}
       }
     ]
   },
-  "changed_addon:dodge_down": {
+  "changed_addon:dodge_down_right": {
     "category": "idle",
     "animations": [
       {
-        "name": "changed_addon:dodge_down",
+        "name": "changed_addon:dodge_down_right",
+        "criteria": {}
+      }
+    ]
+  },
+  "changed_addon:dodge_weave_left": {
+    "category": "idle",
+    "animations": [
+      {
+        "name": "changed_addon:dodge_weave_left",
+        "criteria": {}
+      }
+    ]
+  },
+  "changed_addon:dodge_weave_right": {
+    "category": "idle",
+    "animations": [
+      {
+        "name": "changed_addon:dodge_weave_right",
+        "criteria": {}
+      }
+    ]
+  },
+  "changed_addon:pat_reaction": {
+    "category": "idle",
+    "animations": [
+      {
+        "name": "changed:placeholder",
         "criteria": {}
       }
     ]
