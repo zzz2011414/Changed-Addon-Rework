@@ -66,6 +66,26 @@ public class ProtogenDisplay<M extends AdvancedHumanoidModel<T>, T extends Chang
         }
     }
 
+    public boolean isOnlyHead() {
+        return isOnlyHead;
+    }
+
+    public RenderType getGlowDisplayRender() {
+        return GlowDisplayRender;
+    }
+
+    public RenderType getGlowEyeRender() {
+        return GlowEyeRender;
+    }
+
+    public RenderType getNormalDisplayRender() {
+        return NormalDisplayRender;
+    }
+
+    public RenderType getNormalEyeRender() {
+        return NormalEyeRender;
+    }
+
     @Override
     public void renderFirstPersonOnArms(PoseStack stack, MultiBufferSource bufferSource, int packedLight, T entity, HumanoidArm arm, PoseStack stackCorrector, float partialTick) {
         FirstPersonLayer.super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
