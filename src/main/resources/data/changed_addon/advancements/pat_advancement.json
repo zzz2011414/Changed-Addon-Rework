@@ -16,7 +16,10 @@
   },
   "criteria": {
     "pat_advancement": {
-      "trigger": "minecraft:impossible"
+      "trigger": "changed_addon:pat_entity_trigger",
+      "conditions": {
+        "name": "chance"
+      }
     }
   },
   "rewards": {

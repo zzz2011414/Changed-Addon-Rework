@@ -50,10 +50,6 @@ public class ProtogenDisplay<M extends AdvancedHumanoidModel<T>, T extends Chang
     @Override
     public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!entity.isInvisible()) {
-            RenderType renderType = GlowEyeRender;
-            RenderType renderType2 = NormalDisplayRender;
-
-
             BasicPlayerInfo info = entity.getBasicPlayerInfo();
             Color3 displayColor = info.getScleraColor();  // Cor do display
             Color3 eyeColor = info.getRightIrisColor();    // Cor dos olhos
@@ -61,11 +57,11 @@ public class ProtogenDisplay<M extends AdvancedHumanoidModel<T>, T extends Chang
 
             // Renderiza apenas a cabeça do modelo
             if (isOnlyHead) {
-                this.model.getHead().render(poseStack, bufferSource.getBuffer(renderType), packedLight, overlay, eyeColor.red(), eyeColor.green(), eyeColor.blue(), 1.0F);
-                this.model.getHead().render(poseStack, bufferSource.getBuffer(renderType2), packedLight, overlay, displayColor.red(), displayColor.green(), displayColor.blue(), 1.0F);
+                this.model.getHead().render(poseStack, bufferSource.getBuffer(NormalDisplayRender), packedLight, overlay, displayColor.red(), displayColor.green(), displayColor.blue(), 1.0F);
+                this.model.getHead().render(poseStack, bufferSource.getBuffer(GlowEyeRender), packedLight, overlay, eyeColor.red(), eyeColor.green(), eyeColor.blue(), 1.0F);
             } else {
-                this.model.renderToBuffer(poseStack, bufferSource.getBuffer(renderType), packedLight, overlay, eyeColor.red(), eyeColor.green(), eyeColor.blue(), 1.0F);
-                this.model.renderToBuffer(poseStack, bufferSource.getBuffer(renderType2), packedLight, overlay, displayColor.red(), displayColor.green(), displayColor.blue(), 1.0F);
+                this.model.renderToBuffer(poseStack, bufferSource.getBuffer(NormalDisplayRender), packedLight, overlay, displayColor.red(), displayColor.green(), displayColor.blue(), 1.0F);
+                this.model.renderToBuffer(poseStack, bufferSource.getBuffer(GlowEyeRender), packedLight, overlay, eyeColor.red(), eyeColor.green(), eyeColor.blue(), 1.0F);
             }
         }
     }

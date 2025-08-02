@@ -1,10 +1,7 @@
 package net.foxyas.changedaddon.init;
 
 import net.foxyas.changedaddon.client.model.*;
-import net.foxyas.changedaddon.client.model.advanced.AvaliModel;
-import net.foxyas.changedaddon.client.model.advanced.LatexKitsuneFemaleModel;
-import net.foxyas.changedaddon.client.model.advanced.LatexKitsuneMaleModel;
-import net.foxyas.changedaddon.client.model.advanced.ProtogenModel;
+import net.foxyas.changedaddon.client.model.advanced.*;
 import net.foxyas.changedaddon.client.model.armors.ArmorLatexDragonSnowLeopardSharkModel;
 import net.foxyas.changedaddon.client.model.armors.ArmorLatexSquidTigerSharkModel;
 import net.foxyas.changedaddon.client.model.armors.DarkLatexCoatModel;
@@ -82,6 +79,10 @@ public class ChangedAddonModels {
         event.registerLayerDefinition(LatexCalicoCatModel.LAYER_LOCATION, LatexCalicoCatModel::createBodyLayer);
         event.registerLayerDefinition(ProtogenModel.LAYER_LOCATION, ProtogenModel::createBodyLayer);
         event.registerLayerDefinition(MongooseModel.LAYER_LOCATION, MongooseModel::createBodyLayer);
+        event.registerLayerDefinition(BorealisMaleModel.LAYER_LOCATION, BorealisMaleModel::createBodyLayer);
+        event.registerLayerDefinition(BorealisFemaleModel.LAYER_LOCATION, BorealisFemaleModel::createBodyLayer);
+
+
 
         // --- PROJECTILES ENTITIES MODELS ---
         event.registerLayerDefinition(SimpleProjectileModel.LAYER_LOCATION, SimpleProjectileModel::createBodyLayer);

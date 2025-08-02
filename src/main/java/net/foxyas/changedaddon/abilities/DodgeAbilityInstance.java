@@ -60,8 +60,8 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
     public void executeDodge(ServerLevel serverLevel, Player player, @Nullable LivingAttackEvent event) {
         this.subDodgeAmount();
         player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dodge.dodge_amount_left", this.getDodgeStaminaRatio()), false);
-        player.invulnerableTime = 20;
-        player.hurtDuration = 20;
+        player.invulnerableTime = 20 * 3;
+        player.hurtDuration = 20 * 3;
         player.hurtTime = player.hurtDuration;
         player.causeFoodExhaustion(8f);
         if (event != null) {

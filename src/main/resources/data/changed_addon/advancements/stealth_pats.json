@@ -4,10 +4,10 @@
       "item": "changed_addon:pat_icon"
     },
     "title": {
-      "translate": "advancements.stealthpats.title"
+      "translate": "advancements.stealth_pats.title"
     },
     "description": {
-      "translate": "advancements.stealthpats.descr"
+      "translate": "advancements.stealth_pats.descr"
     },
     "frame": "challenge",
     "show_toast": true,
@@ -15,7 +15,7 @@
     "hidden": false
   },
   "criteria": {
-    "stealthpats": {
+    "stealth_pats": {
       "trigger": "changed_addon:pat_entity_trigger",
       "conditions": {
         "head": {

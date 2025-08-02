@@ -1,5 +1,6 @@
 package net.foxyas.changedaddon.client.renderer.advanced;
 
+import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.model.advanced.ProtogenModel;
 import net.foxyas.changedaddon.client.renderer.layers.ProtogenDisplay;
 import net.foxyas.changedaddon.entity.advanced.ProtogenEntity;
@@ -15,14 +16,14 @@ public class ProtogenRenderer extends AdvancedHumanoidRenderer<ProtogenEntity, P
     public ProtogenRenderer(EntityRendererProvider.Context context) {
         super(context, new ProtogenModel(context.bakeLayer(ProtogenModel.LAYER_LOCATION)), ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);
         this.addLayer(new ProtogenDisplay<>(this, getModel(),
-                new ResourceLocation("changed_addon:textures/entities/protogen/protogen_eyes_display.png"),
-                new ResourceLocation("changed_addon:textures/entities/protogen/protogen_display.png")));
+                ChangedAddonMod.textureLoc("textures/entities/protogen/protogen_eyes_display"),
+                ChangedAddonMod.textureLoc("textures/entities/protogen/protogen_display")));
         this.addLayer(TransfurCapeLayer.normalCape(this, context.getModelSet()));
         this.addLayer(GasMaskLayer.forLargeSnouted(this, context.getModelSet()));
     }
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull ProtogenEntity entity) {
-        return new ResourceLocation("changed_addon:textures/entities/protogen/protogen.png");
+        return ChangedAddonMod.textureLoc("textures/entities/protogen/protogen");
     }
 }

@@ -57,7 +57,7 @@
     "category": "idle",
     "animations": [
       {
-        "name": "changed:placeholder",
+        "name": "changed_addon:pat_reaction",
         "criteria": {}
       }
     ]

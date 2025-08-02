@@ -207,7 +207,7 @@ public class LuminarCrystalSpearEntity extends AbstractArrow implements ItemSupp
             Explosion explosion = new Explosion(serverLevel, this, this.position().x(), this.position().y(), this.position().z(), 3f);
             //AABB BoundBox = new AABB(result.getBlockPos());
             //BoundBox.inflate(1 + EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS, this.SpearItem));
-            int radius = 1 + Math.max(0, (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS, this.SpearItem) - 1));
+            int radius = 1 + Math.max(0, (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SHARPNESS, this.SpearItem) / 2));
             for (BlockPos pos : FoxyasUtils.betweenClosedStreamSphere(result.getBlockPos(), radius, radius).toList()) {
                 BlockState state = serverLevel.getBlockState(pos);
                 if (state.is(ChangedAddonBlocks.LUMINAR_CRYSTAL_BLOCK.get()) || state.isAir()) {

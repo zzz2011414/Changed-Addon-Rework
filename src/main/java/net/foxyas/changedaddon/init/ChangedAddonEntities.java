@@ -78,6 +78,7 @@ public class ChangedAddonEntities {
         ADDON_CHANGED_ENTITIES.add(LATEX_CALICO_CAT.get());
         ADDON_CHANGED_ENTITIES.add(PROTOGEN.get());
         ADDON_CHANGED_ENTITIES.add(MONGOOSE.get());
+        ADDON_CHANGED_ENTITIES.add(BOREALIS_MALE.get());
         return ADDON_CHANGED_ENTITIES;
     }
 
@@ -306,6 +307,24 @@ public class ChangedAddonEntities {
 
                     .sized(0.7f, 1.93f));
 
+    public static final RegistryObject<EntityType<BorealisMaleEntity>> BOREALIS_MALE = registerChangedEntity("borealis_male",
+            EntityType.Builder.<BorealisMaleEntity>of(BorealisMaleEntity::new, ChangedMobCategories.CHANGED)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setCustomClientFactory(BorealisMaleEntity::new)
+                    .clientTrackingRange(10)
+
+                    .sized(0.7f, 1.93f));
+
+    public static final RegistryObject<EntityType<BorealisFemaleEntity>> BOREALIS_FEMALE = registerChangedEntity("borealis_female",
+            EntityType.Builder.<BorealisFemaleEntity>of(BorealisFemaleEntity::new, ChangedMobCategories.CHANGED)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setCustomClientFactory(BorealisFemaleEntity::new)
+                    .clientTrackingRange(10)
+
+                    .sized(0.7f, 1.93f));
+
     // --- MONSTER/MOB ENTITIES ---
     public static final RegistryObject<EntityType<PrototypeEntity>> PROTOTYPE = registerMob("prototype",
             EntityType.Builder.<PrototypeEntity>of(PrototypeEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(PrototypeEntity::new)
@@ -383,6 +402,8 @@ public class ChangedAddonEntities {
         event.put(LATEX_CALICO_CAT.get(), LatexCalicoCatEntity.createAttributes().build());
         event.put(PROTOGEN.get(), ProtogenEntity.createAttributes().build());
         event.put(MONGOOSE.get(), MongooseEntity.createAttributes().build());
+        event.put(BOREALIS_MALE.get(), BorealisMaleEntity.createAttributes().build());
+        event.put(BOREALIS_FEMALE.get(), BorealisFemaleEntity.createAttributes().build());
     }
 
 
@@ -435,6 +456,8 @@ public class ChangedAddonEntities {
             LatexCalicoCatEntity.init();
             ProtogenEntity.init();
             MongooseEntity.init();
+            BorealisMaleEntity.init();
+            BorealisFemaleEntity.init();
         });
     }
 }

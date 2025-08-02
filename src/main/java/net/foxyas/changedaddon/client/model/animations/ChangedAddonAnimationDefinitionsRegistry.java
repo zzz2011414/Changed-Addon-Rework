@@ -16,5 +16,6 @@ public class ChangedAddonAnimationDefinitionsRegistry {
         event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_down_right"), ChangedAddonAnimationsDefinitions.DODGE_DOWN_RIGHT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
         event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_weave_left"), ChangedAddonAnimationsDefinitions.DODGE_WEAVE_LEFT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
         event.addAnimationDefinition(ChangedAddonMod.resourceLoc("dodge_weave_right"), ChangedAddonAnimationsDefinitions.DODGE_WEAVE_RIGHT, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
+        event.addAnimationDefinition(ChangedAddonMod.resourceLoc("pat_reaction"), ChangedAddonAnimationsDefinitions.PATTED_SLOW, AnimationDefinitions.GatherAnimationsEvent.OverridePolicy.OVERRIDE_JSON);
     }
 }

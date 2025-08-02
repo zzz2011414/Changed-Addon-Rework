@@ -238,7 +238,7 @@ public class PatFeatureHandle {
                 if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
                     return;
                 }
-                if (serverLevel.random.nextFloat(100) <= 2.5f) {
+                if (serverLevel.random.nextFloat() <= 0.025f) {
                     target.heal(6f);
                     GivePatAdvancement(player, target);
                 }
@@ -296,7 +296,7 @@ public class PatFeatureHandle {
 //                    _player.getAdvancements().award(_adv, string);
 //                }
 //            }
-            ChangedAddonCriteriaTriggers.PAT_ENTITY_TRIGGER.Trigger(_player, target);
+            ChangedAddonCriteriaTriggers.PAT_ENTITY_TRIGGER.Trigger(_player, target, "chance");
         }
     }
 

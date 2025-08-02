@@ -215,7 +215,7 @@ public class TFTagsProvider extends TagsProvider<TransfurVariant<?>> {
                 .addTag(ChangedAddonTags.TransfurTypes.FOX_LIKE);
 
         tag(ChangedAddonTags.TransfurTypes.SPECIAL_DIET)
-                .add(EXP6.get(), WOLFY.get(), ADDON_PURO_KIND_FEMALE.get(), ADDON_PURO_KIND_MALE.get());
+                .add(EXP6.get(), WOLFY.get(), PURO_KIND_FEMALE.get(), PURO_KIND_MALE.get());
 
         tag(ChangedAddonTags.TransfurTypes.SWEET_DIET)
                 .add(HAYDEN_FENNEC_FOX.get(), KET_EXPERIMENT_009.get(), KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get());
