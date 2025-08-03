@@ -3,10 +3,7 @@ package net.foxyas.changedaddon.abilities;
 import net.foxyas.changedaddon.mixins.entity.AbstractArrowAccessor;
 import net.foxyas.changedaddon.process.util.PlayerUtil;
 import net.foxyas.changedaddon.process.util.FoxyasUtils;
-import net.ltxprogrammer.changed.ability.AbstractAbilityInstance;
-import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.ability.SimpleAbility;
-import net.ltxprogrammer.changed.ability.SimpleAbilityInstance;
+import net.ltxprogrammer.changed.ability.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.ListTag;
@@ -103,7 +100,17 @@ public class PsychicGrab extends SimpleAbility {
     public boolean canUse(IAbstractChangedEntity entity) {
         Entity target = getTarget(entity.getLevel(), TargetID);
         LivingEntity self = entity.getEntity();
+
         if (target != null) {
+            if (target instanceof LivingEntity livingTarget) {
+                IAbstractChangedEntity grabberOfTarget = GrabEntityAbility.getGrabber(livingTarget);
+                if (grabberOfTarget != null) {
+                    if (grabberOfTarget.getEntity().is(self)) {
+                        return false;
+                    }
+                    return false;
+                }
+            }
             if (entity.getEntity().distanceTo(target) > 10) {
             	if (self.isShiftKeyDown()){
             		return true;

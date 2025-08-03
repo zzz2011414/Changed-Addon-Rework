@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.entity.simple;
 
-import net.foxyas.changedaddon.entity.customHandle.CustomPatReaction;
+import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.entity.defaults.AbstractExp2SnepChangedEntity;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.ltxprogrammer.changed.entity.*;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Exp2FemaleEntity extends AbstractExp2SnepChangedEntity implements CustomPatReaction {
+public class Exp2FemaleEntity extends AbstractExp2SnepChangedEntity {
 
     public Exp2FemaleEntity(PlayMessages.SpawnEntity packet, Level world) {
         this(ChangedAddonEntities.EXP_2_FEMALE.get(), world);
@@ -64,19 +64,19 @@ public class Exp2FemaleEntity extends AbstractExp2SnepChangedEntity implements C
 
     protected void setAttributes(AttributeMap attributes) {
         Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue((3));
-        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue((30));
-        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue((24));
-        attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(40.0f);
-        attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.18F);
-        attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(1.065f);
-        attributes.getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(3.0f);
-        attributes.getInstance(Attributes.ARMOR).setBaseValue(0);
-        attributes.getInstance(Attributes.ARMOR_TOUGHNESS).setBaseValue(0);
-        attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
+        Objects.requireNonNull(attributes.getInstance(Attributes.MAX_HEALTH)).setBaseValue((30));
+        Objects.requireNonNull(attributes.getInstance(Attributes.MAX_HEALTH)).setBaseValue((24));
+        Objects.requireNonNull(attributes.getInstance(Attributes.FOLLOW_RANGE)).setBaseValue(40.0f);
+        Objects.requireNonNull(attributes.getInstance(Attributes.MOVEMENT_SPEED)).setBaseValue(1.18F);
+        Objects.requireNonNull(attributes.getInstance(ForgeMod.SWIM_SPEED.get())).setBaseValue(1.065f);
+        Objects.requireNonNull(attributes.getInstance(Attributes.ATTACK_DAMAGE)).setBaseValue(3.0f);
+        Objects.requireNonNull(attributes.getInstance(Attributes.ARMOR)).setBaseValue(0);
+        Objects.requireNonNull(attributes.getInstance(Attributes.ARMOR_TOUGHNESS)).setBaseValue(0);
+        Objects.requireNonNull(attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE)).setBaseValue(0);
     }
 
     @Override
-    protected @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
+    protected @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         return Exp2(player, hand, this.getUnderlyingPlayer());
     }
 
@@ -150,7 +150,7 @@ public class Exp2FemaleEntity extends AbstractExp2SnepChangedEntity implements C
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -166,7 +166,7 @@ public class Exp2FemaleEntity extends AbstractExp2SnepChangedEntity implements C
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -202,13 +202,13 @@ public class Exp2FemaleEntity extends AbstractExp2SnepChangedEntity implements C
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
-        return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
+        return Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt")));
     }
 
     @Override
-    public SoundEvent getDeathSound() {
-        return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
+    public @NotNull SoundEvent getDeathSound() {
+        return Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death")));
     }
 
     @Override

@@ -1,5 +1,6 @@
-package net.foxyas.changedaddon.entity.customHandle;
+package net.foxyas.changedaddon.entity.interfaces;
 
+import net.foxyas.changedaddon.entity.customHandle.BossMusicTheme;
 import net.minecraft.sounds.Music;
 import org.jetbrains.annotations.NotNull;
 

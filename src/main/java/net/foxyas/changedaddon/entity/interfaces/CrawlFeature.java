@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.entity.customHandle;
+package net.foxyas.changedaddon.entity.interfaces;
 
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.minecraft.core.BlockPos;

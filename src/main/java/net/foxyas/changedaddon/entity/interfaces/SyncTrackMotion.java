@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.entity.customHandle;
+package net.foxyas.changedaddon.entity.interfaces;
 
 import net.minecraft.world.phys.Vec3;
 

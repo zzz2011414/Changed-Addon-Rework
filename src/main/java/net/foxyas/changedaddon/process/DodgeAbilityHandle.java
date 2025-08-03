@@ -3,11 +3,7 @@ package net.foxyas.changedaddon.process;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
-import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,13 +27,6 @@ public class DodgeAbilityHandle {
 
         Level world = target.level;
 
-        Vec3 attackerPos = attacker.position();
-        Vec3 lookDirection = attacker.getLookAngle().normalize();
-        Vec3 targetLookDirection = target.getLookAngle();
-
-        double distanceBehind = 2;
-        Vec3 dodgePosBehind = attackerPos.subtract(lookDirection.scale(distanceBehind));
-
         TransfurVariantInstance<?> variant = ProcessTransfur.getPlayerTransfurVariant(player);
         if (variant == null)
             return;
@@ -57,26 +46,21 @@ public class DodgeAbilityHandle {
         if (player.invulnerableTime > 5 || player.hurtTime > 5)
             return;
 
-        double distance = attacker.distanceTo(target);
-
         if (world instanceof ServerLevel serverLevel) {
-            applyDodgeEffects(player, dodge, serverLevel, event);
-            if (distance <= 1.5f) {
-                BlockPos teleportPos = new BlockPos(dodgePosBehind.x, target.getY(), dodgePosBehind.z);
-                if (world.isEmptyBlock(teleportPos) || world.isEmptyBlock(teleportPos.above())) {
-                    target.teleportTo(teleportPos.getX(), teleportPos.getY(), teleportPos.getZ());
-                }
-            } else {
-                dodgeAwayFromAttacker(player, attacker);
+            if (attacker instanceof LivingEntity livingAttacker) {
+                applyDodgeEffects(player, livingAttacker, dodge, serverLevel, event);
+                applyDodgeHandle(player, livingAttacker, dodge, serverLevel, event);
             }
-
-            ChangedSounds.broadcastSound(player, ChangedSounds.BOW2, 2.5f, 1);
         }
     }
 
     //Keep this method for mixins
-    private static void applyDodgeEffects(Player player, DodgeAbilityInstance dodge, ServerLevel serverLevel, LivingAttackEvent event) {
-        dodge.executeDodge(serverLevel, player, event);
+    private static void applyDodgeEffects(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, ServerLevel serverLevel, LivingAttackEvent event) {
+        dodge.executeDodgeEffects(serverLevel, attacker, player, event);
+    }
+
+    private static void applyDodgeHandle(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, ServerLevel serverLevel, LivingAttackEvent event) {
+        dodge.executeDodgeHandle(serverLevel, attacker, player, event);
     }
 
 

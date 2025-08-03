@@ -2,8 +2,8 @@ package net.foxyas.changedaddon.entity.bosses;
 
 import net.foxyas.changedaddon.entity.customHandle.BossAbilitiesHandle;
 import net.foxyas.changedaddon.entity.customHandle.BossMusicTheme;
-import net.foxyas.changedaddon.entity.customHandle.BossWithMusic;
-import net.foxyas.changedaddon.entity.customHandle.CustomPatReaction;
+import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
+import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.entity.goals.DashPunchGoal;
 import net.foxyas.changedaddon.entity.goals.LeapSmashGoal;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;

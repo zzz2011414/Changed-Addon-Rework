@@ -11,9 +11,12 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import javax.annotation.Nullable;
 
 import static net.foxyas.changedaddon.init.ChangedAddonItems.DARK_LATEX_COAT;
 import static net.foxyas.changedaddon.init.ChangedAddonItems.DARK_LATEX_HEAD_CAP;
@@ -30,13 +33,27 @@ public class ProcessPatFeature {
     public static class GlobalPatReaction extends Event {
         public final Player player;
         public final LivingEntity target;
-
         public final LevelAccessor world;
+        @Nullable
+        public final Vec3 pattedLocation;
 
         public GlobalPatReaction(LevelAccessor world, Player player, LivingEntity target) {
             this.player = player;
             this.target = target;
             this.world = world;
+            this.pattedLocation = null;
+        }
+
+        public GlobalPatReaction(LevelAccessor world, Player player, LivingEntity target, @Nullable Vec3 pattedLocation) {
+            this.player = player;
+            this.target = target;
+            this.world = world;
+            this.pattedLocation = pattedLocation;
+        }
+
+        @Nullable
+        public Vec3 getPattedLocation() {
+            return pattedLocation;
         }
 
         public boolean isCancelable() {

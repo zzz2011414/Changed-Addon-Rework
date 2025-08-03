@@ -15,6 +15,14 @@ public class DodgeAbility extends AbstractAbility<DodgeAbilityInstance> {
         super((ab, ia) -> new DodgeAbilityInstance(ab, ia, Dodges));
     }
 
+    public DodgeAbility(DodgeAbilityInstance.DodgeType dodgeType) {
+        super((ab, ia) -> new DodgeAbilityInstance(ab, ia).withDodgeType(dodgeType));
+    }
+
+    public DodgeAbility(int Dodges, DodgeAbilityInstance.DodgeType dodgeType) {
+        super((ab, ia) -> new DodgeAbilityInstance(ab, ia, Dodges).withDodgeType(dodgeType));
+    }
+
     @Override
     public TranslatableComponent getAbilityName(IAbstractChangedEntity entity) {
         return new TranslatableComponent("changed_addon.ability.dodge");

@@ -66,6 +66,24 @@ public class FoxyasUtils {
         return blockPosList.stream();
     }
 
+    public static Stream<BlockPos> betweenClosedStreamSphere(BlockPos center, int horizontalRadiusSphere, int verticalRadiusSphere, float troubleshot) {
+        List<BlockPos> blockPosList = new ArrayList<>();
+        for (int i = -verticalRadiusSphere; i <= verticalRadiusSphere; i++) {
+            for (int xi = -horizontalRadiusSphere; xi <= horizontalRadiusSphere; xi++) {
+                for (int zi = -horizontalRadiusSphere; zi <= horizontalRadiusSphere; zi++) {
+                    double distanceSq = (xi * xi) / (double) (horizontalRadiusSphere * horizontalRadiusSphere) + (i * i) / (double) (verticalRadiusSphere * verticalRadiusSphere)
+                            + (zi * zi) / (double) (horizontalRadiusSphere * horizontalRadiusSphere);
+                    if (distanceSq <= troubleshot) {
+                        BlockPos pos = center.offset(xi, i, zi);
+                        blockPosList.add(pos);
+                    }
+                }
+            }
+        }
+
+        return blockPosList.stream();
+    }
+
 
     /**
      * Checks if one entity (eyeEntity) can see another (targetToSee), using raycasting and FOV.

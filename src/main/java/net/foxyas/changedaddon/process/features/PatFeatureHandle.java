@@ -8,7 +8,7 @@ import net.foxyas.changedaddon.entity.bosses.KetExperiment009Entity;
 import net.foxyas.changedaddon.entity.simple.Exp2FemaleEntity;
 import net.foxyas.changedaddon.entity.simple.Exp2MaleEntity;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
-import net.foxyas.changedaddon.entity.customHandle.CustomPatReaction;
+import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonCriteriaTriggers;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
@@ -20,12 +20,9 @@ import net.ltxprogrammer.changed.entity.beast.AbstractDarkLatexWolf;
 import net.ltxprogrammer.changed.init.ChangedAbilities;
 import net.ltxprogrammer.changed.init.ChangedParticles;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -66,8 +63,11 @@ public class PatFeatureHandle {
     public static void execute(LevelAccessor world, Player player) {
         if (player == null) return;
 
-        Entity targetEntity = getEntityLookingAt(player, 3);
-        if (targetEntity == null) return;
+        EntityHitResult targetEntityResult = getEntityHitResultLookingAt(player, player.getReachDistance());
+        if (targetEntityResult == null) return;
+
+        Entity targetEntity = targetEntityResult.getEntity();
+        if (!(targetEntity instanceof LivingEntity)) return;
 
         if (isInSpectatorMode(player)) return;
 
@@ -75,14 +75,14 @@ public class PatFeatureHandle {
 
         if (targetEntity instanceof Experiment10Entity || targetEntity instanceof KetExperiment009Entity
                 || targetEntity instanceof Experiment10BossEntity || targetEntity instanceof KetExperiment009BossEntity) {
-            handleSpecialEntities(player, targetEntity);
+            handleSpecialEntities(player, targetEntityResult);
         } else {
             if (targetEntity instanceof ChangedEntity) {
-                handleLatexEntity(player, targetEntity, world);
+                handleLatexEntity(player, targetEntityResult, world);
             } else if (targetEntity instanceof Player) {
-                handlePlayerEntity(player, (Player) targetEntity, world);
+                handlePlayerEntity(player, targetEntityResult, world);
             } else if (targetEntity.getType().is(ChangedAddonTags.EntityTypes.PATABLE)) {
-                handlePatableEntity(player, targetEntity, world);
+                handlePatableEntity(player, targetEntityResult, world);
             }
         }
     }
@@ -117,6 +117,35 @@ public class PatFeatureHandle {
         return null;
     }
 
+    private static EntityHitResult getEntityHitResultLookingAt(Entity entity, double reach) {
+        double distance = reach * reach;
+        Vec3 eyePos = entity.getEyePosition(1.0f);
+        HitResult hitResult = entity.pick(reach, 1.0f, false);
+
+        if (hitResult.getType() != HitResult.Type.MISS) {
+            distance = hitResult.getLocation().distanceToSqr(eyePos);
+        }
+
+        Vec3 viewVec = entity.getViewVector(1.0F);
+        Vec3 toVec = eyePos.add(viewVec.x * reach, viewVec.y * reach, viewVec.z * reach);
+        AABB aabb = entity.getBoundingBox().expandTowards(viewVec.scale(reach)).inflate(1.0D, 1.0D, 1.0D);
+
+        EntityHitResult entityHitResult = ProjectileUtil.getEntityHitResult(entity, eyePos, toVec, aabb, e -> {
+            if (e.isSpectator()) return false;
+            if (!(e instanceof LivingEntity le)) return false;
+            if (GrabEntityAbility.getGrabber(le) == null) return true;
+            LivingEntity livingEntity = Objects.requireNonNull(GrabEntityAbility.getGrabber(le)).getEntity();
+            return livingEntity != entity;
+        }, distance);
+
+        if (entityHitResult != null) {
+            if (eyePos.distanceToSqr(entityHitResult.getLocation()) <= reach * reach) {
+                return entityHitResult;
+            }
+        }
+        return null;
+    }
+
     private static boolean isInSpectatorMode(Entity entity) {
         if (entity instanceof ServerPlayer serverPlayer) {
             return serverPlayer.gameMode.getGameModeForPlayer() == GameType.SPECTATOR;
@@ -126,7 +155,8 @@ public class PatFeatureHandle {
         return false;
     }
 
-    private static void handleSpecialEntities(Entity player, Entity target) {
+    private static void handleSpecialEntities(Entity player, EntityHitResult entityHitResult) {
+        Entity target = entityHitResult.getEntity();
         //if (!isInCreativeMode(player)) return;
 
         if (isHandEmpty(player, InteractionHand.MAIN_HAND) || isHandEmpty(player, InteractionHand.OFF_HAND)) {
@@ -138,6 +168,7 @@ public class PatFeatureHandle {
 
             } else if (player instanceof Player p) {
                 if (target instanceof CustomPatReaction pat) {
+                    pat.WhenPattedReaction(p, entityHitResult.getLocation());
                     pat.WhenPattedReaction(p);
                     pat.WhenPattedReaction();
                     //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
@@ -147,7 +178,8 @@ public class PatFeatureHandle {
         }
     }
 
-    private static void handleLatexEntity(Entity player, Entity target, LevelAccessor world) {
+    private static void handleLatexEntity(Entity player, EntityHitResult entityHitResult, LevelAccessor world) {
+        Entity target = entityHitResult.getEntity();
         boolean isPlayerTransfur = (ProcessTransfur.getPlayerTransfurVariant((Player) player) != null);
         boolean isPlayerTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant((Player) player) != null
                 && ((ProcessTransfur.getPlayerTransfurVariant((Player) player)).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
@@ -156,57 +188,64 @@ public class PatFeatureHandle {
 
         if (isHandEmpty(player, InteractionHand.MAIN_HAND)
                 || isHandEmpty(player, InteractionHand.OFF_HAND)) {
-            Player p = (Player) player;
-            p.swing(getSwingHand(player), true);
+            Player _player = (Player) player;
+            _player.swing(getSwingHand(player), true);
 
-            if (target instanceof Exp2MaleEntity || target instanceof Exp2FemaleEntity && isPlayerTransfur) {
+            /*if (target instanceof Exp2MaleEntity || target instanceof Exp2FemaleEntity && isPlayerTransfur) {
                 if (!isPlayerTransfurInExp2 && isPlayerTransfur)
-                    p.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
-            }
+                    _player.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
+            }*/
 
-            Player player_ = (Player) player;
             if (target instanceof LivingEntity targetLiving) {
-                ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, player_, targetLiving);
+                ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, _player, targetLiving, entityHitResult.getLocation());
                 if (ChangedAddonMod.postEvent(globalPatReactionEvent)){
                     return;
                 }
             }
 
-            if (world instanceof ServerLevel serverLevel) {
-                p.swing(getSwingHand(player), true);
+            if (ProcessTransfur.getPlayerTransfurVariant(_player).getChangedEntity() instanceof CustomPatReaction playerPat) {
+                if (target instanceof ChangedEntity changedEntity) {
+                    playerPat.WhenPatEvent(_player, changedEntity);
+                }
+                if (target instanceof CustomPatReaction e) {
+                    e.WhenPattedReaction(_player, entityHitResult.getLocation());
+                    e.WhenPattedReaction(_player);
+                    e.WhenPattedReaction();
+                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
+                }
+            } else {
+                if (target instanceof CustomPatReaction e) {
+                    e.WhenPattedReaction(_player, entityHitResult.getLocation());
+                    e.WhenPattedReaction(_player);
+                    e.WhenPattedReaction();
+                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
+                }
+            }
+
+            if (world instanceof ServerLevel) {
+                _player.swing(getSwingHand(player), true);
                 //serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 7, 0.3, 0.3, 0.3, 1);
                 // Dispara o trigger personalizado
 
-                if (p instanceof ServerPlayer sp) {
+                if (_player instanceof ServerPlayer sp) {
                     GiveStealthPatAdvancement(sp, target);
                 }
 
 
                 // Exibe mensagens
-                p.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
+                _player.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
             } else {
-                if (target instanceof CustomPatReaction e) {
-                    e.WhenPattedReaction(p);
-                    e.WhenPattedReaction();
-                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
-                }
-                SpawnEmote(p, target);
+                SpawnEmote(_player, target);
             }
 
 
         }
     }
 
-    private static void handlePlayerEntity(Player player, Player target, LevelAccessor world) {
+    private static void handlePlayerEntity(Player player, EntityHitResult entityHitResult, LevelAccessor world) {
+        Player target = (Player) entityHitResult.getEntity();
         boolean isPlayerTransfur = (ProcessTransfur.getPlayerTransfurVariant(player) != null);
         boolean isTargetTransfur = (ProcessTransfur.getPlayerTransfurVariant(target) != null);
-        boolean isPlayerTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant(player) != null
-                && ((ProcessTransfur.getPlayerTransfurVariant(player)).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
-                || ProcessTransfur.getPlayerTransfurVariant(player).is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
-
-        boolean isTargetTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant(target) != null
-                && (ProcessTransfur.getPlayerTransfurVariant(target).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
-                || ProcessTransfur.getPlayerTransfurVariant(target).is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
 
 
         if (isHandEmpty(player, InteractionHand.MAIN_HAND) || isHandEmpty(player, InteractionHand.OFF_HAND)) {
@@ -215,24 +254,27 @@ public class PatFeatureHandle {
             }//Don't Be Able to Pet if at lest one is Transfur :P
 
             player.swing(getSwingHand(player), true);
-            if (isPlayerTransfur && isTargetTransfur) { //Add The Effect if is Transfur is Exp2
-                if (isPlayerTransfurInExp2 && !isTargetTransfurInExp2) {
-                    target.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
-                } else if (!isPlayerTransfurInExp2 && isTargetTransfurInExp2) {
-                    player.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
-                } /*else if (isPlayerTransfurInExp2 && isTargetTransfurInExp2){
-                 return;//Exp2 Can't give Exp2 Transfur Sickness
-                 }
-*/
+
+            if (ProcessTransfur.getPlayerTransfurVariant(player).getChangedEntity() instanceof CustomPatReaction playerPat) {
+                playerPat.WhenPatEvent(player, target);
+                if (ProcessTransfur.getPlayerTransfurVariant(target).getChangedEntity() instanceof CustomPatReaction TargetPat) {
+                    TargetPat.WhenPattedReaction(player, entityHitResult.getLocation());
+                    TargetPat.WhenPattedReaction(player);
+                    TargetPat.WhenPattedReaction();
+                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
+                }
+            } else {
+                if (ProcessTransfur.getPlayerTransfurVariant(target).getChangedEntity() instanceof CustomPatReaction e) {
+                    e.WhenPattedReaction(player, entityHitResult.getLocation());
+                    e.WhenPattedReaction(player);
+                    e.WhenPattedReaction();
+                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
+                }
             }
 
-            if (ProcessTransfur.getPlayerTransfurVariant(target).getChangedEntity() instanceof CustomPatReaction e) {
-                e.WhenPattedReaction(player);
-                e.WhenPattedReaction();
-                //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
-            }
 
-            ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, player, target);
+
+            ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, player, target, entityHitResult.getLocation());
             if (isTargetTransfur && world instanceof ServerLevel serverLevel) {
                 //serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 7, 0.3, 0.3, 0.3, 1);
                 if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
@@ -252,7 +294,8 @@ public class PatFeatureHandle {
     }
 
 
-    private static void handlePatableEntity(Entity player, Entity target, LevelAccessor world) {
+    private static void handlePatableEntity(Entity player, EntityHitResult entityHitResult, LevelAccessor world) {
+        Entity target = entityHitResult.getEntity();
         if (isHandEmpty(player, InteractionHand.MAIN_HAND) || isHandEmpty(player, InteractionHand.OFF_HAND)) {
             if (player instanceof Player) {
                 ((Player) player).swing(getSwingHand(player), true);
@@ -264,15 +307,6 @@ public class PatFeatureHandle {
                 p.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
             }
         }
-    }
-
-    private static boolean isInCreativeMode(Entity entity) {
-        if (entity instanceof ServerPlayer serverPlayer) {
-            return serverPlayer.gameMode.getGameModeForPlayer() == GameType.CREATIVE;
-        } else if (entity.level.isClientSide() && entity instanceof Player player) {
-            return Objects.requireNonNull(Objects.requireNonNull(Minecraft.getInstance().getConnection()).getPlayerInfo(player.getGameProfile().getId())).getGameMode() == GameType.CREATIVE;
-        }
-        return false;
     }
 
     private static boolean isHandEmpty(Entity entity, InteractionHand hand) {

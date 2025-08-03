@@ -33,6 +33,7 @@ public class ChangedAddonAbilities /*extends ChangedAbilities*/ {
     public static final RegistryObject<PsychicHoldAbility> PSYCHIC_HOLD = REGISTRY.register("psychic_hold", PsychicHoldAbility::new);
     public static final RegistryObject<ShockWaveAbility> SHOCKWAVE = REGISTRY.register("shock_wave", ShockWaveAbility::new);
     public static final RegistryObject<DodgeAbility> DODGE = REGISTRY.register("dodge", DodgeAbility::new);
+    public static final RegistryObject<DodgeAbility> TELEPORT_DODGE = REGISTRY.register("teleport_dodge", () -> new DodgeAbility(DodgeAbilityInstance.DodgeType.TELEPORT));
     public static final RegistryObject<CarryAbility> CARRY = REGISTRY.register("carry", CarryAbility::new);
     public static final RegistryObject<DissolveAbility> DISSOLVE = REGISTRY.register("warp", DissolveAbility::new);
     public static final RegistryObject<WitherWaveAbility> WITHER_WAVE = REGISTRY.register("wither_wave", WitherWaveAbility::new);

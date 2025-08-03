@@ -1,18 +1,25 @@
 package net.foxyas.changedaddon.entity.defaults;
 
+import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
+import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.entity.interfaces.ICoatLikeEntity;
+import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
+import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.ai.LatexFollowOwnerGoal;
 import net.ltxprogrammer.changed.entity.ai.LatexOwnerHurtByTargetGoal;
 import net.ltxprogrammer.changed.entity.ai.LatexOwnerHurtTargetGoal;
 import net.ltxprogrammer.changed.entity.beast.AbstractSnowLeopard;
 import net.ltxprogrammer.changed.init.ChangedCriteriaTriggers;
 import net.ltxprogrammer.changed.init.ChangedItems;
+import net.ltxprogrammer.changed.init.ChangedTags;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -25,6 +32,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,6 +43,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import net.minecraftforge.common.IExtensibleEnum;
 import org.apache.commons.lang3.NotImplementedException;
@@ -44,7 +53,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractExp2SnepChangedEntity extends AbstractSnowLeopard implements ICoatLikeEntity {
+public abstract class AbstractExp2SnepChangedEntity extends AbstractSnowLeopard implements ICoatLikeEntity, CustomPatReaction {
     protected static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(AbstractExp2SnepChangedEntity.class, EntityDataSerializers.BYTE);
     protected static final EntityDataAccessor<Optional<UUID>> DATA_OWNERUUID_ID = SynchedEntityData.defineId(AbstractExp2SnepChangedEntity.class, EntityDataSerializers.OPTIONAL_UUID);
     protected static final EntityDataAccessor<Boolean> UNFUSED_FROM_HOST = SynchedEntityData.defineId(AbstractExp2SnepChangedEntity.class, EntityDataSerializers.BOOLEAN);
@@ -260,6 +269,73 @@ public abstract class AbstractExp2SnepChangedEntity extends AbstractSnowLeopard 
         if (isTame())
             return;
         super.checkDespawn();
+    }
+
+    @Override
+    public void WhenPattedReaction(Player patter, Vec3 pattedLocation) {
+
+        boolean isPlayerTransfur = (ProcessTransfur.getPlayerTransfurVariant(patter) != null);
+        boolean isPlayerTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant(patter) != null
+                && ((ProcessTransfur.getPlayerTransfurVariant(patter)).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
+                || ProcessTransfur.getPlayerTransfurVariant(patter).is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
+
+        boolean isTargetTransfurInExp2 = (getSelfVariant() != null
+                && (getSelfVariant().is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
+                || getSelfVariant().is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
+
+        if (isPlayerTransfur) { //Add The Effect if is Transfur is Exp2
+            if (!isPlayerTransfurInExp2 && isTargetTransfurInExp2) {
+                patter.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
+            } /*else if (isPlayerTransfurInExp2 && isTargetTransfurInExp2){
+                 return;//Exp2 Can't give Exp2 Transfur Sickness
+                 }*/
+        }
+    }
+
+    @Override
+    public void WhenPatEvent(LivingEntity self, LivingEntity patTarget) {
+        if (self instanceof Player patter) {
+            boolean isPlayerTransfur = ProcessTransfur.isPlayerTransfurred(patter);
+            boolean isPlayerTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant(patter) != null
+                    && ((ProcessTransfur.getPlayerTransfurVariant(patter)).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
+                    || ProcessTransfur.getPlayerTransfurVariant(patter).is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
+            if (patTarget instanceof Player patPlayerTarget) {
+                boolean isTargetTransfur = ProcessTransfur.isPlayerLatex(patPlayerTarget);
+
+                boolean isTargetTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant(patPlayerTarget) != null
+                        && (ProcessTransfur.getPlayerTransfurVariant(patPlayerTarget).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
+                        || ProcessTransfur.getPlayerTransfurVariant(patPlayerTarget).is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
+
+                if (isPlayerTransfur && isTargetTransfur) { //Add The Effect if is Transfur is Exp2
+                    if (isPlayerTransfurInExp2 && !isTargetTransfurInExp2) {
+                        patTarget.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
+                    }
+                    /*else if (!isPlayerTransfurInExp2 && isTargetTransfurInExp2) {
+                        patter.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
+                    } else if (isPlayerTransfurInExp2 && isTargetTransfurInExp2){
+                         return;//Exp2 Can't give Exp2 Transfur Sickness
+                         }*/
+                }
+            } else if (patTarget instanceof ChangedEntity patChangedEntityTarget) {
+                boolean isTargetLatexTransfur = patChangedEntityTarget.getType().is(ChangedTags.EntityTypes.LATEX);
+
+                boolean isTargetTransfurInExp2 = (patChangedEntityTarget.getSelfVariant() != null
+                        && (patChangedEntityTarget.getSelfVariant().is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
+                        || patChangedEntityTarget.getSelfVariant().is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
+                if (isPlayerTransfur && isTargetLatexTransfur) { //Add The Effect if is Transfur is Exp2
+                    if (isPlayerTransfurInExp2 && !isTargetTransfurInExp2) {
+                        patTarget.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
+                    }
+                    /*else if (!isPlayerTransfurInExp2 && isTargetTransfurInExp2) {
+                        patter.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
+                    } else if (isPlayerTransfurInExp2 && isTargetTransfurInExp2){
+                         return;//Exp2 Can't give Exp2 Transfur Sickness
+                         }*/
+                }
+            }
+        }
+
+
     }
 
     public boolean isTame() {

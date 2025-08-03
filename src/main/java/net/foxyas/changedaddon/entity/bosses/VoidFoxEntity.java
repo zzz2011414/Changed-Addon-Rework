@@ -1,8 +1,8 @@
 package net.foxyas.changedaddon.entity.bosses;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.entity.customHandle.CrawlFeature;
-import net.foxyas.changedaddon.entity.customHandle.IHasBossMusic;
+import net.foxyas.changedaddon.entity.interfaces.CrawlFeature;
+import net.foxyas.changedaddon.entity.interfaces.IHasBossMusic;
 import net.foxyas.changedaddon.entity.goals.*;
 import net.foxyas.changedaddon.entity.projectile.AbstractGenericParticleProjectile;
 import net.foxyas.changedaddon.entity.projectile.ParticleProjectile;
