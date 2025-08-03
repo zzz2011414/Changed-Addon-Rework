@@ -51,6 +51,10 @@ public class ChangedAddonMod {
 		return new ResourceLocation(MODID, path);
 	}
 
+	public static String resourceLocString(String path){
+		return new ResourceLocation(MODID, path).toString();
+	}
+
 	public static ResourceLocation textureLoc(String path){
 		return new ResourceLocation(MODID, path + ".png");
 	}

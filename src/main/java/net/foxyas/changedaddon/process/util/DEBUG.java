@@ -1,19 +1,32 @@
 package net.foxyas.changedaddon.process.util;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.block.InformantBlock;
+import net.foxyas.changedaddon.client.renderer.renderTypes.ChangedAddonRenderTypes;
 import net.foxyas.changedaddon.entity.interfaces.SyncTrackMotion;
+import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.network.packets.RequestMovementCheckPacket;
 import net.foxyas.changedaddon.process.StructureHandle;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
+
+import java.awt.*;
+import java.util.List;
 
 
 @Mod.EventBusSubscriber
@@ -23,6 +36,7 @@ public class DEBUG {
     public static float HeadPosX, HeadPosY, HeadPosZ = 1;
 
     public static boolean PARTICLETEST = false;
+    public static boolean RENDERTEST = true;
     public static int MOTIONTEST = 0;
 
     public static float DeltaX, DeltaY, DeltaZ = 0;
@@ -96,6 +110,61 @@ public class DEBUG {
         }
 
     }
+
+    /** OLD TEST STUFF
+    private static void test() {
+        if (DEBUG.RENDERTEST) {
+            // Posição inicial e final
+            var posBlock = informantBlockEntity.getBlockPos();
+            Vec3 position = new Vec3(posBlock.getX(), posBlock.getY(), posBlock.getZ());
+            Vec3 from = new Vec3(0, 1, 0);  // por exemplo, do topo da entidade
+            Vec3 to = new Vec3(0, 2, 0);    // ponto acima
+
+            poseStack.pushPose();
+            if (informantBlockEntity.getLevel() != null
+                    && informantBlockEntity.getLevel().getBlockState(informantBlockEntity.getBlockPos()).is(ChangedAddonBlocks.INFORMANT_BLOCK.get())
+                    && informantBlockEntity.getLevel().getBlockState(informantBlockEntity.getBlockPos()).hasProperty(InformantBlock.FACING)) {
+                Direction dir = informantBlockEntity.getLevel().getBlockState(informantBlockEntity.getBlockPos()).getValue(InformantBlock.FACING);
+                float yawDegrees = switch (dir) {
+                    case NORTH -> 180f;
+                    case SOUTH -> 0f;
+                    case WEST -> 90f;
+                    case EAST -> -90f;
+                    default -> 0f;
+                };
+                poseStack.mulPose(Vector3f.YP.rotationDegrees(yawDegrees));
+            }
+
+            PoseStack.Pose pose = poseStack.last();
+            Matrix4f matrix = pose.pose();
+            Matrix3f normal = pose.normal();
+
+            // Pegando um RenderType e VertexConsumer
+            VertexConsumer consumer = bufferSource.getBuffer(ChangedAddonRenderTypes.QuadsNoCullTexture(null, true));
+            //RenderSystem.enableBlend();
+            //RenderSystem.lineWidth(4);
+
+            Vec3 origin = new Vec3(0, 0, 0); // canto inferior esquerdo do quad
+            float size = 2.0f;
+
+            Vec3 v1 = origin;
+            Vec3 v2 = origin.add(size, 0, 0);
+            Vec3 v3 = origin.add(size, 0, size);
+            Vec3 v4 = origin.add(0, 0, size);
+
+            //RenderUtil.drawQuadXY(consumer, matrix, normal, origin, 2, 2, 255, 255, 255);
+            RenderUtil.drawQuadYZ(consumer, matrix, normal, origin, 2, 2,
+                    List.of(new Vec2(0, 0),
+                            new Vec2(0, 0),
+                            new Vec2(0, 0),
+                            new Vec2(0, 0)), new Color(255, 255, 255), new Color(255, 0, 0));
+
+            //RenderSystem.disableBlend();
+
+
+            poseStack.popPose();
+        }
+    }*/
 
     @SubscribeEvent
     public static void PARTICLETEST(TickEvent.PlayerTickEvent event) {
