@@ -6,13 +6,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.block.entity.InformantBlockEntity;
+import net.foxyas.changedaddon.client.renderer.blockEntitys.InformantBlockEntityRenderer;
 import net.foxyas.changedaddon.network.InformantBlockGuiKeyMessage;
 import net.foxyas.changedaddon.process.util.TransfurVariantUtils;
 import net.foxyas.changedaddon.world.inventory.InformantGuiMenu;
+import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
@@ -36,12 +39,12 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
 
     private static final ResourceLocation texture = ChangedAddonMod.textureLoc("textures/screens/informant_gui");
 
-    private final Player entity;
+    private final Player player;
     public EditBox form;
 
     public InformantGuiScreen(InformantGuiMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
-        this.entity = container.player;
+        this.player = container.player;
         this.imageWidth = 176;
         this.imageHeight = 195;
 
@@ -123,9 +126,19 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
         InformantBlockEntity blockEntity = menu.blockEntity;
         TransfurVariant<?> tf = blockEntity.getDisplayTf();
 
-        float hp = TransfurVariantUtils.GetExtraHp(tf, entity);
-        float swimSpeed = TransfurVariantUtils.GetSwimSpeed(tf, entity);
-        float landSpeed = TransfurVariantUtils.GetLandSpeed(tf, entity);
+        ChangedEntity entity = InformantBlockEntityRenderer.getDisplayEntity(tf);
+
+        if(entity != null){
+            entity.tickCount = Minecraft.getInstance().player.tickCount;
+
+            int centerX = leftPos + imageWidth / 2;
+            int centerY = topPos + imageHeight / 2;
+            InventoryScreen.renderEntityInInventory(centerX, centerY, 30, centerX - mouseX, centerY - 26 - mouseY, entity);
+        }
+
+        float hp = TransfurVariantUtils.GetExtraHp(tf, player);
+        float swimSpeed = TransfurVariantUtils.GetSwimSpeed(tf, player);
+        float landSpeed = TransfurVariantUtils.GetLandSpeed(tf, player);
         float jumpStrength = TransfurVariantUtils.GetJumpStrength(tf);
         boolean canFlyOrGlide = TransfurVariantUtils.CanGlideandFly(tf);
         String miningStrength = TransfurVariantUtils.getMiningStrength(tf);
@@ -410,12 +423,17 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
 
     public void updateSuggestions(String input) {
         filteredSuggestions.clear();
-        if (!input.isEmpty()) {
-            allSuggestions.stream()
-                    .filter(s -> s.toLowerCase().startsWith(input.toLowerCase()))
-                    .distinct()
-                    .limit(6).forEach(filteredSuggestions::add);
-        } else form.setSuggestion(new TranslatableComponent("gui.changed_addon.informant_gui.form").getString());
+
+        if(input.isEmpty()){
+            suggestionIndex = -1;
+            form.setSuggestion(new TranslatableComponent("gui.changed_addon.informant_gui.form").getString());
+            return;
+        }
+
+        allSuggestions.stream()
+                .filter(s -> s.toLowerCase().startsWith(input.toLowerCase()))
+                .distinct()
+                .limit(6).forEach(filteredSuggestions::add);
 
         if(filteredSuggestions.isEmpty()){
             suggestionIndex = -1;
