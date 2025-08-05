@@ -26,6 +26,7 @@
     "entity.variant.ServerTransfurVariantInstanceMixin",
     "entity.variant.TransfurVariantInstanceMixin",
     "mods.ChangedMixin",
+    "mods.NEAElytraAnimationMixin",
     "renderer.AnimationsMixin",
     "renderer.WingFallFlyAnimationMixin",
     "renderer.WingFlyAnimationMixin"
