@@ -14,7 +14,7 @@ public class ChangedAddonScreens {
         event.enqueueWork(() -> {
             MenuScreens.register(ChangedAddonMenus.FOXYAS_GUI, FoxyasguiScreen::new);
             MenuScreens.register(ChangedAddonMenus.GENERATORGUI, GeneratorguiScreen::new);
-            MenuScreens.register(ChangedAddonMenus.CATALYZER_GUI, CatalyzerguiScreen::new);
+            MenuScreens.register(ChangedAddonMenus.CATALYZER_GUI, CatalyzerGuiScreen::new);
             MenuScreens.register(ChangedAddonMenus.UNIFUSER_GUI, UnifuserguiScreen::new);
             MenuScreens.register(ChangedAddonMenus.FIGHT_TO_KEEP_CONSCIOUSNESS_MINIGAME, FightToKeepConsciousnessMinigameScreen::new);
             MenuScreens.register(ChangedAddonMenus.FOXYAS_GUI_2, FoxyasGui2Screen::new);

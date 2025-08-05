@@ -15,12 +15,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class CatalyzerguiScreen extends AbstractContainerScreen<CatalyzerGuiMenu> {
+public class CatalyzerGuiScreen extends AbstractContainerScreen<CatalyzerGuiMenu> {
     private final Level world;
     private final int x, y, z;
     private final Player entity;
 
-    public CatalyzerguiScreen(CatalyzerGuiMenu container, Inventory inventory, Component text) {
+    public CatalyzerGuiScreen(CatalyzerGuiMenu container, Inventory inventory, Component text) {
         super(container, inventory, text);
         this.world = container.world;
         this.x = container.x;
@@ -31,7 +31,7 @@ public class CatalyzerguiScreen extends AbstractContainerScreen<CatalyzerGuiMenu
         this.imageHeight = 170;
     }
 
-    private static final ResourceLocation texture = new ResourceLocation("changed_addon:textures/screens/catalyzergui.png");
+    private static final ResourceLocation texture = new ResourceLocation("changed_addon:textures/screens/catalyzer_gui_new.png");
 
     @Override
     public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
@@ -40,7 +40,7 @@ public class CatalyzerguiScreen extends AbstractContainerScreen<CatalyzerGuiMenu
         this.renderTooltip(ms, mouseX, mouseY);
         if (IfisEmptyProcedure.execute(entity))
             if (mouseX > leftPos + 18 && mouseX < leftPos + 42 && mouseY > topPos + 40 && mouseY < topPos + 64)
-                this.renderTooltip(ms, new TranslatableComponent("gui.changed_addon.catalyzergui.tooltip_put_the_powders_or_syringe"), mouseX, mouseY);
+                this.renderTooltip(ms, new TranslatableComponent("gui.changed_addon.catalyzer_gui.tooltip_put_the_powders_or_syringe"), mouseX, mouseY);
     }
 
     @Override
@@ -50,9 +50,6 @@ public class CatalyzerguiScreen extends AbstractContainerScreen<CatalyzerGuiMenu
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderTexture(0, texture);
         blit(ms, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
-
-        RenderSystem.setShaderTexture(0, new ResourceLocation("changed_addon:textures/screens/catalyzergui_new.png"));
-        blit(ms, this.leftPos + 0, this.topPos + 0, 0, 0, 200, 170, 200, 170);
 
         BlockEntity be = world.getBlockEntity(new BlockPos(x, y, z));
         int progressInt = be != null ? (int) (be.getTileData().getDouble("recipe_progress") / 3.57) : -1;

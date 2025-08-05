@@ -1,6 +1,7 @@
 
 package net.foxyas.changedaddon.world.inventory;
 
+import net.foxyas.changedaddon.client.gui.FightToKeepConsciousnessMinigameScreen;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -17,6 +18,7 @@ import net.minecraft.core.BlockPos;
 
 import net.foxyas.changedaddon.procedures.FightTokeepconsciousnessminigameThisGUIIsClosedProcedure;
 import net.foxyas.changedaddon.init.ChangedAddonMenus;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 import java.util.Map;
@@ -28,19 +30,20 @@ public class FightToKeepConsciousnessMinigameMenu extends AbstractContainerMenu 
 	public final Player entity;
 	public int x, y, z;
 	private ContainerLevelAccess access = ContainerLevelAccess.NULL;
-	private IItemHandler internal;
-	private final Map<Integer, Slot> customSlots = new HashMap<>();
+    private final Map<Integer, Slot> customSlots = new HashMap<>();
 	private boolean bound = false;
 	private Supplier<Boolean> boundItemMatcher = null;
 	private Entity boundEntity = null;
 	private BlockEntity boundBlockEntity = null;
+	public FightToKeepConsciousnessMinigameScreen.MinigameType minigameType;
+
 
 	public FightToKeepConsciousnessMinigameMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
 		super(ChangedAddonMenus.FIGHT_TO_KEEP_CONSCIOUSNESS_MINIGAME, id);
 		this.entity = inv.player;
 		this.world = inv.player.level;
-		this.internal = new ItemStackHandler(0);
-		BlockPos pos = null;
+		this.minigameType = FightToKeepConsciousnessMinigameScreen.MinigameType.getRandom(inv.player.getRandom());
+        BlockPos pos;
 		if (extraData != null) {
 			pos = extraData.readBlockPos();
 			this.x = pos.getX();
@@ -51,7 +54,7 @@ public class FightToKeepConsciousnessMinigameMenu extends AbstractContainerMenu 
 	}
 
 	@Override
-	public boolean stillValid(Player player) {
+	public boolean stillValid(@NotNull Player player) {
 		if (this.bound) {
 			if (this.boundItemMatcher != null)
 				return this.boundItemMatcher.get();
@@ -64,7 +67,7 @@ public class FightToKeepConsciousnessMinigameMenu extends AbstractContainerMenu 
 	}
 
 	@Override
-	public void removed(Player playerIn) {
+	public void removed(@NotNull Player playerIn) {
 		super.removed(playerIn);
 
 		FightTokeepconsciousnessminigameThisGUIIsClosedProcedure.execute(world, entity);

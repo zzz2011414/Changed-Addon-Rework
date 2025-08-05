@@ -2,6 +2,7 @@
 package net.foxyas.changedaddon.network;
 
 import io.netty.buffer.Unpooled;
+import net.foxyas.changedaddon.client.gui.FightToKeepConsciousnessMinigameScreen;
 import net.foxyas.changedaddon.world.inventory.FightToKeepConsciousnessMinigameMenu;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.network.FriendlyByteBuf;
@@ -44,7 +45,10 @@ public record OpenStruggleMenuMessage(int type, int pressedMs) {
 			ChangedAddonModVariables.PlayerVariables vars = player.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY).resolve().orElse(null);
 			if (!ProcessTransfur.isPlayerTransfurred(player) || vars == null || !vars.concience_Fight) return;
 
-			NetworkHooks.openGui(sPlayer, new MenuProvider() {
+			var menu = new MenuProvider() {
+
+				public FightToKeepConsciousnessMinigameMenu qteMenu;
+
 				@Override
 				public @NotNull Component getDisplayName() {
 					return new TextComponent("FightToKeepConsciousnessMinigame");
@@ -52,9 +56,14 @@ public record OpenStruggleMenuMessage(int type, int pressedMs) {
 
 				@Override
 				public AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
-					return new FightToKeepConsciousnessMinigameMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(sPlayer.blockPosition()));
+                    qteMenu = new FightToKeepConsciousnessMinigameMenu(id, inventory,
+							new FriendlyByteBuf(Unpooled.buffer())
+									.writeBlockPos(sPlayer.blockPosition()));
+									//.writeEnum(FightToKeepConsciousnessMinigameScreen.MinigameType.getRandom(player.getRandom())));
+					return qteMenu;
 				}
-			}, sPlayer.blockPosition());
+			};
+			NetworkHooks.openGui(sPlayer, menu, sPlayer.blockPosition());
 		}
 	}
 }

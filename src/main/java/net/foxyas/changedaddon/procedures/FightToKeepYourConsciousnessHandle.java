@@ -16,7 +16,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -32,7 +31,10 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
-public class FightToKeepYourConsciousnessProcedure {
+public class FightToKeepYourConsciousnessHandle {
+
+    public static final int STRUGGLE_TIME = 100;
+    public static final int STRUGGLE_NEED = 25;
 
     @SubscribeEvent
     public static void onPlayerTransfur(ProcessTransfur.KeepConsciousEvent event) {
@@ -40,7 +42,9 @@ public class FightToKeepYourConsciousnessProcedure {
             event.shouldKeepConscious = true;
             if (event.player instanceof ServerPlayer _ent) {
                 BlockPos _bpos = event.player.getOnPos();
-                NetworkHooks.openGui(_ent, new MenuProvider() {
+                var menu = new MenuProvider() {
+                    public FightToKeepConsciousnessMinigameMenu qteMenu;
+
                     @Override
                     public @NotNull Component getDisplayName() {
                         return new TextComponent("FightToKeepConsciousnessMinigame");
@@ -48,9 +52,15 @@ public class FightToKeepYourConsciousnessProcedure {
 
                     @Override
                     public AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
-                        return new FightToKeepConsciousnessMinigameMenu(id, inventory, new FriendlyByteBuf(Unpooled.buffer()).writeBlockPos(_bpos));
+                        qteMenu = new FightToKeepConsciousnessMinigameMenu(id, inventory,
+                                new FriendlyByteBuf(Unpooled.buffer())
+                                        .writeBlockPos(player.blockPosition()));
+                                        //.writeEnum(FightToKeepConsciousnessMinigameScreen.MinigameType.getRandom(player.getRandom())));
+                        return qteMenu;
                     }
-                }, _bpos);
+                };
+                NetworkHooks.openGui(_ent, menu, _bpos);
+
 
                 _ent.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
                     capability.concience_Fight = true;
@@ -69,7 +79,7 @@ public class FightToKeepYourConsciousnessProcedure {
         }
     }
 
-    private static void execute(@Nullable Event event, LevelAccessor world, double x, double y, double z, Entity entity) {
+    private static void execute(@Nullable Event ignoredEvent, LevelAccessor world, double x, double y, double z, Entity entity) {
         if (entity.isAlive() && entity instanceof Player player) {
             ChangedAddonModVariables.PlayerVariables playerVars = entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null)
                     .orElse(new ChangedAddonModVariables.PlayerVariables());
@@ -77,19 +87,19 @@ public class FightToKeepYourConsciousnessProcedure {
 
             if (instance != null && playerVars.concience_Fight) {
                 if (ProcessTransfur.getPlayerTransfurVariant(player) != null
-                        && ProcessTransfur.getPlayerTransfurVariant(player).ageAsVariant >= 100) {
+                        && ProcessTransfur.getPlayerTransfurVariant(player).ageAsVariant >= STRUGGLE_TIME) {
 
-                    if (playerVars.consciousness_fight_progress >= 25) {
+                    if (playerVars.consciousness_fight_progress >= STRUGGLE_NEED) {
                         // Vitória no minigame
-                        player.displayClientMessage(new TextComponent(new TranslatableComponent("changedaddon.fight_concience.success").getString()), true);
+                        player.displayClientMessage(new TextComponent(new TranslatableComponent("changedaddon.fight_conscience.success").getString()), true);
                         updatePlayerVariables(playerVars, false, 0, false, entity);
 
                     } else {
                         // Falha no minigame
-                        player.displayClientMessage(new TextComponent("You §4Lose §rYour Conscience"), true);
+                        player.displayClientMessage(new TextComponent(new TranslatableComponent("changedaddon.fight_conscience.fail").getString()), true);
                         SummonEntityProcedure.execute((Level) world, player);
                         PlayerUtil.UnTransfurPlayer(entity);
-                        player.hurt(new DamageSource("concience_lose").bypassArmor(), 1200);
+                        player.hurt(new DamageSource("conscience_lose").bypassArmor(), 1200);
                         updatePlayerVariables(playerVars, false, 0, false, entity);
                     }
                 }
