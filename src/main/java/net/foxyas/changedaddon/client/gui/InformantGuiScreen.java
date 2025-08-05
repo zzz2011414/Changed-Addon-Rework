@@ -133,7 +133,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
 
             int centerX = leftPos + imageWidth / 2;
             int centerY = topPos + imageHeight / 2;
-            InventoryScreen.renderEntityInInventory(centerX, centerY, 30, centerX - mouseX, centerY - 26 - mouseY, entity);
+            InventoryScreen.renderEntityInInventory(centerX, centerY, 30, centerX - mouseX, centerY - (26 + 26) - mouseY, entity);
         }
 
         float hp = TransfurVariantUtils.GetExtraHp(tf, player);
