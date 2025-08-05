@@ -170,8 +170,10 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         float clampedY = Mth.clamp(y, 0, this.height - 2);
         this.circleCursorPos = new Vec2(clampedX, clampedY);
         if (minecraft != null) {
-            GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), circleCursorPos.x, circleCursorPos.y);
-            updateMousePos((int) circleCursorPos.x, (int) circleCursorPos.y);
+            GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), ((double) width / 2)  + circleCursorPos.x,
+                    ((double) height / 2) + circleCursorPos.y);
+            updateMousePos((int) (((double) width / 2)  + circleCursorPos.x),
+                    (int) (((double) height / 2) + circleCursorPos.y));
         }
 //        if (this.minecraft != null && minecraft.mouseHandler instanceof MouseHandlerAccessor mouseHandlerAccessor) {
 //            mouseHandlerAccessor.setXpos(circleCursorPos.x);
