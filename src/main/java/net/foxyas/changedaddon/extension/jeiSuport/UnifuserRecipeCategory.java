@@ -31,7 +31,7 @@ public class UnifuserRecipeCategory implements IRecipeCategory<UnifuserRecipe> {
 
     @Override
     public mezz.jei.api.recipe.RecipeType<UnifuserRecipe> getRecipeType() {
-        return JeiSuport.JeiUnifuser_Type;
+        return ChangedAddonJeiPlugin.JeiUnifuser_Type;
     }
 
     @Override

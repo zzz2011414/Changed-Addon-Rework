@@ -32,7 +32,7 @@ public class CatalyzerRecipeCategory implements IRecipeCategory<CatalyzerRecipe>
 
     @Override
     public mezz.jei.api.recipe.RecipeType<CatalyzerRecipe> getRecipeType() {
-        return JeiSuport.JeiCatalyzer_Type;
+        return ChangedAddonJeiPlugin.JeiCatalyzer_Type;
     }
 
     @Override
