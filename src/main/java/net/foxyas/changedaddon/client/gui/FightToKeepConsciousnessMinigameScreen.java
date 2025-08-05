@@ -142,10 +142,11 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     private void randomizePositions() {
         // Usado em MOUSE_CIRCLE_PULL
         Random rand = new Random();
-        float x = leftPos + 20 + rand.nextInt(width - 40);
-        float y = topPos + 20 + rand.nextInt(height - 40);
-        float clampedX = Mth.clamp(x, 0, this.width - 2);
-        float clampedY = Mth.clamp(y, 0, this.height - 2);
+        float offset = 60f;
+        float x = circlePos.x + rand.nextFloat(-offset, offset);
+        float y = circlePos.y + rand.nextFloat(-offset, offset);
+        float clampedX = Mth.clamp(x, 40, this.width - 40);
+        float clampedY = Mth.clamp(y, 40, this.height - 40);
         this.circlePos = new Vec2(clampedX, clampedY);
 
         randomizeCursorPos();
@@ -166,8 +167,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         float offset = 60f;
         float x = circleCursorPos.x + rand.nextFloat(-offset, offset);
         float y = circleCursorPos.y + rand.nextFloat(-offset, offset);
-        float clampedX = Mth.clamp(x, 0, this.width - 2);
-        float clampedY = Mth.clamp(y, 0, this.height - 2);
+        float clampedX = Mth.clamp(x, 40, this.width - 40);
+        float clampedY = Mth.clamp(y, 40, this.height - 40);
         this.circleCursorPos = new Vec2(clampedX, clampedY);
         if (minecraft != null) {
             GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), ((double) width / 2)  + circleCursorPos.x,
