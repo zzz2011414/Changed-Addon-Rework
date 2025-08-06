@@ -32,7 +32,6 @@ public class BunyEntity extends ChangedEntity {
 
     public BunyEntity(EntityType<BunyEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

@@ -34,13 +34,12 @@ import java.util.Objects;
 
 public class WolfyEntity extends AbstractDarkLatexWolf {
 
-    public WolfyEntity(PlayMessages.SpawnEntity packet, Level world) {
+    public WolfyEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.WOLFY.get(), world);
     }
 
     public WolfyEntity(EntityType<WolfyEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         this.setAttributes(getAttributes());
         setNoAi(false);
@@ -75,7 +74,7 @@ public class WolfyEntity extends AbstractDarkLatexWolf {
     }
 
     @Override
-    public boolean tryAbsorbTarget(LivingEntity target, IAbstractChangedEntity source, float amount, @org.jetbrains.annotations.Nullable List<TransfurVariant<?>> possibleMobFusions) {
+    public boolean tryAbsorbTarget(LivingEntity target, IAbstractChangedEntity source, float amount, @Nullable List<TransfurVariant<?>> possibleMobFusions) {
         return false;
     }
 

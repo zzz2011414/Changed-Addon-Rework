@@ -28,7 +28,6 @@ public class PrototypeEntity extends Monster {
 
     public PrototypeEntity(EntityType<PrototypeEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         setNoAi(false);
         setPersistenceRequired();

@@ -27,7 +27,6 @@ public class LatexSquidTigerSharkEntity extends AbstractAquaticEntity {
 
     public LatexSquidTigerSharkEntity(EntityType<LatexSquidTigerSharkEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         setNoAi(false);
     }

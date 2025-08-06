@@ -40,7 +40,6 @@ public class LatexSnowFoxFemaleEntity extends ChangedEntity implements GenderedE
 
     public LatexSnowFoxFemaleEntity(EntityType<LatexSnowFoxFemaleEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 5;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

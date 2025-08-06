@@ -61,7 +61,6 @@ public class DazedEntity extends ChangedEntity {
 
     public DazedEntity(EntityType<DazedEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

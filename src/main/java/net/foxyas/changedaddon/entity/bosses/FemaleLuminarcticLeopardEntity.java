@@ -32,7 +32,6 @@ public class FemaleLuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
 
     public FemaleLuminarcticLeopardEntity(EntityType<FemaleLuminarcticLeopardEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = XP_REWARD_HUGE;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

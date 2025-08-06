@@ -29,7 +29,6 @@ public class CrystalGasCatFemaleEntity extends LatexWatermelonCat implements Gen
 
     public CrystalGasCatFemaleEntity(EntityType<CrystalGasCatFemaleEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         setNoAi(false);
     }

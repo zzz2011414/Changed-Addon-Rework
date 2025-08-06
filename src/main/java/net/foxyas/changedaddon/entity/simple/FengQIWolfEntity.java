@@ -31,7 +31,6 @@ public class FengQIWolfEntity extends ChangedEntity implements GenderedEntity, P
 
     public FengQIWolfEntity(EntityType<FengQIWolfEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 5;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

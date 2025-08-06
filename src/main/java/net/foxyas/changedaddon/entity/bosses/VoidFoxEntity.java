@@ -78,7 +78,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
 
     public VoidFoxEntity(EntityType<VoidFoxEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 1000;
         setNoAi(false);
         setPersistenceRequired();

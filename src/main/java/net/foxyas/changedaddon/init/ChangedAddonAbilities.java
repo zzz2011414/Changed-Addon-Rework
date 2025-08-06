@@ -70,6 +70,7 @@ public class ChangedAddonAbilities /*extends ChangedAbilities*/ {
     @SubscribeEvent
     public static void clientLoad(FMLClientSetupEvent event) {
         ChangedClient.abilityColors.getOrThrow().register(WingFlapAbility::getColor, WING_FLAP_ABILITY.get());
+        ChangedClient.abilityColors.getOrThrow().register(UnfuseAbility::getColor, UNFUSE.get());
     }
 
 }

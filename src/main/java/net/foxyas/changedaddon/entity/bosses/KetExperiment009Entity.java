@@ -51,7 +51,6 @@ public class KetExperiment009Entity extends ChangedEntity {
     public KetExperiment009Entity(EntityType<KetExperiment009Entity> type, Level world) {
         super(type, world);
         this.setAttributes(getAttributes());
-        maxUpStep = 0.6f;
         xpReward = 160;
         setNoAi(false);
         setPersistenceRequired();

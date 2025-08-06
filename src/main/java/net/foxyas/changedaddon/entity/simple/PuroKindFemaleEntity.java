@@ -34,7 +34,6 @@ public class PuroKindFemaleEntity extends AbstractDarkLatexWolf {
 
     public PuroKindFemaleEntity(EntityType<PuroKindFemaleEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = AbstractDarkLatexWolf.XP_REWARD_MEDIUM;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

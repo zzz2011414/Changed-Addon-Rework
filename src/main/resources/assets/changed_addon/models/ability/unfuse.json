@@ -1,6 +1,9 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "changed_addon:screens/claw"
+    "layer0": "changed_addon:abilities/unfuse/unfuse0_dl",
+    "layer1": "changed_addon:abilities/unfuse/unfuse1_dl",
+    "layer2": "changed_addon:abilities/unfuse/unfuse2_dl",
+    "layer3": "changed_addon:abilities/unfuse/unfuse3_dl"
   }
 }

@@ -230,7 +230,7 @@
     "changedaddon.when_not.transfur": "你不是一个胶兽",
     "config.changed_addon.changed_addon_client_configs": "ChangedAddon-客户端",
     "config.changed_addon.changed_addon_configs": "ChangedAddon-服务端",
-    "config.changed_addon.changedaddoncommon": "changed_addon-common",
+    "config.changed_addon.changed_addon_common_configs": "changed_addon-common",
     "death.attack.OverDose": "%1$s§4服用药物过量§r",
     "death.attack.OverDose.player": "%1$s在和%2$s战斗时§4服用药物过量§r",
     "death.attack.assimilation": "%1$s被同化了",

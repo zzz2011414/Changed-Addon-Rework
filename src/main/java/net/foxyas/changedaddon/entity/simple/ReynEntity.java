@@ -39,7 +39,6 @@ public class ReynEntity extends ChangedEntity {
 
     public ReynEntity(EntityType<ReynEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 5;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

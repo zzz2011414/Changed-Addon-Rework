@@ -42,7 +42,6 @@ public class MirrorWhiteTigerEntity extends ChangedEntity implements PowderSnowW
     public MirrorWhiteTigerEntity(EntityType<MirrorWhiteTigerEntity> type, Level world) {
         super(type, world);
         //this.setAttributes(getAttributes());
-        maxUpStep = 0.6f;
         xpReward = ChangedEntity.XP_REWARD_MEDIUM;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

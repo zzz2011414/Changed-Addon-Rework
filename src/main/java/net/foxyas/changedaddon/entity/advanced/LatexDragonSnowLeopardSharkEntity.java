@@ -26,7 +26,6 @@ public class LatexDragonSnowLeopardSharkEntity extends AbstractLatexShark {
 
     public LatexDragonSnowLeopardSharkEntity(EntityType<LatexDragonSnowLeopardSharkEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         setNoAi(false);
         setPersistenceRequired();

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,24 +44,19 @@ public class DodgeAbilityHandle {
             return;
         }
 
-        if (player.invulnerableTime > 5 || player.hurtTime > 5)
-            return;
-
-        if (world instanceof ServerLevel serverLevel) {
-            if (attacker instanceof LivingEntity livingAttacker) {
-                applyDodgeEffects(player, livingAttacker, dodge, serverLevel, event);
-                applyDodgeHandle(player, livingAttacker, dodge, serverLevel, event);
-            }
+        if (attacker instanceof LivingEntity livingAttacker) {
+            applyDodgeEffects(player, livingAttacker, dodge, world, event);
+            applyDodgeHandle(player, livingAttacker, dodge, world, event);
         }
     }
 
     //Keep this method for mixins
-    private static void applyDodgeEffects(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, ServerLevel serverLevel, LivingAttackEvent event) {
-        dodge.executeDodgeEffects(serverLevel, attacker, player, event);
+    private static void applyDodgeEffects(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, LevelAccessor levelAccessor, LivingAttackEvent event) {
+        dodge.executeDodgeEffects(levelAccessor, attacker, player, event);
     }
 
-    private static void applyDodgeHandle(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, ServerLevel serverLevel, LivingAttackEvent event) {
-        dodge.executeDodgeHandle(serverLevel, attacker, player, event, true);
+    private static void applyDodgeHandle(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, LevelAccessor levelAccessor, LivingAttackEvent event) {
+        dodge.executeDodgeHandle(levelAccessor, attacker, player, event, true);
     }
 
 

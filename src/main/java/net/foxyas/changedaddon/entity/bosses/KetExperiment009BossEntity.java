@@ -82,7 +82,6 @@ public class KetExperiment009BossEntity extends ChangedEntity implements BossWit
     public KetExperiment009BossEntity(EntityType<KetExperiment009BossEntity> type, Level world) {
         super(type, world);
         this.setAttributes(getAttributes());
-        maxUpStep = 0.6f;
         xpReward = 3000;
         setNoAi(false);
         setPersistenceRequired();
@@ -238,7 +237,7 @@ public class KetExperiment009BossEntity extends ChangedEntity implements BossWit
             TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(playerInControl);
             if (transfurVariantInstance != null) {
                 DodgeAbilityInstance dodgeAbilityInstance = transfurVariantInstance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
-                if (dodgeAbilityInstance != null) {
+                if (dodgeAbilityInstance != null && dodgeAbilityInstance.getMaxDodgeAmount() < 10) {
                     dodgeAbilityInstance.setMaxDodgeAmount(10);
                     dodgeAbilityInstance.setDodgeAmount(10);
                 }

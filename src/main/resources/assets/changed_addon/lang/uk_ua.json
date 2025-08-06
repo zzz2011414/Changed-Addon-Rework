@@ -249,7 +249,7 @@
 
   "config.changed_addon.changed_addon_client_configs": "changed_addon-client",
   "config.changed_addon.changed_addon_configs": "changed_addon-server",
-  "config.changed_addon.changedaddoncommon": "changed_addon-common",
+  "config.changed_addon.changed_addon_common_configs": "changed_addon-common",
 
   "death.attack.OverDose": "%1$s отримав §4передозування§r",
   "death.attack.OverDose.player": "%1$s отримав §4передозування§r під час битви з %2$s",

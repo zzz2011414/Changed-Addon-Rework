@@ -33,7 +33,6 @@ public class BagelEntity extends ChangedEntity implements PowderSnowWalkable {
 
     public BagelEntity(EntityType<BagelEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 5;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

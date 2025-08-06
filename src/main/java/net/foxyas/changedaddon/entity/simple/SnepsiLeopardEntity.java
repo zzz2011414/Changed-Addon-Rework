@@ -22,7 +22,6 @@ public class SnepsiLeopardEntity extends LatexSnowLeopardMale {
 
     public SnepsiLeopardEntity(EntityType<SnepsiLeopardEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = XP_REWARD_MEDIUM;
         this.setAttributes(getAttributes());
         setPersistenceRequired();

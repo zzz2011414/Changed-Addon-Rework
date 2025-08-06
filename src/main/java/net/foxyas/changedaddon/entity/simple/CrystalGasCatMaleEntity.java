@@ -29,7 +29,6 @@ public class CrystalGasCatMaleEntity extends LatexWatermelonCat implements Gende
 
     public CrystalGasCatMaleEntity(EntityType<CrystalGasCatMaleEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         setNoAi(false);
     }

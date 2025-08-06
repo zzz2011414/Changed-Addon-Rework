@@ -59,7 +59,6 @@ public class FoxyasEntity extends Monster {
 
     public FoxyasEntity(EntityType<FoxyasEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 10;
         setNoAi(false);
         setPersistenceRequired();

@@ -5,8 +5,12 @@ import net.foxyas.changedaddon.entity.defaults.AbstractTamableLatexEntity;
 import net.foxyas.changedaddon.entity.interfaces.ICoatLikeEntity;
 import net.foxyas.changedaddon.process.util.PlayerUtil;
 import net.foxyas.changedaddon.process.util.FoxyasUtils;
+import net.ltxprogrammer.changed.ability.AbstractAbilityInstance;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.ability.SimpleAbility;
+import net.ltxprogrammer.changed.ability.SimpleAbilityInstance;
+import net.ltxprogrammer.changed.client.AbilityColors;
+import net.ltxprogrammer.changed.client.gui.AbstractRadialScreen;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedSounds;
@@ -23,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public class UnfuseAbility extends SimpleAbility {
 
@@ -38,6 +43,22 @@ public class UnfuseAbility extends SimpleAbility {
         return descriptions;
     }
 
+    public static Optional<Integer> getColor(AbstractAbilityInstance abilityInstance, int layer) {
+        AbstractRadialScreen.ColorScheme scheme = AbilityColors.getAbilityColors(abilityInstance);
+        if (abilityInstance instanceof SimpleAbilityInstance Instance) {
+            float chargePercent = Instance.getController().chargePercent();
+            if (chargePercent < 0.15f && layer == 0) {
+                return Optional.of(scheme.foreground().toInt());
+            } else if (chargePercent >= 0.15f && chargePercent < 0.35F && layer == 1) {
+                return Optional.of(scheme.foreground().toInt());
+            } else if (chargePercent >= 0.35F && chargePercent < 0.8f && layer == 2) {
+                return Optional.of(scheme.foreground().toInt());
+            } else if (chargePercent >= 0.8F && layer == 3) {
+                return Optional.of(scheme.foreground().toInt());
+            }
+        }
+        return Optional.empty();
+    }
 
     @Override
     public Component getAbilityName(IAbstractChangedEntity entity) {

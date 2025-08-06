@@ -30,7 +30,6 @@ public class SnowLeopardPartialEntity extends AbstractSnowLeopard implements Pow
 
     public SnowLeopardPartialEntity(EntityType<SnowLeopardPartialEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         this.setAttributes(getAttributes());
         setNoAi(false);

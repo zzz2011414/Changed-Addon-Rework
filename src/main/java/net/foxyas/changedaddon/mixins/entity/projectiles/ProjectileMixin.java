@@ -29,59 +29,58 @@ public abstract class ProjectileMixin {
 
     @Inject(method = "canHitEntity", at = @At("HEAD"), cancellable = true)
     private void ignoreDodgingEntities(Entity pTarget, CallbackInfoReturnable<Boolean> cir) {
-        Entity owner = this.getOwner();
-
-        if (pTarget instanceof ChangedEntity changedEntity) {
-
-            DodgeAbilityInstance dodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
-            DodgeAbilityInstance teleportDodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
-            if (dodgeAbilityInstance != null
-                    && dodgeAbilityInstance.canUse()
-                    && dodgeAbilityInstance.canKeepUsing()
-                    && dodgeAbilityInstance.isDodgeActive()) {
-                if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
-                    dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
-                    dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
-                }
-                cir.setReturnValue(false);
-            } else if (teleportDodgeAbilityInstance != null
-                    && teleportDodgeAbilityInstance.canUse()
-                    && teleportDodgeAbilityInstance.canKeepUsing()
-                    && teleportDodgeAbilityInstance.isDodgeActive()) {
-                if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
-                    teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
-                    teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
-                }
-                cir.setReturnValue(false);
-            }
-
-        }
-        if (pTarget instanceof Player player) {
-            TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
-            if (instance != null) {
-                DodgeAbilityInstance dodgeAbilityInstance = instance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
-                DodgeAbilityInstance teleportDodgeAbilityInstance = instance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+        if (!pTarget.getLevel().isClientSide()) {
+            Entity owner = this.getOwner();
+            if (pTarget instanceof ChangedEntity changedEntity) {
+                DodgeAbilityInstance dodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+                DodgeAbilityInstance teleportDodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
                 if (dodgeAbilityInstance != null
                         && dodgeAbilityInstance.canUse()
                         && dodgeAbilityInstance.canKeepUsing()
                         && dodgeAbilityInstance.isDodgeActive()) {
-                    if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
-                        dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
-                        dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                    if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
+                        dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
+                        dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
                     }
                     cir.setReturnValue(false);
                 } else if (teleportDodgeAbilityInstance != null
                         && teleportDodgeAbilityInstance.canUse()
                         && teleportDodgeAbilityInstance.canKeepUsing()
                         && teleportDodgeAbilityInstance.isDodgeActive()) {
-                    if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
-                        teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
-                        teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                    if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
+                        teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
+                        teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
                     }
                     cir.setReturnValue(false);
                 }
-            }
 
+            }
+            if (pTarget instanceof Player player) {
+                TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
+                if (instance != null) {
+                    DodgeAbilityInstance dodgeAbilityInstance = instance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+                    DodgeAbilityInstance teleportDodgeAbilityInstance = instance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+                    if (dodgeAbilityInstance != null
+                            && dodgeAbilityInstance.canUse()
+                            && dodgeAbilityInstance.canKeepUsing()
+                            && dodgeAbilityInstance.isDodgeActive()) {
+                        if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
+                            dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
+                            dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                        }
+                        cir.setReturnValue(false);
+                    } else if (teleportDodgeAbilityInstance != null
+                            && teleportDodgeAbilityInstance.canUse()
+                            && teleportDodgeAbilityInstance.canKeepUsing()
+                            && teleportDodgeAbilityInstance.isDodgeActive()) {
+                        if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
+                            teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
+                            teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                        }
+                        cir.setReturnValue(false);
+                    }
+                }
+            }
         }
     }
 }

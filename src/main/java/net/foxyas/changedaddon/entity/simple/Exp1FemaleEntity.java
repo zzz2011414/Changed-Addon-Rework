@@ -40,7 +40,6 @@ public class Exp1FemaleEntity extends ChangedEntity implements GenderedEntity, P
 
     public Exp1FemaleEntity(EntityType<Exp1FemaleEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 5;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

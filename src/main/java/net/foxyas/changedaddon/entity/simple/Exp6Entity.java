@@ -38,7 +38,6 @@ public class Exp6Entity extends AbstractCanTameSnepChangedEntity {
 
     public Exp6Entity(EntityType<Exp6Entity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = ChangedEntity.XP_REWARD_LARGE;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

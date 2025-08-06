@@ -39,7 +39,6 @@ public class SnowLeopardMaleOrganicEntity extends AbstractCanTameSnepChangedEnti
 
     public SnowLeopardMaleOrganicEntity(EntityType<SnowLeopardMaleOrganicEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

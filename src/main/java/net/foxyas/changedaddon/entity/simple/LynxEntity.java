@@ -27,7 +27,6 @@ public class LynxEntity extends ChangedEntity implements PowderSnowWalkable, Ext
 
     public LynxEntity(EntityType<LynxEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         setNoAi(false);
         setPersistenceRequired();

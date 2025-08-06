@@ -45,7 +45,6 @@ public class LatexSnepEntity extends AbstractCanTameSnepChangedEntity {
 
     public LatexSnepEntity(EntityType<LatexSnepEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = 0;
         this.setAttributes(this.getAttributes());
         setNoAi(false);

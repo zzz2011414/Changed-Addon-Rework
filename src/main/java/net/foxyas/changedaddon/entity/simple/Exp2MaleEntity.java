@@ -42,7 +42,6 @@ public class Exp2MaleEntity extends AbstractExp2SnepChangedEntity {
 
     public Exp2MaleEntity(EntityType<Exp2MaleEntity> type, Level world) {
         super(type, world);
-        maxUpStep = 0.6f;
         xpReward = ChangedEntity.XP_REWARD_LARGE;
         this.setAttributes(this.getAttributes());
         setNoAi(false);
