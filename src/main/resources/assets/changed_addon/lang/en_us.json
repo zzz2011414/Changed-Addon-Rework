@@ -653,5 +653,7 @@
   "text.changed_addon.land_speed": "Land Speed \u003d %s",
   "text.changed_addon.legs": "Amount of Legs \u003d %s",
   "text.changed_addon.swim_speed": "Swim Speed \u003d %s",
-  "text.changed_addon.miningStrength": "Mining Strength: %s"
+  "text.changed_addon.miningStrength": "Mining Strength: %s",
+  "changed_addon.ability.custom_interaction.have_interaction.latex_snep": "Allow the Player to be on the LOAF pose when crouching",
+  "changed_addon.ability.custom_interaction.have_interaction.luminarctic_leopards": "Allow the Player to turn on the glowing parts of they body"
 }
