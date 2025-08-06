@@ -42,9 +42,9 @@ public abstract class ProjectileMixin {
                         if (!livingOwner.is(pTarget)) {
                             dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
                             dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                            cir.setReturnValue(false);
                         }
                     }
-                    cir.setReturnValue(false);
                 } else if (teleportDodgeAbilityInstance != null
                         && teleportDodgeAbilityInstance.canUse()
                         && teleportDodgeAbilityInstance.canKeepUsing()
@@ -53,9 +53,9 @@ public abstract class ProjectileMixin {
                         if (!livingOwner.is(pTarget)) {
                             teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
                             teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                            cir.setReturnValue(false);
                         }
                     }
-                    cir.setReturnValue(false);
                 }
 
             }
@@ -72,9 +72,9 @@ public abstract class ProjectileMixin {
                             if (!livingOwner.is(pTarget)) {
                                 dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
                                 dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                                cir.setReturnValue(false);
                             }
                         }
-                        cir.setReturnValue(false);
                     } else if (teleportDodgeAbilityInstance != null
                             && teleportDodgeAbilityInstance.canUse()
                             && teleportDodgeAbilityInstance.canKeepUsing()
@@ -83,9 +83,9 @@ public abstract class ProjectileMixin {
                             if (!livingOwner.is(pTarget)) {
                                 teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
                                 teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                                cir.setReturnValue(false);
                             }
                         }
-                        cir.setReturnValue(false);
                     }
                 }
             }
