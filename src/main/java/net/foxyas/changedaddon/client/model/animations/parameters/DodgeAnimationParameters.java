@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import net.ltxprogrammer.changed.entity.animation.AnimationAssociation;
 import net.ltxprogrammer.changed.entity.animation.AnimationParameters;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 
 public class DodgeAnimationParameters implements AnimationParameters {
     public static DodgeAnimationParameters INSTANCE = new DodgeAnimationParameters();
@@ -20,7 +21,10 @@ public class DodgeAnimationParameters implements AnimationParameters {
 
     @Override
     public boolean shouldEndAnimation(LivingEntity livingEntity, float totalTime) {
-        return totalTime > 0.5f;
+        if (!livingEntity.getLevel().isClientSide() && livingEntity instanceof PathfinderMob mob) {
+            mob.getNavigation().stop();
+        }
+        return totalTime > 1f;
     }
 
     @Override

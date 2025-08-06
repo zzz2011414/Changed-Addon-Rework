@@ -25,8 +25,7 @@ public class ProcessPatFeature {
 
     public static void ProcessPat(LevelAccessor world, Entity entity) {
         if (entity instanceof Player player) {
-            //player.displayClientMessage(Component.literal("TEST"), false);
-            PatFeatureHandle.execute(world, player);
+            PatFeatureHandle.run(world, player);
         }
     }
 

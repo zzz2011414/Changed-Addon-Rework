@@ -135,8 +135,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     private static final float INTERACTION_RADIUS = 15f;
 
     private void increaseStruggle() {
-        //ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, x, y, z));
-        //FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, x, y, z);
+        ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, x, y, z));
+        FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, x, y, z);
     }
 
     private void randomizePositions() {
@@ -171,10 +171,10 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         float clampedY = Mth.clamp(y, 40, this.height - 40);
         this.circleCursorPos = new Vec2(clampedX, clampedY);
         if (minecraft != null) {
-            GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), ((double) width / 2)  + circleCursorPos.x,
-                    ((double) height / 2) + circleCursorPos.y);
-            updateMousePos((int) (((double) width / 2)  + circleCursorPos.x),
-                    (int) (((double) height / 2) + circleCursorPos.y));
+            GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), (double) width / 2 + circleCursorPos.x,
+                    (double) height / 2 + circleCursorPos.y);
+            updateMousePos((int) ((double) width / 2 + circleCursorPos.x),
+                    (int) ((double) height / 2 + circleCursorPos.y));
         }
 //        if (this.minecraft != null && minecraft.mouseHandler instanceof MouseHandlerAccessor mouseHandlerAccessor) {
 //            mouseHandlerAccessor.setXpos(circleCursorPos.x);
@@ -184,6 +184,9 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     }
 
     public void updateMousePos(int screenX, int screenY) {
+        if (this.minecraft != null) {
+            this.minecraft.mouseHandler.setIgnoreFirstMove();
+        }
         try {
             Robot robot = new Robot();
             robot.mouseMove(screenX, screenY);
@@ -211,19 +214,25 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     public void containerTick() {
         super.containerTick();
         if (minigameType == MinigameType.MOUSE_CIRCLE_PULL || minigameType == MinigameType.MOUSE_PULL) {
-            if ((circlePos != null && circleCursorPos != null)) {
+            if (circlePos != null && circleCursorPos != null) {
                 if (GeometryUtil.isInsideCircle(circleCursorPos, circlePos, INTERACTION_RADIUS)) {
                     if (minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
                         increaseStruggle();
                         randomizePositions();
                     } else {
                         circlePos = new Vec2((float) width / 2, (float) height / 2);
-                        struggleProgress += 0.25f;
+                        struggleProgress += 0.05f;
                         if (struggleProgress >= 1.0f) {
                             increaseStruggle();
                             struggleProgress = 0f;
                             randomizeCursorPos();
                         }
+                    }
+                } else if (minigameType == MinigameType.MOUSE_PULL) {
+                    if (struggleProgress > 0) {
+                        increaseStruggle();
+                        struggleProgress -= 0.05f;
+                        randomizeCursorPos();
                     }
                 }
             }
@@ -243,8 +252,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     public static String getProgressText(Entity entity) {
         if (entity == null)
             return "";
-        return (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-                .orElse(new ChangedAddonModVariables.PlayerVariables()))
+        return entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null)
+                .orElse(new ChangedAddonModVariables.PlayerVariables())
                 .consciousness_fight_progress + "/" + STRUGGLE_NEED;
     }
 

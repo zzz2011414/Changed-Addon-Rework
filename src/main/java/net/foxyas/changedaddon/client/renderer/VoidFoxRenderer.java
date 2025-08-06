@@ -32,29 +32,30 @@ public class VoidFoxRenderer extends AdvancedHumanoidRenderer<VoidFoxEntity, Voi
 
     @Override
     public void render(VoidFoxEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        float dodgeTicks = entity.getDodgingTicks();
-        float dodgeProgress = Math.abs(dodgeTicks) / (float) VoidFoxEntity.getMaxDodgingTicks();
-
-        this.model.dodgeProgress = dodgeProgress;
-        this.model.partialTicks = partialTicks;
-        this.model.isReverse = dodgeTicks < 0;
-
-        // Passa o progresso e direção para o modelo
-        if (dodgeProgress > 0) {
-            poseStack.pushPose();
-            float rotationAngle = 65f * dodgeProgress; // Rotaciona até 90° conforme o progresso da animação
-            // Aplica a rotação no eixo X
-            if (dodgeTicks > 0) {
-                poseStack.mulPose(Vector3f.YP.rotationDegrees(rotationAngle));
-            } else {
-                poseStack.mulPose(Vector3f.YN.rotationDegrees(rotationAngle));
-            }
-            // Renderiza o modelo normalmente (chama o super ou código adicional aqui)
-            super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
-            poseStack.popPose(); // Restaura a pose original
-        } else {
-            super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
-        }
+//        float dodgeTicks = entity.getDodgingTicks();
+//        float dodgeProgress = Math.abs(dodgeTicks) / (float) VoidFoxEntity.getMaxDodgingTicks();
+//
+//        this.model.dodgeProgress = dodgeProgress;
+//        this.model.partialTicks = partialTicks;
+//        this.model.isReverse = dodgeTicks < 0;
+//
+//        // Passa o progresso e direção para o modelo
+//        if (dodgeProgress > 0) {
+//            poseStack.pushPose();
+//            float rotationAngle = 65f * dodgeProgress; // Rotaciona até 90° conforme o progresso da animação
+//            // Aplica a rotação no eixo X
+//            if (dodgeTicks > 0) {
+//                poseStack.mulPose(Vector3f.YP.rotationDegrees(rotationAngle));
+//            } else {
+//                poseStack.mulPose(Vector3f.YN.rotationDegrees(rotationAngle));
+//            }
+//            // Renderiza o modelo normalmente (chama o super ou código adicional aqui)
+//            super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
+//            poseStack.popPose(); // Restaura a pose original
+//        } else {
+//            super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
+//        }
+        super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
     }
         /*if (this.entityRenderDispatcher.distanceToSqr(entity) < 4096.0D) {
             // Monta os Component exatamente como você queria

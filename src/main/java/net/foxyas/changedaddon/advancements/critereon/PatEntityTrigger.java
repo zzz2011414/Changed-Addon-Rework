@@ -91,13 +91,13 @@ public class PatEntityTrigger extends SimpleCriterionTrigger<PatEntityTrigger.Tr
                             && feetSlot.matches(player.getItemBySlot(EquipmentSlot.FEET));
 
             if (toPatTarget == null) {
-                return wearingCorrectArmor;
+                return wearingCorrectArmor && this.name == null;
             }
 
             // Verificando o tipo de entidade
             boolean correctEntityType = entityType.matches(toPatTarget.getType());
 
-            return wearingCorrectArmor && correctEntityType;
+            return wearingCorrectArmor && correctEntityType && this.name == null;
         }
 
         // Method para verificar as condições

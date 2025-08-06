@@ -38,9 +38,9 @@ public class VoidFoxModel extends AdvancedHumanoidModel<VoidFoxEntity> implement
 
     private final HumanoidAnimator<VoidFoxEntity, VoidFoxModel> animator;
 
-    public float dodgeProgress = 0;
-    public float partialTicks = 0;
-    public boolean isReverse = false;
+    //public float dodgeProgress = 0;
+    //public float partialTicks = 0;
+    //public boolean isReverse = false;
 
     public VoidFoxModel(ModelPart root) {
         super(root);
@@ -245,12 +245,12 @@ public class VoidFoxModel extends AdvancedHumanoidModel<VoidFoxEntity> implement
         this.animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
-        if (dodgeProgress > 0) {
-            playDodgeAnim(dodgeProgress);
-        }
+        //if (dodgeProgress > 0) {
+        //    playDodgeAnim(dodgeProgress);
+        //}
     }
 
-    public void playDodgeAnim(float progress) {
+    /*public void playDodgeAnim(float progress) {
         // Head
         this.Head.xRot = (float) (Math.toRadians(0.0F) * progress) * (isReverse ? -1 : 1);
         this.Head.yRot = (float) (Math.toRadians(-35.0F) * progress) * (isReverse ? -1 : 1);
@@ -287,7 +287,7 @@ public class VoidFoxModel extends AdvancedHumanoidModel<VoidFoxEntity> implement
         this.Torso.yRot += (float) Math.toRadians(0.0F) * progress;
         this.Torso.zRot += (float) Math.toRadians(0.0F) * progress;
 
-    }
+    }*/
 
     public ModelPart getArm(HumanoidArm p_102852_) {
         return p_102852_ == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;

@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.entity;
+package net.foxyas.changedaddon.mixins.entity.projectiles;
 
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import org.spongepowered.asm.mixin.Mixin;

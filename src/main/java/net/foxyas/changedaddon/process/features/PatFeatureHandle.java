@@ -5,14 +5,10 @@ import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
 import net.foxyas.changedaddon.entity.bosses.Experiment10Entity;
 import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
 import net.foxyas.changedaddon.entity.bosses.KetExperiment009Entity;
-import net.foxyas.changedaddon.entity.simple.Exp2FemaleEntity;
-import net.foxyas.changedaddon.entity.simple.Exp2MaleEntity;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonCriteriaTriggers;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
-import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
-import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.GrabEntityAbility;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.Emote;
@@ -26,7 +22,6 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,8 +54,7 @@ public class PatFeatureHandle {
         return GrabEntityAbility.getGrabber(player) == null;
     }
 
-    //Thanks gengyoubo for the code
-    public static void execute(LevelAccessor world, Player player) {
+    public static void run(LevelAccessor world, Player player) {
         if (player == null) return;
 
         EntityHitResult targetEntityResult = getEntityHitResultLookingAt(player, player.getReachDistance());
@@ -85,36 +79,6 @@ public class PatFeatureHandle {
                 handlePatableEntity(player, targetEntityResult, world);
             }
         }
-    }
-
-    private static Entity getEntityLookingAt(Entity entity, double reach) {
-        double distance = reach * reach;
-        Vec3 eyePos = entity.getEyePosition(1.0f);
-        HitResult hitResult = entity.pick(reach, 1.0f, false);
-
-        if (hitResult.getType() != HitResult.Type.MISS) {
-            distance = hitResult.getLocation().distanceToSqr(eyePos);
-        }
-
-        Vec3 viewVec = entity.getViewVector(1.0F);
-        Vec3 toVec = eyePos.add(viewVec.x * reach, viewVec.y * reach, viewVec.z * reach);
-        AABB aabb = entity.getBoundingBox().expandTowards(viewVec.scale(reach)).inflate(1.0D, 1.0D, 1.0D);
-
-        EntityHitResult entityHitResult = ProjectileUtil.getEntityHitResult(entity, eyePos, toVec, aabb, e -> {
-            if (e.isSpectator()) return false;
-            if (!(e instanceof LivingEntity le)) return false;
-            if (GrabEntityAbility.getGrabber(le) == null) return true;
-            LivingEntity livingEntity = Objects.requireNonNull(GrabEntityAbility.getGrabber(le)).getEntity();
-            return livingEntity != entity;
-        }, distance);
-
-        if (entityHitResult != null) {
-            Entity hitEntity = entityHitResult.getEntity();
-            if (eyePos.distanceToSqr(entityHitResult.getLocation()) <= reach * reach) {
-                return hitEntity;
-            }
-        }
-        return null;
     }
 
     private static EntityHitResult getEntityHitResultLookingAt(Entity entity, double reach) {
@@ -157,7 +121,6 @@ public class PatFeatureHandle {
 
     private static void handleSpecialEntities(Entity player, EntityHitResult entityHitResult) {
         Entity target = entityHitResult.getEntity();
-        //if (!isInCreativeMode(player)) return;
 
         if (isHandEmpty(player, InteractionHand.MAIN_HAND) || isHandEmpty(player, InteractionHand.OFF_HAND)) {
             if (player instanceof Player) {
@@ -171,7 +134,6 @@ public class PatFeatureHandle {
                     pat.WhenPattedReaction(p, entityHitResult.getLocation());
                     pat.WhenPattedReaction(p);
                     pat.WhenPattedReaction();
-                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
                 }
             }
 
@@ -180,21 +142,11 @@ public class PatFeatureHandle {
 
     private static void handleLatexEntity(Entity player, EntityHitResult entityHitResult, LevelAccessor world) {
         Entity target = entityHitResult.getEntity();
-        boolean isPlayerTransfur = (ProcessTransfur.getPlayerTransfurVariant((Player) player) != null);
-        boolean isPlayerTransfurInExp2 = (ProcessTransfur.getPlayerTransfurVariant((Player) player) != null
-                && ((ProcessTransfur.getPlayerTransfurVariant((Player) player)).is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant())
-                || ProcessTransfur.getPlayerTransfurVariant((Player) player).is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant())));
-        //if (!isPlayerTransfur) return;
 
         if (isHandEmpty(player, InteractionHand.MAIN_HAND)
                 || isHandEmpty(player, InteractionHand.OFF_HAND)) {
             Player _player = (Player) player;
             _player.swing(getSwingHand(player), true);
-
-            /*if (target instanceof Exp2MaleEntity || target instanceof Exp2FemaleEntity && isPlayerTransfur) {
-                if (!isPlayerTransfurInExp2 && isPlayerTransfur)
-                    _player.addEffect(new MobEffectInstance(ChangedAddonMobEffects.TRANSFUR_SICKNESS.get(), 2400, 100, false, false));
-            }*/
 
             if (target instanceof LivingEntity targetLiving) {
                 ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, _player, targetLiving, entityHitResult.getLocation());
@@ -211,21 +163,17 @@ public class PatFeatureHandle {
                     e.WhenPattedReaction(_player, entityHitResult.getLocation());
                     e.WhenPattedReaction(_player);
                     e.WhenPattedReaction();
-                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
                 }
             } else {
                 if (target instanceof CustomPatReaction e) {
                     e.WhenPattedReaction(_player, entityHitResult.getLocation());
                     e.WhenPattedReaction(_player);
                     e.WhenPattedReaction();
-                    //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
                 }
             }
 
             if (world instanceof ServerLevel) {
                 _player.swing(getSwingHand(player), true);
-                //serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 7, 0.3, 0.3, 0.3, 1);
-                // Dispara o trigger personalizado
 
                 if (_player instanceof ServerPlayer sp) {
                     GiveStealthPatAdvancement(sp, target);
@@ -280,7 +228,7 @@ public class PatFeatureHandle {
                 if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
                     return;
                 }
-                if (serverLevel.random.nextFloat() <= 0.025f) {
+                if (serverLevel.random.nextFloat() <= (0.025f + (player.getLuck() * 0.01f))) {
                     target.heal(6f);
                     GivePatAdvancement(player, target);
                 }
@@ -319,17 +267,6 @@ public class PatFeatureHandle {
 
     public static void GivePatAdvancement(Entity player, Entity target) {
         if (player instanceof ServerPlayer _player) {
-//            Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("changed_addon:pat_advancement"));
-//            assert _adv != null;
-//            if (_player.getAdvancements().getOrStartProgress(_adv).isDone()) {
-//                return;
-//            }
-//            AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
-//            if (!_ap.isDone()) {
-//                for (String string : _ap.getRemainingCriteria()) {
-//                    _player.getAdvancements().award(_adv, string);
-//                }
-//            }
             ChangedAddonCriteriaTriggers.PAT_ENTITY_TRIGGER.Trigger(_player, target, "chance");
         }
     }
@@ -363,18 +300,7 @@ public class PatFeatureHandle {
 
     public static void GiveStealthPatAdvancement(Entity entity, Entity target) {
         if (entity instanceof ServerPlayer _player) {
-			/*Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("changed_addon:stealthpats"));
-            assert _adv != null;
-            if (_player.getAdvancements().getOrStartProgress(_adv).isDone()){
-				return;
-			}
-			AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
-			if (!_ap.isDone()) {
-				for (String string : _ap.getRemainingCriteria()) {
-					_player.getAdvancements().award(_adv, string);
-				}
-			}*/
-            ChangedAddonCriteriaTriggers.PAT_ENTITY_TRIGGER.Trigger(_player, target);
+            ChangedAddonCriteriaTriggers.PAT_ENTITY_TRIGGER.Trigger(_player, target, "stealth");
         }
 
     }

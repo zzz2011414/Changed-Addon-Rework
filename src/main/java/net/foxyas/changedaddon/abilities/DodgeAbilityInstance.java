@@ -82,30 +82,41 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         return dodgeType;
     }
 
-    public void executeDodgeEffects(ServerLevel serverLevel, LivingEntity attacker, Player dodger, @Nullable LivingAttackEvent event) {
+    public void executeDodgeEffects(ServerLevel serverLevel, @Nullable LivingEntity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event) {
         this.subDodgeAmount();
-        dodger.displayClientMessage(new TranslatableComponent("changed_addon.ability.dodge.dodge_amount_left", this.getDodgeStaminaRatio()), false);
+        if (dodger instanceof Player player) {
+            player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dodge.dodge_amount_left", this.getDodgeStaminaRatio()), false);
+            player.causeFoodExhaustion(8f);
+        }
         dodger.invulnerableTime = 20 * 3;
         dodger.hurtDuration = 20 * 3;
         dodger.hurtTime = dodger.hurtDuration;
-        dodger.causeFoodExhaustion(8f);
         if (event != null) {
             event.setCanceled(true);
         }
         spawnDodgeParticles(serverLevel, dodger, 0.5f, 0.3f, 0.3f, 0.3f, 10, 0.25f);
-        int randomValue = serverLevel.getRandom().nextInt(6);
-        switch (randomValue) {
-            case 0 -> ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_LEFT.get(), null);
-            case 1 -> ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_RIGHT.get(), null);
-            case 2 -> ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_WEAVE_LEFT.get(), null);
-            case 3 -> ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_WEAVE_RIGHT.get(), null);
-            case 4 -> ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_DOWN_LEFT.get(), null);
-            case 5 -> ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_DOWN_RIGHT.get(), null);
-            //default -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_LEFT.get(), null);
+        ChangedSounds.broadcastSound(dodger, ChangedSounds.BOW2, 2.5f, 1);
+        if (this.getDodgeType() == DodgeType.WEAVE) {
+            int randomValue = serverLevel.getRandom().nextInt(6);
+            switch (randomValue) {
+                case 0 ->
+                        ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_LEFT.get(), null);
+                case 1 ->
+                        ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_RIGHT.get(), null);
+                case 2 ->
+                        ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_WEAVE_LEFT.get(), null);
+                case 3 ->
+                        ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_WEAVE_RIGHT.get(), null);
+                case 4 ->
+                        ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_DOWN_LEFT.get(), null);
+                case 5 ->
+                        ChangedAnimationEvents.broadcastEntityAnimation(dodger, ChangedAddonAnimationEvents.DODGE_DOWN_RIGHT.get(), null);
+                //default -> ChangedAnimationEvents.broadcastEntityAnimation(player, ChangedAddonAnimationEvents.DODGE_LEFT.get(), null);
+            }
         }
     }
 
-    public void executeDodgeHandle(ServerLevel serverLevel, LivingEntity attacker, Player dodger, LivingAttackEvent event){
+    public void executeDodgeHandle(ServerLevel serverLevel, LivingEntity attacker, Player dodger, LivingAttackEvent event) {
         Vec3 attackerPos = attacker.position();
         Vec3 lookDirection = attacker.getLookAngle().normalize();
         Vec3 dodgerLookDirection = dodger.getLookAngle();
@@ -121,11 +132,9 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         } else {
             dodgeAwayFromAttacker(dodger, attacker);
         }
-
-        ChangedSounds.broadcastSound(dodger, ChangedSounds.BOW2, 2.5f, 1);
     }
 
-    public void executeDodgeEffects(Player dodger, LivingEntity attacker) {
+    public void executeDodgeEffects(LivingEntity dodger, LivingEntity attacker) {
         if (dodger.getLevel() instanceof ServerLevel serverLevel) {
             this.executeDodgeEffects(serverLevel, attacker, dodger, null);
         }
@@ -140,6 +149,7 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         level.sendParticles(ParticleTypes.POOF,
                 entity.getX(), entity.getY() + middle, entity.getZ(), count, xV, yV, zV, speed);
     }
+
     public int getMaxDodgeAmount() {
         return maxDodgeAmount;
     }
@@ -191,7 +201,6 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
 
     @Override
     public void stopUsing() {
-        //super.stopUsing();
         setDodgeActivate(false);
     }
 

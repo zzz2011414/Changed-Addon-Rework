@@ -1,14 +1,17 @@
 package net.foxyas.changedaddon.entity.bosses;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;
 import net.foxyas.changedaddon.entity.interfaces.CrawlFeature;
 import net.foxyas.changedaddon.entity.interfaces.IHasBossMusic;
 import net.foxyas.changedaddon.entity.goals.*;
 import net.foxyas.changedaddon.entity.projectile.AbstractGenericParticleProjectile;
 import net.foxyas.changedaddon.entity.projectile.ParticleProjectile;
+import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.process.util.ChangedAddonSounds;
 import net.foxyas.changedaddon.process.util.FoxyasUtils;
+import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.EyeStyle;
 import net.ltxprogrammer.changed.entity.LatexType;
@@ -16,6 +19,7 @@ import net.ltxprogrammer.changed.entity.TransfurMode;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -58,10 +62,7 @@ import java.util.Objects;
 public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBossMusic {
     public static final int MAX_1_COOLDOWN = 120;
     public static final int MAX_2_COOLDOWN = 120;
-    private static final int MAX_DODGING_TICKS = 20;
     private static final int MAX_COOLDOWN = 120;
-    private static final EntityDataAccessor<Integer> DODGE_ANIM_TICKS =
-            SynchedEntityData.defineId(VoidFoxEntity.class, EntityDataSerializers.INT);
     public final ServerBossEvent bossBar = getBossBar();
     public int timesUsedAttack1, timesUsedAttack2, timesUsedAttack3, timesUsedAttack4/*, timesUsedAttack5*/ = 0;
     public int stunTicks = 0;
@@ -69,8 +70,9 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     private int AttackInUse;
     private int ticksInUse;
     private int ticksTakeDmgFromFire = 0;
+    public DodgeAbilityInstance dodgeAbilityInstance = null;
 
-    public VoidFoxEntity(PlayMessages.SpawnEntity packet, Level world) {
+    public VoidFoxEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.VOID_FOX.get(), world);
     }
 
@@ -80,18 +82,11 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
         xpReward = 1000;
         setNoAi(false);
         setPersistenceRequired();
+        this.dodgeAbilityInstance = this.registerAbility((abilityInstance -> true), new DodgeAbilityInstance(ChangedAddonAbilities.DODGE.get(), IAbstractChangedEntity.forEntity(this)));
     }
 
     public static int getMaxCooldown() {
         return MAX_COOLDOWN;
-    }
-
-    public static EntityDataAccessor<Integer> getDodgeAnimTicks() {
-        return DODGE_ANIM_TICKS;
-    }
-
-    public static int getMaxDodgingTicks() {
-        return MAX_DODGING_TICKS;
     }
 
     public static void init() {
@@ -108,7 +103,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
         return builder;
     }
 
-    public boolean causeFallDamage(float p_148859_, float p_148860_, DamageSource p_148861_) {
+    public boolean causeFallDamage(float p_148859_, float p_148860_, @NotNull DamageSource p_148861_) {
         return false;
     }
 
@@ -126,7 +121,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DODGE_ANIM_TICKS, 0);
+        //this.entityData.define(DODGE_ANIM_TICKS, 0);
     }
 
     @Override
@@ -461,10 +456,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
 
     }
 
-    /*public void setAttack5Cooldown(int attack5Cooldown) {
-        Attack5Cooldown = attack5Cooldown;
-    }*/
-
     public int getAttack1Cooldown() {
         return Attack1Cooldown;
     }
@@ -480,10 +471,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     public void setAttack2Cooldown(int attack2Cooldown) {
         Attack2Cooldown = attack2Cooldown;
     }
-
-    /*public int getAttack5Cooldown() {
-        return Attack5Cooldown;
-    }*/
 
     public int getAttack3Cooldown() {
         return Attack3Cooldown;
@@ -506,7 +493,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -560,9 +547,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("dodgeTicks")) {
-            this.setDodgingTicks(tag.getInt("dodgeTicks"));
-        }
 
         if (tag.contains("AttacksHandle")) {
             CompoundTag attackTag = tag.getCompound("AttacksHandle");
@@ -586,7 +570,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        tag.putInt("dodgeTicks", this.getDodgingTicks());
+        //tag.putInt("dodgeTicks", this.getDodgingTicks());
 
         CompoundTag attackTag = new CompoundTag();
         attackTag.putInt("Attack1Cooldown", this.Attack1Cooldown);
@@ -649,13 +633,11 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
 
             }
             if (!willHit) {
-                this.setDodging(source.getEntity(), true);
+                this.setDodging(source.getEntity());
                 return false;
             } else {
                 this.RegisterDamage(amount);
-
-
-                this.setDodging(source.getEntity(), false);
+                //this.setDodging(source.getEntity());
                 return super.hurt(source, amount);
             }
 
@@ -664,50 +646,30 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
                 source.getDirectEntity().getType().getRegistryName() != null &&
                 source.getDirectEntity().getType().getRegistryName().toString().contains("bullet")) {
             this.RegisterDamage(amount);
-            this.setDodging(source.getEntity(), true);
+            this.setDodging(source.getEntity());
             return false;
         }
 
-        this.setDodging(source.getEntity(), false);
+        this.setDodging(source.getEntity());
         return super.hurt(source, amount);
     }
 
-    private void setDodging(Entity entity, boolean b) {
-        if (b) {
-            this.setDodgingTicks(getLevel().random.nextBoolean() ? MAX_DODGING_TICKS : -MAX_DODGING_TICKS);
-
-            if (entity != null) {
-                this.lookAt(entity, 1, 1);
-            }
-            this.getNavigation().stop();
-        } else {
-
-            if (entity != null) {
-                this.lookAt(entity, 1, 1);
-            }
-            this.setDodgingTicks(0);
+    private void setDodging(Entity entity) {
+        if (entity != null) {
+            this.lookAt(EntityAnchorArgument.Anchor.FEET, entity.getEyePosition());
+        }
+        this.getNavigation().stop();
+        if (this.dodgeAbilityInstance != null) {
+            this.dodgeAbilityInstance.executeDodgeEffects(this, this.getTarget());
+            this.dodgeAbilityInstance.setDodgeActivate(true);
         }
     }
 
-    public boolean isDodging() {
-        return getDodgingTicks() > 0;
-    }
-
-    public int getDodgingTicks() {
-        return this.entityData.get(DODGE_ANIM_TICKS);
-    }
-
-    public void setDodgingTicks(int dodgingTicks) {
-        this.entityData.set(DODGE_ANIM_TICKS, dodgingTicks);
-    }
-
     public void tickDodgeTicks() {
+
         if (!this.isNoAi()) {
-            int ticks = this.getDodgingTicks();
-            if (ticks > 0) {
-                this.setDodgingTicks(ticks - 2);
-            } else if (ticks < 0) {
-                this.setDodgingTicks(ticks + 2);
+            if (this.dodgeAbilityInstance != null && this.dodgeAbilityInstance.isDodgeActive()) {
+                this.dodgeAbilityInstance.setDodgeActivate(false);
             }
         }
     }
@@ -743,9 +705,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
             if (this.Attack4Cooldown < MAX_COOLDOWN) {
                 this.Attack4Cooldown += value;
             }
-            /*if (this.Attack5Cooldown < MAX_1_COOLDOWN) {
-                this.Attack5Cooldown += value;
-            }*/
         }
     }
 
@@ -754,7 +713,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     }
 
     @Override
-    public @NotNull SoundEvent getHurtSound(DamageSource ds) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return SoundEvents.GENERIC_HURT;
     }
 
@@ -831,23 +790,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
                     }
                 }
 
-                /*
-                for (int i = 0; i < totalProjectiles; i++) {
-                    double angle = (2 * Math.PI / totalProjectiles) * i;
-                    double dx = Math.cos(angle);
-                    double dz = Math.sin(angle);
-                    double px = this.getX() + dx * radius;
-                    double py = this.getY() + 1.0; // altura levemente acima do chão
-                    double pz = this.getZ() + dz * radius;
-
-                    // Supondo que seu projétil seja uma entidade chamada "MyProjectileEntity"
-                    ParticleProjectile projectile = new ParticleProjectile(ChangedAddonEntities.PARTICLE_PROJECTILE.get(), this.level);
-                    projectile.setPos(px, py, pz);
-                    projectile.shoot(dx, 0.1, dz, 1.0f, 0.0f); // direção e velocidade
-                    projectile.setTarget(this.getTarget());
-
-                    this.level.addFreshEntity(projectile);
-                }*/
             }
             if (this.computeHealthRatio() <= 0.5) {
                 this.bossBar.setProgress(computeHealthRatio() / 0.5f);
@@ -882,7 +824,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     }
 
     @Override
-    public void startSeenByPlayer(ServerPlayer player) {
+    public void startSeenByPlayer(@NotNull ServerPlayer player) {
         super.startSeenByPlayer(player);
         this.bossBar.addPlayer(player);
         player.displayClientMessage(
@@ -896,7 +838,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     }
 
     @Override
-    public void stopSeenByPlayer(ServerPlayer player) {
+    public void stopSeenByPlayer(@NotNull ServerPlayer player) {
         super.stopSeenByPlayer(player);
         this.bossBar.removePlayer(player);
     }
@@ -916,7 +858,7 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     }
 
     @Override
-    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
+    public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor p_21434_, @NotNull DifficultyInstance p_21435_, @NotNull MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
         if (this.getUnderlyingPlayer() == null) {
             handleBoss();
         }
@@ -980,9 +922,6 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
 
             if (source instanceof VoidFoxEntity voidFoxEntity) {
                 voidFoxEntity.RegisterHit();
-                /*if (voidFoxEntity.getMainHandItem().isEmpty()) {
-                    voidFoxEntity.doClawsAttackEffect();
-                }*/
             } else if (target instanceof VoidFoxEntity voidFox) {
                 if (source != null && voidFox.computeHealthRatio() > 0.5f) {
                     if (((voidFox.getHealth() - amount) / voidFox.getMaxHealth()) <= 0.5f) {

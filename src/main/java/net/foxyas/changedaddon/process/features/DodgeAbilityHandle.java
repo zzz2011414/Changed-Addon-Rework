@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process;
+package net.foxyas.changedaddon.process.features;
 
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;

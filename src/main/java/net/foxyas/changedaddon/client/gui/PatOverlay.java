@@ -32,9 +32,11 @@ import net.minecraftforge.fml.common.Mod;
 import java.awt.*;
 
 import static net.foxyas.changedaddon.process.features.PatFeatureHandle.isPossibleToPat;
+import static net.minecraft.client.gui.GuiComponent.drawCenteredString;
 
 @Mod.EventBusSubscriber({Dist.CLIENT})
 public class PatOverlay {
+    public static final ResourceLocation TEXTURE = new ResourceLocation("changed_addon:textures/screens/paw_normal.png");
 
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void eventHandler(RenderGameOverlayEvent.Pre event) {
@@ -54,8 +56,6 @@ public class PatOverlay {
             float floatPosX = (float) posX;
             float floatPosY = (float) posY;
 
-            boolean DynamicChanges = ChangedAddonClientConfiguration.DYNAMIC_PAT_OVERLAY.get();
-
 
             Player entity = Minecraft.getInstance().player;
 
@@ -66,16 +66,10 @@ public class PatOverlay {
                         if (!getPatInfo(entity).getString().isEmpty()) {
                             if (!lookedEntity.isInvisible() && isPossibleToPat(entity)) {
                                 if (!ChangedAddonClientConfiguration.PAW_STYLE_PAT_OVERLAY.get()) {
-                                    float EntityNameLength = PatInfo2(lookedEntity).getString().length();
-                                    float MoveOverlayAmount = EntityNameLength * 2f;
-                                    //EntityNameLength > 16 ? EntityNameLength * 4 : EntityNameLength * 2;
-                                    Minecraft.getInstance().font.draw(event.getMatrixStack(),
-                                            getPatInfo(lookedEntity), DynamicChanges ? floatPosX - MoveOverlayAmount : floatPosX, floatPosY, -1);
-                                    /*Minecraft.getInstance().font.draw(event.getMatrixStack(),
-                                     *   PatInfo2(lookedEntity), 257 - PatInfo2(lookedEntity).getString().length() , 260, -1);*/
+                                    drawCenteredString(event.getMatrixStack(), Minecraft.getInstance().font,
+                                            getPatInfo(lookedEntity), (int) floatPosX, (int) floatPosY, -1);
                                 } else {
                                     TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(entity);
-                                    ResourceLocation TEXTURE = new ResourceLocation("changed_addon:textures/screens/paw_normal.png");
                                     Minecraft mc = Minecraft.getInstance();
                                     PoseStack poseStack = event.getMatrixStack();
                                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -83,14 +77,10 @@ public class PatOverlay {
 
                                     int x = ((int) posX); // Posição X na tela
                                     int y = ((int) posY); // Posição Y na tela
-                                    int largura = (int) 19; // Largura da imagem
-                                    int altura = (int) 19; // Altura da imagem
+                                    int largura = 19; // Largura da imagem
+                                    int altura = 19; // Altura da imagem
                                     float troubleShotXValue = floatPosX + 9;
                                     float troubleShotYValue = floatPosY + 20;
-                                    float TextDynamic = 0;
-                                    if (getSimplePatInfo().length() > 1) {
-                                        TextDynamic = ((float) getSimplePatInfo().length() / 2) * 4.25f;
-                                    }
 
                                     if (instance != null) {
                                         if (instance.getChangedEntity() instanceof IDynamicPawColor iDynamicPawColor) {
@@ -98,19 +88,19 @@ public class PatOverlay {
                                             RenderSystem.setShaderColor(pawColor.getRed() / 255f, pawColor.getGreen() / 255f, pawColor.getBlue() / 255f, pawColor.getAlpha() / 255f);
                                             // Renderiza a imagem na tela
                                             GuiComponent.blit(poseStack, x, y, 0, 0, largura, altura, largura, altura);
-                                            Minecraft.getInstance().font.draw(event.getMatrixStack(),
-                                                    getSimplePatInfo(), troubleShotXValue + -TextDynamic, troubleShotYValue, pawColor.getRGB());
+                                            drawCenteredString(event.getMatrixStack(), mc.font,
+                                                    getSimplePatInfo(), (int) troubleShotXValue, (int) troubleShotYValue, pawColor.getRGB());
                                         } else {
                                             // Renderiza a imagem na tela
                                             GuiComponent.blit(poseStack, x, y, 0, 0, largura, altura, largura, altura);
-                                            Minecraft.getInstance().font.draw(event.getMatrixStack(),
-                                                    getSimplePatInfo(), troubleShotXValue + -TextDynamic, troubleShotYValue, Color3.getColor("#ffabab").toInt());
+                                            drawCenteredString(event.getMatrixStack(), mc.font,
+                                                    getSimplePatInfo(), (int) troubleShotXValue, (int) troubleShotYValue, Color3.getColor("#ffabab").toInt());
                                         }
                                     } else {
                                         // Renderiza a imagem na tela
                                         GuiComponent.blit(poseStack, x, y, 0, 0, largura, altura, largura, altura);
-                                        Minecraft.getInstance().font.draw(event.getMatrixStack(),
-                                                getSimplePatInfo(), troubleShotXValue + -TextDynamic, troubleShotYValue, Color3.getColor("#ffabab").toInt());
+                                        drawCenteredString(event.getMatrixStack(), mc.font,
+                                                getSimplePatInfo(), (int) troubleShotXValue, (int) troubleShotYValue, Color3.getColor("#ffabab").toInt());
                                     }
 
 

@@ -57,7 +57,7 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
 
     @Override
     public void render(LuminarcticLeopardEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        float dodgeTicks = entity.getDodgeAnimTicks();
+        /*float dodgeTicks = entity.getDodgeAnimTicks();
         float dodgeProgress = Math.abs(dodgeTicks) / (float) entity.DodgeAnimMaxTicks;
 
         this.model.dodgeProgress = dodgeProgress;
@@ -79,7 +79,9 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
             poseStack.popPose(); // Restaura a pose original
         } else {
             super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
-        }
+        }*/
+        super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
+
     }
 
 

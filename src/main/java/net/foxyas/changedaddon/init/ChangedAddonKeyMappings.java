@@ -58,16 +58,16 @@ public class ChangedAddonKeyMappings {
         }
     };
     public static final KeyMapping PAT_KEY = new KeyMapping("key.changed_addon.pat_key", GLFW.GLFW_KEY_UNKNOWN, "key.categories.changed_addon") {
-        private boolean isDownOld = false;
-
+        //private boolean isDownOld = false;
+        // Foxyas here.. i'm going to allow the player to hold the key to Spam Pats, the packet is too small to cause any harm
         @Override
         public void setDown(boolean isDown) {
             super.setDown(isDown);
-            if (isDownOld != isDown && isDown) {
+            if (isDown) {
                 ChangedAddonMod.PACKET_HANDLER.sendToServer(new PatKeyMessage(0, 0));
                 PatKeyMessage.pressAction(Minecraft.getInstance().player, 0, 0);
             }
-            isDownOld = isDown;
+            //isDownOld = isDown;
         }
     };
     public static final KeyMapping OPEN_STRUGGLE_MENU = new KeyMapping("key.changed_addon.open_struggle_menu", GLFW.GLFW_KEY_B, "key.categories.changed_addon") {

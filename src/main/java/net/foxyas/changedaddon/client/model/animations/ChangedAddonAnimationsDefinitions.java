@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ChangedAddonAnimationsDefinitions {
 
-    public static final AnimationDefinition DODGE_RIGHT = AnimationDefinition.Builder.withLength(1.0F)
+    public static final AnimationDefinition DODGE_RIGHT = AnimationDefinition.Builder.withLength(1.0F).withTransition(0)
             .addAnimation(Limb.LEFT_LEG, new AnimationChannel(AnimationChannel.Target.ROTATION,
                     new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolation.LINEAR),
                     new Keyframe(0.125F, KeyframeAnimations.degreeVec(-5.9923F, 34.8475F, -6.0963F), AnimationChannel.Interpolation.CATMULLROM),
@@ -150,7 +150,7 @@ public class ChangedAddonAnimationsDefinitions {
             ))*/
             .build();
 
-    public static final AnimationDefinition DODGE_LEFT = AnimationDefinition.Builder.withLength(1.0F)
+    public static final AnimationDefinition DODGE_LEFT = AnimationDefinition.Builder.withLength(1.0F).withTransition(0)
             .addAnimation(Limb.LEFT_LEG, new AnimationChannel(AnimationChannel.Target.ROTATION,
                     new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolation.LINEAR),
                     new Keyframe(0.125F, KeyframeAnimations.degreeVec(27.4F, -33.36F, -35.27F), AnimationChannel.Interpolation.LINEAR),

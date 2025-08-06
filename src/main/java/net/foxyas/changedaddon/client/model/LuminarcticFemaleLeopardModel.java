@@ -35,9 +35,9 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
     private final ModelPart Tail;
     private final HumanoidAnimator<FemaleLuminarcticLeopardEntity, LuminarcticFemaleLeopardModel> animator;
 
-    public float dodgeProgress = 0;
-    public float partialTicks = 0;
-    public boolean isReverse = false;
+    //public float dodgeProgress = 0;
+    //public float partialTicks = 0;
+    //public boolean isReverse = false;
 
     public LuminarcticFemaleLeopardModel(ModelPart root) {
         super(root);
@@ -359,14 +359,14 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
-        if (dodgeProgress > 0) {
+        /*if (dodgeProgress > 0) {
             playDodgeAnim(entity.getDodgeType(), dodgeProgress);
-        }
+        }*/
 
         //CarryAbilityAnimation.playAnimation(entity, this);
     }
 
-    public void playDodgeAnim(int dodgeType, float progress) {
+    /*public void playDodgeAnim(int dodgeType, float progress) {
         if (dodgeType == 1) {
             // Head
             this.Head.xRot = (float) (Math.toRadians(0.0F) * progress) * (isReverse ? -1 : 1);
@@ -489,7 +489,7 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
             this.Torso.yRot += (float) Math.toRadians(0.0F) * progress;
             this.Torso.zRot += (float) Math.toRadians(0.0F) * progress;
         }
-    }
+    }*/
 
     public ModelPart getArm(HumanoidArm p_102852) {
         return p_102852 == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;

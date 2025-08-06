@@ -86,8 +86,7 @@ public class FightToKeepYourConsciousnessHandle {
             TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
 
             if (instance != null && playerVars.concience_Fight) {
-                //Fixme for testrs
-                /*if (ProcessTransfur.getPlayerTransfurVariant(player) != null
+                if (ProcessTransfur.getPlayerTransfurVariant(player) != null
                         && ProcessTransfur.getPlayerTransfurVariant(player).ageAsVariant >= STRUGGLE_TIME) {
 
                     if (playerVars.consciousness_fight_progress >= STRUGGLE_NEED) {
@@ -103,7 +102,7 @@ public class FightToKeepYourConsciousnessHandle {
                         player.hurt(new DamageSource("conscience_lose").bypassArmor(), 1200);
                         updatePlayerVariables(playerVars, false, 0, false, entity);
                     }
-                }*/
+                }
             }
         }
     }
