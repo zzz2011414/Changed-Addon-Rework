@@ -60,7 +60,7 @@ public class DodgeAbilityHandle {
     }
 
     private static void applyDodgeHandle(Player player, LivingEntity attacker, DodgeAbilityInstance dodge, ServerLevel serverLevel, LivingAttackEvent event) {
-        dodge.executeDodgeHandle(serverLevel, attacker, player, event);
+        dodge.executeDodgeHandle(serverLevel, attacker, player, event, true);
     }
 
 

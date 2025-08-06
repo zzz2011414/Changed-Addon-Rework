@@ -4,14 +4,11 @@ import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.AbstractAbility;
 import net.ltxprogrammer.changed.ability.AbstractAbilityInstance;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.ability.SimpleAbility;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -19,12 +16,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.function.BiFunction;
 
 public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Instance> {
 
@@ -70,7 +63,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
             this.MaxThunderIndex = (int) ReachAmount(entity);
             Player player = (Player) entity.getEntity();
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-            return player.getFoodData().getFoodLevel() >= 10 && (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) && !Spectator(entity.getEntity());
+            return player.getFoodData().getFoodLevel() >= 10 && (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) && !Spectator(entity.getEntity());
         }
 
         public static boolean Spectator(Entity entity) {
@@ -87,7 +80,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
         public float ReachAmount(IAbstractChangedEntity entity) {
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-            if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+            if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
                 return 15;
             }
             return 10;
@@ -95,7 +88,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
         public int MaxAmount(IAbstractChangedEntity entity) {
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-            if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+            if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
                 return 8;
             }
             return 5;
@@ -186,7 +179,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
     @Override
     public int getChargeTime(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
             return 15;
         }
         return 20;
@@ -195,7 +188,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
     @Override
     public int getCoolDown(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
             return 30;
         }
         return 45;
@@ -204,7 +197,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
     public float ReachAmount(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
             return 8;
         }
         return 5;

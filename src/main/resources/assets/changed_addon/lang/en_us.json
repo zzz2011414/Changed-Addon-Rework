@@ -152,8 +152,11 @@
   "changed_addon.ability.custom_interaction": "Variant Custom Interaction ",
   "changed_addon.ability.custom_interaction.have_interaction": "This Variant §aHave§r Custom Interactions",
   "changed_addon.ability.custom_interaction.have_interaction.avali": "This variant includes a custom size-changing interaction.",
+  "changed_addon.ability.custom_interaction.have_interaction.latex_snep": "Allow the Player to be on the LOAF pose when crouching",
+  "changed_addon.ability.custom_interaction.have_interaction.luminarctic_leopards": "Allow the Player to turn on the glowing parts of they body",
   "changed_addon.ability.dissolve": "Dissolve Ability",
   "changed_addon.ability.dissolve.warn.too_far": "You are too far from the place to teleport there",
+  "changed_addon.ability.dissolve.warn.wrong_dimension": "i can't find warp in this dimension",
   "changed_addon.ability.dodge": "Dodge Ability",
   "changed_addon.ability.dodge.dodge_amount": "Stamina: %1$s",
   "changed_addon.ability.dodge.dodge_amount_left": "Stamina: %1$s",
@@ -653,7 +656,5 @@
   "text.changed_addon.land_speed": "Land Speed \u003d %s",
   "text.changed_addon.legs": "Amount of Legs \u003d %s",
   "text.changed_addon.swim_speed": "Swim Speed \u003d %s",
-  "text.changed_addon.miningStrength": "Mining Strength: %s",
-  "changed_addon.ability.custom_interaction.have_interaction.latex_snep": "Allow the Player to be on the LOAF pose when crouching",
-  "changed_addon.ability.custom_interaction.have_interaction.luminarctic_leopards": "Allow the Player to turn on the glowing parts of they body"
+  "text.changed_addon.miningStrength": "Mining Strength: %s"
 }

@@ -37,6 +37,9 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
 
     private final int defaultRegenCooldown = 20;
     private int dodgeRegenCooldown = defaultRegenCooldown;
+
+    public boolean ULTRA_INSTINCT = false; //FUNNY VARIABLE
+
     public DodgeType dodgeType = DodgeType.WEAVE;
 
     public DodgeAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
@@ -82,11 +85,15 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         return dodgeType;
     }
 
-    public void executeDodgeEffects(ServerLevel serverLevel, @Nullable LivingEntity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event) {
-        this.subDodgeAmount();
+    public void executeDodgeEffects(ServerLevel serverLevel, @Nullable LivingEntity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event, boolean causeExhaustion) {
+        if (!ULTRA_INSTINCT) {
+            this.subDodgeAmount();
+        }
         if (dodger instanceof Player player) {
             player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dodge.dodge_amount_left", this.getDodgeStaminaRatio()), false);
-            player.causeFoodExhaustion(8f);
+            if (causeExhaustion) {
+                player.causeFoodExhaustion(8f);
+            }
         }
         dodger.invulnerableTime = 20 * 3;
         dodger.hurtDuration = 20 * 3;
@@ -116,7 +123,11 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         }
     }
 
-    public void executeDodgeHandle(ServerLevel serverLevel, LivingEntity attacker, Player dodger, LivingAttackEvent event) {
+    public void executeDodgeEffects(ServerLevel serverLevel, @Nullable LivingEntity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event) {
+        this.executeDodgeEffects(serverLevel, attacker, dodger, event, true);
+    }
+
+    public void executeDodgeHandle(ServerLevel serverLevel, LivingEntity attacker, LivingEntity dodger, LivingAttackEvent event, boolean causeExhaustion) {
         Vec3 attackerPos = attacker.position();
         Vec3 lookDirection = attacker.getLookAngle().normalize();
         Vec3 dodgerLookDirection = dodger.getLookAngle();
@@ -131,6 +142,12 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
             }
         } else {
             dodgeAwayFromAttacker(dodger, attacker);
+        }
+    }
+
+    public void executeDodgeHandle(LivingEntity dodger, LivingEntity attacker) {
+        if (dodger.getLevel() instanceof ServerLevel serverLevel) {
+            this.executeDodgeHandle(serverLevel, attacker, dodger, null, true);
         }
     }
 
@@ -180,10 +197,12 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
     @Override
     public void startUsing() {
         if (entity.getEntity() instanceof Player player && this.getController().getHoldTicks() == 0) {
-            player.displayClientMessage(
-                    new TranslatableComponent("changed_addon.ability.dodge.dodge_amount", getDodgeStaminaRatio()),
-                    true
-            );
+            if (!(player.getLevel().isClientSide())) {
+                player.displayClientMessage(
+                        new TranslatableComponent("changed_addon.ability.dodge.dodge_amount", getDodgeStaminaRatio()),
+                        true
+                );
+            }
         }
     }
 
@@ -214,10 +233,12 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
                 dodgeRegenCooldown = 5;
 
                 if (entity.getEntity() instanceof Player player) {
-                    player.displayClientMessage(
-                            new TranslatableComponent("changed_addon.ability.dodge.dodge_amount", getDodgeStaminaRatio()),
-                            true
-                    );
+                    if (!(player.getLevel().isClientSide())) {
+                        player.displayClientMessage(
+                                new TranslatableComponent("changed_addon.ability.dodge.dodge_amount", getDodgeStaminaRatio()),
+                                true
+                        );
+                    }
                 }
             } else {
                 dodgeRegenCooldown--;

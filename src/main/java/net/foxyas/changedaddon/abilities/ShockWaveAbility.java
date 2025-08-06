@@ -38,7 +38,7 @@ public class ShockWaveAbility extends SimpleAbility {
         Player player = (Player) entity.getEntity();
         TransfurVariantInstance<?> LatexInstace = ProcessTransfur.getPlayerTransfurVariant(player);
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        return player.getFoodData().getFoodLevel() >= 10 && Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()
+        return player.getFoodData().getFoodLevel() >= 10 && Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()
                 && !Spectator(entity.getEntity());
     }
 
@@ -52,7 +52,7 @@ public class ShockWaveAbility extends SimpleAbility {
     @Override
     public int getCoolDown(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
             return 60;
         }
         return 100;
@@ -61,7 +61,7 @@ public class ShockWaveAbility extends SimpleAbility {
     @Override
     public int getChargeTime(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get()) {
+        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
             return 16;
         }
         return 30;

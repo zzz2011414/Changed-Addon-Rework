@@ -9,6 +9,7 @@ import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
@@ -19,12 +20,13 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
     private double LocationY = 0;
     private double LocationZ = 0;
     private boolean isSet = false;
+    private ResourceLocation dimensionName = null;
 
-    public boolean isSet(){
-        if (this.LocationX == 0 && this.LocationY == 0 && this.LocationZ == 0 && this.isSet){
+    public boolean isSet() {
+        if (this.LocationX == 0 && this.LocationY == 0 && this.LocationZ == 0 && this.isSet && dimensionName != null) {
             return true;
         }
-        return !(this.LocationX == 0 && this.LocationY == 0 && this.LocationZ == 0) && this.isSet;
+        return !(this.LocationX == 0 && this.LocationY == 0 && this.LocationZ == 0) && this.isSet && dimensionName != null;
     }
 
     public double getLocationX() {
@@ -39,8 +41,8 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
         return LocationZ;
     }
 
-    public DissolveAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity){
-        super(ability,entity);
+    public DissolveAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
+        super(ability, entity);
     }
 
     @Override
@@ -67,7 +69,7 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
     @Override
     public void stopUsing() {
     }
-    
+
     @Override
     public void onRemove() {
         super.onRemove();
@@ -77,60 +79,73 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
     @Override
     public void saveData(CompoundTag tag) {
         super.saveData(tag);
-        tag.putDouble("LocationX",this.LocationX);
-        tag.putDouble("LocationY",this.LocationY);
-        tag.putDouble("LocationZ",this.LocationZ);
-        tag.putBoolean("isSet",isSet);
+        tag.putDouble("LocationX", this.LocationX);
+        tag.putDouble("LocationY", this.LocationY);
+        tag.putDouble("LocationZ", this.LocationZ);
+        tag.putBoolean("isSet", isSet);
     }
 
     @Override
     public void readData(CompoundTag tag) {
         super.readData(tag);
-        if(tag.contains("LocationX")){
+        if (tag.contains("LocationX")) {
             this.LocationX = tag.getInt("LocationX");
         }
-        if(tag.contains("LocationY")){
+        if (tag.contains("LocationY")) {
             this.LocationY = tag.getInt("LocationY");
         }
-        if(tag.contains("LocationZ")){
+        if (tag.contains("LocationZ")) {
             this.LocationZ = tag.getInt("LocationZ");
         }
-        if(tag.contains("isSet")){
+        if (tag.contains("isSet")) {
             this.isSet = tag.getBoolean("isSet");
         }
     }
 
-    private void UnSet(){
+    private void UnSet() {
         this.LocationX = 0;
         this.LocationY = 0;
         this.LocationZ = 0;
+        this.dimensionName = null;
         this.isSet = false;
     }
+
     private void SetTp(Player entity) {
         this.LocationX = entity.getX();
         this.LocationY = entity.getY();
         this.LocationZ = entity.getZ();
+        this.dimensionName = entity.getLevel().dimension().location();
         this.isSet = true;
     }
 
-    private void Tp(Player player){
+    private void Tp(Player player) {
         TransfurVariantInstance<?> Instance = ProcessTransfur.getPlayerTransfurVariant(player);
-        if (Instance == null){
+        ResourceLocation currentDim = player.getLevel().dimension().location();
+
+
+        if (Instance == null) {
             return;
         }
         if (!isSet() && !player.isShiftKeyDown()) {
             SetTp(player);
             return;
         }
-        if (isSet() && player.isShiftKeyDown()){
+        if (isSet() && player.isShiftKeyDown()) {
             UnSet();
             return;
         }
-        if (isSet() && !player.isShiftKeyDown() && Distance(player.position(),new Vec3(this.LocationX,this.LocationY,this.LocationZ)) <= 1000) {
-            player.teleportTo(this.LocationX,this.LocationY,this.LocationZ);
+
+        if (!dimensionName.equals(currentDim)) {
+            player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dissolve.warn.wrong_dimension"), true);
+            return;
+        }
+
+
+        if (isSet() && !player.isShiftKeyDown() && Distance(player.position(), new Vec3(this.LocationX, this.LocationY, this.LocationZ)) <= 1000) {
+            player.teleportTo(this.LocationX, this.LocationY, this.LocationZ);
             player.hurt(DamageSource.MAGIC.bypassArmor(), 4f);
-            ChangedSounds.broadcastSound(player, ChangedSounds.POISON,2.5f,1);
-            if (player.getLevel() instanceof ServerLevel serverLevel){
+            ChangedSounds.broadcastSound(player, ChangedSounds.POISON, 2.5f, 1);
+            if (player.getLevel() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ChangedParticles.drippingLatex(Instance.getParent().getColors().getFirst()), player.getX(), player.getY() + 1, player.getZ(), 5, 0.2, 0.3, 0.2, 0);
                 serverLevel.sendParticles(ChangedParticles.drippingLatex(Instance.getParent().getColors().getSecond()), player.getX(), player.getY() + 1, player.getZ(), 5, 0.2, 0.3, 0.2, 0);
 
@@ -138,12 +153,12 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
                 serverLevel.sendParticles(ChangedParticles.drippingLatex(Instance.getParent().getColors().getFirst()), getLocationX(), getLocationY() + 1, getLocationZ(), 5, 0.2, 0.3, 0.2, 0);
                 serverLevel.sendParticles(ChangedParticles.drippingLatex(Instance.getParent().getColors().getSecond()), getLocationX(), getLocationY() + 1, getLocationZ(), 5, 0.2, 0.3, 0.2, 0);
             }
-        } else if (Distance(player.position(),new Vec3(this.LocationX,this.LocationY,this.LocationZ)) > 1000) {
-            player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dissolve.warn.too_far"),true);
+        } else if (Distance(player.position(), new Vec3(this.LocationX, this.LocationY, this.LocationZ)) > 1000) {
+            player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dissolve.warn.too_far"), true);
         }
     }
 
-    static double Distance(Vec3 pos1,Vec3 pos2){
+    static double Distance(Vec3 pos1, Vec3 pos2) {
         return pos1.distanceTo(pos2);
     }
 }

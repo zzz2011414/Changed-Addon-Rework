@@ -53,7 +53,7 @@ public class ChangedAddonTransfurVariants {
     public static final DeferredRegister<TransfurVariant<?>> REGISTRY = ChangedRegistry.TRANSFUR_VARIANT.createDeferred(ChangedAddonMod.MODID);
 
     public static List<TransfurVariant<?>> getRemovedVariantsList() {
-        return List.of(VOID_FOX.get(), REYN.get(), FENGQI_WOLF.get(), KET_EXPERIMENT_009.get(), EXPERIMENT_10.get(), KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get(), EXPERIMENT_10_BOSS.get(), LATEX_SNEP_FERAL_FORM.get(), LUMINARCTIC_LEOPARD.get(), FEMALE_LUMINARCTIC_LEOPARD.get());
+        return List.of(VOID_FOX.get(), REYN.get(), FENGQI_WOLF.get(), KET_EXPERIMENT_009.get(), EXPERIMENT_10.get(), KET_EXPERIMENT_009_BOSS.get(), EXPERIMENT_10_BOSS.get(), LATEX_SNEP_FERAL_FORM.get(), LUMINARCTIC_LEOPARD.get(), FEMALE_LUMINARCTIC_LEOPARD.get());
     }
 
     public static Collection<TransfurVariant<?>> getVariantsRemovedFromSyringes() {
@@ -66,11 +66,11 @@ public class ChangedAddonTransfurVariants {
     }
 
     public static List<TransfurVariant<?>> getBossesVariantsList() {
-        return List.of(KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get(), EXPERIMENT_10_BOSS.get(), KET_EXPERIMENT_009.get(), EXPERIMENT_10.get(), VOID_FOX.get());
+        return List.of(KET_EXPERIMENT_009_BOSS.get(), EXPERIMENT_10_BOSS.get(), KET_EXPERIMENT_009.get(), EXPERIMENT_10.get(), VOID_FOX.get());
     }
 
     protected static List<TransfurVariant<?>> getOcVariantList() {
-        return List.of(BOREALIS_MALE.get(), MONGOOSE.get(), BLUE_LIZARD.get(), HAYDEN_FENNEC_FOX.get(), HIMALAYAN_CRYSTAL_GAS_CAT_MALE.get(), HIMALAYAN_CRYSTAL_GAS_CAT_FEMALE.get(), REYN.get(), LYNX.get(), FENGQI_WOLF.get(), FOXTA_FOXY.get(), SNEPSI_LEOPARD.get(), KET_EXPERIMENT_009_BOSS_LATEX_VARIANT.get(), EXPERIMENT_10_BOSS.get(), KET_EXPERIMENT_009.get(), EXPERIMENT_10.get());
+        return List.of(BOREALIS_MALE.get(), MONGOOSE.get(), BLUE_LIZARD.get(), HAYDEN_FENNEC_FOX.get(), HIMALAYAN_CRYSTAL_GAS_CAT_MALE.get(), HIMALAYAN_CRYSTAL_GAS_CAT_FEMALE.get(), REYN.get(), LYNX.get(), FENGQI_WOLF.get(), FOXTA_FOXY.get(), SNEPSI_LEOPARD.get(), KET_EXPERIMENT_009_BOSS.get(), EXPERIMENT_10_BOSS.get(), KET_EXPERIMENT_009.get(), EXPERIMENT_10.get());
     }
 
     public static boolean isVariantOC(TransfurVariant<?> transfurVariant, @Nullable Level level) {
@@ -169,14 +169,25 @@ public class ChangedAddonTransfurVariants {
 
     public static final RegistryObject<TransfurVariant<LatexSquidTigerSharkEntity>> LATEX_SQUID_TIGER_SHARK = register("form_latex_squid_tiger_shark", TransfurVariant.Builder.of(ChangedAddonEntities.LATEX_SQUID_TIGER_SHARK).extraHands().addAbility(ChangedAbilities.CREATE_INKBALL).gills().addAbility(ChangedAbilities.SUMMON_SHARKS));
 
-    public static final RegistryObject<TransfurVariant<KetExperiment009Entity>> KET_EXPERIMENT_009 = register("form_ket_experiment009", TransfurVariant.Builder.of(ChangedAddonEntities.KET_EXPERIMENT_009).reducedFall().jumpStrength(1.35F).abilities(List.of(entityType -> ChangedAddonAbilities.THUNDERBOLT.get(), entityType -> ChangedAddonAbilities.SHOCKWAVE.get(), entityType -> ChangedAddonAbilities.THUNDER_PATH.get())).transfurMode(TransfurMode.ABSORPTION).nightVision());
+    public static final RegistryObject<TransfurVariant<KetExperiment009Entity>> KET_EXPERIMENT_009 = register("form_ket_experiment009", TransfurVariant.Builder.of(ChangedAddonEntities.KET_EXPERIMENT_009).reducedFall().jumpStrength(1.35F)
+            .abilities(List.of(
+                    entityType -> ChangedAddonAbilities.THUNDERBOLT.get(),
+                    entityType -> ChangedAddonAbilities.THUNDER_PATH.get(),
+                    entityType -> ChangedAddonAbilities.SHOCKWAVE.get())
+            ).transfurMode(TransfurMode.ABSORPTION).nightVision());
 
     public static final RegistryObject<TransfurVariant<Experiment10Entity>> EXPERIMENT_10 = register("form_experiment_10", TransfurVariant.Builder.of(ChangedAddonEntities.EXPERIMENT_10).reducedFall().jumpStrength(1.4F).abilities(List.of(entityType -> ChangedAddonAbilities.WITHER_WAVE.get(), entityType -> ChangedAbilities.HYPNOSIS.get(), entityType -> ChangedAddonAbilities.CLAWS.get(), entityType -> ChangedAddonAbilities.LEAP.get())).transfurMode(TransfurMode.ABSORPTION).scares(List.of(EnderMan.class, WitherSkeleton.class, Creeper.class, AbstractGolem.class, Piglin.class, PiglinBrute.class)).nightVision());
 
 
     //Boss Transfurs
     public static UseItemMode Ket_Boss = UseItemMode.create("Ket_Boss", false, true, true, true, true);
-    public static final RegistryObject<TransfurVariant<KetExperiment009BossEntity>> KET_EXPERIMENT_009_BOSS_LATEX_VARIANT = register("form_ket_experiment009_boss", TransfurVariant.Builder.of(ChangedAddonEntities.KET_EXPERIMENT_009_BOSS).reducedFall().jumpStrength(1.5F).abilities(List.of(entityType -> ChangedAddonAbilities.THUNDERBOLT.get(), entityType -> ChangedAddonAbilities.SHOCKWAVE.get(), entityType -> ChangedAddonAbilities.THUNDER_PATH.get())).transfurMode(TransfurMode.ABSORPTION).scares(List.of(Zombie.class, WitherSkeleton.class, AbstractVillager.class, Skeleton.class, AbstractGolem.class)).nightVision());
+    public static final RegistryObject<TransfurVariant<KetExperiment009BossEntity>> KET_EXPERIMENT_009_BOSS = register("form_ket_experiment009_boss", TransfurVariant.Builder.of(ChangedAddonEntities.KET_EXPERIMENT_009_BOSS).reducedFall().jumpStrength(1.5F)
+            .abilities(List.of(entityType -> ChangedAddonAbilities.THUNDERBOLT.get(),
+                            entityType -> ChangedAddonAbilities.THUNDER_PATH.get(),
+                            entityType -> ChangedAddonAbilities.SHOCKWAVE.get(),
+                            entityType -> ChangedAddonAbilities.DODGE.get())
+                    )
+            .transfurMode(TransfurMode.ABSORPTION).scares(List.of(Zombie.class, WitherSkeleton.class, AbstractVillager.class, Skeleton.class, AbstractGolem.class)).nightVision());
 
     public static final RegistryObject<TransfurVariant<Experiment10BossEntity>> EXPERIMENT_10_BOSS = register("form_experiment_10_boss", TransfurVariant.Builder.of(ChangedAddonEntities.EXPERIMENT_10_BOSS).reducedFall().jumpStrength(1.5F).abilities(List.of(entityType -> ChangedAddonAbilities.WITHER_WAVE.get(), entityType -> ChangedAbilities.HYPNOSIS.get(), entityType -> ChangedAddonAbilities.CLAWS.get(), entityType -> ChangedAddonAbilities.LEAP.get())).transfurMode(TransfurMode.ABSORPTION).scares(List.of(EnderMan.class, WitherSkeleton.class, Creeper.class, AbstractGolem.class, Piglin.class, PiglinBrute.class)).nightVision());
 

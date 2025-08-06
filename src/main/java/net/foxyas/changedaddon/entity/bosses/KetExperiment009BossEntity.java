@@ -1,16 +1,20 @@
 package net.foxyas.changedaddon.entity.bosses;
 
 import com.mojang.math.Vector3f;
+import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;
 import net.foxyas.changedaddon.effect.particles.ChangedAddonParticles;
 import net.foxyas.changedaddon.entity.customHandle.BossMusicTheme;
 import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.entity.customHandle.Exp9AttacksHandle;
+import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.process.util.PlayerUtil;
 import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.init.ChangedParticles;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -224,6 +228,22 @@ public class KetExperiment009BossEntity extends ChangedEntity implements BossWit
         this.goalSelector.addGoal(6, new Exp9AttacksHandle.BurstAttack(this));
         this.goalSelector.addGoal(8, new Exp9AttacksHandle.ThunderBoltImpactAttack(this));
         this.goalSelector.addGoal(7, new Exp9AttacksHandle.ThunderBoltAreaAttack(this));
+    }
+
+    @Override
+    public void variantTick(Level level) {
+        super.variantTick(level);
+        if (this.getUnderlyingPlayer() != null) {
+            Player playerInControl = this.getUnderlyingPlayer();
+            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(playerInControl);
+            if (transfurVariantInstance != null) {
+                DodgeAbilityInstance dodgeAbilityInstance = transfurVariantInstance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+                if (dodgeAbilityInstance != null) {
+                    dodgeAbilityInstance.setMaxDodgeAmount(10);
+                    dodgeAbilityInstance.setDodgeAmount(10);
+                }
+            }
+        }
     }
 
     @Override
