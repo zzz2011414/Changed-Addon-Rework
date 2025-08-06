@@ -39,8 +39,10 @@ public abstract class ProjectileMixin {
                         && dodgeAbilityInstance.canKeepUsing()
                         && dodgeAbilityInstance.isDodgeActive()) {
                     if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
-                        dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
-                        dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                        if (!livingOwner.is(pTarget)) {
+                            dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
+                            dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                        }
                     }
                     cir.setReturnValue(false);
                 } else if (teleportDodgeAbilityInstance != null
@@ -48,8 +50,10 @@ public abstract class ProjectileMixin {
                         && teleportDodgeAbilityInstance.canKeepUsing()
                         && teleportDodgeAbilityInstance.isDodgeActive()) {
                     if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
-                        teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
-                        teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                        if (!livingOwner.is(pTarget)) {
+                            teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
+                            teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                        }
                     }
                     cir.setReturnValue(false);
                 }
@@ -65,8 +69,10 @@ public abstract class ProjectileMixin {
                             && dodgeAbilityInstance.canKeepUsing()
                             && dodgeAbilityInstance.isDodgeActive()) {
                         if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
-                            dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
-                            dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                            if (!livingOwner.is(pTarget)) {
+                                dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
+                                dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                            }
                         }
                         cir.setReturnValue(false);
                     } else if (teleportDodgeAbilityInstance != null
@@ -74,8 +80,10 @@ public abstract class ProjectileMixin {
                             && teleportDodgeAbilityInstance.canKeepUsing()
                             && teleportDodgeAbilityInstance.isDodgeActive()) {
                         if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
-                            teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
-                            teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                            if (!livingOwner.is(pTarget)) {
+                                teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
+                                teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                            }
                         }
                         cir.setReturnValue(false);
                     }
