@@ -3,6 +3,7 @@ package net.foxyas.changedaddon.client.renderer.blockEntitys;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.block.entity.InformantBlockEntity;
+import net.foxyas.changedaddon.client.renderer.renderTypes.ChangedAddonRenderTypes;
 import net.foxyas.changedaddon.mixins.renderer.LivingEntityRendererAccessor;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -37,9 +38,10 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
     }
 
     @ApiStatus.Internal
-    public static ChangedEntity getDisplayEntity(TransfurVariant<?> tf){
-        if(tf == null) return null;
+    public static ChangedEntity getDisplayEntity(TransfurVariant<?> tf) {
+        if (tf == null) return null;
         return entityCache.computeIfAbsent(tf, var -> {
+            assert Minecraft.getInstance().level != null;
             ChangedEntity e = tf.getEntityType().create(Minecraft.getInstance().level);
             if (e == null) return null;
             e.setNoAi(true);
@@ -79,12 +81,11 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
         //This stuff was used when i try render only the model
         AdvancedHumanoidModel model = renderer.getModel();
         ResourceLocation texture = ((LivingEntityRenderer) renderer).getTextureLocation(entity);
-        var vertexConsumer = bufferSource.getBuffer(RenderType.entityTranslucent(texture));
-        float alpha = 0.5f;
+        var vertexConsumer = bufferSource.getBuffer(ChangedAddonRenderTypes.hologram(texture, true));
 
         model.prepareMobModel(entity, 0, 0, partialTick);
         model.setupAnim(entity, 0, 0, entity.tickCount + partialTick, 0, 0);
-        model.renderToBuffer(poseStack, vertexConsumer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1, 1, 1, alpha);
+        model.renderToBuffer(poseStack, vertexConsumer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         if (renderer instanceof LivingEntityRendererAccessor livingEntityRendererAccessor) {
             List<RenderLayer<LivingEntity, EntityModel<LivingEntity>>> layers = livingEntityRendererAccessor.getLayers();
             if (layers != null && !layers.isEmpty()) {

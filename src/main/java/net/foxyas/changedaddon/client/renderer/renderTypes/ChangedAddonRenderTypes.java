@@ -9,6 +9,7 @@ import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.GL14;
 
 import javax.annotation.Nullable;
@@ -22,6 +23,18 @@ public final class ChangedAddonRenderTypes extends RenderType {
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
                 GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.25F);
+            },
+            () -> {
+                GL14.glBlendColor(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
+            });
+
+    private static final TransparencyStateShard HOLOGRAM_TRANSPARENCY = new TransparencyStateShard("hologram_transparency",
+            () -> {
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+                GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.5F);
             },
             () -> {
                 GL14.glBlendColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -104,7 +117,7 @@ public final class ChangedAddonRenderTypes extends RenderType {
                     .createCompositeState(true)
     );
 
-    private static BiFunction<ResourceLocation, Boolean, RenderType> QUADS_NO_CULL_WITH_TEXTURE = Util.memoize((resourceLocation, transparency) -> {
+    private static final BiFunction<ResourceLocation, Boolean, RenderType> QUADS_NO_CULL_WITH_TEXTURE = Util.memoize((resourceLocation, transparency) -> {
         CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                 .setLightmapState(LIGHTMAP)
                 .setShaderState(RENDERTYPE_SOLID_SHADER)
@@ -123,6 +136,50 @@ public final class ChangedAddonRenderTypes extends RenderType {
 
     public static RenderType QuadsNoCullTexture(@Nullable ResourceLocation resourceLocation, boolean transparency) {
         return QUADS_NO_CULL_WITH_TEXTURE.apply(resourceLocation, transparency);
+    }
+
+    private static final BiFunction<ResourceLocation, Boolean, RenderType> HOLOGRAM = Util.memoize((resourceLocation, outline) -> {
+        CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                .setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false))
+                .setTransparencyState(HOLOGRAM_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .createCompositeState(outline);
+        return create(ChangedAddonMod.resourceLocString("hologram"),
+                DefaultVertexFormat.NEW_ENTITY,
+                VertexFormat.Mode.QUADS,
+                256,
+                true,
+                true,
+                rendertype$compositestate);
+    });
+
+    public static RenderType hologram(@NotNull ResourceLocation resourceLocation, boolean outline) {
+        return HOLOGRAM.apply(resourceLocation, outline);
+    }
+
+    private static final BiFunction<ResourceLocation, Boolean, RenderType> HOLOGRAM_CULL = Util.memoize((resourceLocation, outline) -> {
+        CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                .setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false))
+                .setTransparencyState(HOLOGRAM_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOverlayState(OVERLAY)
+                .createCompositeState(outline);
+        return create(ChangedAddonMod.resourceLocString("hologram_cull"),
+                DefaultVertexFormat.NEW_ENTITY,
+                VertexFormat.Mode.QUADS,
+                256,
+                true,
+                true,
+                rendertype$compositestate);
+    });
+
+    public static RenderType hologramCull(@NotNull ResourceLocation resourceLocation, boolean outline) {
+        return HOLOGRAM_CULL.apply(resourceLocation, outline);
     }
 
     // unused, just needed to extend RenderType for protected constants

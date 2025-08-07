@@ -123,11 +123,15 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             this.button_fight.visible = false;
             this.button_give_up.visible = false;
 
-            // Renderiza um "slot" (representa o alvo)
-            RenderSystem.setShaderTexture(0, CIRCLE_SLOT); // ou outro ícone
-            blit(poseStack, (int) circlePos.x - 9, (int) circlePos.y - 9, 0, 0, 19, 19, 19, 19);
-            RenderSystem.setShaderTexture(0, CIRCLE_CURSOR); // ou outro ícone
-            blit(poseStack, (int) circleCursorPos.x - 9, (int) circleCursorPos.y - 9, 0, 0, 19, 19, 19, 19);
+            if (circlePos != null) {
+                // Renderiza um "slot" (representa o alvo)
+                RenderSystem.setShaderTexture(0, CIRCLE_SLOT); // ou outro ícone
+                blit(poseStack, (int) circlePos.x - 9, (int) circlePos.y - 9, 0, 0, 19, 19, 19, 19);
+            }
+            if (circleCursorPos != null) {
+                RenderSystem.setShaderTexture(0, CIRCLE_CURSOR); // ou outro ícone
+                blit(poseStack, (int) circleCursorPos.x - 9, (int) circleCursorPos.y - 9, 0, 0, 19, 19, 19, 19);
+            }
         }
     }
 

@@ -12,36 +12,52 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
 
 public class StructureUtil {
 
-    public static StructureStart getStructureAt(ServerLevel level, BlockPos pos, ResourceLocation structureId){
+    /**
+     * Gets the structure start at a specific position in the world using its structure ID.
+     *
+     * @param level       the server level
+     * @param pos         the block position to check
+     * @param structureId the ID of the structure (e.g., "minecraft:village")
+     * @return the StructureStart if found, or null if not present
+     */
+    public static StructureStart getStructureAt(ServerLevel level, BlockPos pos, ResourceLocation structureId) {
         ConfiguredStructureFeature<?, ?> structure = BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE.get(structureId);
-
         return structure == null ? null : level.structureFeatureManager().getStructureAt(pos, structure);
     }
 
     /**
-     * Verifica se uma estrutura pode gerar dentro de um determinado raio de chunks.
+     * Checks if a structure can generate within a given chunk radius around a position.
      *
-     * @param level     o ServerLevel
-     * @param pos       a posição a ser verificada
-     * @param structure ResourceKey da estrutura
-     * @param chunkRange o raio de chunks a ser verificado
-     * @return true se a estrutura pode gerar na área, false caso contrário.
+     * @param level      the server level
+     * @param pos        the position to check
+     * @param structure  the ResourceKey of the structure set
+     * @param chunkRange the radius (in chunks) to search for the structure
+     * @return true if the structure can generate in the area, false otherwise
      */
     public static boolean isStructureNearby(ServerLevel level, BlockPos pos, ResourceKey<StructureSet> structure, int chunkRange) {
-        return level.getChunkSource().getGenerator().hasFeatureChunkInRange(structure, level.getSeed(), SectionPos.blockToSectionCoord(pos.getX()), SectionPos.blockToSectionCoord(pos.getZ()), chunkRange);
+        return level.getChunkSource().getGenerator().hasFeatureChunkInRange(
+                structure,
+                level.getSeed(),
+                SectionPos.blockToSectionCoord(pos.getX()),
+                SectionPos.blockToSectionCoord(pos.getZ()),
+                chunkRange
+        );
     }
 
     /**
-     * Verifica se uma estrutura pode gerar dentro de um determinado raio de chunks.
+     * Checks if a structure can generate within a given chunk radius around a position.
      *
-     * @param level       o ServerLevel
-     * @param pos         a posição a ser verificada
-     * @param structureId o ID da estrutura desejada (ex.: "changed_addon:dazed_meteor")
-     * @param chunkRange  o raio de chunks a ser verificado
-     * @return true se a estrutura pode gerar na área, false caso contrário.
+     * @param level       the server level
+     * @param pos         the position to check
+     * @param structureId the string ID of the structure (e.g., "changed_addon:dazed_meteor")
+     * @param chunkRange  the radius (in chunks) to search for the structure
+     * @return true if the structure can generate in the area, false otherwise
      */
     public static boolean isStructureNearby(ServerLevel level, BlockPos pos, String structureId, int chunkRange) {
-        ResourceKey<StructureSet> structureKey = ResourceKey.create(BuiltinRegistries.STRUCTURE_SETS.key(), new ResourceLocation(structureId));
+        ResourceKey<StructureSet> structureKey = ResourceKey.create(
+                BuiltinRegistries.STRUCTURE_SETS.key(),
+                new ResourceLocation(structureId)
+        );
         return isStructureNearby(level, pos, structureKey, chunkRange);
     }
 }

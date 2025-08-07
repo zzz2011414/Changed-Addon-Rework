@@ -47,13 +47,13 @@ public class UnfuseAbility extends SimpleAbility {
         AbstractRadialScreen.ColorScheme scheme = AbilityColors.getAbilityColors(abilityInstance);
         if (abilityInstance instanceof SimpleAbilityInstance Instance) {
             float chargePercent = Instance.getController().chargePercent();
-            if (chargePercent < 0.15f && layer == 0) {
+            if (chargePercent < 0.25f && layer == 0) {
                 return Optional.of(scheme.foreground().toInt());
-            } else if (chargePercent >= 0.15f && chargePercent < 0.35F && layer == 1) {
+            } else if (chargePercent >= 0.25f && chargePercent < 0.50F && layer == 1) {
                 return Optional.of(scheme.foreground().toInt());
-            } else if (chargePercent >= 0.35F && chargePercent < 0.8f && layer == 2) {
+            } else if (chargePercent >= 0.50F && chargePercent < 0.85f && layer == 2) {
                 return Optional.of(scheme.foreground().toInt());
-            } else if (chargePercent >= 0.8F && layer == 3) {
+            } else if (chargePercent >= 0.85F && layer == 3) {
                 return Optional.of(scheme.foreground().toInt());
             }
         }

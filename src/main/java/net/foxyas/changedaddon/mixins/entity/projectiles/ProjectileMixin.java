@@ -27,9 +27,9 @@ public abstract class ProjectileMixin {
     @Nullable
     public abstract Entity getOwner();
 
-    @Inject(method = "canHitEntity", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "canHitEntity", at = @At("RETURN"), cancellable = true)
     private void ignoreDodgingEntities(Entity pTarget, CallbackInfoReturnable<Boolean> cir) {
-        if (!pTarget.getLevel().isClientSide()) {
+        if (cir.getReturnValue()) if (!pTarget.getLevel().isClientSide()) {
             Entity owner = this.getOwner();
             if (pTarget instanceof ChangedEntity changedEntity) {
                 DodgeAbilityInstance dodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
@@ -39,24 +39,19 @@ public abstract class ProjectileMixin {
                         && dodgeAbilityInstance.canKeepUsing()
                         && dodgeAbilityInstance.isDodgeActive()) {
                     if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
-                        if (!livingOwner.is(pTarget)) {
-                            dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
-                            dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
-                            cir.setReturnValue(false);
-                        }
+                        dodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
+                        dodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                        cir.setReturnValue(false);
                     }
                 } else if (teleportDodgeAbilityInstance != null
                         && teleportDodgeAbilityInstance.canUse()
                         && teleportDodgeAbilityInstance.canKeepUsing()
-                        && teleportDodgeAbilityInstance.isDodgeActive()) {
+                        && teleportDodgeAbilityInstance.isDodgeActive())
                     if (owner instanceof LivingEntity livingOwner && changedEntity.invulnerableTime <= 0) {
-                        if (!livingOwner.is(pTarget)) {
-                            teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
-                            teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
-                            cir.setReturnValue(false);
-                        }
+                        teleportDodgeAbilityInstance.executeDodgeEffects(changedEntity, livingOwner);
+                        teleportDodgeAbilityInstance.executeDodgeHandle(changedEntity, livingOwner);
+                        cir.setReturnValue(false);
                     }
-                }
 
             }
             if (pTarget instanceof Player player) {
@@ -69,24 +64,19 @@ public abstract class ProjectileMixin {
                             && dodgeAbilityInstance.canKeepUsing()
                             && dodgeAbilityInstance.isDodgeActive()) {
                         if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
-                            if (!livingOwner.is(pTarget)) {
-                                dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
-                                dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
-                                cir.setReturnValue(false);
-                            }
+                            dodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
+                            dodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                            cir.setReturnValue(false);
                         }
                     } else if (teleportDodgeAbilityInstance != null
                             && teleportDodgeAbilityInstance.canUse()
                             && teleportDodgeAbilityInstance.canKeepUsing()
-                            && teleportDodgeAbilityInstance.isDodgeActive()) {
+                            && teleportDodgeAbilityInstance.isDodgeActive())
                         if (owner instanceof LivingEntity livingOwner && player.invulnerableTime <= 0) {
-                            if (!livingOwner.is(pTarget)) {
-                                teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
-                                teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
-                                cir.setReturnValue(false);
-                            }
+                            teleportDodgeAbilityInstance.executeDodgeEffects(player, livingOwner);
+                            teleportDodgeAbilityInstance.executeDodgeHandle(player, livingOwner);
+                            cir.setReturnValue(false);
                         }
-                    }
                 }
             }
         }
