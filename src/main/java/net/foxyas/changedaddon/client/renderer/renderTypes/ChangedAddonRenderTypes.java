@@ -143,7 +143,7 @@ public final class ChangedAddonRenderTypes extends RenderType {
                 .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                 .setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false))
                 .setTransparencyState(HOLOGRAM_TRANSPARENCY)
-                .setCullState(CULL)
+                .setCullState(NO_CULL)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
                 .createCompositeState(outline);
