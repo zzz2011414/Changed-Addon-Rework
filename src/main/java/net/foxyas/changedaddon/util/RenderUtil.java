@@ -1,19 +1,19 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Set;
 
 public class RenderUtil {
 
-    private static final int FULL_LIGHT = 15728880; // Lightmap value for full brightness
+    private static final int FULL_LIGHT = LightTexture.FULL_BRIGHT; // Lightmap value for full brightness
 
     /**
      * Renders a single vertex with full light and no overlay.

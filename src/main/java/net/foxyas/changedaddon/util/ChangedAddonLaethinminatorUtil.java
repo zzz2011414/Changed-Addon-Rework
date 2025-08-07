@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.init.ChangedAddonDamageSources;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.List;
 
-import static net.foxyas.changedaddon.process.util.FoxyasUtils.getRelativePosition;
+import static net.foxyas.changedaddon.util.FoxyasUtils.getRelativePosition;
 
 public class ChangedAddonLaethinminatorUtil {
 

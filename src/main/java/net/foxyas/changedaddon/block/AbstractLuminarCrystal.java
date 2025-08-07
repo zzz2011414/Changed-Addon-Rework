@@ -4,7 +4,7 @@ import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.block.AbstractLatexIceBlock;
 import net.ltxprogrammer.changed.block.TransfurCrystalBlock;

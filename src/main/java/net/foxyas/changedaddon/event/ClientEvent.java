@@ -1,12 +1,14 @@
 package net.foxyas.changedaddon.event;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.process.util.TransfurVariantUtils;
+import net.foxyas.changedaddon.util.TransfurVariantUtils;
+import net.foxyas.changedaddon.process.sounds.BossMusicHandler;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedItems;
 import net.ltxprogrammer.changed.init.ChangedRegistry;
 import net.ltxprogrammer.changed.item.Syringe;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -15,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,6 +27,13 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = ChangedAddonMod.MODID, value = Dist.CLIENT)
 public class ClientEvent {
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && Minecraft.getInstance().level != null) {
+            BossMusicHandler.tick(Minecraft.getInstance().level);
+        }
+    }
 
     @SubscribeEvent
     public static void onItemTooltip(ItemTooltipEvent event) {

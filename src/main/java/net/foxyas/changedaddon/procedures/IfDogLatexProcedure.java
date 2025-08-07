@@ -1,7 +1,6 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.network.ChangedAddonModVariables;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.world.entity.Entity;

@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.procedures;
 import io.netty.buffer.Unpooled;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.foxyas.changedaddon.world.inventory.FightToKeepConsciousnessMinigameMenu;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;

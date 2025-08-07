@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;

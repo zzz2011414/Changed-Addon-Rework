@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.ChangedAddonMod;

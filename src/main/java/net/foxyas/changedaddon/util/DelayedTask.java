@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;

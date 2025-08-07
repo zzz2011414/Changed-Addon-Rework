@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.item;
 import net.foxyas.changedaddon.effect.particles.ChangedAddonParticles;
 import net.foxyas.changedaddon.entity.goals.FollowAndLookAtLaser;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.init.ChangedTags;
 import net.ltxprogrammer.changed.item.SpecializedAnimations;
 import net.ltxprogrammer.changed.util.Color3;
@@ -36,7 +36,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static net.foxyas.changedaddon.process.util.FoxyasUtils.manualRaycastIgnoringBlocks;
+import static net.foxyas.changedaddon.util.FoxyasUtils.manualRaycastIgnoringBlocks;
 
 import net.minecraft.core.BlockPos;
 

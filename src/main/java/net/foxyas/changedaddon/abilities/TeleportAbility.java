@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.abilities;
 
-import net.foxyas.changedaddon.process.util.PlayerUtil;
-import net.foxyas.changedaddon.process.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.PlayerUtil;
+import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.ability.SimpleAbility;
 import net.minecraft.network.chat.TranslatableComponent;

@@ -5,7 +5,7 @@ import net.foxyas.changedaddon.init.ChangedAddonAttributes;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
 import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
-import net.foxyas.changedaddon.process.util.TransfurVariantUtils;
+import net.foxyas.changedaddon.util.TransfurVariantUtils;
 import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurContext;
 import net.ltxprogrammer.changed.init.ChangedItems;

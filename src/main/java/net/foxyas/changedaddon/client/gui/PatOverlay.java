@@ -6,7 +6,7 @@ import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.configuration.ChangedAddonClientConfiguration;
 import net.foxyas.changedaddon.entity.interfaces.IDynamicPawColor;
 import net.foxyas.changedaddon.init.ChangedAddonKeyMappings;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;

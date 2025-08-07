@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.network;
 
 import net.foxyas.changedaddon.procedures.IfCatLatexProcedure;
 import net.foxyas.changedaddon.procedures.IfDogLatexProcedure;
-import net.foxyas.changedaddon.process.util.DelayedTask;
+import net.foxyas.changedaddon.util.DelayedTask;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.ltxprogrammer.changed.process.ProcessTransfur;

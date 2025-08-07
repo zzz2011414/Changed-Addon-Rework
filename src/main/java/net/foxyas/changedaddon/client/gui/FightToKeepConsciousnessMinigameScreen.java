@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.network.FightToKeepConsciousnessMinigameButtonMessage;
-import net.foxyas.changedaddon.process.util.GeometryUtil;
+import net.foxyas.changedaddon.util.GeometryUtil;
 import net.foxyas.changedaddon.world.inventory.FightToKeepConsciousnessMinigameMenu;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;

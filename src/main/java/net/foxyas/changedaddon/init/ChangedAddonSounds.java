@@ -1,5 +1,6 @@
 package net.foxyas.changedaddon.init;
 
+import net.foxyas.changedaddon.ChangedAddonMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -11,20 +12,32 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ChangedAddonSounds {
-    public static Map<ResourceLocation, SoundEvent> REGISTRY = new HashMap<>();
 
-    static {
-        REGISTRY.put(new ResourceLocation("changed_addon", "armor_equip"), new SoundEvent(new ResourceLocation("changed_addon", "armor_equip")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "warn"), new SoundEvent(new ResourceLocation("changed_addon", "warn")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "untransfursound"), new SoundEvent(new ResourceLocation("changed_addon", "untransfursound")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "spray.sound"), new SoundEvent(new ResourceLocation("changed_addon", "spray.sound")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "experiment10_theme"), new SoundEvent(new ResourceLocation("changed_addon", "experiment10_theme")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "block.plushes.sfx"), new SoundEvent(new ResourceLocation("changed_addon", "block.plushes.sfx")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "hammer_swing"), new SoundEvent(new ResourceLocation("changed_addon", "hammer_swing")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "hammer_gun_shot"), new SoundEvent(new ResourceLocation("changed_addon", "hammer_gun_shot")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "music.boss.luminarctic_leopard"), new SoundEvent(new ResourceLocation("changed_addon", "music.boss.luminarctic_leopard")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "music.boss.exp9"), new SoundEvent(new ResourceLocation("changed_addon", "music.boss.exp9")));
-        REGISTRY.put(new ResourceLocation("changed_addon", "gecko_sound"), new SoundEvent(new ResourceLocation("changed_addon", "gecko_sound")));
+    private static final Map<ResourceLocation, SoundEvent> REGISTRY = new HashMap<>();
+
+    public static final SoundEvent ARMOR_EQUIP = registerSimple("armor_equip");
+    public static final SoundEvent GECKO = registerSimple("gecko_sound");
+    public static final SoundEvent PUSH_SOUND = registerSimple("block.plushes.sfx");
+    public static final SoundEvent SPRAY_SOUND = registerSimple("spray.sound");
+    public static final SoundEvent UNTRANSFUR = registerSimple("untransfursound");
+    public static final SoundEvent WARN = registerSimple("warn");
+
+    public static final SoundEvent EXP10_THEME = registerSimple("experiment10_theme");
+    public static final SoundEvent EXP9_THEME = registerSimple("music.boss.exp9");
+    public static final SoundEvent LUMINARCTIC_LEOPARD = registerSimple("music.boss.luminarctic_leopard");
+    public static final SoundEvent HAMMER_SWING = registerSimple("hammer_swing");
+    public static final SoundEvent HAMMER_GUN_SHOT = registerSimple("hammer_gun_shot");
+
+    private static SoundEvent registerSimple(String path){
+        ResourceLocation loc = ChangedAddonMod.resourceLoc(path);
+        SoundEvent sound = new SoundEvent(loc);
+        REGISTRY.put(loc, sound);
+        return sound;
+    }
+
+    private static SoundEvent register(String path, SoundEvent sound){
+        REGISTRY.put(ChangedAddonMod.resourceLoc(path), sound);
+        return sound;
     }
 
     @SubscribeEvent

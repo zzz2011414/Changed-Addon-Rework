@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util.sounds;
+package net.foxyas.changedaddon.process.sounds;
 
 import net.foxyas.changedaddon.entity.interfaces.IHasBossMusic;
 import net.ltxprogrammer.changed.entity.ChangedEntity;

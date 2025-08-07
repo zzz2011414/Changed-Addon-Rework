@@ -2,7 +2,7 @@ package net.foxyas.changedaddon.procedures;
 
 import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
-import net.foxyas.changedaddon.process.util.DelayedTask;
+import net.foxyas.changedaddon.util.DelayedTask;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

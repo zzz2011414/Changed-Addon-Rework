@@ -23,7 +23,7 @@ import net.minecraft.core.BlockPos;
 
 import net.ltxprogrammer.changed.item.SpecializedAnimations;
 
-import net.foxyas.changedaddon.process.util.ChangedAddonLaethinminatorUtil;
+import net.foxyas.changedaddon.util.ChangedAddonLaethinminatorUtil;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
 import net.foxyas.changedaddon.init.ChangedAddonFluids;
 

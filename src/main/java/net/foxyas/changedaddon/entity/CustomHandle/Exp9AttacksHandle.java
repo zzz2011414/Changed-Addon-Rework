@@ -2,8 +2,8 @@ package net.foxyas.changedaddon.entity.customHandle;
 
 import net.foxyas.changedaddon.effect.particles.ChangedAddonParticles;
 import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
-import net.foxyas.changedaddon.process.util.DelayedTask;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.DelayedTask;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;

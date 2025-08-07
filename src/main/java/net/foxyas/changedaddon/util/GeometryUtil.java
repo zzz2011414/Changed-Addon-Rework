@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;

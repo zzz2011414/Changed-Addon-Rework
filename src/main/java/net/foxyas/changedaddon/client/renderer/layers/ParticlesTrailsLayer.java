@@ -2,8 +2,8 @@ package net.foxyas.changedaddon.client.renderer.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import net.foxyas.changedaddon.process.util.FoxyasUtils;
-import net.foxyas.changedaddon.process.util.ModelUtils;
+import net.foxyas.changedaddon.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.ModelUtils;
 import net.ltxprogrammer.changed.client.renderer.layers.FirstPersonLayer;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
 import net.ltxprogrammer.changed.entity.ChangedEntity;

@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util.sounds;
+package net.foxyas.changedaddon.process.sounds;
 
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
@@ -18,7 +18,7 @@ public class FadingBossMusicSound extends AbstractTickableSoundInstance {
     private int fadeInTicks;
     private int fadeOutTicks = -1;
     private boolean stopped = false;
-    public SoundEvent currentSound = null;
+    public SoundEvent currentSound;
 
     public FadingBossMusicSound(SoundEvent soundEvent, LivingEntity entity) {
         super(soundEvent, SoundSource.MASTER);

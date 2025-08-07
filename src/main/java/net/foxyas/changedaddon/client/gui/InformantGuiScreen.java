@@ -8,7 +8,7 @@ import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.block.entity.InformantBlockEntity;
 import net.foxyas.changedaddon.client.renderer.blockEntitys.InformantBlockEntityRenderer;
 import net.foxyas.changedaddon.network.InformantBlockGuiKeyMessage;
-import net.foxyas.changedaddon.process.util.TransfurVariantUtils;
+import net.foxyas.changedaddon.util.TransfurVariantUtils;
 import net.foxyas.changedaddon.world.inventory.InformantGuiMenu;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;

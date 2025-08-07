@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-import static net.foxyas.changedaddon.process.util.FoxyasUtils.isConnectedToSource;
+import static net.foxyas.changedaddon.util.FoxyasUtils.isConnectedToSource;
 
 @Mixin(value = AbstractLatexBlock.class)
 public class AbstractLatexBlockMixin {

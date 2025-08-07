@@ -1,32 +1,19 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.process;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.block.InformantBlock;
-import net.foxyas.changedaddon.client.renderer.renderTypes.ChangedAddonRenderTypes;
 import net.foxyas.changedaddon.entity.interfaces.SyncTrackMotion;
-import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.network.packets.RequestMovementCheckPacket;
-import net.foxyas.changedaddon.process.StructureHandle;
-import net.minecraft.core.Direction;
+import net.foxyas.changedaddon.util.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
-
-import java.awt.*;
-import java.util.List;
 
 
 @Mod.EventBusSubscriber
@@ -106,7 +93,7 @@ public class DEBUG {
             event.getPlayer().displayClientMessage(new TextComponent("X = " + DeltaX + "\n" + "Y = " + DeltaY + "\n" + "Z = " + DeltaZ), false);
         }
         if (event.getMessage().startsWith("Show Info")) {
-            new DelayedTask(40, () -> event.getPlayer().displayClientMessage(new TextComponent("X = " + StructureHandle.isStructureNearby(event.getPlayer().getLevel(), event.getPlayer().getOnPos(), "changed_addon:dazed_latex_meteor", 3)), false));
+            new DelayedTask(40, () -> event.getPlayer().displayClientMessage(new TextComponent("X = " + StructureUtil.isStructureNearby(event.getPlayer().getLevel(), event.getPlayer().getOnPos(), "changed_addon:dazed_latex_meteor", 3)), false));
         }
 
     }

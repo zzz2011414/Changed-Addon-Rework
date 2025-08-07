@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.entity.projectile;
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
-import net.foxyas.changedaddon.process.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;

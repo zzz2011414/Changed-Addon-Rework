@@ -8,8 +8,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.configuration.ChangedAddonClientConfiguration;
 import net.foxyas.changedaddon.item.LaserPointer;
-import net.foxyas.changedaddon.process.util.FoxyasUtils;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.init.ChangedTags;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
@@ -37,7 +37,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static net.foxyas.changedaddon.process.util.FoxyasUtils.manualRaycastIgnoringBlocks;
+import static net.foxyas.changedaddon.util.FoxyasUtils.manualRaycastIgnoringBlocks;
 
 public class LaserPointParticle extends TextureSheetParticle {
     public static class Option implements ParticleOptions {

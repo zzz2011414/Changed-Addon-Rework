@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.entity.projectile;
 
 import net.foxyas.changedaddon.entity.bosses.VoidFoxEntity;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;

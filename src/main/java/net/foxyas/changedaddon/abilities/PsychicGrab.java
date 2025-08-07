@@ -1,8 +1,8 @@
 package net.foxyas.changedaddon.abilities;
 
 import net.foxyas.changedaddon.mixins.entity.projectiles.AbstractArrowAccessor;
-import net.foxyas.changedaddon.process.util.PlayerUtil;
-import net.foxyas.changedaddon.process.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.PlayerUtil;
+import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.ltxprogrammer.changed.ability.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;

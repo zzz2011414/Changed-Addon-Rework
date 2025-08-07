@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.process.util;
+package net.foxyas.changedaddon.util;
 
 import com.ibm.icu.impl.Pair;
 import com.mojang.blaze3d.vertex.PoseStack;
