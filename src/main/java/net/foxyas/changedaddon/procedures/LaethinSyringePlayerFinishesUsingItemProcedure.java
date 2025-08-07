@@ -38,14 +38,14 @@ public class LaethinSyringePlayerFinishesUsingItemProcedure {
                 .orElse(new ChangedAddonModVariables.PlayerVariables());
 
         if (!transfur) {
-            if (playerVars.showwarns && !entity.level.isClientSide())
+            if (playerVars.showWarns && !entity.level.isClientSide())
                 player.displayClientMessage(new TranslatableComponent("changedaddon.untransfur.no_effect"), true);
             return;
         }
 
         if (organic_transfur) {
             applyMobEffect(entity, ChangedAddonMobEffects.UNTRANSFUR.get(), 1000);
-            if (playerVars.showwarns && !entity.level.isClientSide())
+            if (playerVars.showWarns && !entity.level.isClientSide())
                 player.displayClientMessage(new TranslatableComponent("changedaddon.untransfur.sloweffect"), true);
             return;
         }
@@ -55,7 +55,7 @@ public class LaethinSyringePlayerFinishesUsingItemProcedure {
         PlayerUtil.UnTransfurPlayer(entity);
 
         // Optional: Reset advancement
-        if (playerVars.reset_transfur_advancements) {
+        if (playerVars.resetTransfurAdvancements) {
             scheduleAdvancementReset(entity, world, 10);
         }
 

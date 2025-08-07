@@ -29,14 +29,14 @@ public class PlayerDieWithConscienceFightProcedure {
     private static void execute(@Nullable Event event, Entity entity) {
         if (entity == null)
             return;
-        boolean ConscienceFight = (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).concience_Fight;
+        boolean ConscienceFight = (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).conscienceFight;
         if (entity instanceof Player player) {
             TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
             boolean transfur = instance != null;
             if (ConscienceFight && transfur) {
                 {
                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                        capability.concience_Fight = false;
+                        capability.conscienceFight = false;
                         capability.syncPlayerVariables(entity);
                     });
                 }

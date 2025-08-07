@@ -19,8 +19,8 @@ public class FightTokeepconsciousnessminigameThisGUIIsClosedProcedure {
             ent_target = entity;
             Msg = (new TranslatableComponent("changedaddon.warn.close_fight_to_keep_consciousness").getString()).replace("(KEY)",
                     GLFW.glfwGetKeyName(ChangedAddonKeyMappings.OPEN_STRUGGLE_MENU.getKey().getValue(), GLFW.glfwGetKeyScancode(ChangedAddonKeyMappings.OPEN_STRUGGLE_MENU.getKey().getValue())));
-            if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).consciousness_fight_give_up
-                    && (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).consciousness_fight_progress >= 25) {
+            if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).consciousnessFightGiveUp
+                    && (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).consciousnessFightProgress >= 25) {
                 if (entity instanceof Player _player) {
                     _player.displayClientMessage(new TextComponent(Msg), true);
                 }

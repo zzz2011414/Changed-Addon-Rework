@@ -58,19 +58,19 @@ public record TransfurSoundsGuiButtonMessage(int buttonId) {
 
         switch (buttonID) {
             case 0, 1, 2, 3, 4, 5, 6 -> {
-                if (vars.act_cooldown) break;
+                if (vars.actCooldown) break;
                 Triple<ResourceLocation, Predicate<Entity>, Integer> triple = sounds.get(buttonID);
                 if (triple.getMiddle().test(player))
                     playSound(player.level, player, ForgeRegistries.SOUND_EVENTS.getValue(triple.getLeft()), vars, triple.getRight());
             }
             case 7 -> {
-                if (!vars.act_cooldown) break;
+                if (!vars.actCooldown) break;
 
-                vars.act_cooldown = false;
+                vars.actCooldown = false;
                 vars.syncPlayerVariables(player);
             }
             case 8 -> {
-                if (vars.act_cooldown) return;
+                if (vars.actCooldown) return;
                 TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
                 if (tf == null) break;
 
@@ -80,11 +80,11 @@ public record TransfurSoundsGuiButtonMessage(int buttonId) {
                     player.getLevel().playSound(null, player.position().x, player.position().y, player.position().z, ChangedSounds.MONSTER2, SoundSource.HOSTILE, 5, 1);
                 }
 
-                vars.act_cooldown = true;
+                vars.actCooldown = true;
                 vars.syncPlayerVariables(player);
 
                 new DelayedTask(60, () -> {
-                    vars.act_cooldown = false;
+                    vars.actCooldown = false;
                     vars.syncPlayerVariables(player);
                 });
             }
@@ -94,11 +94,11 @@ public record TransfurSoundsGuiButtonMessage(int buttonId) {
     private static void playSound(Level level, Entity entity, SoundEvent sound, ChangedAddonModVariables.PlayerVariables vars, int cooldown) {
         level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), sound, SoundSource.PLAYERS, 2, 1);
 
-        vars.act_cooldown = true;
+        vars.actCooldown = true;
         vars.syncPlayerVariables(entity);
 
         new DelayedTask(cooldown, () -> {
-            vars.act_cooldown = false;
+            vars.actCooldown = false;
             vars.syncPlayerVariables(entity);
         });
     }

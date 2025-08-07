@@ -33,7 +33,7 @@ public class DescontrolSyringePlayerFinishesUsingItemProcedure {
             return;
         if (entity instanceof  Player player && ProcessTransfur.isPlayerTransfurred(player)) {
             SummonEntityProcedure.execute((Level) world, (Player) entity);
-            if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).reset_transfur_advancements) {
+            if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).resetTransfurAdvancements) {
                 {
                     Entity _ent = entity;
                     if (!_ent.level.isClientSide() && _ent.getServer() != null)

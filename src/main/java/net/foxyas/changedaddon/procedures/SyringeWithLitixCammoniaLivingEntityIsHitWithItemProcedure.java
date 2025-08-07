@@ -65,7 +65,7 @@ public class SyringeWithLitixCammoniaLivingEntityIsHitWithItemProcedure {
 
     private static boolean shouldShowWarn(Player player) {
         return player.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-                .orElse(new ChangedAddonModVariables.PlayerVariables()).showwarns;
+                .orElse(new ChangedAddonModVariables.PlayerVariables()).showWarns;
     }
 
     private static boolean isCreativeMode(Entity entity) {

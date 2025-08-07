@@ -59,7 +59,7 @@ public class UntransfurMobEffect extends MobEffect {
 		if(vars == null || vars.untransfurProgress < 100) return;
 
 		if(!ProcessTransfur.isPlayerTransfurred(player)){
-			if (vars.showwarns) {
+			if (vars.showWarns) {
 				if (!player.level.isClientSide())
 					player.displayClientMessage(new TextComponent((new TranslatableComponent("changedaddon.untransfur.no_effect").getString())), true);
 			}
@@ -74,7 +74,7 @@ public class UntransfurMobEffect extends MobEffect {
 
 		player.removeEffect(ChangedAddonMobEffects.UNTRANSFUR.get());
 
-		if(vars.reset_transfur_advancements) new DelayedTask(10, () -> {
+		if(vars.resetTransfurAdvancements) new DelayedTask(10, () -> {
 			MinecraftServer server = player.getServer();
 			if(server != null) server.getCommands().performCommand(player.createCommandSourceStack().withSuppressedOutput().withPermission(4), "advancement revoke @s from minecraft:changed/transfur");
 		});

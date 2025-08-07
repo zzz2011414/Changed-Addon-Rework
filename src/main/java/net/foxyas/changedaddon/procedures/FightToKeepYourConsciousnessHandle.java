@@ -63,7 +63,7 @@ public class FightToKeepYourConsciousnessHandle {
 
 
                 _ent.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                    capability.concience_Fight = true;
+                    capability.conscienceFight = true;
                     capability.syncPlayerVariables(_ent);
                 });
             }
@@ -85,11 +85,11 @@ public class FightToKeepYourConsciousnessHandle {
                     .orElse(new ChangedAddonModVariables.PlayerVariables());
             TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
 
-            if (instance != null && playerVars.concience_Fight) {
+            if (instance != null && playerVars.conscienceFight) {
                 if (ProcessTransfur.getPlayerTransfurVariant(player) != null
                         && ProcessTransfur.getPlayerTransfurVariant(player).ageAsVariant >= STRUGGLE_TIME) {
 
-                    if (playerVars.consciousness_fight_progress >= STRUGGLE_NEED) {
+                    if (playerVars.consciousnessFightProgress >= STRUGGLE_NEED) {
                         // Vitória no minigame
                         player.displayClientMessage(new TextComponent(new TranslatableComponent("changedaddon.fight_conscience.success").getString()), true);
                         updatePlayerVariables(playerVars, false, 0, false, entity);
@@ -108,9 +108,9 @@ public class FightToKeepYourConsciousnessHandle {
     }
 
     private static void updatePlayerVariables(ChangedAddonModVariables.PlayerVariables vars, boolean fight, int progress, boolean giveUp, Entity entity) {
-        vars.concience_Fight = fight;
-        vars.consciousness_fight_progress = progress;
-        vars.consciousness_fight_give_up = giveUp;
+        vars.conscienceFight = fight;
+        vars.consciousnessFightProgress = progress;
+        vars.consciousnessFightGiveUp = giveUp;
         vars.syncPlayerVariables(entity);
     }
 

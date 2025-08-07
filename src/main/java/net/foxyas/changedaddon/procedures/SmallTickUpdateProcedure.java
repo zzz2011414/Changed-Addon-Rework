@@ -81,7 +81,7 @@ public class SmallTickUpdateProcedure {
             TransfurVariantInstance<?> variant = ProcessTransfur.getPlayerTransfurVariant(player);
             if (variant != null) {
                 player.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                    capability.aredarklatex = variant.getFormId().toString().contains("dark_latex") || variant.getFormId().toString().contains("puro_kind");
+                    capability.areDarkLatex = variant.getFormId().toString().contains("dark_latex") || variant.getFormId().toString().contains("puro_kind");
                     capability.syncPlayerVariables(entity);
                 });
             }

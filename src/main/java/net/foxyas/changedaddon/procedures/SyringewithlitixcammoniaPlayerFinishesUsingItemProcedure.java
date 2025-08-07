@@ -41,14 +41,14 @@ public class SyringewithlitixcammoniaPlayerFinishesUsingItemProcedure {
                 if (ProcessTransfur.isPlayerNotLatex(player)) {
                     if (!player.level.isClientSide())
                         player.addEffect(new MobEffectInstance(ChangedAddonMobEffects.UNTRANSFUR.get(), 1000, 0, false, false));
-                    if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).showwarns) {
+                    if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).showWarns) {
                         if (entity instanceof Player _player && !_player.level.isClientSide())
                             _player.displayClientMessage(new TextComponent((new TranslatableComponent("changedaddon.untransfur.sloweffect").getString())), true);
                     }
                 } else {
                     SummonDripParticlesProcedure.execute(entity);
                     PlayerUtil.UnTransfurPlayer(entity);
-                    if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).reset_transfur_advancements) {
+                    if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).resetTransfurAdvancements) {
                         new Object() {
                             private int ticks = 0;
                             private float waitTicks;
@@ -133,7 +133,7 @@ public class SyringewithlitixcammoniaPlayerFinishesUsingItemProcedure {
                     _player.displayClientMessage(new TextComponent((new TranslatableComponent("changedaddon.untransfur.fail").getString())), true);
             }
         } else {
-            if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).showwarns) {
+            if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).showWarns) {
                 if (entity instanceof Player _player && !_player.level.isClientSide())
                     _player.displayClientMessage(new TextComponent((new TranslatableComponent("changedaddon.untransfur.no_effect").getString())), true);
             }

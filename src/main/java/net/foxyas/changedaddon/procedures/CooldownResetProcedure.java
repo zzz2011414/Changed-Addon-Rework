@@ -7,6 +7,6 @@ public class CooldownResetProcedure {
     public static boolean execute(Entity entity) {
         if (entity == null)
             return false;
-        return (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown;
+        return (entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown;
     }
 }

@@ -31,7 +31,7 @@ public class ChangedAddonCommandRootCommand {
 										ChangedAddonModVariables.PlayerVariables vars = ChangedAddonModVariables.PlayerVariables.of(player);
 										if(vars == null) return 0;
 
-										player.displayClientMessage(new TextComponent(("reset transfur progress is " + vars.reset_transfur_advancements)), true);
+										player.displayClientMessage(new TextComponent(("reset transfur progress is " + vars.resetTransfurAdvancements)), true);
 										return Command.SINGLE_SUCCESS;
 								})
 						)
@@ -44,14 +44,14 @@ public class ChangedAddonCommandRootCommand {
 
 										boolean newVal = BoolArgumentType.getBool(arguments, "turn");
 
-										if(newVal == vars.reset_transfur_advancements){
+										if(newVal == vars.resetTransfurAdvancements){
 											player.displayClientMessage(new TextComponent("§cNothing changed, it already had that value"), false);
 											return Command.SINGLE_SUCCESS;
 										}
 
 										player.displayClientMessage(new TextComponent("You " + (newVal ? "Activated" : "Disabled") + " the Transfur Reset Achievements"), false);
 
-										vars.reset_transfur_advancements = newVal;
+										vars.resetTransfurAdvancements = newVal;
 										vars.syncPlayerVariables(player);
 										return Command.SINGLE_SUCCESS;
 								})
@@ -66,7 +66,7 @@ public class ChangedAddonCommandRootCommand {
 										ChangedAddonModVariables.PlayerVariables vars = ChangedAddonModVariables.PlayerVariables.of(player);
 										if(vars == null) return 0;
 
-										vars.showwarns = BoolArgumentType.getBool(arguments, "warns");
+										vars.showWarns = BoolArgumentType.getBool(arguments, "warns");
 										vars.syncPlayerVariables(player);
 										return Command.SINGLE_SUCCESS;
 								})
@@ -78,7 +78,7 @@ public class ChangedAddonCommandRootCommand {
 										ChangedAddonModVariables.PlayerVariables vars = ChangedAddonModVariables.PlayerVariables.of(player);
 										if(vars == null) return 0;
 
-										player.displayClientMessage(new TextComponent("Warns is §4" + vars.showwarns), true);
+										player.displayClientMessage(new TextComponent("Warns is §4" + vars.showWarns), true);
 										return Command.SINGLE_SUCCESS;
 								})
 						)

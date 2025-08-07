@@ -2,7 +2,6 @@
 package net.foxyas.changedaddon.network;
 
 import io.netty.buffer.Unpooled;
-import net.foxyas.changedaddon.client.gui.FightToKeepConsciousnessMinigameScreen;
 import net.foxyas.changedaddon.world.inventory.FightToKeepConsciousnessMinigameMenu;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.network.FriendlyByteBuf;
@@ -43,7 +42,9 @@ public record OpenStruggleMenuMessage(int type, int pressedMs) {
 			if(!(player instanceof ServerPlayer sPlayer)) return;
 
 			ChangedAddonModVariables.PlayerVariables vars = player.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY).resolve().orElse(null);
-			if (!ProcessTransfur.isPlayerTransfurred(player) || vars == null || !vars.concience_Fight) return;
+			if (!ProcessTransfur.isPlayerTransfurred(player)
+					|| vars == null
+					/*|| !vars.conscienceFight*/) return;
 
 			var menu = new MenuProvider() {
 

@@ -37,11 +37,11 @@ public class TransfursExtraSoundDetailsProcedure {
             var formId = ProcessTransfur.getPlayerTransfurVariant(player).getFormId().toString();
             if (formId.contains("tiger_shark")) {
                 if (text.contains("roar")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -74,7 +74,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -86,11 +86,11 @@ public class TransfursExtraSoundDetailsProcedure {
             }
             if (formId.contains("experiment009")) {
                 if (text.contains("roar")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -123,7 +123,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -135,7 +135,7 @@ public class TransfursExtraSoundDetailsProcedure {
             }
             if (IfCatLatexProcedure.execute(entity)) {
                 if (text.contains("meow")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cat.ambient")), SoundSource.PLAYERS, 2, 1);
@@ -146,7 +146,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -174,7 +174,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -184,7 +184,7 @@ public class TransfursExtraSoundDetailsProcedure {
                     }
                 }
                 if (text.contains("purreow")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cat.purreow")), SoundSource.PLAYERS, 2, 1);
@@ -195,7 +195,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -223,7 +223,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -233,7 +233,7 @@ public class TransfursExtraSoundDetailsProcedure {
                     }
                 }
                 if (text.contains("hiss")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cat.hiss")), SoundSource.PLAYERS, 2, 1);
@@ -244,7 +244,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -272,7 +272,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -282,7 +282,7 @@ public class TransfursExtraSoundDetailsProcedure {
                     }
                 }
                 if (text.contains("purr")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.cat.purr")), SoundSource.PLAYERS, 2, 1);
@@ -293,7 +293,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -321,7 +321,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -333,7 +333,7 @@ public class TransfursExtraSoundDetailsProcedure {
             }
             if (IfDogLatexProcedure.execute(entity)) {
                 if (text.contains("growl")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wolf.growl")), SoundSource.PLAYERS, 2, 1);
@@ -344,7 +344,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -372,7 +372,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -382,7 +382,7 @@ public class TransfursExtraSoundDetailsProcedure {
                     }
                 }
                 if (text.contains("bark")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wolf.ambient")), SoundSource.PLAYERS, 2, 1);
@@ -393,7 +393,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -421,7 +421,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }
@@ -431,7 +431,7 @@ public class TransfursExtraSoundDetailsProcedure {
                     }
                 }
                 if (text.contains("howl")) {
-                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).act_cooldown) {
+                    if (!(entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).actCooldown) {
                         if (world instanceof Level _level) {
                             if (!_level.isClientSide()) {
                                 _level.playSound(null, new BlockPos(entity.getX(), entity.getY(), entity.getZ()), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.wolf.howl")), SoundSource.PLAYERS, 2, 1);
@@ -442,7 +442,7 @@ public class TransfursExtraSoundDetailsProcedure {
                         {
                             boolean _setval = true;
                             entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                capability.act_cooldown = _setval;
+                                capability.actCooldown = _setval;
                                 capability.syncPlayerVariables(entity);
                             });
                         }
@@ -470,7 +470,7 @@ public class TransfursExtraSoundDetailsProcedure {
                                 {
                                     boolean _setval = false;
                                     entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).ifPresent(capability -> {
-                                        capability.act_cooldown = _setval;
+                                        capability.actCooldown = _setval;
                                         capability.syncPlayerVariables(entity);
                                     });
                                 }

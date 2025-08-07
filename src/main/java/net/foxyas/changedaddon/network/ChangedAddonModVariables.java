@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -61,18 +60,18 @@ public class ChangedAddonModVariables {
     }
 
     public static class PlayerVariables {
-        public boolean showwarns = true;
-        public double consciousness_fight_progress = 0;
-        public boolean concience_Fight = false;
+        public boolean showWarns = true;
+        public double consciousnessFightProgress = 0;
+        public boolean conscienceFight = false;
         public String LatexEntitySummon = "any";
-        public boolean reset_transfur_advancements = false;
-        public boolean act_cooldown = false;
-        public boolean aredarklatex = false;
+        public boolean resetTransfurAdvancements = false;
+        public boolean actCooldown = false;
+        public boolean areDarkLatex = false;
         public double LatexInfectionCooldown = 0.0;
         public double untransfurProgress = 0.0;
         public boolean Exp009TransfurAllowed = false;
         public boolean Exp009Buff = false;
-        public boolean consciousness_fight_give_up = false;
+        public boolean consciousnessFightGiveUp = false;
         public boolean Exp10TransfurAllowed = false;
 
         /**
@@ -97,53 +96,53 @@ public class ChangedAddonModVariables {
 
         public void copyTo(PlayerVariables other, boolean wasDeath) {
             other.LatexEntitySummon = LatexEntitySummon;
-            other.reset_transfur_advancements = reset_transfur_advancements;
-            other.aredarklatex = aredarklatex;
+            other.resetTransfurAdvancements = resetTransfurAdvancements;
+            other.areDarkLatex = areDarkLatex;
             other.untransfurProgress = untransfurProgress;
             other.Exp009TransfurAllowed = Exp009TransfurAllowed;
             other.Exp009Buff = Exp009Buff;
             other.Exp10TransfurAllowed = Exp10TransfurAllowed;
             if (!wasDeath) {
-                other.consciousness_fight_progress = consciousness_fight_progress;
-                other.concience_Fight = concience_Fight;
-                other.act_cooldown = act_cooldown;
+                other.consciousnessFightProgress = consciousnessFightProgress;
+                other.conscienceFight = conscienceFight;
+                other.actCooldown = actCooldown;
                 other.LatexInfectionCooldown = LatexInfectionCooldown;
-                other.consciousness_fight_give_up = consciousness_fight_give_up;
+                other.consciousnessFightGiveUp = consciousnessFightGiveUp;
             }
         }
 
         public CompoundTag writeNBT() {
             CompoundTag nbt = new CompoundTag();
-            nbt.putBoolean("showwarns", showwarns);
-            nbt.putDouble("consciousness_fight_progress", consciousness_fight_progress);
-            nbt.putBoolean("concience_Fight", concience_Fight);
+            nbt.putBoolean("showWarns", showWarns);
+            nbt.putDouble("consciousnessFightProgress", consciousnessFightProgress);
+            nbt.putBoolean("conscienceFight", conscienceFight);
             nbt.putString("LatexEntitySummon", LatexEntitySummon);
-            nbt.putBoolean("reset_transfur_advancements", reset_transfur_advancements);
-            nbt.putBoolean("act_cooldown", act_cooldown);
-            nbt.putBoolean("aredarklatex", aredarklatex);
+            nbt.putBoolean("resetTransfurAdvancements", resetTransfurAdvancements);
+            nbt.putBoolean("actCooldown", actCooldown);
+            nbt.putBoolean("areDarkLatex", areDarkLatex);
             nbt.putDouble("LatexInfectionCooldown", LatexInfectionCooldown);
             nbt.putDouble("UntransfurProgress", untransfurProgress);
             nbt.putBoolean("Exp009TransfurAllowed", Exp009TransfurAllowed);
             nbt.putBoolean("Exp009Buff", Exp009Buff);
-            nbt.putBoolean("consciousness_fight_give_up", consciousness_fight_give_up);
+            nbt.putBoolean("consciousnessFightGiveUp", consciousnessFightGiveUp);
             nbt.putBoolean("Exp10TransfurAllowed", Exp10TransfurAllowed);
             return nbt;
         }
 
         public void readNBT(Tag Tag) {
             CompoundTag nbt = (CompoundTag) Tag;
-            showwarns = nbt.getBoolean("showwarns");
-            consciousness_fight_progress = nbt.getDouble("consciousness_fight_progress");
-            concience_Fight = nbt.getBoolean("concience_Fight");
+            showWarns = nbt.getBoolean("showWarns");
+            consciousnessFightProgress = nbt.getDouble("consciousnessFightProgress");
+            conscienceFight = nbt.getBoolean("conscienceFight");
             LatexEntitySummon = nbt.getString("LatexEntitySummon");
-            reset_transfur_advancements = nbt.getBoolean("reset_transfur_advancements");
-            act_cooldown = nbt.getBoolean("act_cooldown");
-            aredarklatex = nbt.getBoolean("aredarklatex");
+            resetTransfurAdvancements = nbt.getBoolean("resetTransfurAdvancements");
+            actCooldown = nbt.getBoolean("actCooldown");
+            areDarkLatex = nbt.getBoolean("areDarkLatex");
             LatexInfectionCooldown = nbt.getDouble("LatexInfectionCooldown");
             untransfurProgress = nbt.getDouble("UntransfurProgress");
             Exp009TransfurAllowed = nbt.getBoolean("Exp009TransfurAllowed");
             Exp009Buff = nbt.getBoolean("Exp009Buff");
-            consciousness_fight_give_up = nbt.getBoolean("consciousness_fight_give_up");
+            consciousnessFightGiveUp = nbt.getBoolean("consciousnessFightGiveUp");
             Exp10TransfurAllowed = nbt.getBoolean("Exp10TransfurAllowed");
         }
     }
@@ -172,18 +171,18 @@ public class ChangedAddonModVariables {
             context.enqueueWork(() -> {
                 assert Minecraft.getInstance().player != null;
                 PlayerVariables variables = Minecraft.getInstance().player.getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables());
-                variables.showwarns = message.data.showwarns;
-                variables.consciousness_fight_progress = message.data.consciousness_fight_progress;
-                variables.concience_Fight = message.data.concience_Fight;
+                variables.showWarns = message.data.showWarns;
+                variables.consciousnessFightProgress = message.data.consciousnessFightProgress;
+                variables.conscienceFight = message.data.conscienceFight;
                 variables.LatexEntitySummon = message.data.LatexEntitySummon;
-                variables.reset_transfur_advancements = message.data.reset_transfur_advancements;
-                variables.act_cooldown = message.data.act_cooldown;
-                variables.aredarklatex = message.data.aredarklatex;
+                variables.resetTransfurAdvancements = message.data.resetTransfurAdvancements;
+                variables.actCooldown = message.data.actCooldown;
+                variables.areDarkLatex = message.data.areDarkLatex;
                 variables.LatexInfectionCooldown = message.data.LatexInfectionCooldown;
                 variables.untransfurProgress = message.data.untransfurProgress;
                 variables.Exp009TransfurAllowed = message.data.Exp009TransfurAllowed;
                 variables.Exp009Buff = message.data.Exp009Buff;
-                variables.consciousness_fight_give_up = message.data.consciousness_fight_give_up;
+                variables.consciousnessFightGiveUp = message.data.consciousnessFightGiveUp;
                 variables.Exp10TransfurAllowed = message.data.Exp10TransfurAllowed;
             });
         }
