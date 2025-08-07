@@ -81,7 +81,7 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
         //This stuff was used when i try render only the model
         AdvancedHumanoidModel model = renderer.getModel();
         ResourceLocation texture = ((LivingEntityRenderer) renderer).getTextureLocation(entity);
-        var vertexConsumer = bufferSource.getBuffer(ChangedAddonRenderTypes.hologram(texture, true));
+        var vertexConsumer = bufferSource.getBuffer(ChangedAddonRenderTypes.hologramCull(texture, true));
 
         model.prepareMobModel(entity, 0, 0, partialTick);
         model.setupAnim(entity, 0, 0, entity.tickCount + partialTick, 0, 0);
