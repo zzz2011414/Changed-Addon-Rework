@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -81,16 +80,17 @@ public class InformantBlockEntityRenderer implements BlockEntityRenderer<Informa
         //This stuff was used when i try render only the model
         AdvancedHumanoidModel model = renderer.getModel();
         ResourceLocation texture = ((LivingEntityRenderer) renderer).getTextureLocation(entity);
-        var vertexConsumer = bufferSource.getBuffer(ChangedAddonRenderTypes.hologram(texture, true));
+        var vertexConsumer = bufferSource.getBuffer(ChangedAddonRenderTypes.hologramCull(texture, true));
 
+        float ageInTicks = entity.tickCount + partialTick;
         model.prepareMobModel(entity, 0, 0, partialTick);
-        model.setupAnim(entity, 0, 0, entity.tickCount + partialTick, 0, 0);
+        model.setupAnim(entity, 0, 0, ageInTicks, 0, 0);
         model.renderToBuffer(poseStack, vertexConsumer, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         if (renderer instanceof LivingEntityRendererAccessor livingEntityRendererAccessor) {
             List<RenderLayer<LivingEntity, EntityModel<LivingEntity>>> layers = livingEntityRendererAccessor.getLayers();
             if (layers != null && !layers.isEmpty()) {
                 layers.forEach((renderlayer) -> {
-                    renderlayer.render(poseStack, bufferSource, LightTexture.FULL_BRIGHT, entity, 0, 0, partialTick, entity.tickCount + partialTick, 0, 0);
+                    renderlayer.render(poseStack, bufferSource, LightTexture.FULL_BRIGHT, entity, 0, 0, partialTick, ageInTicks, 0, 0);
                 });
             }
         }
