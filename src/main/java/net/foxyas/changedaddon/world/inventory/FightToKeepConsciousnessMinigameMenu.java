@@ -2,67 +2,31 @@
 package net.foxyas.changedaddon.world.inventory;
 
 import net.foxyas.changedaddon.client.gui.FightToKeepConsciousnessMinigameScreen;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.IItemHandler;
-
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.BlockPos;
-
-import net.foxyas.changedaddon.procedures.FightTokeepconsciousnessminigameThisGUIIsClosedProcedure;
 import net.foxyas.changedaddon.init.ChangedAddonMenus;
+import net.foxyas.changedaddon.procedures.FightTokeepconsciousnessminigameThisGUIIsClosedProcedure;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Supplier;
-import java.util.Map;
-import java.util.HashMap;
+public class FightToKeepConsciousnessMinigameMenu extends AbstractContainerMenu {
 
-public class FightToKeepConsciousnessMinigameMenu extends AbstractContainerMenu implements Supplier<Map<Integer, Slot>> {
-	public final static HashMap<String, Object> guistate = new HashMap<>();
 	public final Level world;
 	public final Player entity;
-	public int x, y, z;
-	private ContainerLevelAccess access = ContainerLevelAccess.NULL;
-    private final Map<Integer, Slot> customSlots = new HashMap<>();
-	private boolean bound = false;
-	private Supplier<Boolean> boundItemMatcher = null;
-	private Entity boundEntity = null;
-	private BlockEntity boundBlockEntity = null;
 	public FightToKeepConsciousnessMinigameScreen.MinigameType minigameType;
-
 
 	public FightToKeepConsciousnessMinigameMenu(int id, Inventory inv, FriendlyByteBuf extraData) {
 		super(ChangedAddonMenus.FIGHT_TO_KEEP_CONSCIOUSNESS_MINIGAME, id);
 		this.entity = inv.player;
 		this.world = inv.player.level;
 		this.minigameType = FightToKeepConsciousnessMinigameScreen.MinigameType.getRandom(inv.player.getRandom());
-        BlockPos pos;
-		if (extraData != null) {
-			pos = extraData.readBlockPos();
-			this.x = pos.getX();
-			this.y = pos.getY();
-			this.z = pos.getZ();
-			access = ContainerLevelAccess.create(world, pos);
-		}
+        extraData.readBlockPos();
 	}
 
 	@Override
 	public boolean stillValid(@NotNull Player player) {
-		if (this.bound) {
-			if (this.boundItemMatcher != null)
-				return this.boundItemMatcher.get();
-			else if (this.boundBlockEntity != null)
-				return AbstractContainerMenu.stillValid(this.access, player, this.boundBlockEntity.getBlockState().getBlock());
-			else if (this.boundEntity != null)
-				return this.boundEntity.isAlive();
-		}
 		return true;
 	}
 
@@ -71,9 +35,5 @@ public class FightToKeepConsciousnessMinigameMenu extends AbstractContainerMenu 
 		super.removed(playerIn);
 
 		FightTokeepconsciousnessminigameThisGUIIsClosedProcedure.execute(world, entity);
-	}
-
-	public Map<Integer, Slot> get() {
-		return customSlots;
 	}
 }
