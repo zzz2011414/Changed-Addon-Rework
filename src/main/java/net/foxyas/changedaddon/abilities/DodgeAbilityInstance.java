@@ -88,7 +88,7 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         return dodgeType;
     }
 
-    public void executeDodgeEffects(LevelAccessor levelAccessor, @Nullable LivingEntity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event, boolean causeExhaustion) {
+    public void executeDodgeEffects(LevelAccessor levelAccessor, @Nullable Entity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event, boolean causeExhaustion) {
         if (!ultraInstinct) {
             this.subDodgeAmount();
         }
@@ -132,11 +132,11 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         }
     }
 
-    public void executeDodgeEffects(LevelAccessor levelAccessor, @Nullable LivingEntity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event) {
+    public void executeDodgeEffects(LevelAccessor levelAccessor, @Nullable Entity attacker, LivingEntity dodger, @Nullable LivingAttackEvent event) {
         this.executeDodgeEffects(levelAccessor, attacker, dodger, event, true);
     }
 
-    public void executeDodgeHandle(LevelAccessor levelAccessor, LivingEntity attacker, LivingEntity dodger, LivingAttackEvent event, boolean causeExhaustion) {
+    public void executeDodgeHandle(LevelAccessor levelAccessor, Entity attacker, LivingEntity dodger, LivingAttackEvent event, boolean causeExhaustion) {
         Vec3 attackerPos = attacker.position();
         Vec3 lookDirection = attacker.getLookAngle().normalize();
         //Vec3 dodgerLookDirection = dodger.getLookAngle();
@@ -169,11 +169,11 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         }
     }
 
-    public void executeDodgeHandle(LivingEntity dodger, LivingEntity attacker) {
+    public void executeDodgeHandle(LivingEntity dodger, Entity attacker) {
         this.executeDodgeHandle(dodger.getLevel(), attacker, dodger, null, true);
     }
 
-    public void executeDodgeEffects(LivingEntity dodger, LivingEntity attacker) {
+    public void executeDodgeEffects(LivingEntity dodger, Entity attacker) {
         this.executeDodgeEffects(dodger.getLevel(), attacker, dodger, null);
 
     }

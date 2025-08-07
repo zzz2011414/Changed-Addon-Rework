@@ -48,6 +48,9 @@ public class DodgeAbilityHandle {
         if (attacker instanceof Projectile projectile) {
             return;
         }
+        if (event.getSource().getDirectEntity() instanceof Projectile projectile) {
+            return;
+        }
 
         if (attacker instanceof LivingEntity livingAttacker) {
             applyDodgeEffects(player, livingAttacker, dodge, world, event);

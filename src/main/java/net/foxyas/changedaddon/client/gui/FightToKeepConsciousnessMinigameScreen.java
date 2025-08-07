@@ -103,8 +103,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             int screenHeight = minecraft.getWindow().getScreenHeight();
 
             // Limita a posição dentro da janela
-            float clampedX = Mth.clamp(newX, 0, screenWidth - 2);
-            float clampedY = Mth.clamp(newY, 0, screenHeight - 2);
+            float clampedX = Mth.clamp(newX, 2, screenWidth - 2);
+            float clampedY = Mth.clamp(newY, 2, screenHeight - 2);
 
             this.circleCursorPos = new Vec2(clampedX, clampedY);
         }
@@ -139,8 +139,23 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     private static final float INTERACTION_RADIUS = 15f;
 
     private void increaseStruggle() {
-        ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, x, y, z));
-        FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, x, y, z);
+        if (minecraft != null) {
+            ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, x, y, z));
+            FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, x, y, z);
+
+            if (minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
+                randomizePositions();
+            } else {
+                int width = minecraft.getWindow().getScreenWidth();
+                int height = minecraft.getWindow().getScreenHeight();
+                circlePos = new Vec2((float) width / 2, (float) height / 2);
+                struggleProgress += 0.05f;
+                if (struggleProgress >= 1.0f) {
+                    struggleProgress = 0f;
+                    randomizeCursorPos();
+                }
+            }
+        }
     }
 
     private void randomizePositions() {
@@ -149,21 +164,26 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         float offset = 60f;
         float x = circlePos.x + rand.nextFloat(-offset, offset);
         float y = circlePos.y + rand.nextFloat(-offset, offset);
-        float clampedX = Mth.clamp(x, 40, this.width - 40);
-        float clampedY = Mth.clamp(y, 40, this.height - 40);
+        float width = Minecraft.getInstance().getWindow().getWidth();
+        float height = Minecraft.getInstance().getWindow().getHeight();
+        float clampedX = Mth.clamp(x, 20, width - 20);
+        float clampedY = Mth.clamp(y, 20, height - 20);
         this.circlePos = new Vec2(clampedX, clampedY);
 
         randomizeCursorPos();
     }
 
-    private void randomizeCirclePosition() {
+    private void randomizeCirclePos() {
         // Usado em MOUSE_CIRCLE_PULL
         Random rand = new Random();
-        float x = leftPos + 20 + rand.nextInt(width - 40);
-        float y = topPos + 20 + rand.nextInt(height - 40);
-        float clampedX = Mth.clamp(x, 0, this.width - 2);
-        float clampedY = Mth.clamp(y, 0, this.height - 2);
-        this.circlePos = new Vec2(x, y);
+        float offset = 60f;
+        float x = circlePos.x + rand.nextFloat(-offset, offset);
+        float y = circlePos.y + rand.nextFloat(-offset, offset);
+        float width = Minecraft.getInstance().getWindow().getWidth();
+        float height = Minecraft.getInstance().getWindow().getHeight();
+        float clampedX = Mth.clamp(x, 20, width - 20);
+        float clampedY = Mth.clamp(y, 20, height - 20);
+        this.circlePos = new Vec2(clampedX, clampedY);
     }
 
     private void randomizeCursorPos() {
@@ -171,8 +191,10 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         float offset = 60f;
         float x = circleCursorPos.x + rand.nextFloat(-offset, offset);
         float y = circleCursorPos.y + rand.nextFloat(-offset, offset);
-        float clampedX = Mth.clamp(x, 40, this.width - 40);
-        float clampedY = Mth.clamp(y, 40, this.height - 40);
+        float width = Minecraft.getInstance().getWindow().getWidth();
+        float height = Minecraft.getInstance().getWindow().getHeight();
+        float clampedX = Mth.clamp(x, 20, width - 20);
+        float clampedY = Mth.clamp(y, 20, height - 20);
         this.circleCursorPos = new Vec2(clampedX, clampedY);
         if (minecraft != null) {
             GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), (double) width / 2 + circleCursorPos.x,
@@ -219,28 +241,31 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         super.containerTick();
         if (minigameType == MinigameType.MOUSE_CIRCLE_PULL || minigameType == MinigameType.MOUSE_PULL) {
             if (circlePos != null && circleCursorPos != null) {
+                this.circlePos = clampPositions(circlePos);
+                this.circleCursorPos = clampPositions(circleCursorPos);
+
+
                 if (GeometryUtil.isInsideCircle(circleCursorPos, circlePos, INTERACTION_RADIUS)) {
-                    if (minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
-                        increaseStruggle();
-                        randomizePositions();
-                    } else {
-                        circlePos = new Vec2((float) width / 2, (float) height / 2);
-                        struggleProgress += 0.05f;
-                        if (struggleProgress >= 1.0f) {
-                            increaseStruggle();
-                            struggleProgress = 0f;
-                            randomizeCursorPos();
-                        }
-                    }
+                    increaseStruggle();
                 } else if (minigameType == MinigameType.MOUSE_PULL) {
                     if (struggleProgress > 0) {
-                        increaseStruggle();
                         struggleProgress -= 0.05f;
-                        randomizeCursorPos();
                     }
                 }
             }
         }
+    }
+
+    private Vec2 clampPositions(Vec2 vec2) {
+        assert minecraft != null;
+        int screenWidth = minecraft.getWindow().getScreenWidth();
+        int screenHeight = minecraft.getWindow().getScreenHeight();
+
+        // Limita a posição dentro da janela
+        float clampedX = Mth.clamp(vec2.x, 0, screenWidth - 2);
+        float clampedY = Mth.clamp(vec2.y, 0, screenHeight - 2);
+
+        return new Vec2(clampedX, clampedY);
     }
 
     @Override
@@ -319,6 +344,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             if (minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
                 randomizePositions();
             } else if (minigameType == MinigameType.MOUSE_PULL) {
+                int width = minecraft.getWindow().getScreenWidth();
+                int height = minecraft.getWindow().getScreenHeight();
                 circlePos = new Vec2((float) width / 2, (float) height / 2);
             }
             setMouseInvisible();

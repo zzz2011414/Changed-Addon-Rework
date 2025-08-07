@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.datagen;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.ltxprogrammer.changed.init.ChangedEntities;
 import net.ltxprogrammer.changed.init.ChangedTags;
@@ -77,6 +78,10 @@ public class EntityTypeTagsProvider extends net.minecraft.data.tags.EntityTypeTa
                 FOXYAS.get(),
                 PROTOTYPE.get(),
                 ERIK.get());
+
+        tag(ChangedAddonTags.EntityTypes.DRAGON_ENTITIES).add(
+                ChangedAddonAbilities.getCanGlideEntitiesArray()
+        );
 
         tag(EntityTypeTags.IMPACT_PROJECTILES).add(
                 PARTICLE_PROJECTILE.get());
