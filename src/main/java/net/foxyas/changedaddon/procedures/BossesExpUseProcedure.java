@@ -17,8 +17,8 @@ public class BossesExpUseProcedure {
             return;
         }
 
-        if (variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get()
-                || variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()
+        if (variant == ChangedAddonTransfurVariants.EXPERIMENT_009.get()
+                || variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()
                 || variant == ChangedAddonTransfurVariants.EXPERIMENT_10.get()
                 || variant == ChangedAddonTransfurVariants.EXPERIMENT_10_BOSS.get()) {
             event.setCanceled(true);

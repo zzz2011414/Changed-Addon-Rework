@@ -38,17 +38,17 @@ import java.util.Objects;
 
 import static net.ltxprogrammer.changed.entity.HairStyle.BALD;
 
-public class KetExperiment009Entity extends ChangedEntity {
+public class Experiment009Entity extends ChangedEntity {
     //private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), ServerBossEvent.BossBarColor.BLUE, ServerBossEvent.BossBarOverlay.NOTCHED_6);
     private boolean Phase2;
 
     private double AI;
 
-    public KetExperiment009Entity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.KET_EXPERIMENT_009.get(), world);
+    public Experiment009Entity(PlayMessages.SpawnEntity packet, Level world) {
+        this(ChangedAddonEntities.EXPERIMENT_009.get(), world);
     }
 
-    public KetExperiment009Entity(EntityType<KetExperiment009Entity> type, Level world) {
+    public Experiment009Entity(EntityType<Experiment009Entity> type, Level world) {
         super(type, world);
         this.setAttributes(getAttributes());
         xpReward = 160;

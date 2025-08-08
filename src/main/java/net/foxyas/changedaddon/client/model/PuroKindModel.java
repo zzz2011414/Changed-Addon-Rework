@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.renderer.layers.animation.CarryAbilityAnimation;
-import net.foxyas.changedaddon.entity.simple.PuroKindEntity;
+import net.foxyas.changedaddon.entity.simple.PuroKindMaleEntity;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.animate.arm.ArmBobAnimator;
 import net.ltxprogrammer.changed.client.renderer.animate.arm.ArmRideAnimator;
@@ -37,7 +37,7 @@ class ModelAnimation {
     }
 }
 
-public class PuroKindModel extends AdvancedHumanoidModel<PuroKindEntity> implements AdvancedHumanoidModelInterface<PuroKindEntity, PuroKindModel> {
+public class PuroKindModel extends AdvancedHumanoidModel<PuroKindMaleEntity> implements AdvancedHumanoidModelInterface<PuroKindMaleEntity, PuroKindModel> {
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("puro_kind"), "main");
 
     private final ModelPart RightLeg;
@@ -49,7 +49,7 @@ public class PuroKindModel extends AdvancedHumanoidModel<PuroKindEntity> impleme
     private final ModelPart Tail;
 
     private final ModelPart Mask;
-    private final HumanoidAnimator<PuroKindEntity, PuroKindModel> animator;
+    private final HumanoidAnimator<PuroKindMaleEntity, PuroKindModel> animator;
 
     public PuroKindModel(ModelPart root) {
         super(root);
@@ -267,7 +267,7 @@ public class PuroKindModel extends AdvancedHumanoidModel<PuroKindEntity> impleme
     }
 
     @Override
-    public void prepareMobModel(PuroKindEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(PuroKindMaleEntity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -279,13 +279,13 @@ public class PuroKindModel extends AdvancedHumanoidModel<PuroKindEntity> impleme
      }
  */
     @Override
-    public void setupHand(PuroKindEntity entity) {
+    public void setupHand(PuroKindMaleEntity entity) {
         animator.setupHand();
     }
 
 
     @Override
-    public void setupAnim(@NotNull PuroKindEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull PuroKindMaleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         CarryAbilityAnimation.playAnimation(entity, this);
@@ -320,7 +320,7 @@ public class PuroKindModel extends AdvancedHumanoidModel<PuroKindEntity> impleme
     }
 
     @Override
-    public HumanoidAnimator<PuroKindEntity, PuroKindModel> getAnimator(PuroKindEntity entity) {
+    public HumanoidAnimator<PuroKindMaleEntity, PuroKindModel> getAnimator(PuroKindMaleEntity entity) {
         return animator;
     }
 }

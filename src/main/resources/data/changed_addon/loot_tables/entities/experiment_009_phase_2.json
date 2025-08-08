@@ -15,7 +15,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "changed_addon:experiment_009dna",
+          "name": "changed_addon:experiment_009_dna",
           "functions": [
             {
               "function": "minecraft:looting_enchant",
@@ -204,7 +204,7 @@
           "functions": [
             {
               "function": "changed:set_variant",
-              "variant": "changed_addon:form_ket_experiment009"
+              "variant": "changed_addon:form_experiment009"
             },
             {
               "function": "minecraft:looting_enchant",
@@ -228,7 +228,7 @@
           "functions": [
             {
               "function": "changed:set_variant",
-              "variant": "changed_addon:form_ket_experiment009"
+              "variant": "changed_addon:form_experiment009"
             },
             {
               "function": "minecraft:looting_enchant",

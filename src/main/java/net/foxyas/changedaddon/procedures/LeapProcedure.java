@@ -101,7 +101,7 @@ public class LeapProcedure {
                         player.getServer().getCommands().performCommand(player.createCommandSourceStack().withSuppressedOutput().withPermission(4), "playsound changed:bow2 ambient @a ~ ~ ~ 2.5 1 0");
                 }
             }
-        } else if (tf.getFormId().toString().equals("changed_addon:form_ket_experiment009_boss")) {
+        } else if (tf.getFormId().toString().equals("changed_addon:form_experiment009_boss")) {
             if (player.hasEffect(ChangedAddonMobEffects.FADIGE.get()) || player.isSpectator()) return;
 
             deltaX = -Math.sin((player.getYRot() / 180) * (float) Math.PI);
@@ -230,7 +230,7 @@ public class LeapProcedure {
         TransfurVariant<?> Variant = TransfurVariant.getEntityVariant(tf.getChangedEntity());
         if (Variant.is(ChangedAddonTags.TransfurTypes.CAT_LIKE) || Variant.is(ChangedAddonTags.TransfurTypes.LEOPARD_LIKE)) {
             return !Variant.is(ChangedAddonTransfurVariants.LATEX_SNEP.get())
-                    && !Variant.is(ChangedAddonTransfurVariants.LUMINARCTIC_LEOPARD.get())
+                    && !Variant.is(ChangedAddonTransfurVariants.LUMINARCTIC_LEOPARD_MALE.get())
                     && !Variant.is(ChangedAddonTransfurVariants.EXPERIMENT_10.get())
                     && !Variant.is(ChangedAddonTransfurVariants.EXPERIMENT_10_BOSS.get())
                     && !Variant.is(ChangedAddonTransfurVariants.LYNX.get());

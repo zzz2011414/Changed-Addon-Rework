@@ -2,9 +2,8 @@ package net.foxyas.changedaddon.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.client.model.LuminarcticFemaleLeopardModel;
-import net.foxyas.changedaddon.entity.bosses.FemaleLuminarcticLeopardEntity;
+import net.foxyas.changedaddon.entity.bosses.LuminarcticLeopardFemaleEntity;
 import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.ltxprogrammer.changed.ability.HypnosisAbility;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
@@ -24,7 +23,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<FemaleLuminarcticLeopardEntity, LuminarcticFemaleLeopardModel, ArmorLatexFemaleCatModel<FemaleLuminarcticLeopardEntity>> {
+public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<LuminarcticLeopardFemaleEntity, LuminarcticFemaleLeopardModel, ArmorLatexFemaleCatModel<LuminarcticLeopardFemaleEntity>> {
     public FemaleLuminarcticLeopardRenderer(EntityRendererProvider.Context context) {
         super(context, new LuminarcticFemaleLeopardModel(context.bakeLayer(LuminarcticFemaleLeopardModel.LAYER_LOCATION)),
                 ArmorLatexFemaleCatModel.MODEL_SET, 0.5f);
@@ -56,7 +55,7 @@ public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<F
     }
 
     @Override
-    public void render(FemaleLuminarcticLeopardEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(LuminarcticLeopardFemaleEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         /*float dodgeTicks = entity.getDodgeAnimTicks();
         float dodgeProgress = Math.abs(dodgeTicks) / (float) entity.DodgeAnimMaxTicks;
 
@@ -85,7 +84,7 @@ public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<F
 
 
     @Override
-    public ResourceLocation getTextureLocation(FemaleLuminarcticLeopardEntity entity) {
+    public ResourceLocation getTextureLocation(LuminarcticLeopardFemaleEntity entity) {
         if (entity.getUnderlyingPlayer() != null) {
             return new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/female/luminarctic_leopard_female_no_eyes.png");
         }
@@ -173,12 +172,12 @@ public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<F
                         if (instance.getController().getHoldTicks() > 0) {
                             super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
                         }
-                    } else if (entity instanceof FemaleLuminarcticLeopardEntity LUMI && LUMI.isActivatedAbility()) {
+                    } else if (entity instanceof LuminarcticLeopardFemaleEntity LUMI && LUMI.isActivatedAbility()) {
                         super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
                     }
                 }
 
-                if (entity instanceof FemaleLuminarcticLeopardEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
+                if (entity instanceof LuminarcticLeopardFemaleEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
                     super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
                 }
             }
@@ -194,7 +193,7 @@ public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<F
                 if (entity.getUnderlyingPlayer() != null) {
                     return;
                 }
-                if (entity instanceof FemaleLuminarcticLeopardEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
+                if (entity instanceof LuminarcticLeopardFemaleEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
                     super.render(poseStack, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                 }
             }
@@ -220,7 +219,7 @@ public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<F
                         if (instance.getController().getHoldTicks() > 0) {
                             this.customGlowEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                         }
-                    } else if (entity instanceof FemaleLuminarcticLeopardEntity LUMI && LUMI.isActivatedAbility()) {
+                    } else if (entity instanceof LuminarcticLeopardFemaleEntity LUMI && LUMI.isActivatedAbility()) {
                         this.customGlowEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                     } else {
                         customEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);

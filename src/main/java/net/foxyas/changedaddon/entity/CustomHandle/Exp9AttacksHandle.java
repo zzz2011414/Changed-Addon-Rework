@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.entity.customHandle;
 
 import net.foxyas.changedaddon.effect.particles.ChangedAddonParticles;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.foxyas.changedaddon.util.DelayedTask;
 import net.foxyas.changedaddon.util.PlayerUtil;
 import net.minecraft.core.BlockPos;
@@ -30,7 +30,7 @@ import java.util.Random;
 public class Exp9AttacksHandle {
 
     public static class TeleportAirComboGoal extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
         private final Random random = new Random();
         private LivingEntity target;
         private int phase = 0;
@@ -38,7 +38,7 @@ public class Exp9AttacksHandle {
         private int delay = 5;
 
 
-        public TeleportAirComboGoal(KetExperiment009BossEntity boss) {
+        public TeleportAirComboGoal(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 
@@ -202,7 +202,7 @@ public class Exp9AttacksHandle {
     }
 
     public static class TeleportComboGoal extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
         private final Random random = new Random();
         private LivingEntity target;
         private int phase = 0;
@@ -210,7 +210,7 @@ public class Exp9AttacksHandle {
         private int delay = 5;
 
 
-        public TeleportComboGoal(KetExperiment009BossEntity boss) {
+        public TeleportComboGoal(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 
@@ -393,9 +393,9 @@ public class Exp9AttacksHandle {
 
     public static class ThunderWave extends Goal {
 
-        public final KetExperiment009BossEntity boss;
+        public final Experiment009BossEntity boss;
 
-        public ThunderWave(KetExperiment009BossEntity boss) {
+        public ThunderWave(Experiment009BossEntity boss) {
             super();
             this.boss = boss;
         }
@@ -441,9 +441,9 @@ public class Exp9AttacksHandle {
 
     public static class ThunderSpeed extends Goal {
 
-        public final KetExperiment009BossEntity boss;
+        public final Experiment009BossEntity boss;
 
-        public ThunderSpeed(KetExperiment009BossEntity boss) {
+        public ThunderSpeed(Experiment009BossEntity boss) {
             super();
             this.boss = boss;
         }
@@ -490,9 +490,9 @@ public class Exp9AttacksHandle {
 
     public static class ThunderShock extends Goal {
 
-        public final KetExperiment009BossEntity boss;
+        public final Experiment009BossEntity boss;
 
-        public ThunderShock(KetExperiment009BossEntity boss) {
+        public ThunderShock(Experiment009BossEntity boss) {
             super();
             this.boss = boss;
         }
@@ -579,14 +579,14 @@ public class Exp9AttacksHandle {
 
     public static class ThunderPathway extends Goal {
 
-        public final KetExperiment009BossEntity boss;
+        public final Experiment009BossEntity boss;
         private int ticks;
         private int thunderIndex;
         private final int MaxThunderIndex;
         private boolean running;
         private Vec3 forward; // Recalcula para cada tick
 
-        public ThunderPathway(KetExperiment009BossEntity boss) {
+        public ThunderPathway(Experiment009BossEntity boss) {
             super();
             this.boss = boss;
             this.MaxThunderIndex = 10;
@@ -646,9 +646,9 @@ public class Exp9AttacksHandle {
 
     public static class ThunderStorm extends Goal {
 
-        public final KetExperiment009BossEntity boss;
+        public final Experiment009BossEntity boss;
 
-        public ThunderStorm(KetExperiment009BossEntity boss) {
+        public ThunderStorm(Experiment009BossEntity boss) {
             super();
             this.boss = boss;
         }
@@ -701,13 +701,13 @@ public class Exp9AttacksHandle {
     }
 
     public static class TeleportAttack extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
 
-        public TeleportAttack(KetExperiment009BossEntity boss) {
+        public TeleportAttack(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 
-        public static void Teleport(KetExperiment009BossEntity boss, LivingEntity target) {
+        public static void Teleport(Experiment009BossEntity boss, LivingEntity target) {
             if (target == null) {
                 return;
             }
@@ -740,13 +740,13 @@ public class Exp9AttacksHandle {
     }
 
     public static class RandomTeleportAttack extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
 
-        public RandomTeleportAttack(KetExperiment009BossEntity boss) {
+        public RandomTeleportAttack(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 
-        public static void Teleport(KetExperiment009BossEntity boss, LivingEntity target) {
+        public static void Teleport(Experiment009BossEntity boss, LivingEntity target) {
             if (target == null) {
                 return;
             }
@@ -777,9 +777,9 @@ public class Exp9AttacksHandle {
     }
 
     public static class BurstAttack extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
 
-        public BurstAttack(KetExperiment009BossEntity boss) {
+        public BurstAttack(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 
@@ -803,12 +803,12 @@ public class Exp9AttacksHandle {
     }
 
     public static class ThunderBoltImpactAttack extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
         private final List<BlockPos> thunderPositions = new ArrayList<>();
         private int tickDelay = -1;
         private int thunderIndex = 0;
 
-        public ThunderBoltImpactAttack(KetExperiment009BossEntity boss) {
+        public ThunderBoltImpactAttack(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 
@@ -891,12 +891,12 @@ public class Exp9AttacksHandle {
     }
 
     public static class ThunderBoltAreaAttack extends Goal {
-        private final KetExperiment009BossEntity boss;
+        private final Experiment009BossEntity boss;
         private final List<LivingEntity> targets = new ArrayList<>();
         private int tickDelay = -1;
         private int thunderIndex = 0;
 
-        public ThunderBoltAreaAttack(KetExperiment009BossEntity boss) {
+        public ThunderBoltAreaAttack(Experiment009BossEntity boss) {
             this.boss = boss;
         }
 

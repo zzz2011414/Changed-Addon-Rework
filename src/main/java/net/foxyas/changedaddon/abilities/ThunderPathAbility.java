@@ -63,7 +63,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
             this.MaxThunderIndex = (int) ReachAmount(entity);
             Player player = (Player) entity.getEntity();
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-            return player.getFoodData().getFoodLevel() >= 10 && (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) && !Spectator(entity.getEntity());
+            return player.getFoodData().getFoodLevel() >= 10 && (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) && !Spectator(entity.getEntity());
         }
 
         public static boolean Spectator(Entity entity) {
@@ -80,7 +80,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
         public float ReachAmount(IAbstractChangedEntity entity) {
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-            if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
+            if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
                 return 15;
             }
             return 10;
@@ -88,7 +88,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
         public int MaxAmount(IAbstractChangedEntity entity) {
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-            if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
+            if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
                 return 8;
             }
             return 5;
@@ -179,7 +179,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
     @Override
     public int getChargeTime(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
+        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
             return 15;
         }
         return 20;
@@ -188,7 +188,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
     @Override
     public int getCoolDown(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
+        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
             return 30;
         }
         return 45;
@@ -197,7 +197,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
     public float ReachAmount(IAbstractChangedEntity entity) {
         TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get()) {
+        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
             return 8;
         }
         return 5;

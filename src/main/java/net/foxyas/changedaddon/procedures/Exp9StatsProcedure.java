@@ -40,6 +40,6 @@ public class Exp9StatsProcedure {
     }
 
     private static boolean hasKetExperiment009Form(Entity entity) {
-        return entity instanceof Player player && ProcessTransfur.getPlayerTransfurVariant(player) != null && ProcessTransfur.getPlayerTransfurVariant(player).getFormId().toString().startsWith("changed_addon:form_ket_experiment009");
+        return entity instanceof Player player && ProcessTransfur.getPlayerTransfurVariant(player) != null && ProcessTransfur.getPlayerTransfurVariant(player).getFormId().toString().startsWith("changed_addon:form_experiment009");
     }
 }

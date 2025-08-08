@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "changed_addon:experiment_009dna",
+          "name": "changed_addon:experiment_009_dna",
           "weight": 1,
           "functions": [
             {

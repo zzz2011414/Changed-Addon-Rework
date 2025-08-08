@@ -394,7 +394,7 @@ public class AbstractLuminarCrystal {
                         return;
                     }
                     if (livingEntity instanceof Player player && ProcessTransfur.getPlayerTransfurVariant(player) != null) {
-                        Stream<TransfurVariant<?>> variantStream = Stream.of(ChangedAddonTransfurVariants.LUMINARCTIC_LEOPARD.get(), ChangedAddonTransfurVariants.FEMALE_LUMINARCTIC_LEOPARD.get());
+                        Stream<TransfurVariant<?>> variantStream = Stream.of(ChangedAddonTransfurVariants.LUMINARCTIC_LEOPARD_MALE.get(), ChangedAddonTransfurVariants.LUMINARCTIC_LEOPARD_FEMALE.get());
                         if (variantStream.anyMatch((variant -> variant.is(ProcessTransfur.getPlayerTransfurVariant(player).getParent())))) {
                             return;
                         }
@@ -523,8 +523,8 @@ public class AbstractLuminarCrystal {
                 } else {
                     // Spawna novo leopardo
                     var leopardType = level.random.nextBoolean()
-                            ? ChangedAddonEntities.FEMALE_LUMINARCTIC_LEOPARD.get()
-                            : ChangedAddonEntities.LUMINARCTIC_LEOPARD.get();
+                            ? ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE.get()
+                            : ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE.get();
 
                     AbstractLuminarcticLeopard newLeopard = leopardType.create(serverLevel);
                     if (newLeopard != null) {

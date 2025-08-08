@@ -2,8 +2,8 @@ package net.foxyas.changedaddon.procedures;
 
 import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
 import net.foxyas.changedaddon.entity.bosses.Experiment10Entity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009Entity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -33,7 +33,7 @@ public class Phase2EntitysHandleProcedure {
         float maxHealth = livingEntity.getMaxHealth();
 
         // ======== KetExperiment009BossEntity ============ \\
-        if (entity instanceof KetExperiment009BossEntity boss) {
+        if (entity instanceof Experiment009BossEntity boss) {
             if (boss.isPhase2()) {
                 float healthAfterDamage = currentHealth - damage;
                 float ratio = boss.computeHealthRatio();
@@ -63,7 +63,7 @@ public class Phase2EntitysHandleProcedure {
             }
 
             // ======== KetExperiment009Entity ============ \\
-        } else if (entity instanceof KetExperiment009Entity ket) {
+        } else if (entity instanceof Experiment009Entity ket) {
             if (!ket.isPhase2() && ket.getUnderlyingPlayer() == null && currentHealth - damage <= maxHealth * 0.8f) {
                 ket.setPhase2(true);
                 ket.SpawnThunderBolt(ket.position());

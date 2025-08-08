@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.abilities;
 
-import net.foxyas.changedaddon.entity.advanced.DazedEntity;
+import net.foxyas.changedaddon.entity.advanced.DazedLatexEntity;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.ability.SimpleAbility;
@@ -36,9 +36,9 @@ public class DazedPuddleAbility extends SimpleAbility {
     }
     @Override
     public void startUsing(IAbstractChangedEntity entity) {
-        if (entity.getChangedEntity() instanceof DazedEntity dazedEntity) {
+        if (entity.getChangedEntity() instanceof DazedLatexEntity dazedLatexEntity) {
             entity.getEntity().playSound(ChangedSounds.POISON, 1, 1);
-            dazedEntity.setMorphed(true);
+            dazedLatexEntity.setMorphed(true);
         }
     }
 
@@ -75,8 +75,8 @@ public class DazedPuddleAbility extends SimpleAbility {
 
     @Override
     public void stopUsing(IAbstractChangedEntity entity) {
-        if (entity.getChangedEntity() instanceof DazedEntity dazedEntity) {
-            dazedEntity.setMorphed(false);
+        if (entity.getChangedEntity() instanceof DazedLatexEntity dazedLatexEntity) {
+            dazedLatexEntity.setMorphed(false);
         }
         if (entity.getEntity() instanceof Player player){
             if (player.getAttribute(ForgeMod.REACH_DISTANCE.get()) != null

@@ -2,10 +2,9 @@ package net.foxyas.changedaddon.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.client.model.LuminarcticLeopardModel;
-import net.foxyas.changedaddon.entity.bosses.FemaleLuminarcticLeopardEntity;
-import net.foxyas.changedaddon.entity.bosses.LuminarcticLeopardEntity;
+import net.foxyas.changedaddon.entity.bosses.LuminarcticLeopardFemaleEntity;
+import net.foxyas.changedaddon.entity.bosses.LuminarcticLeopardMaleEntity;
 import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.ltxprogrammer.changed.ability.HypnosisAbility;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
@@ -25,7 +24,7 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<LuminarcticLeopardEntity, LuminarcticLeopardModel, ArmorLatexMaleCatModel<LuminarcticLeopardEntity>> {
+public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<LuminarcticLeopardMaleEntity, LuminarcticLeopardModel, ArmorLatexMaleCatModel<LuminarcticLeopardMaleEntity>> {
     public LuminarcticLeopardRenderer(EntityRendererProvider.Context context) {
         super(context, new LuminarcticLeopardModel(context.bakeLayer(LuminarcticLeopardModel.LAYER_LOCATION)),
                 ArmorLatexMaleCatModel.MODEL_SET, 0.5f);
@@ -56,7 +55,7 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
     }
 
     @Override
-    public void render(LuminarcticLeopardEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(LuminarcticLeopardMaleEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         /*float dodgeTicks = entity.getDodgeAnimTicks();
         float dodgeProgress = Math.abs(dodgeTicks) / (float) entity.DodgeAnimMaxTicks;
 
@@ -86,7 +85,7 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
 
 
     @Override
-    public ResourceLocation getTextureLocation(LuminarcticLeopardEntity entity) {
+    public ResourceLocation getTextureLocation(LuminarcticLeopardMaleEntity entity) {
         if (entity.getUnderlyingPlayer() != null) {
             return new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/male/luminarctic_leopard_no_eyes.png");
         }
@@ -174,12 +173,12 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
                         if (instance.getController().getHoldTicks() > 0) {
                             super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
                         }
-                    } else if (entity instanceof FemaleLuminarcticLeopardEntity LUMI && LUMI.isActivatedAbility()) {
+                    } else if (entity instanceof LuminarcticLeopardFemaleEntity LUMI && LUMI.isActivatedAbility()) {
                         super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
                     }
                 }
 
-                if (entity instanceof FemaleLuminarcticLeopardEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
+                if (entity instanceof LuminarcticLeopardFemaleEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
                     super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
                 }
             }
@@ -195,7 +194,7 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
                 if (entity.getUnderlyingPlayer() != null) {
                     return;
                 }
-                if (entity instanceof LuminarcticLeopardEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
+                if (entity instanceof LuminarcticLeopardMaleEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
                     super.render(poseStack, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                 }
             }
@@ -220,7 +219,7 @@ public class LuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<Luminar
                         if (instance.getController().getHoldTicks() > 0) {
                             this.customGlowEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                         }
-                    } else if (entity instanceof LuminarcticLeopardEntity LUMI && LUMI.isActivatedAbility()) {
+                    } else if (entity instanceof LuminarcticLeopardMaleEntity LUMI && LUMI.isActivatedAbility()) {
                         this.customGlowEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                     } else {
                         customEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);

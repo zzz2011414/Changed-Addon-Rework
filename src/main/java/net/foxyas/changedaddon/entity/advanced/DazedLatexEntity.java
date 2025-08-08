@@ -47,19 +47,19 @@ import java.util.Set;
 import static net.ltxprogrammer.changed.entity.HairStyle.BALD;
 
 @Mod.EventBusSubscriber
-public class DazedEntity extends ChangedEntity {
+public class DazedLatexEntity extends ChangedEntity {
 
     // Definindo a chave de sincronização no seu código
-    private static final EntityDataAccessor<Boolean> DATA_PUDDLE_ID = SynchedEntityData.defineId(DazedEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_PUDDLE_ID = SynchedEntityData.defineId(DazedLatexEntity.class, EntityDataSerializers.BOOLEAN);
     private static final Set<ResourceLocation> SPAWN_BIOMES = Set.of(new ResourceLocation("plains"));
     public static UseItemMode PuddleForm = UseItemMode.create("PuddleForm", false, false, false, true, false);
     public boolean Morphed = false;
 
-    public DazedEntity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.DAZED.get(), world);
+    public DazedLatexEntity(PlayMessages.SpawnEntity packet, Level world) {
+        this(ChangedAddonEntities.DAZED_LATEX.get(), world);
     }
 
-    public DazedEntity(EntityType<DazedEntity> type, Level world) {
+    public DazedLatexEntity(EntityType<DazedLatexEntity> type, Level world) {
         super(type, world);
         xpReward = 0;
         this.setAttributes(this.getAttributes());
@@ -70,16 +70,16 @@ public class DazedEntity extends ChangedEntity {
     @SubscribeEvent
     public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
         if (SPAWN_BIOMES.contains(event.getName())) {
-            event.getSpawns().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ChangedAddonEntities.DAZED.get(), 125, 1, 4));
+            event.getSpawns().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ChangedAddonEntities.DAZED_LATEX.get(), 125, 1, 4));
         }
     }
 
     public static void init() {
         SpawnPlacements.register(
-                ChangedAddonEntities.DAZED.get(),
+                ChangedAddonEntities.DAZED_LATEX.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                DazedEntity::canSpawnNear
+                DazedLatexEntity::canSpawnNear
         );
     }
 
@@ -94,7 +94,7 @@ public class DazedEntity extends ChangedEntity {
         }
     }
 
-    private static boolean canSpawnNear(EntityType<DazedEntity> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random random) {
+    private static boolean canSpawnNear(EntityType<DazedLatexEntity> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random random) {
         if (world.getDifficulty() == Difficulty.PEACEFUL) {
             return false;
         }
@@ -283,11 +283,11 @@ public class DazedEntity extends ChangedEntity {
         this.goalSelector.addGoal(1, new RestrictSunGoal(this) {
             @Override
             public boolean canUse() {
-                double x = DazedEntity.this.getX();
-                double y = DazedEntity.this.getY();
-                double z = DazedEntity.this.getZ();
-                Entity entity = DazedEntity.this;
-                Level world = DazedEntity.this.level;
+                double x = DazedLatexEntity.this.getX();
+                double y = DazedLatexEntity.this.getY();
+                double z = DazedLatexEntity.this.getZ();
+                Entity entity = DazedLatexEntity.this;
+                Level world = DazedLatexEntity.this.level;
                 return super.canUse() && world.getGameRules().getBoolean(ChangedAddonGameRules.DO_DAZED_LATEX_BURN);
             }
         });

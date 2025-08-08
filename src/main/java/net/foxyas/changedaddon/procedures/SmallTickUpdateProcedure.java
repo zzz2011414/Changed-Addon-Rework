@@ -96,7 +96,7 @@ public class SmallTickUpdateProcedure {
             String formId = variant != null ? variant.getFormId().toString() : "";
 
             boolean isTransfurred = variant != null;
-            boolean isForm009Boss = formId.equals("changed_addon:form_ket_experiment009_boss");
+            boolean isForm009Boss = formId.equals("changed_addon:form_experiment009_boss");
             boolean isForm010Boss = formId.equals("changed_addon:form_experiment_10_boss");
 
             if (world.getLevelData().getGameRules().getBoolean(ChangedAddonGameRules.NEED_PERMISSION_FOR_BOSS_TRANSFUR)) {

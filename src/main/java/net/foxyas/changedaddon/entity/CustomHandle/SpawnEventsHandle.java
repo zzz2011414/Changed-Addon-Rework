@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.entity.customHandle;
 
 import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -41,7 +41,7 @@ public class SpawnEventsHandle {
                     level.playLocalSound(entity.blockPosition().getX(), entity.blockPosition().getY(), entity.blockPosition().getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1, 1, false);
                 }
             }
-        } else if (event.getEntity() instanceof KetExperiment009BossEntity entity) {
+        } else if (event.getEntity() instanceof Experiment009BossEntity entity) {
             if (destroyBlock(entity, level)) {
                 if (!level.isClientSide()) {
                     level.playSound(null, entity.blockPosition(), SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1, 1);

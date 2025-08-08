@@ -33,14 +33,14 @@ import java.util.Set;
 import static net.ltxprogrammer.changed.entity.HairStyle.BALD;
 
 @Mod.EventBusSubscriber
-public class LatexSnowFoxEntity extends ChangedEntity implements GenderedEntity, PowderSnowWalkable {
+public class LatexSnowFoxMaleEntity extends ChangedEntity implements GenderedEntity, PowderSnowWalkable {
     private static final Set<ResourceLocation> SPAWN_BIOMES = Set.of(new ResourceLocation("snowy_plains"), new ResourceLocation("snowy_taiga"), new ResourceLocation("snowy_beach"));
 
-    public LatexSnowFoxEntity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.LATEX_SNOW_FOX.get(), world);
+    public LatexSnowFoxMaleEntity(PlayMessages.SpawnEntity packet, Level world) {
+        this(ChangedAddonEntities.LATEX_SNOW_FOX_MALE.get(), world);
     }
 
-    public LatexSnowFoxEntity(EntityType<LatexSnowFoxEntity> type, Level world) {
+    public LatexSnowFoxMaleEntity(EntityType<LatexSnowFoxMaleEntity> type, Level world) {
         super(type, world);
         xpReward = 5;
         this.setAttributes(this.getAttributes());
@@ -50,11 +50,11 @@ public class LatexSnowFoxEntity extends ChangedEntity implements GenderedEntity,
     @SubscribeEvent
     public static void addLivingEntityToBiomes(BiomeLoadingEvent event) {
         if (SPAWN_BIOMES.contains(event.getName()))
-            event.getSpawns().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ChangedAddonEntities.LATEX_SNOW_FOX.get(), 20, 1, 4));
+            event.getSpawns().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ChangedAddonEntities.LATEX_SNOW_FOX_MALE.get(), 20, 1, 4));
     }
 
     public static void init() {
-        SpawnPlacements.register(ChangedAddonEntities.LATEX_SNOW_FOX.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+        SpawnPlacements.register(ChangedAddonEntities.LATEX_SNOW_FOX_MALE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
     }
 

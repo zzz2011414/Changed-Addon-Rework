@@ -29,7 +29,7 @@ public class IgnoreDMGStatsProcedure {
         if (entity instanceof Player player) {
             TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
             if (instance != null) {
-                if (instance.getFormId().toString().startsWith("changed_addon:form_ket_experiment009")) {
+                if (instance.getFormId().toString().startsWith("changed_addon:form_experiment009")) {
                     if ((damagesource).getMsgId().equals(DamageSource.LIGHTNING_BOLT.getMsgId())) {
                         if (event != null && event.isCancelable()) {
                             event.setCanceled(true);

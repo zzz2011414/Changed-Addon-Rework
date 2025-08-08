@@ -37,14 +37,14 @@ public class ChangedAddonEntities {
     //PlaceHolder
     public static List<EntityType<?>> getAddonHumanoidChangedEntities() {
         final List<EntityType<?>> ADDON_CHANGED_ENTITIES = new ArrayList<>();
-        ADDON_CHANGED_ENTITIES.add(LATEX_SNOW_FOX.get());
+        ADDON_CHANGED_ENTITIES.add(LATEX_SNOW_FOX_MALE.get());
         ADDON_CHANGED_ENTITIES.add(LATEX_SNOW_FOX_FEMALE.get());
-        ADDON_CHANGED_ENTITIES.add(DAZED.get());
+        ADDON_CHANGED_ENTITIES.add(DAZED_LATEX.get());
         ADDON_CHANGED_ENTITIES.add(PURO_KIND.get());
         ADDON_CHANGED_ENTITIES.add(PURO_KIND_FEMALE.get());
         ADDON_CHANGED_ENTITIES.add(BUNY.get());
         ADDON_CHANGED_ENTITIES.add(SNOW_LEOPARD_FEMALE_ORGANIC.get());
-        ADDON_CHANGED_ENTITIES.add(KET_EXPERIMENT_009.get());
+        ADDON_CHANGED_ENTITIES.add(EXPERIMENT_009.get());
         ADDON_CHANGED_ENTITIES.add(MIRROR_WHITE_TIGER.get());
         ADDON_CHANGED_ENTITIES.add(SNOW_LEOPARD_MALE_ORGANIC.get());
         ADDON_CHANGED_ENTITIES.add(EXPERIMENT_10.get());
@@ -53,12 +53,12 @@ public class ChangedAddonEntities {
         ADDON_CHANGED_ENTITIES.add(WOLFY.get());
         ADDON_CHANGED_ENTITIES.add(EXP_6.get());
         ADDON_CHANGED_ENTITIES.add(REYN.get());
-        ADDON_CHANGED_ENTITIES.add(KET_EXPERIMENT_009_BOSS.get());
+        ADDON_CHANGED_ENTITIES.add(EXPERIMENT_009_BOSS.get());
         ADDON_CHANGED_ENTITIES.add(EXPERIMENT_10_BOSS.get());
         ADDON_CHANGED_ENTITIES.add(EXP_1_MALE.get());
         ADDON_CHANGED_ENTITIES.add(EXP_1_FEMALE.get());
-        ADDON_CHANGED_ENTITIES.add(LUMINARCTIC_LEOPARD.get());
-        ADDON_CHANGED_ENTITIES.add(FEMALE_LUMINARCTIC_LEOPARD.get());
+        ADDON_CHANGED_ENTITIES.add(LUMINARCTIC_LEOPARD_MALE.get());
+        ADDON_CHANGED_ENTITIES.add(LUMINARCTIC_LEOPARD_FEMALE.get());
         ADDON_CHANGED_ENTITIES.add(LATEX_SQUID_TIGER_SHARK.get());
         ADDON_CHANGED_ENTITIES.add(LYNX.get());
         ADDON_CHANGED_ENTITIES.add(FOXTA_FOXY.get());
@@ -95,250 +95,394 @@ public class ChangedAddonEntities {
             .setCustomClientFactory(LuminarCrystalSpearEntity::new).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(1).sized(0.5f, 0.5f));
 
     // --- CHANGED ENTITIES ---
-    public static final RegistryObject<EntityType<LatexSnowFoxEntity>> LATEX_SNOW_FOX = registerChangedEntity("latex_snow_fox",
-            EntityType.Builder.<LatexSnowFoxEntity>of(LatexSnowFoxEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(LatexSnowFoxEntity::new)
-
+    public static final RegistryObject<EntityType<LatexSnowFoxMaleEntity>> LATEX_SNOW_FOX_MALE = registerChangedEntity("latex_snow_fox_male",
+            EntityType.Builder.<LatexSnowFoxMaleEntity>of(LatexSnowFoxMaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(LatexSnowFoxMaleEntity::new)
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<LatexSnowFoxFemaleEntity>> LATEX_SNOW_FOX_FEMALE = registerChangedEntity("latex_snow_fox_female",
-            EntityType.Builder.<LatexSnowFoxFemaleEntity>of(LatexSnowFoxFemaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(LatexSnowFoxFemaleEntity::new)
-
+            EntityType.Builder.<LatexSnowFoxFemaleEntity>of(LatexSnowFoxFemaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(LatexSnowFoxFemaleEntity::new)
                     .sized(0.7f, 1.93f));
 
-    public static final RegistryObject<EntityType<DazedEntity>> DAZED = registerChangedEntity("dazed",
-            EntityType.Builder.<DazedEntity>of(DazedEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(DazedEntity::new)
-
+    public static final RegistryObject<EntityType<DazedLatexEntity>> DAZED_LATEX = registerChangedEntity("latex_dazed",
+            EntityType.Builder.<DazedLatexEntity>of(DazedLatexEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(DazedLatexEntity::new)
                     .sized(0.7f, 1.93f));
-    public static final RegistryObject<EntityType<PuroKindEntity>> PURO_KIND = registerChangedEntity("puro_kind",
-            EntityType.Builder.<PuroKindEntity>of(PuroKindEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(PuroKindEntity::new)
 
+    public static final RegistryObject<EntityType<PuroKindMaleEntity>> PURO_KIND = registerChangedEntity("puro_kind_male",
+            EntityType.Builder.<PuroKindMaleEntity>of(PuroKindMaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(PuroKindMaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<PuroKindFemaleEntity>> PURO_KIND_FEMALE = registerChangedEntity("puro_kind_female",
-            EntityType.Builder.<PuroKindFemaleEntity>of(PuroKindFemaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(PuroKindFemaleEntity::new)
-
+            EntityType.Builder.<PuroKindFemaleEntity>of(PuroKindFemaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(PuroKindFemaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<BunyEntity>> BUNY = registerChangedEntity("buny",
-            EntityType.Builder.<BunyEntity>of(BunyEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(BunyEntity::new)
-
+            EntityType.Builder.<BunyEntity>of(BunyEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(BunyEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<SnowLeopardFemaleOrganicEntity>> SNOW_LEOPARD_FEMALE_ORGANIC = registerChangedEntity("snow_leopard_female_organic",
-            EntityType.Builder.<SnowLeopardFemaleOrganicEntity>of(SnowLeopardFemaleOrganicEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3)
+            EntityType.Builder.<SnowLeopardFemaleOrganicEntity>of(SnowLeopardFemaleOrganicEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(SnowLeopardFemaleOrganicEntity::new)
-
                     .sized(0.7f, 1.93f));
-    public static final RegistryObject<EntityType<KetExperiment009Entity>> KET_EXPERIMENT_009 = registerChangedEntity("ket_experiment_009", EntityType.Builder.<KetExperiment009Entity>of(KetExperiment009Entity::new, MobCategory.MONSTER)
-            .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(KetExperiment009Entity::new).fireImmune().sized(0.7f, 1.93f));
+
+
     public static final RegistryObject<EntityType<MirrorWhiteTigerEntity>> MIRROR_WHITE_TIGER = registerChangedEntity("mirror_white_tiger",
-            EntityType.Builder.<MirrorWhiteTigerEntity>of(MirrorWhiteTigerEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(MirrorWhiteTigerEntity::new)
-
+            EntityType.Builder.<MirrorWhiteTigerEntity>of(MirrorWhiteTigerEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(MirrorWhiteTigerEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<SnowLeopardMaleOrganicEntity>> SNOW_LEOPARD_MALE_ORGANIC = registerChangedEntity("snow_leopard_male_organic",
-            EntityType.Builder.<SnowLeopardMaleOrganicEntity>of(SnowLeopardMaleOrganicEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3)
+            EntityType.Builder.<SnowLeopardMaleOrganicEntity>of(SnowLeopardMaleOrganicEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(SnowLeopardMaleOrganicEntity::new)
-
                     .sized(0.7f, 1.93f));
-    public static final RegistryObject<EntityType<Experiment10Entity>> EXPERIMENT_10 = registerChangedEntity("experiment_10",
-            EntityType.Builder.<Experiment10Entity>of(Experiment10Entity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Experiment10Entity::new)
 
-                    .sized(0.7f, 1.93f));
     public static final RegistryObject<EntityType<Exp2MaleEntity>> EXP_2_MALE = registerChangedEntity("exp_2_male",
-            EntityType.Builder.<Exp2MaleEntity>of(Exp2MaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exp2MaleEntity::new)
-
+            EntityType.Builder.<Exp2MaleEntity>of(Exp2MaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Exp2MaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<Exp2FemaleEntity>> EXP_2_FEMALE = registerChangedEntity("exp_2_female",
-            EntityType.Builder.<Exp2FemaleEntity>of(Exp2FemaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exp2FemaleEntity::new)
-
+            EntityType.Builder.<Exp2FemaleEntity>of(Exp2FemaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Exp2FemaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<WolfyEntity>> WOLFY = registerChangedEntity("wolfy",
-            EntityType.Builder.<WolfyEntity>of(WolfyEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(WolfyEntity::new).fireImmune().sized(0.7f, 1.93f));
+            EntityType.Builder.<WolfyEntity>of(WolfyEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(WolfyEntity::new)
+                    .fireImmune()
+                    .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<Exp6Entity>> EXP_6 = registerChangedEntity("exp_6",
-            EntityType.Builder.<Exp6Entity>of(Exp6Entity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exp6Entity::new)
-
+            EntityType.Builder.<Exp6Entity>of(Exp6Entity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Exp6Entity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<ReynEntity>> REYN = registerChangedEntity("reyn",
-            EntityType.Builder.<ReynEntity>of(ReynEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(ReynEntity::new)
-
+            EntityType.Builder.<ReynEntity>of(ReynEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(ReynEntity::new)
                     .sized(0.7f, 1.93f));
-    public static final RegistryObject<EntityType<KetExperiment009BossEntity>> KET_EXPERIMENT_009_BOSS = registerChangedEntity("ket_experiment_009_boss", EntityType.Builder.<KetExperiment009BossEntity>of(KetExperiment009BossEntity::new, MobCategory.MONSTER)
-            .setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(KetExperiment009BossEntity::new).fireImmune().sized(0.7f, 1.93f));
+
+    public static final RegistryObject<EntityType<Experiment009Entity>> EXPERIMENT_009 = registerChangedEntity("experiment_009", EntityType.Builder.<Experiment009Entity>of(Experiment009Entity::new, MobCategory.MONSTER)
+            .setShouldReceiveVelocityUpdates(true)
+            .setTrackingRange(64)
+            .setUpdateInterval(3)
+            .setCustomClientFactory(Experiment009Entity::new)
+            .fireImmune()
+            .sized(0.7f, 1.93f));
+
+    public static final RegistryObject<EntityType<Experiment009BossEntity>> EXPERIMENT_009_BOSS = registerChangedEntity("experiment_009_boss",
+            EntityType.Builder.<Experiment009BossEntity>of(Experiment009BossEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Experiment009BossEntity::new)
+                    .fireImmune()
+                    .sized(0.7f, 1.93f));
+
+    public static final RegistryObject<EntityType<Experiment10Entity>> EXPERIMENT_10 = registerChangedEntity("experiment_10",
+            EntityType.Builder.<Experiment10Entity>of(Experiment10Entity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Experiment10Entity::new)
+                    .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<Experiment10BossEntity>> EXPERIMENT_10_BOSS = registerChangedEntity("experiment_10_boss",
-            EntityType.Builder.<Experiment10BossEntity>of(Experiment10BossEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Experiment10BossEntity::new)
-
+            EntityType.Builder.<Experiment10BossEntity>of(Experiment10BossEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Experiment10BossEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<Exp1MaleEntity>> EXP_1_MALE = registerChangedEntity("exp_1_male",
-            EntityType.Builder.<Exp1MaleEntity>of(Exp1MaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exp1MaleEntity::new)
-
+            EntityType.Builder.<Exp1MaleEntity>of(Exp1MaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Exp1MaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<Exp1FemaleEntity>> EXP_1_FEMALE = registerChangedEntity("exp_1_female",
-            EntityType.Builder.<Exp1FemaleEntity>of(Exp1FemaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(Exp1FemaleEntity::new)
-
+            EntityType.Builder.<Exp1FemaleEntity>of(Exp1FemaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Exp1FemaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<LatexSnepEntity>> LATEX_SNEP = registerChangedEntity("latex_snep",
-            EntityType.Builder.<LatexSnepEntity>of(LatexSnepEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(LatexSnepEntity::new)
-
+            EntityType.Builder.<LatexSnepEntity>of(LatexSnepEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(LatexSnepEntity::new)
                     .sized(0.6f, 0.7f));
-    public static final RegistryObject<EntityType<LuminarcticLeopardEntity>> LUMINARCTIC_LEOPARD = registerChangedEntity("luminarctic_leopard",
-            EntityType.Builder.<LuminarcticLeopardEntity>of(LuminarcticLeopardEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(LuminarcticLeopardEntity::new)
 
+    public static final RegistryObject<EntityType<LuminarcticLeopardMaleEntity>> LUMINARCTIC_LEOPARD_MALE = registerChangedEntity("luminarctic_leopard_male",
+            EntityType.Builder.<LuminarcticLeopardMaleEntity>of(LuminarcticLeopardMaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(LuminarcticLeopardMaleEntity::new)
                     .sized(0.7f, 1.93f));
-    public static final RegistryObject<EntityType<FemaleLuminarcticLeopardEntity>> FEMALE_LUMINARCTIC_LEOPARD = registerChangedEntity("female_luminarctic_leopard",
-            EntityType.Builder.<FemaleLuminarcticLeopardEntity>of(FemaleLuminarcticLeopardEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3)
-                    .setCustomClientFactory(FemaleLuminarcticLeopardEntity::new)
 
+    public static final RegistryObject<EntityType<LuminarcticLeopardFemaleEntity>> LUMINARCTIC_LEOPARD_FEMALE = registerChangedEntity("luminarctic_leopard_female",
+            EntityType.Builder.<LuminarcticLeopardFemaleEntity>of(LuminarcticLeopardFemaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(LuminarcticLeopardFemaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<LatexSquidTigerSharkEntity>> LATEX_SQUID_TIGER_SHARK = registerChangedEntity("latex_squid_tiger_shark",
-            EntityType.Builder.<LatexSquidTigerSharkEntity>of(LatexSquidTigerSharkEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3)
+            EntityType.Builder.<LatexSquidTigerSharkEntity>of(LatexSquidTigerSharkEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(LatexSquidTigerSharkEntity::new)
-
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<LynxEntity>> LYNX = registerChangedEntity("lynx",
-            EntityType.Builder.<LynxEntity>of(LynxEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(LynxEntity::new)
-
+            EntityType.Builder.<LynxEntity>of(LynxEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(LynxEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<FoxtaFoxyEntity>> FOXTA_FOXY = registerChangedEntity("foxta_foxy",
-            EntityType.Builder.<FoxtaFoxyEntity>of(FoxtaFoxyEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(FoxtaFoxyEntity::new)
-
+            EntityType.Builder.<FoxtaFoxyEntity>of(FoxtaFoxyEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(FoxtaFoxyEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<SnepsiLeopardEntity>> SNEPSI_LEOPARD = registerChangedEntity("snepsi_leopard",
-            EntityType.Builder.<SnepsiLeopardEntity>of(SnepsiLeopardEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(SnepsiLeopardEntity::new)
-
+            EntityType.Builder.<SnepsiLeopardEntity>of(SnepsiLeopardEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(SnepsiLeopardEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<BagelEntity>> BAGEL = registerChangedEntity("bagel",
-            EntityType.Builder.<BagelEntity>of(BagelEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(BagelEntity::new)
-
+            EntityType.Builder.<BagelEntity>of(BagelEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(BagelEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<LatexDragonSnowLeopardSharkEntity>> LATEX_DRAGON_SNOW_LEOPARD_SHARK = registerChangedEntity("latex_dragon_snow_leopard_shark",
-            EntityType.Builder.<LatexDragonSnowLeopardSharkEntity>of(LatexDragonSnowLeopardSharkEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3)
+            EntityType.Builder.<LatexDragonSnowLeopardSharkEntity>of(LatexDragonSnowLeopardSharkEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(LatexDragonSnowLeopardSharkEntity::new)
-
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<CrystalGasCatMaleEntity>> CRYSTAL_GAS_CAT_MALE = registerChangedEntity("crystal_gas_cat_male",
-            EntityType.Builder.<CrystalGasCatMaleEntity>of(CrystalGasCatMaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CrystalGasCatMaleEntity::new)
-
+            EntityType.Builder.<CrystalGasCatMaleEntity>of(CrystalGasCatMaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(CrystalGasCatMaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<CrystalGasCatFemaleEntity>> CRYSTAL_GAS_CAT_FEMALE = registerChangedEntity("crystal_gas_cat_female",
-            EntityType.Builder.<CrystalGasCatFemaleEntity>of(CrystalGasCatFemaleEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(CrystalGasCatFemaleEntity::new)
-
+            EntityType.Builder.<CrystalGasCatFemaleEntity>of(CrystalGasCatFemaleEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(CrystalGasCatFemaleEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<VoidFoxEntity>> VOID_FOX = registerChangedEntity("void_fox",
-            EntityType.Builder.<VoidFoxEntity>of(VoidFoxEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(VoidFoxEntity::new)
-
+            EntityType.Builder.<VoidFoxEntity>of(VoidFoxEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(VoidFoxEntity::new)
                     .sized(0.7f, 1.93f));
+
     public static final RegistryObject<EntityType<FengQIWolfEntity>> FENGQI_WOLF = registerChangedEntity("fengqi_wolf",
-            EntityType.Builder.<FengQIWolfEntity>of(FengQIWolfEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(FengQIWolfEntity::new)
-
+            EntityType.Builder.<FengQIWolfEntity>of(FengQIWolfEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(FengQIWolfEntity::new)
                     .sized(0.7f, 1.93f));
-    public static final RegistryObject<EntityType<HaydenFennecFoxEntity>> HAYDEN_FENNEC_FOX = registerChangedEntity("hayden_fennec_fox",
-            EntityType.Builder.<HaydenFennecFoxEntity>of(HaydenFennecFoxEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(HaydenFennecFoxEntity::new)
 
+    public static final RegistryObject<EntityType<HaydenFennecFoxEntity>> HAYDEN_FENNEC_FOX = registerChangedEntity("hayden_fennec_fox",
+            EntityType.Builder.<HaydenFennecFoxEntity>of(HaydenFennecFoxEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(HaydenFennecFoxEntity::new)
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<SnowLeopardPartialEntity>> SNOW_LEOPARD_PARTIAL = registerChangedEntity("latex_snow_leopard_partial",
             EntityType.Builder.<SnowLeopardPartialEntity>of(SnowLeopardPartialEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(SnowLeopardPartialEntity::new)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<BlueLizard>> BLUE_LIZARD = registerChangedEntity("blue_lizard",
             EntityType.Builder.<BlueLizard>of(BlueLizard::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(BlueLizard::new)
                     .clientTrackingRange(10)
-
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<AvaliEntity>> AVALI = registerChangedEntity("avali",
             EntityType.Builder.<AvaliEntity>of(AvaliEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(AvaliEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<LatexKitsuneMaleEntity>> LATEX_KITSUNE_MALE = registerChangedEntity("latex_kitsune_male",
             EntityType.Builder.<LatexKitsuneMaleEntity>of(LatexKitsuneMaleEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(LatexKitsuneMaleEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<LatexKitsuneFemaleEntity>> LATEX_KITSUNE_FEMALE = registerChangedEntity("latex_kitsune_female",
             EntityType.Builder.<LatexKitsuneFemaleEntity>of(LatexKitsuneFemaleEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(LatexKitsuneFemaleEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
 
     public static final RegistryObject<EntityType<LatexCalicoCatEntity>> LATEX_CALICO_CAT = registerChangedEntity("latex_calico_cat",
             EntityType.Builder.<LatexCalicoCatEntity>of(LatexCalicoCatEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(LatexCalicoCatEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<ProtogenEntity>> PROTOGEN = registerChangedEntity("protogen",
             EntityType.Builder.<ProtogenEntity>of(ProtogenEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(ProtogenEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<MongooseEntity>> MONGOOSE = registerChangedEntity("mongoose",
             EntityType.Builder.<MongooseEntity>of(MongooseEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(MongooseEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<BorealisMaleEntity>> BOREALIS_MALE = registerChangedEntity("borealis_male",
             EntityType.Builder.<BorealisMaleEntity>of(BorealisMaleEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(BorealisMaleEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<BorealisFemaleEntity>> BOREALIS_FEMALE = registerChangedEntity("borealis_female",
             EntityType.Builder.<BorealisFemaleEntity>of(BorealisFemaleEntity::new, ChangedMobCategories.CHANGED)
                     .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64).setUpdateInterval(3)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
                     .setCustomClientFactory(BorealisFemaleEntity::new)
                     .clientTrackingRange(10)
-
                     .sized(0.7f, 1.93f));
 
     // --- MONSTER/MOB ENTITIES ---
     public static final RegistryObject<EntityType<PrototypeEntity>> PROTOTYPE = registerMob("prototype",
-            EntityType.Builder.<PrototypeEntity>of(PrototypeEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(PrototypeEntity::new)
-
+            EntityType.Builder.<PrototypeEntity>of(PrototypeEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(PrototypeEntity::new)
                     .sized(0.7f, 1.93f));
 
     public static final RegistryObject<EntityType<FoxyasEntity>> FOXYAS = registerMob("foxyas",
-            EntityType.Builder.<FoxyasEntity>of(FoxyasEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(FoxyasEntity::new)
-
+            EntityType.Builder.<FoxyasEntity>of(FoxyasEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(FoxyasEntity::new)
                     .sized(0.7f, 1.9f));
 
     public static final RegistryObject<EntityType<ErikEntity>> ERIK = registerChangedEntity("erik",
-            EntityType.Builder.<ErikEntity>of(ErikEntity::new, MobCategory.MONSTER).setShouldReceiveVelocityUpdates(true).setTrackingRange(64).setUpdateInterval(3).setCustomClientFactory(ErikEntity::new)
-
+            EntityType.Builder.<ErikEntity>of(ErikEntity::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(ErikEntity::new)
                     .sized(0.6f, 1.8f));
 
 
@@ -359,14 +503,14 @@ public class ChangedAddonEntities {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(PROTOTYPE.get(), PrototypeEntity.createAttributes().build());
         event.put(FOXYAS.get(), FoxyasEntity.createAttributes().build());
-        event.put(LATEX_SNOW_FOX.get(), LatexSnowFoxEntity.createAttributes().build());
+        event.put(LATEX_SNOW_FOX_MALE.get(), LatexSnowFoxMaleEntity.createAttributes().build());
         event.put(LATEX_SNOW_FOX_FEMALE.get(), LatexSnowFoxFemaleEntity.createAttributes().build());
-        event.put(DAZED.get(), DazedEntity.createAttributes().build());
-        event.put(PURO_KIND.get(), PuroKindEntity.createAttributes().build());
+        event.put(DAZED_LATEX.get(), DazedLatexEntity.createAttributes().build());
+        event.put(PURO_KIND.get(), PuroKindMaleEntity.createAttributes().build());
         event.put(PURO_KIND_FEMALE.get(), PuroKindFemaleEntity.createAttributes().build());
         event.put(BUNY.get(), BunyEntity.createAttributes().build());
         event.put(SNOW_LEOPARD_FEMALE_ORGANIC.get(), SnowLeopardFemaleOrganicEntity.createAttributes().build());
-        event.put(KET_EXPERIMENT_009.get(), KetExperiment009Entity.createAttributes().build());
+        event.put(EXPERIMENT_009.get(), Experiment009Entity.createAttributes().build());
         event.put(MIRROR_WHITE_TIGER.get(), MirrorWhiteTigerEntity.createAttributes().build());
         event.put(SNOW_LEOPARD_MALE_ORGANIC.get(), SnowLeopardMaleOrganicEntity.createAttributes().build());
         event.put(EXPERIMENT_10.get(), Experiment10Entity.createAttributes().build());
@@ -376,13 +520,13 @@ public class ChangedAddonEntities {
         event.put(ERIK.get(), ErikEntity.createAttributes().build());
         event.put(EXP_6.get(), Exp6Entity.createAttributes().build());
         event.put(REYN.get(), ReynEntity.createAttributes().build());
-        event.put(KET_EXPERIMENT_009_BOSS.get(), KetExperiment009BossEntity.createAttributes().build());
+        event.put(EXPERIMENT_009_BOSS.get(), Experiment009BossEntity.createAttributes().build());
         event.put(EXPERIMENT_10_BOSS.get(), Experiment10BossEntity.createAttributes().build());
         event.put(EXP_1_MALE.get(), Exp1MaleEntity.createAttributes().build());
         event.put(EXP_1_FEMALE.get(), Exp1FemaleEntity.createAttributes().build());
         event.put(LATEX_SNEP.get(), LatexSnepEntity.createAttributes().build());
-        event.put(LUMINARCTIC_LEOPARD.get(), LuminarcticLeopardEntity.createAttributes().build());
-        event.put(FEMALE_LUMINARCTIC_LEOPARD.get(), FemaleLuminarcticLeopardEntity.createAttributes().build());
+        event.put(LUMINARCTIC_LEOPARD_MALE.get(), LuminarcticLeopardMaleEntity.createAttributes().build());
+        event.put(LUMINARCTIC_LEOPARD_FEMALE.get(), LuminarcticLeopardFemaleEntity.createAttributes().build());
         event.put(LATEX_SQUID_TIGER_SHARK.get(), LatexSquidTigerSharkEntity.createAttributes().build());
         event.put(LYNX.get(), LynxEntity.createAttributes().build());
         event.put(FOXTA_FOXY.get(), FoxtaFoxyEntity.createAttributes().build());
@@ -412,14 +556,14 @@ public class ChangedAddonEntities {
         event.enqueueWork(() -> {
             PrototypeEntity.init();
             FoxyasEntity.init();
-            LatexSnowFoxEntity.init();
+            LatexSnowFoxMaleEntity.init();
             LatexSnowFoxFemaleEntity.init();
-            DazedEntity.init();
-            PuroKindEntity.init();
+            DazedLatexEntity.init();
+            PuroKindMaleEntity.init();
             PuroKindFemaleEntity.init();
             BunyEntity.init();
             SnowLeopardFemaleOrganicEntity.init();
-            KetExperiment009Entity.init();
+            Experiment009Entity.init();
             MirrorWhiteTigerEntity.init();
             SnowLeopardMaleOrganicEntity.init();
             Experiment10Entity.init();
@@ -429,13 +573,13 @@ public class ChangedAddonEntities {
             ErikEntity.init();
             Exp6Entity.init();
             ReynEntity.init();
-            KetExperiment009BossEntity.init();
+            Experiment009BossEntity.init();
             Experiment10BossEntity.init();
             Exp1MaleEntity.init();
             Exp1FemaleEntity.init();
             LatexSnepEntity.init();
-            LuminarcticLeopardEntity.init();
-            FemaleLuminarcticLeopardEntity.init();
+            LuminarcticLeopardMaleEntity.init();
+            LuminarcticLeopardFemaleEntity.init();
             LatexSquidTigerSharkEntity.init();
             LynxEntity.init();
             FoxtaFoxyEntity.init();

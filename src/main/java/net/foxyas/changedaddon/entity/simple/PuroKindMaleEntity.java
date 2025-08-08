@@ -1,18 +1,19 @@
-package net.foxyas.changedaddon.entity.bosses;
+package net.foxyas.changedaddon.entity.simple;
 
-import net.foxyas.changedaddon.entity.customHandle.AttributesHandle;
-import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
-import net.ltxprogrammer.changed.entity.ChangedEntity;
-import net.ltxprogrammer.changed.entity.Gender;
-import net.ltxprogrammer.changed.entity.TransfurMode;
+import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.beast.AbstractDarkLatexWolf;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
+import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -22,20 +23,20 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 
-public class LuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
-
-    public LuminarcticLeopardEntity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.LUMINARCTIC_LEOPARD.get(), world);
+public class PuroKindMaleEntity extends AbstractDarkLatexWolf {
+    public PuroKindMaleEntity(PlayMessages.SpawnEntity packet, Level world) {
+        this(ChangedAddonEntities.PURO_KIND.get(), world);
     }
 
-    public LuminarcticLeopardEntity(EntityType<LuminarcticLeopardEntity> type, Level world) {
+    public PuroKindMaleEntity(EntityType<PuroKindMaleEntity> type, Level world) {
         super(type, world);
-        xpReward = XP_REWARD_HUGE;
+        xpReward = AbstractDarkLatexWolf.XP_REWARD_MEDIUM;
         this.setAttributes(this.getAttributes());
         setNoAi(false);
-        setPersistenceRequired();
     }
 
     public static void init() {
@@ -43,46 +44,25 @@ public class LuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = Mob.createMobAttributes();
-        builder.add(ChangedAttributes.TRANSFUR_DAMAGE.get(), 6);
-        builder = builder.add(Attributes.MOVEMENT_SPEED, 1.25f);
-        builder = builder.add(Attributes.MAX_HEALTH, 60F);
-        builder = builder.add(Attributes.ARMOR, 8F);
-        builder = builder.add(Attributes.ATTACK_DAMAGE, 8);
+        builder.add(ChangedAttributes.TRANSFUR_DAMAGE.get(), 0);
+        builder = builder.add(Attributes.MOVEMENT_SPEED, 0.3);
+        builder = builder.add(Attributes.MAX_HEALTH, 24);
+        builder = builder.add(Attributes.ARMOR, 0);
+        builder = builder.add(Attributes.ATTACK_DAMAGE, 3);
         builder = builder.add(Attributes.FOLLOW_RANGE, 16);
         return builder;
     }
 
     protected void setAttributes(AttributeMap attributes) {
-        //Attack stats
-        Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue((6));
-        attributes.getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(6.0f);
-        attributes.getInstance(Attributes.ATTACK_KNOCKBACK).setBaseValue(
-                AttributesHandle.DefaultPlayerAttributes().getBaseValue(Attributes.ATTACK_KNOCKBACK) + 1.5f
-        );
-
-        //Armor Stats
-        attributes.getInstance(Attributes.ARMOR).setBaseValue(8);
-        attributes.getInstance(Attributes.ARMOR_TOUGHNESS).setBaseValue(2);
+        Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue((3));
+        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue((24));
+        attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(25.0F);
+        attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.08f);
+        attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(1.0f);
+        attributes.getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(3.0f);
+        attributes.getInstance(Attributes.ARMOR).setBaseValue(0);
+        attributes.getInstance(Attributes.ARMOR_TOUGHNESS).setBaseValue(0);
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
-
-        //Health Stats
-        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue((60));
-        attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(128.0F);
-        attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.25f);
-        attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(1.05f);
-    }
-
-    @Override
-    public TransfurMode getTransfurMode() {
-        if (this.getTarget() != null && (this.getTarget().getHealth() / this.getTarget().getMaxHealth() * 100) <= 15) {
-            return TransfurMode.ABSORPTION;
-        }
-        return TransfurMode.NONE;
-    }
-
-    @Override
-    protected boolean targetSelectorTest(LivingEntity livingEntity) {
-        return this.isAggro();
     }
 
     @Override
@@ -91,8 +71,62 @@ public class LuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
     }
 
     @Override
+    public TransfurMode getTransfurMode() {
+        return TransfurMode.REPLICATION;
+    }
+
+	/*@Override
+	public LatexType getLatexType() {
+		return LatexType.DARK_LATEX;
+	}*/
+
+    @Override
+    public HairStyle getDefaultHairStyle() {
+        return HairStyle.BALD.get();
+    }
+
+    public @Nullable List<HairStyle> getValidHairStyles() {
+        return HairStyle.Collection.getAll();
+    }
+
+    @Override
+    public Color3 getHairColor(int layer) {
+        return Color3.DARK;
+    }
+
+    @Override
+    public Gender getGender() {
+        return Gender.MALE;
+    }
+
+    @Override
     protected void registerGoals() {
         super.registerGoals();
+		/*this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, false) {
+			@Override
+			protected double getAttackReachSqr(LivingEntity entity) {
+				return this.mob.getBbWidth() * this.mob.getBbWidth() + entity.getBbWidth();
+			}
+		});
+		this.goalSelector.addGoal(2, new RandomStrollGoal(this, 1));
+		this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
+		this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+		this.goalSelector.addGoal(5, new FloatGoal(this));*/
+
+    }
+
+    public Color3 getDripColor() {
+        Color3 color = Color3.getColor("#000000");
+        if (level.random.nextInt(10) > 5) {
+            color = Color3.getColor("#393939");
+        } else {
+            color = Color3.getColor("#303030");
+        }
+        return color;
+    }
+
+    public Color3 getTransfurColor(TransfurCause cause) {
+        return Color3.getColor("#303030");
     }
 
     @Override
@@ -139,17 +173,6 @@ public class LuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
     @Override
     public SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
-    }
-
-    @Override
-    public void baseTick() {
-        super.baseTick();
-        crawlingSystem(this, this.getTarget());
-    }
-
-    @Override
-    public Gender getGender() {
-        return Gender.MALE;
     }
 
 }

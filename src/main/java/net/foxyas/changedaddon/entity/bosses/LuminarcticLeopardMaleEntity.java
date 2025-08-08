@@ -24,13 +24,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
-public class FemaleLuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
+public class LuminarcticLeopardMaleEntity extends AbstractLuminarcticLeopard {
 
-    public FemaleLuminarcticLeopardEntity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.FEMALE_LUMINARCTIC_LEOPARD.get(), world);
+    public LuminarcticLeopardMaleEntity(PlayMessages.SpawnEntity packet, Level world) {
+        this(ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE.get(), world);
     }
 
-    public FemaleLuminarcticLeopardEntity(EntityType<FemaleLuminarcticLeopardEntity> type, Level world) {
+    public LuminarcticLeopardMaleEntity(EntityType<LuminarcticLeopardMaleEntity> type, Level world) {
         super(type, world);
         xpReward = XP_REWARD_HUGE;
         this.setAttributes(this.getAttributes());
@@ -149,6 +149,7 @@ public class FemaleLuminarcticLeopardEntity extends AbstractLuminarcticLeopard {
 
     @Override
     public Gender getGender() {
-        return Gender.FEMALE;
+        return Gender.MALE;
     }
+
 }

@@ -3,8 +3,8 @@ package net.foxyas.changedaddon.process.features;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
 import net.foxyas.changedaddon.entity.bosses.Experiment10Entity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009Entity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonCriteriaTriggers;
@@ -67,8 +67,8 @@ public class PatFeatureHandle {
 
         if (!(isPossibleToPat(player))) return;
 
-        if (targetEntity instanceof Experiment10Entity || targetEntity instanceof KetExperiment009Entity
-                || targetEntity instanceof Experiment10BossEntity || targetEntity instanceof KetExperiment009BossEntity) {
+        if (targetEntity instanceof Experiment10Entity || targetEntity instanceof Experiment009Entity
+                || targetEntity instanceof Experiment10BossEntity || targetEntity instanceof Experiment009BossEntity) {
             handleSpecialEntities(player, targetEntityResult);
         } else {
             if (targetEntity instanceof ChangedEntity) {

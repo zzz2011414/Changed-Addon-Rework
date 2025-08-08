@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.entity.simple.PuroKindEntity;
+import net.foxyas.changedaddon.entity.simple.PuroKindMaleEntity;
 import net.foxyas.changedaddon.entity.simple.PuroKindFemaleEntity;
 import net.foxyas.changedaddon.entity.simple.WolfyEntity;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
@@ -36,7 +36,7 @@ public class TamePuroKindProcedure {
             return;
         if (entity instanceof AbstractDarkLatexWolf Wolf) {
             String uuid = "";
-            if (entity instanceof PuroKindEntity || entity instanceof PuroKindFemaleEntity) {
+            if (entity instanceof PuroKindMaleEntity || entity instanceof PuroKindFemaleEntity) {
                 if (!Wolf.isTame()) {
                     if ((sourceentity instanceof LivingEntity _livEnt ? _livEnt.getMainHandItem() : ItemStack.EMPTY).getItem() == ForgeRegistries.ITEMS.getValue(new ResourceLocation("changed:orange"))) {
                         if (sourceentity instanceof Player _owner)

@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +30,7 @@ public class KillExperiment009ProcedureProcedure {
     private static void execute(@Nullable Event event, Entity entity, Entity sourceentity) {
         if (entity == null || sourceentity == null)
             return;
-        if (entity instanceof KetExperiment009BossEntity) {
+        if (entity instanceof Experiment009BossEntity) {
             if (sourceentity instanceof ServerPlayer _player) {
                 Advancement _adv = _player.server.getAdvancements().getAdvancement(new ResourceLocation("changed_addon:kill_experiment_009"));
                 AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);

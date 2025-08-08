@@ -7,7 +7,7 @@ package net.foxyas.changedaddon.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009Entity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class KetModel extends AdvancedHumanoidModel<KetExperiment009Entity> implements AdvancedHumanoidModelInterface<KetExperiment009Entity, KetModel> {
+public class KetModel extends AdvancedHumanoidModel<Experiment009Entity> implements AdvancedHumanoidModelInterface<Experiment009Entity, KetModel> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("changed_addon", "ket_exp_009"), "main");
 
@@ -33,7 +33,7 @@ public class KetModel extends AdvancedHumanoidModel<KetExperiment009Entity> impl
     private final ModelPart Head;
     private final ModelPart Torso;
     private final ModelPart Tail;
-    private final HumanoidAnimator<KetExperiment009Entity, KetModel> animator;
+    private final HumanoidAnimator<Experiment009Entity, KetModel> animator;
 
     public KetModel(ModelPart root) {
         super(root);
@@ -240,7 +240,7 @@ public class KetModel extends AdvancedHumanoidModel<KetExperiment009Entity> impl
     }
 
     @Override
-    public void prepareMobModel(KetExperiment009Entity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(Experiment009Entity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -251,13 +251,13 @@ public class KetModel extends AdvancedHumanoidModel<KetExperiment009Entity> impl
         return corrector;
     } */
     @Override
-    public void setupHand(KetExperiment009Entity entity) {
+    public void setupHand(Experiment009Entity entity) {
         animator.setupHand();
     }
 
 
     @Override
-    public void setupAnim(@NotNull KetExperiment009Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull Experiment009Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
@@ -290,7 +290,7 @@ public class KetModel extends AdvancedHumanoidModel<KetExperiment009Entity> impl
     }
 
     @Override
-    public HumanoidAnimator<KetExperiment009Entity, KetModel> getAnimator(KetExperiment009Entity entity) {
+    public HumanoidAnimator<Experiment009Entity, KetModel> getAnimator(Experiment009Entity entity) {
         return animator;
     }
 }

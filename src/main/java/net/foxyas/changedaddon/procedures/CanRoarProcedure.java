@@ -15,7 +15,7 @@ public class CanRoarProcedure {
                 String id = Res.toString();
                 return id.contains("lion")
                         || id.contains("tiger")
-                        || id.startsWith("changed_addon:form_ket_experiment009");
+                        || id.startsWith("changed_addon:form_experiment009");
             }
         }
         return false;

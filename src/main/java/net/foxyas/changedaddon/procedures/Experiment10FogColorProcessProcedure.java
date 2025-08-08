@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.procedures;
 
 import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -58,7 +58,7 @@ public class Experiment10FogColorProcessProcedure {
             if (isEntityNearby(world, pos, Experiment10BossEntity.class, 50)) {
                 setFogColor(viewport, COLOR_10);
             }
-            if (isEntityNearby(world, pos, KetExperiment009BossEntity.class, 50)) {
+            if (isEntityNearby(world, pos, Experiment009BossEntity.class, 50)) {
                 setFogColor(viewport, COLOR_009);
             }
         }

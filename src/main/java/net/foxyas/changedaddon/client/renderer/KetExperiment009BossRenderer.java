@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.client.model.KetBossModel;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.ltxprogrammer.changed.client.FormRenderHandler;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.CustomEyesLayer;
@@ -26,7 +26,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
 
-public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<KetExperiment009BossEntity, KetBossModel, ArmorLatexMaleWolfModel<KetExperiment009BossEntity>> {
+public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<Experiment009BossEntity, KetBossModel, ArmorLatexMaleWolfModel<Experiment009BossEntity>> {
     public KetExperiment009BossRenderer(EntityRendererProvider.Context context) {
         super(context, new KetBossModel(context.bakeLayer(KetBossModel.LAYER_LOCATION)),
                 ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);
@@ -38,12 +38,12 @@ public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<KetEx
     }
 
     @Override
-    public void render(@NotNull KetExperiment009BossEntity entity, float yRot, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
+    public void render(@NotNull Experiment009BossEntity entity, float yRot, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
         super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull KetExperiment009BossEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Experiment009BossEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/ket_texture.png");
     }
 
@@ -65,7 +65,7 @@ public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<KetEx
 
         @Override
         public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if (entity.getUnderlyingPlayer() == null && entity instanceof KetExperiment009BossEntity ketExperiment009 && ketExperiment009.isPhase2()) {
+            if (entity.getUnderlyingPlayer() == null && entity instanceof Experiment009BossEntity ketExperiment009 && ketExperiment009.isPhase2()) {
                 VertexConsumer vertexConsumer = bufferSource.getBuffer(this.renderType());
                 this.getParentModel().renderToBuffer(poseStack, vertexConsumer, 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             }
@@ -102,7 +102,7 @@ public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<KetEx
                 stack.popPose();
             }
 
-            if (entity.getUnderlyingPlayer() == null && entity instanceof KetExperiment009BossEntity ketExperiment009 && ketExperiment009.isPhase2()) {
+            if (entity.getUnderlyingPlayer() == null && entity instanceof Experiment009BossEntity ketExperiment009 && ketExperiment009.isPhase2()) {
                 stack.pushPose();
                 stack.scale(1.0002F, 1.0002F, 1.0002F);
                 EntityModel<T> var8 = this.getParentModel();

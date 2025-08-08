@@ -74,7 +74,7 @@ public record TransfurSoundsGuiButtonMessage(int buttonId) {
                 TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
                 if (tf == null) break;
 
-                if (tf.getFormId().toString().contains("changed_addon:form_ket_experiment009")) {
+                if (tf.getFormId().toString().contains("changed_addon:form_experiment009")) {
                     player.getLevel().playSound(null, player.position().x, player.position().y, player.position().z, ChangedSounds.MONSTER2, SoundSource.HOSTILE, 35, 0);
                 } else {
                     player.getLevel().playSound(null, player.position().x, player.position().y, player.position().z, ChangedSounds.MONSTER2, SoundSource.HOSTILE, 5, 1);

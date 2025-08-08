@@ -4,7 +4,7 @@ import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.configuration.ChangedAddonClientConfiguration;
 import net.foxyas.changedaddon.entity.customHandle.BossMusicTheme;
 import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
@@ -52,7 +52,7 @@ public class MusicPlayerProcedure {
         // Lista de entidades por tipo
         List<Experiment10BossEntity> exp10Entities = world.getEntitiesOfClass(Experiment10BossEntity.class, AABB.ofSize(new Vec3(x, y, z), 64, 64, 64), e -> true);
         List<AbstractLuminarcticLeopard> LumiEntities = world.getEntitiesOfClass(AbstractLuminarcticLeopard.class, AABB.ofSize(new Vec3(x, y, z), 64, 64, 64), e -> true);
-        List<KetExperiment009BossEntity> ketExp9Entities = world.getEntitiesOfClass(KetExperiment009BossEntity.class, AABB.ofSize(new Vec3(x, y, z), 64, 64, 64), e -> true);
+        List<Experiment009BossEntity> ketExp9Entities = world.getEntitiesOfClass(Experiment009BossEntity.class, AABB.ofSize(new Vec3(x, y, z), 64, 64, 64), e -> true);
 
         // Verificações de proximidade
         boolean exp10Close = !exp10Entities.isEmpty();
@@ -94,7 +94,7 @@ public class MusicPlayerProcedure {
                     }
                 }
 
-                if (ketExp9Entities.stream().anyMatch(KetExperiment009BossEntity::isDeadOrDying)) {
+                if (ketExp9Entities.stream().anyMatch(Experiment009BossEntity::isDeadOrDying)) {
                     soundManager.stop(ChangedAddonMod.resourceLoc("music.boss.exp9"), SoundSource.MUSIC);
                 }
             } else if (isExp009Phase2ThemePlaying) {

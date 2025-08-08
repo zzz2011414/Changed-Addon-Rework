@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 public class Exp009TransfurProcedure {
     public static void execute(Entity entity) {
         Player entity1 = (Player) entity;
-        ProcessTransfur.setPlayerTransfurVariant(entity1, ChangedAddonTransfurVariants.KET_EXPERIMENT_009.get(), TransfurCause.GRAB_REPLICATE);
+        ProcessTransfur.setPlayerTransfurVariant(entity1, ChangedAddonTransfurVariants.EXPERIMENT_009.get(), TransfurCause.GRAB_REPLICATE);
     }
 
     public static void exp10(Entity entity) {

@@ -2,7 +2,7 @@ package net.foxyas.changedaddon.client.renderer.advanced;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.client.model.DazedLatexModel;
-import net.foxyas.changedaddon.entity.advanced.DazedEntity;
+import net.foxyas.changedaddon.entity.advanced.DazedLatexEntity;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.CustomEyesLayer;
 import net.ltxprogrammer.changed.client.renderer.layers.GasMaskLayer;
@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class DazedRenderer extends AdvancedHumanoidRenderer<DazedEntity, DazedLatexModel, ArmorLatexMaleWolfModel<DazedEntity>> {
+public class DazedRenderer extends AdvancedHumanoidRenderer<DazedLatexEntity, DazedLatexModel, ArmorLatexMaleWolfModel<DazedLatexEntity>> {
 
     public DazedRenderer(EntityRendererProvider.Context context) {
         super(context, new DazedLatexModel(context.bakeLayer(DazedLatexModel.LAYER_LOCATION)),
@@ -41,7 +41,7 @@ public class DazedRenderer extends AdvancedHumanoidRenderer<DazedEntity, DazedLa
 
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull DazedEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull DazedLatexEntity entity) {
         if (entity.isMorphed()) {
             return new ResourceLocation("changed_addon:textures/entities/dazed_creature_puddle.png");
         }
@@ -60,8 +60,8 @@ public class DazedRenderer extends AdvancedHumanoidRenderer<DazedEntity, DazedLa
 
         @Override
         public void render(PoseStack pose, MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if (entity instanceof DazedEntity dazedEntity
-                    && !dazedEntity.isMorphed()) {
+            if (entity instanceof DazedLatexEntity dazedLatexEntity
+                    && !dazedLatexEntity.isMorphed()) {
                 customEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
             }
         }
@@ -87,8 +87,8 @@ public class DazedRenderer extends AdvancedHumanoidRenderer<DazedEntity, DazedLa
 
         @Override
         public void render(PoseStack pose, MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if (entity instanceof DazedEntity dazedEntity
-                    && !dazedEntity.isMorphed()) {
+            if (entity instanceof DazedLatexEntity dazedLatexEntity
+                    && !dazedLatexEntity.isMorphed()) {
                 transfurCapeLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                 gasMaskLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
                 latexParticlesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);

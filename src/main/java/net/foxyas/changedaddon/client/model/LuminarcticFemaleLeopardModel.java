@@ -2,7 +2,7 @@ package net.foxyas.changedaddon.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.foxyas.changedaddon.entity.bosses.FemaleLuminarcticLeopardEntity;
+import net.foxyas.changedaddon.entity.bosses.LuminarcticLeopardFemaleEntity;
 import net.ltxprogrammer.changed.client.animations.Limb;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleLuminarcticLeopardEntity> implements AdvancedHumanoidModelInterface<FemaleLuminarcticLeopardEntity, LuminarcticFemaleLeopardModel> {
+public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<LuminarcticLeopardFemaleEntity> implements AdvancedHumanoidModelInterface<LuminarcticLeopardFemaleEntity, LuminarcticFemaleLeopardModel> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("changed_addon", "luminarctic_female_leopard"), "main");
     private final ModelPart RightLeg;
@@ -33,7 +33,7 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
     private final ModelPart RightArmFur;
     private final ModelPart LeftArmFur;
     private final ModelPart Tail;
-    private final HumanoidAnimator<FemaleLuminarcticLeopardEntity, LuminarcticFemaleLeopardModel> animator;
+    private final HumanoidAnimator<LuminarcticLeopardFemaleEntity, LuminarcticFemaleLeopardModel> animator;
 
     //public float dodgeProgress = 0;
     //public float partialTicks = 0;
@@ -288,7 +288,7 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
     }
 
     @Override
-    public void prepareMobModel(FemaleLuminarcticLeopardEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(LuminarcticLeopardFemaleEntity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
 
         // Cabeça
@@ -349,13 +349,13 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
 
 
     @Override
-    public void setupHand(FemaleLuminarcticLeopardEntity entity) {
+    public void setupHand(LuminarcticLeopardFemaleEntity entity) {
         animator.setupHand();
     }
 
 
     @Override
-    public void setupAnim(@NotNull FemaleLuminarcticLeopardEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull LuminarcticLeopardFemaleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
@@ -519,7 +519,7 @@ public class LuminarcticFemaleLeopardModel extends AdvancedHumanoidModel<FemaleL
     }
 
     @Override
-    public HumanoidAnimator<FemaleLuminarcticLeopardEntity, LuminarcticFemaleLeopardModel> getAnimator(FemaleLuminarcticLeopardEntity entity) {
+    public HumanoidAnimator<LuminarcticLeopardFemaleEntity, LuminarcticFemaleLeopardModel> getAnimator(LuminarcticLeopardFemaleEntity entity) {
         return animator;
     }
 }

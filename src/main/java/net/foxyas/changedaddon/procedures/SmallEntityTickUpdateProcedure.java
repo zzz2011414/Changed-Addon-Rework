@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.entity.advanced.DazedEntity;
+import net.foxyas.changedaddon.entity.advanced.DazedLatexEntity;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.core.BlockPos;
@@ -29,7 +29,7 @@ public class SmallEntityTickUpdateProcedure {
         if (entity == null)
             return;
         if (world.getLevelData().getGameRules().getBoolean(ChangedAddonGameRules.DO_DAZED_LATEX_BURN)) {
-            if (entity instanceof DazedEntity livEnt) {
+            if (entity instanceof DazedLatexEntity livEnt) {
                 if (world.canSeeSkyFromBelowWater(new BlockPos(entity.getX(), entity.getY(), entity.getZ())) && world instanceof Level _lvl6 && _lvl6.isDay() && !entity.isInWaterRainOrBubble()) {
                     if (livEnt.getHealth() / livEnt.getMaxHealth() >= 0.4) {
                         if (livEnt.getItemBySlot(EquipmentSlot.HEAD).getItem() == Blocks.AIR.asItem()) {

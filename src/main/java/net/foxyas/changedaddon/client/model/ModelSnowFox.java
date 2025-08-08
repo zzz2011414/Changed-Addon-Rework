@@ -7,7 +7,7 @@ package net.foxyas.changedaddon.client.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.entity.simple.LatexSnowFoxEntity;
+import net.foxyas.changedaddon.entity.simple.LatexSnowFoxMaleEntity;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class ModelSnowFox extends AdvancedHumanoidModel<LatexSnowFoxEntity> implements AdvancedHumanoidModelInterface<LatexSnowFoxEntity, ModelSnowFox> {
+public class ModelSnowFox extends AdvancedHumanoidModel<LatexSnowFoxMaleEntity> implements AdvancedHumanoidModelInterface<LatexSnowFoxMaleEntity, ModelSnowFox> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("snow_fox"), "main");
 
@@ -32,7 +32,7 @@ public class ModelSnowFox extends AdvancedHumanoidModel<LatexSnowFoxEntity> impl
     private final ModelPart Head;
     private final ModelPart Torso;
     private final ModelPart Tail;
-    private final HumanoidAnimator<LatexSnowFoxEntity, ModelSnowFox> animator;
+    private final HumanoidAnimator<LatexSnowFoxMaleEntity, ModelSnowFox> animator;
 
     public ModelSnowFox(ModelPart root) {
         super(root);
@@ -146,7 +146,7 @@ public class ModelSnowFox extends AdvancedHumanoidModel<LatexSnowFoxEntity> impl
     }
 
     @Override
-    public void prepareMobModel(LatexSnowFoxEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(LatexSnowFoxMaleEntity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -158,13 +158,13 @@ public class ModelSnowFox extends AdvancedHumanoidModel<LatexSnowFoxEntity> impl
      }
   */
     @Override
-    public void setupHand(LatexSnowFoxEntity entity) {
+    public void setupHand(LatexSnowFoxMaleEntity entity) {
         animator.setupHand();
     }
 
 
     @Override
-    public void setupAnim(@NotNull LatexSnowFoxEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull LatexSnowFoxMaleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
@@ -196,7 +196,7 @@ public class ModelSnowFox extends AdvancedHumanoidModel<LatexSnowFoxEntity> impl
     }
 
     @Override
-    public HumanoidAnimator<LatexSnowFoxEntity, ModelSnowFox> getAnimator(LatexSnowFoxEntity entity) {
+    public HumanoidAnimator<LatexSnowFoxMaleEntity, ModelSnowFox> getAnimator(LatexSnowFoxMaleEntity entity) {
         return animator;
     }
 }

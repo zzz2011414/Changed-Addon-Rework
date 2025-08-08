@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.client.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.entity.bosses.KetExperiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class KetBossModel extends AdvancedHumanoidModel<KetExperiment009BossEntity> implements AdvancedHumanoidModelInterface<KetExperiment009BossEntity, KetBossModel> {
+public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity> implements AdvancedHumanoidModelInterface<Experiment009BossEntity, KetBossModel> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("ket_exp_009_boss"), "main");
 
@@ -28,7 +28,7 @@ public class KetBossModel extends AdvancedHumanoidModel<KetExperiment009BossEnti
     private final ModelPart Head;
     private final ModelPart Torso;
     private final ModelPart Tail;
-    private final HumanoidAnimator<KetExperiment009BossEntity, KetBossModel> animator;
+    private final HumanoidAnimator<Experiment009BossEntity, KetBossModel> animator;
 
     public KetBossModel(ModelPart root) {
         super(root);
@@ -234,7 +234,7 @@ public class KetBossModel extends AdvancedHumanoidModel<KetExperiment009BossEnti
     }
 
     @Override
-    public void prepareMobModel(KetExperiment009BossEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(Experiment009BossEntity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -245,13 +245,13 @@ public class KetBossModel extends AdvancedHumanoidModel<KetExperiment009BossEnti
         return corrector;
     } */
     @Override
-    public void setupHand(KetExperiment009BossEntity entity) {
+    public void setupHand(Experiment009BossEntity entity) {
         animator.setupHand();
     }
 
 
     @Override
-    public void setupAnim(@NotNull KetExperiment009BossEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull Experiment009BossEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
@@ -284,7 +284,7 @@ public class KetBossModel extends AdvancedHumanoidModel<KetExperiment009BossEnti
     }
 
     @Override
-    public HumanoidAnimator<KetExperiment009BossEntity, KetBossModel> getAnimator(KetExperiment009BossEntity entity) {
+    public HumanoidAnimator<Experiment009BossEntity, KetBossModel> getAnimator(Experiment009BossEntity entity) {
         return animator;
     }
 }

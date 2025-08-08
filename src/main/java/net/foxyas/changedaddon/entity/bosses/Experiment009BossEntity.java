@@ -64,22 +64,22 @@ import java.util.UUID;
 
 import static net.ltxprogrammer.changed.entity.HairStyle.BALD;
 
-public class KetExperiment009BossEntity extends ChangedEntity implements BossWithMusic, CustomPatReaction {
+public class Experiment009BossEntity extends ChangedEntity implements BossWithMusic, CustomPatReaction {
 
     private static final EntityDataAccessor<Boolean> PHASE2 =
-            SynchedEntityData.defineId(KetExperiment009BossEntity.class, EntityDataSerializers.BOOLEAN);
+            SynchedEntityData.defineId(Experiment009BossEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> PHASE3 =
-            SynchedEntityData.defineId(KetExperiment009BossEntity.class, EntityDataSerializers.BOOLEAN);
+            SynchedEntityData.defineId(Experiment009BossEntity.class, EntityDataSerializers.BOOLEAN);
     public final EntityDamageSource ThunderDmg = new EntityDamageSource(DamageSource.LIGHTNING_BOLT.getMsgId(), this);
     private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), ServerBossEvent.BossBarColor.BLUE, ServerBossEvent.BossBarOverlay.NOTCHED_6);
     private int AttackCoolDown;
     private boolean shouldBleed;
 
-    public KetExperiment009BossEntity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.KET_EXPERIMENT_009_BOSS.get(), world);
+    public Experiment009BossEntity(PlayMessages.SpawnEntity packet, Level world) {
+        this(ChangedAddonEntities.EXPERIMENT_009_BOSS.get(), world);
     }
 
-    public KetExperiment009BossEntity(EntityType<KetExperiment009BossEntity> type, Level world) {
+    public Experiment009BossEntity(EntityType<Experiment009BossEntity> type, Level world) {
         super(type, world);
         this.setAttributes(getAttributes());
         xpReward = 3000;
@@ -576,7 +576,7 @@ public class KetExperiment009BossEntity extends ChangedEntity implements BossWit
     }
 
 
-    public void setSpeed(KetExperiment009BossEntity entity) {
+    public void setSpeed(Experiment009BossEntity entity) {
         AttributeModifier speedModifier = new AttributeModifier(UUID.fromString("10-0-0-0-0"), "Speed", -0.4, AttributeModifier.Operation.MULTIPLY_BASE);
         if (entity.getPose() == Pose.SWIMMING) {
             if (!entity.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(speedModifier)) {

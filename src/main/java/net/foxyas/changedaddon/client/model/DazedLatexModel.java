@@ -7,7 +7,7 @@ package net.foxyas.changedaddon.client.model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.entity.advanced.DazedEntity;
+import net.foxyas.changedaddon.entity.advanced.DazedLatexEntity;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class DazedLatexModel extends AdvancedHumanoidModel<DazedEntity> implements AdvancedHumanoidModelInterface<DazedEntity, DazedLatexModel> {
+public class DazedLatexModel extends AdvancedHumanoidModel<DazedLatexEntity> implements AdvancedHumanoidModelInterface<DazedLatexEntity, DazedLatexModel> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("dazed_latex"), "main");
 
@@ -36,7 +36,7 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedEntity> implemen
     private final ModelPart Puddle;
     private final ModelPart Middle;
     private final ModelPart Top;
-    private final HumanoidAnimator<DazedEntity, DazedLatexModel> animator;
+    private final HumanoidAnimator<DazedLatexEntity, DazedLatexModel> animator;
 
     public DazedLatexModel(ModelPart root) {
         super(root);
@@ -166,7 +166,7 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedEntity> implemen
     }
 
     @Override
-    public void prepareMobModel(DazedEntity entity, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(DazedLatexEntity entity, float p_102862, float p_102863, float p_102864_) {
         if (entity.isMorphed()) {
             RightArm.visible = false;
             LeftArm.visible = false;
@@ -188,7 +188,7 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedEntity> implemen
     }
 
     @Override
-    public void setAllLimbsVisible(DazedEntity entity, boolean visible) {
+    public void setAllLimbsVisible(DazedLatexEntity entity, boolean visible) {
         super.setAllLimbsVisible(entity, visible);
 
         if (visible) {
@@ -210,12 +210,12 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedEntity> implemen
      }
   */
     @Override
-    public void setupHand(DazedEntity entity) {
+    public void setupHand(DazedLatexEntity entity) {
         animator.setupHand();
     }
 
     @Override
-    public void setupAnim(@NotNull DazedEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull DazedLatexEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         if (entity.isMorphed()) {
             Middle.y = Mth.cos(limbSwing * 0.6662F) * limbSwingAmount;
@@ -253,7 +253,7 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedEntity> implemen
     }
 
     @Override
-    public HumanoidAnimator<DazedEntity, DazedLatexModel> getAnimator(DazedEntity entity) {
+    public HumanoidAnimator<DazedLatexEntity, DazedLatexModel> getAnimator(DazedLatexEntity entity) {
         return animator;
     }
 }

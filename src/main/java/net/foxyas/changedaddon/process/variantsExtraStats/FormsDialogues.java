@@ -36,7 +36,7 @@ public class FormsDialogues {
 			ChangedAddonTransfurVariants.EXP1_FEMALE.get(),
 			ChangedAddonTransfurVariants.EXP1_MALE.get(),
 			ChangedAddonTransfurVariants.EXPERIMENT_10_BOSS.get(),
-			ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get(),
+			ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get(),
 			ChangedAddonTransfurVariants.EXP2_MALE.get(),
 			ChangedAddonTransfurVariants.EXP2_FEMALE.get());
 			
@@ -50,7 +50,7 @@ public class FormsDialogues {
 						} else{
 							player.displayClientMessage(new TranslatableComponent("changed_addon.form_dialogues.exp10.death.text2"),false);
 						}
-					} else if (PlayerVariant.getParent().is(ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get())) {
+					} else if (PlayerVariant.getParent().is(ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get())) {
 						var randomSelector = player.getLevel().getRandom().nextInt(10);
 						if (randomSelector <= 4){ // 4 in 10 of chance
 							player.displayClientMessage(new TranslatableComponent("changed_addon.form_dialogues.exp9.death.text1"),false);
@@ -86,7 +86,7 @@ public class FormsDialogues {
 						} else{
 							player.displayClientMessage(new TranslatableComponent("changed_addon.form_dialogues.exp10.death.text2"),false);
 						}
-					} else if (PlayerVariant.getParent().is(ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get())) {
+					} else if (PlayerVariant.getParent().is(ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get())) {
 						var randomSelector = player.getLevel().getRandom().nextInt(100);
 						if (randomSelector <= 4){ // 4%
 							player.displayClientMessage(new TranslatableComponent("changed_addon.form_dialogues.exp9.death.text1"),false);
@@ -124,7 +124,7 @@ public class FormsDialogues {
 		if (changedVariantEvent.newVariant == null){
 			return;
 		}
-		if (changedVariantEvent.newVariant.is(ChangedAddonTransfurVariants.KET_EXPERIMENT_009_BOSS.get())){
+		if (changedVariantEvent.newVariant.is(ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get())){
 			if (changedVariantEvent.livingEntity instanceof Player player){
 				//ChangedAddonMod.LOGGER.log(Level.INFO,"THE EVENT HAPPEN");
 				if (YTNames.contains(player.getUUID())){

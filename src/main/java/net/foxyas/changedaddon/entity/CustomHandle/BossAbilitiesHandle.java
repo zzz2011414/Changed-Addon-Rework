@@ -65,7 +65,7 @@ public record BossAbilitiesHandle(AbstractLuminarcticLeopard boss) {
     }
 
     private static List<EntityType<?>> ImmuneEntities() {
-        return List.of(ChangedAddonEntities.LUMINARCTIC_LEOPARD.get(), ChangedAddonEntities.FEMALE_LUMINARCTIC_LEOPARD.get());
+        return List.of(ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE.get(), ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE.get());
     }
 
     public void tick() {
