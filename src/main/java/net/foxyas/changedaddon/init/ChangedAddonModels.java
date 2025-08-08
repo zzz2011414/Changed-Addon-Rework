@@ -43,8 +43,8 @@ public class ChangedAddonModels {
         event.registerLayerDefinition(BunyModel.LAYER_LOCATION, BunyModel::createBodyLayer);
         event.registerLayerDefinition(BioSynthSnowLeopardMaleModel.LAYER_LOCATION, BioSynthSnowLeopardMaleModel::createBodyLayer);
         event.registerLayerDefinition(BioSynthSnowLeopardFemaleModel.LAYER_LOCATION, BioSynthSnowLeopardFemaleModel::createBodyLayer);
-        event.registerLayerDefinition(KetModel.LAYER_LOCATION, KetModel::createBodyLayer);
-        event.registerLayerDefinition(KetBossModel.LAYER_LOCATION, KetBossModel::createBodyLayer);
+        event.registerLayerDefinition(Experiment009Model.LAYER_LOCATION, Experiment009Model::createBodyLayer);
+        event.registerLayerDefinition(Experiment009BossModel.LAYER_LOCATION, Experiment009BossModel::createBodyLayer);
         event.registerLayerDefinition(Experiment10BossModel.LAYER_LOCATION, Experiment10BossModel::createBodyLayer);
         event.registerLayerDefinition(ModelMirrorWhiteTiger.LAYER_LOCATION, ModelMirrorWhiteTiger::createBodyLayer);
         event.registerLayerDefinition(Experiment10Model.LAYER_LOCATION, Experiment10Model::createBodyLayer);

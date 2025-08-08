@@ -3,7 +3,7 @@ package net.foxyas.changedaddon.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.client.model.KetModel;
+import net.foxyas.changedaddon.client.model.Experiment009Model;
 import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.ltxprogrammer.changed.client.FormRenderHandler;
@@ -28,11 +28,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
 
-public class KetExperiment009Renderer extends AdvancedHumanoidRenderer<Experiment009Entity, KetModel, ArmorLatexMaleWolfModel<Experiment009Entity>> {
+public class KetExperiment009Renderer extends AdvancedHumanoidRenderer<Experiment009Entity, Experiment009Model, ArmorLatexMaleWolfModel<Experiment009Entity>> {
     public KetExperiment009Renderer(EntityRendererProvider.Context context) {
-        super(context, new KetModel(context.bakeLayer(KetModel.LAYER_LOCATION)),
+        super(context, new Experiment009Model(context.bakeLayer(Experiment009Model.LAYER_LOCATION)),
                 ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);
-        this.addLayer(new CustomEmissiveBodyLayer<>(this, ChangedAddonMod.textureLoc("textures/entities/ket_glow_layer"), 0.7f));
+        this.addLayer(new CustomEmissiveBodyLayer<>(this, ChangedAddonMod.textureLoc("textures/entities/experiment_9/ket_glow_layer"), 0.7f));
         this.addLayer(new LatexParticlesLayer<>(this, getModel()));
         this.addLayer(new GasMaskLayer<>(this, context.getModelSet()));
         this.addLayer(new CustomEyesLayer<>(this, context.getModelSet(), CustomEyesLayer::scleraColor, CustomEyesLayer.fixedColorGlowing(Color3.parseHex("#8dcfff")), CustomEyesLayer.fixedColorGlowing(Color3.parseHex("#8dcfff")), CustomEyesLayer::noRender, CustomEyesLayer::noRender));
@@ -40,7 +40,7 @@ public class KetExperiment009Renderer extends AdvancedHumanoidRenderer<Experimen
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull Experiment009Entity entity) {
-        return new ResourceLocation("changed_addon:textures/entities/ket_texture.png");
+        return new ResourceLocation("changed_addon:textures/entities/experiment_9/experiment_009.png");
     }
 
     private static class CustomEmissiveBodyLayer<M extends EntityModel<T>, T extends ChangedEntity> extends EyesLayer<T, M> implements FirstPersonLayer<T> {

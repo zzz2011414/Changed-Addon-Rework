@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.client.gui;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -15,7 +14,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -25,8 +23,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWImage;
+import org.lwjgl.system.MemoryUtil;
 
 import java.awt.*;
+import java.nio.ByteBuffer;
 import java.util.Random;
 
 import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHandle.STRUGGLE_NEED;
@@ -34,99 +35,78 @@ import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHan
 
 public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScreen<FightToKeepConsciousnessMinigameMenu> {
 
+    /* ----------------------------- ENUM ----------------------------- */
     public enum MinigameType {
         MOUSE_PULL,
         MOUSE_CIRCLE_PULL,
         KEY_PRESS;
-
-        MinigameType() {
-        }
-
-        @Override
-        public String toString() {
-            return super.toString();
-        }
 
         public static MinigameType getRandom(Random random) {
             return values()[random.nextInt(values().length)];
         }
     }
 
+    /* ----------------------------- CONSTANTS ----------------------------- */
+    private static final ResourceLocation BACKGROUND_TEXTURE = ChangedAddonMod.textureLoc(
+            "textures/screens/qtes/fight_to_keep_consciousness/fight_to_keep_consciousness_minigame");
+    public static final ResourceLocation CIRCLE_SLOT = ChangedAddonMod.textureLoc(
+            "textures/screens/qtes/fight_to_keep_consciousness/struggle_circle_slot");
+    public static final ResourceLocation CIRCLE_CURSOR = ChangedAddonMod.textureLoc(
+            "textures/screens/qtes/fight_to_keep_consciousness/struggle_circle_cursor");
+
+    private static final float INTERACTION_RADIUS = 15f;
+
+    /* ----------------------------- VARIABLES ----------------------------- */
     private final Player entity;
     public MinigameType minigameType;
     public Vec2 circlePos, circleCursorPos = Vec2.ZERO;
-    public final Vec2 Center = new Vec2((float) width / 2, (float) height / 2);
+    public float struggleProgress = 0f;
     Button button_fight;
     Button button_give_up;
 
+    /* ----------------------------- CONSTRUTOR ----------------------------- */
     public FightToKeepConsciousnessMinigameScreen(FightToKeepConsciousnessMinigameMenu container, Inventory inventory, Component text) {
         super(container, inventory, text);
         minecraft = Minecraft.getInstance();
         this.entity = container.entity;
-        this.imageWidth = 200;
-        this.imageHeight = 166;
         this.minigameType = container.minigameType;
+        if (minigameType == MinigameType.KEY_PRESS) {
+            this.imageWidth = 200;
+            this.imageHeight = 166;
+        } else {
+            this.imageWidth = 620;
+            this.imageHeight = 325;
+        }
     }
 
-    private static final ResourceLocation BACKGROUND_TEXTURE = ChangedAddonMod.textureLoc("textures/screens/qtes/fight_to_keep_consciousness/fight_to_keep_consciousness_minigame");
-    public static final ResourceLocation CIRCLE_SLOT = ChangedAddonMod.textureLoc("textures/screens/qtes/fight_to_keep_consciousness/struggle_circle_slot");
-    public static final ResourceLocation CIRCLE_CURSOR = ChangedAddonMod.textureLoc("textures/screens/qtes/fight_to_keep_consciousness/struggle_circle_cursor");
-
+    /* ----------------------------- RENDER ----------------------------- */
     @Override
     public void render(@NotNull PoseStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         super.render(ms, mouseX, mouseY, partialTicks);
         this.renderTooltip(ms, mouseX, mouseY);
 
-        assert minecraft != null;
         if (this.minigameType == MinigameType.MOUSE_PULL) {
-            //int width = minecraft.getWindow().getScreenWidth();
-            //int height = minecraft.getWindow().getScreenHeight();
             circlePos = new Vec2((float) width / 2, (float) height / 2);
             int barWidth = 100;
             int barHeight = 10;
-
-            //Vec2 center = new Vec2((float) minecraft.getWindow().getScreenWidth() / 2, (float) minecraft.getWindow().getScreenHeight() / 2);
-
-            int x = (int) this.Center.x - 0;
-            int y = (int) this.Center.y + 20;
+            int x = (int) this.getCircleCenter().x + 10;
+            int y = (int) this.getCircleCenter().y + 20;
             int centerX = x + barWidth / 2;
-
             int filledHalfWidth = (int) (this.struggleProgress * ((float) barWidth / 2));
-
             fill(ms, centerX - filledHalfWidth, y, centerX + filledHalfWidth, y + barHeight, Color.WHITE.getRGB());
-
-        } else if (MinigameType.MOUSE_CIRCLE_PULL == this.minigameType) {
-            if (this.circlePos != null) {
-                this.circlePos = clampCenterCirclePos(circlePos);
-            } else {
-                circlePos = new Vec2((float) width / 2, (float) height / 2);
-            }
         }
     }
 
     @Override
     protected void renderBg(@NotNull PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
-        assert minecraft != null;
-        float newX = Mth.lerp(1, circleCursorPos.x, mouseX);
-        float newY = Mth.lerp(1, circleCursorPos.y, mouseY);
-
-        int screenWidth = minecraft.getWindow().getScreenWidth();
-        int screenHeight = minecraft.getWindow().getScreenHeight();
-
-        // Limita a posição dentro da janela
-        float clampedX = Mth.clamp(newX, 5, screenWidth - 5);
-        float clampedY = Mth.clamp(newY, 5, screenHeight - 5);
-
-        this.circleCursorPos = new Vec2(clampedX, clampedY);
-
-        if (this.circlePos != null && this.minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
-            this.circlePos = clampCenterCirclePos(circlePos);
+        if (this.minigameType != MinigameType.KEY_PRESS) {
+            int x = leftPos;
+            int y = topPos;
+            fill(poseStack, x, y, leftPos + imageWidth, topPos + imageHeight, Color.BLUE.getRGB());
         }
 
-
         if (minigameType == MinigameType.KEY_PRESS) {
-            // Renderiza fundo normal
             RenderSystem.setShaderColor(1, 1, 1, 1);
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
@@ -136,26 +116,71 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             return;
         }
 
-        // Oculta botões (uma vez)
+        float newX = Mth.lerp(0.5f, circleCursorPos.x, mouseX);
+        float newY = Mth.lerp(0.5f, circleCursorPos.y, mouseY);
+        this.circleCursorPos = clampToGuiArea(new Vec2(newX, newY), 5);
+
         this.button_fight.visible = false;
         this.button_give_up.visible = false;
 
         if (circlePos != null) {
-            // Renderiza um "slot" (representa o alvo)
-            RenderSystem.setShaderTexture(0, CIRCLE_SLOT); // ou outro ícone
+            RenderSystem.setShaderTexture(0, CIRCLE_SLOT);
             blit(poseStack, (int) circlePos.x - 9, (int) circlePos.y - 9, 0, 0, 19, 19, 19, 19);
         }
         if (circleCursorPos != null) {
-            RenderSystem.setShaderTexture(0, CIRCLE_CURSOR); // ou outro ícone
+            RenderSystem.setShaderTexture(0, CIRCLE_CURSOR);
             blit(poseStack, (int) circleCursorPos.x - 9, (int) circleCursorPos.y - 9, 0, 0, 19, 19, 19, 19);
         }
     }
 
-    private float struggleProgress = 0f;
-    private static final float INTERACTION_RADIUS = 15f;
+    @Override
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
+        Color color = this.minigameType != MinigameType.KEY_PRESS ? Color.WHITE : new Color(-12829636);
+        this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(entity)), 18, 9, color.getRGB());
+        this.font.draw(poseStack, getProgressText(entity), 74, 53, color.getRGB());
+    }
+
+    /* ----------------------------- LOGIC ----------------------------- */
+    @Override
+    public void containerTick() {
+        super.containerTick();
+        if (minigameType == MinigameType.MOUSE_CIRCLE_PULL || minigameType == MinigameType.MOUSE_PULL) {
+            if (circlePos != null && circleCursorPos != null && minecraft != null) {
+                circlePos = clampToGuiArea(circlePos, 5);
+                circleCursorPos = clampToGuiArea(circleCursorPos, 5);
+                if (GeometryUtil.isInsideCircle(circleCursorPos, circlePos, INTERACTION_RADIUS)) {
+                    increaseStruggle();
+                } else if (minigameType == MinigameType.MOUSE_PULL && struggleProgress > 0) {
+                    struggleProgress -= 0.05f;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mouseMoved(double pMouseX, double pMouseY) {
+        super.mouseMoved(pMouseX, pMouseY);
+        //this.updateMousePos(this.getCircleCenter());
+        /*{
+            if (this.minecraft != null && minigameType != MinigameType.KEY_PRESS) {
+                Vec2 mouseVelocity = new Vec2(
+                        (float) this.minecraft.mouseHandler.getXVelocity(),
+                        (float) this.minecraft.mouseHandler.getYVelocity()
+                );
+                applyVelocityInCircleCursor(mouseVelocity, 0.25f);
+            }
+        }*/
+    }
+
+    private void applyVelocityInCircleCursor(Vec2 mouseVelocity, float speed) {
+        // Aplica a velocidade
+        this.circleCursorPos = this.circleCursorPos.add(mouseVelocity.scale(speed));
+
+        // Mantém dentro da GUI
+        this.circleCursorPos = clampToGuiArea(this.circleCursorPos, 5);
+    }
 
     private void increaseStruggle() {
-        assert minecraft != null;
         if (minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
             randomizePositions(60);
             ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 4));
@@ -173,146 +198,101 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     }
 
     private void randomizePositions(float offset) {
-        // Usado em MOUSE_CIRCLE_PULL
         Random rand = entity.getRandom();
-        float x = this.Center.x + ((rand.nextFloat(-offset, offset)));
-        float y = this.Center.y + ((rand.nextFloat(-offset, offset)));
-        this.circlePos = new Vec2(x, y);
-
+        float x = getCircleCenter().x + rand.nextFloat(-offset, offset);
+        float y = getCircleCenter().y + rand.nextFloat(-offset, offset);
+        circlePos = clampToGuiArea(new Vec2(x, y), 10);
         randomizeCursorPos(offset / 2);
-    }
-
-
-    private void randomizeCirclePos() {
-        // Usado em MOUSE_CIRCLE_PULL
-        Random rand = entity.getRandom();
-        float offset = 30f;
-        float x = circlePos.x + ((rand.nextFloat(-offset, offset)));
-        float y = circlePos.y + ((rand.nextFloat(-offset, offset)));
-        float width = Minecraft.getInstance().getWindow().getWidth();
-        float height = Minecraft.getInstance().getWindow().getHeight();
-        float clampedX = Mth.clamp(x, 10, width - 10);
-        float clampedY = Mth.clamp(y, 10, height - 10);
-        this.circlePos = new Vec2(clampedX, clampedY);
     }
 
     private void randomizeCursorPos(float offset) {
         Random rand = entity.getRandom();
-        float x = circlePos.x + rand.nextFloat(-offset, offset);
-        float y = circlePos.y + rand.nextFloat(-offset, offset);
-//        float clampedX = Mth.clamp(x, 10, width - 10);
-//        float clampedY = Mth.clamp(y, 10, height + 10);
-        //this.circleCursorPos = new Vec2(clampedX, clampedY);
-        assert minecraft != null;
-        for (int i = 0; i < 5; i++) {
-            updateMousePos(x, y);
-        }
+        float x = getCircleCenter().x + rand.nextFloat(-offset, offset);
+        float y = getCircleCenter().y + rand.nextFloat(-offset, offset);
+        this.updateMousePos(x * 4, y * 4);
+        //circleCursorPos = clampToGuiArea(new Vec2(x, y), 10);
+    }
 
-//        if (this.minecraft != null && minecraft.mouseHandler instanceof MouseHandlerAccessor mouseHandlerAccessor) {
-//            mouseHandlerAccessor.setXpos(circleCursorPos.x);
-//            mouseHandlerAccessor.setYpos(circleCursorPos.y);
-//            //this.setRealMousePosition((int) circleCursorPos.x, (int) circleCursorPos.y);
-//        }
+    private Vec2 getCircleCenterOld() {
+        return new Vec2((float) width / 2, (float) height / 2);
+    }
+
+    private Vec2 getCircleCenter() {
+        float maxX = this.leftPos + this.imageWidth;
+        float maxY = this.topPos + this.imageHeight;
+        return new Vec2(maxX / 2, maxY / 2);
+    }
+
+    /* ----------------------------- UTILS ----------------------------- */
+    private Vec2 clampToGuiArea(Vec2 pos, int padding) {
+        float minX = this.leftPos + padding;
+        float maxX = this.leftPos + this.imageWidth - padding;
+        float minY = this.topPos + padding;
+        float maxY = this.topPos + this.imageHeight + padding;
+        return new Vec2(Mth.clamp(pos.x, minX, maxX), Mth.clamp(pos.y, minY, maxY));
     }
 
     public void updateMousePos(float screenX, float screenY) {
+        setMouseVisible();
         assert minecraft != null;
-        this.setMouseVisible();
         GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), screenX, screenY);
-        this.setMouseInvisible();
-        /*try {
-            Robot robot = new Robot();
-            robot.mouseMove((int) screenX, (int) screenY);
-        } catch (AWTException ignored) {
-        }*/
+        setMouseInvisible();
     }
 
+    public void updateMousePos(Vec2 screenPos) {
+        float screenX, screenY;
+        screenX = screenPos.x;
+        screenY = screenPos.y;
+        setMouseVisible();
+        assert minecraft != null;
+        GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), screenX, screenY);
+        setMouseInvisible();
+    }
+
+    public void setMouseVisible() {
+        assert this.minecraft != null;
+        GLFW.glfwSetInputMode(this.minecraft.getWindow().getWindow(), 208897, InputConstants.CURSOR_NORMAL);
+    }
+
+    public void setMouseInvisible() {
+        assert this.minecraft != null;
+        GLFW.glfwSetInputMode(this.minecraft.getWindow().getWindow(), 208897, InputConstants.CURSOR_DISABLED);
+    }
+
+    private void hideMouseCursor() {
+        assert this.minecraft != null;
+        long window = this.minecraft.getWindow().getWindow();
+
+        ByteBuffer buffer = MemoryUtil.memAlloc(4);
+        buffer.put((byte) 255).put((byte) 255).put((byte) 255).put((byte) 1);
+        buffer.flip();
+
+        try (GLFWImage image = GLFWImage.malloc()) {
+            image.set(1, 1, buffer);
+            long cursor = GLFW.glfwCreateCursor(image, 0, 0);
+            GLFW.glfwSetCursor(window, cursor);
+        }
+
+        MemoryUtil.memFree(buffer);
+    }
+
+    private void showDefaultMouseCursor() {
+        assert this.minecraft != null;
+        long window = this.minecraft.getWindow().getWindow();
+        GLFW.glfwSetCursor(window, MemoryUtil.NULL);
+    }
+
+    /* ----------------------------- EVENTS/TRIGGERS ----------------------------- */
     @Override
     public boolean keyPressed(int key, int b, int c) {
         if (key == InputConstants.KEY_ESCAPE) {
-            assert this.minecraft != null;
-            assert this.minecraft.player != null;
-            this.minecraft.player.closeContainer();
+            if (minecraft != null && minecraft.player != null) {
+                minecraft.player.closeContainer();
+            }
             return true;
         }
         return super.keyPressed(key, b, c);
     }
-
-    @Override
-    public void containerTick() {
-        super.containerTick();
-        if (minigameType == MinigameType.MOUSE_CIRCLE_PULL || minigameType == MinigameType.MOUSE_PULL) {
-            if (circlePos != null && circleCursorPos != null) {
-                if (this.minecraft != null) {
-                    Vec2 mousePos = new Vec2((float) this.minecraft.mouseHandler.xpos(), (float) this.minecraft.mouseHandler.ypos());
-                    if (GeometryUtil.isInsideCircle(mousePos, circlePos, INTERACTION_RADIUS) && !GeometryUtil.isInsideCircle(circleCursorPos, circlePos, INTERACTION_RADIUS)) {
-                        updateMousePos(circleCursorPos.x, circleCursorPos.y);
-                    } else if (GeometryUtil.isInsideCircle(circleCursorPos, circlePos, INTERACTION_RADIUS)) {
-                        increaseStruggle();
-                    } else if (minigameType == MinigameType.MOUSE_PULL) {
-                        if (struggleProgress > 0) {
-                            struggleProgress -= 0.05f;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private Vec2 clampPositions(Vec2 vec2) {
-        assert minecraft != null;
-        int screenWidth = minecraft.getWindow().getScreenWidth();
-        int screenHeight = minecraft.getWindow().getScreenHeight();
-
-        // Limita a posição dentro da janela
-        float clampedX = Mth.clamp(vec2.x, 5, screenWidth - 5);
-        float clampedY = Mth.clamp(vec2.y, 5, screenHeight - 5);
-
-        return new Vec2(clampedX, clampedY);
-    }
-
-    private Vec2 clampCenterCirclePos(Vec2 vec2) {
-        assert minecraft != null;
-        float clampedX = 0;
-        float clampedY = 0;
-        if (vec2.y >= height) {
-            clampedY = vec2.y - 15;
-        } else if (vec2.x >= width) {
-            clampedX = vec2.x - 15;
-        }
-
-        return new Vec2(clampedX, clampedY);
-    }
-
-    @Override
-    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
-        Color color = new Color(-12829636);
-        if (this.minigameType != MinigameType.KEY_PRESS) {
-            color = new Color(255, 255, 255);
-        }
-        this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(entity)), 18, 9, color.getRGB());
-        this.font.draw(poseStack, getProgressText(entity), 74, 53, color.getRGB());
-    }
-
-    public static String getProgressText(Entity entity) {
-        if (entity == null)
-            return "";
-        return entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null)
-                .orElse(new ChangedAddonModVariables.PlayerVariables())
-                .consciousnessFightProgress + "/" + STRUGGLE_NEED;
-    }
-
-    public static String getTimeRemaining(Entity entity) {
-        if (entity instanceof Player player) {
-            TransfurVariantInstance<?> TransfurInstance = ProcessTransfur.getPlayerTransfurVariant(player);
-            if (TransfurInstance != null) {
-                int ticks = TransfurInstance.ageAsVariant / STRUGGLE_TIME;
-                return "" + ticks;
-            }
-        }
-        return "";
-    }
-
 
     @Override
     public void onClose() {
@@ -330,64 +310,53 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     @Override
     public void init() {
         super.init();
-        assert this.minecraft != null;
-        this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
-        //this.Center = new Vec2((float) width / 2, (float) height / 2);
-        if (this.minecraft.player != null) {
-            this.minecraft.player.displayClientMessage(new TextComponent(this.minigameType.toString()), false);
-        }
-        button_fight = new Button(this.leftPos + 17, this.topPos + 72, 166, 20, new TranslatableComponent("gui.changed_addon.fight_tokeepconsciousnessminigame.button_fight"), e -> {
-            {
-                ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 1));
-                FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, 1);
-            }
-        });
+        assert minecraft != null;
+        minecraft.keyboardHandler.setSendRepeatsToGui(true);
 
-        this.addRenderableWidget(button_fight);
-        button_give_up = new Button(this.leftPos + 17, this.topPos + 136, 166, 20, new TranslatableComponent("gui.changed_addon.fight_tokeepconsciousnessminigame.button_give_up"), e -> {
-            {
-                ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(1, 1));
-                FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 1, 1);
-            }
-        });
+        button_fight = new Button(this.leftPos + 17, this.topPos + 72, 166, 20,
+                new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.button_fight"),
+                e -> {
+                    ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 1));
+                    FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, 1);
+                });
+
+        button_give_up = new Button(this.leftPos + 17, this.topPos + 136, 166, 20,
+                new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.button_give_up"),
+                e -> {
+                    ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(1, 1));
+                    FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 1, 1);
+                });
 
         if (minigameType == MinigameType.KEY_PRESS) {
             this.button_fight.visible = true;
             this.button_give_up.visible = true;
+            this.addRenderableWidget(button_fight);
             this.addRenderableWidget(button_give_up);
         } else {
             this.button_fight.visible = false;
             this.button_give_up.visible = false;
-
-            if (circlePos == null) {
-                circlePos = new Vec2((float) width / 2, (float) height / 2);
-            }
-            if (circleCursorPos == null) {
-                circleCursorPos = Vec2.ZERO;
-            }
-
-            if (minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
-                circlePos = new Vec2((float) width / 2, (float) height / 2);
-            } else if (minigameType == MinigameType.MOUSE_PULL) {
-                circlePos = new Vec2((float) width / 2, (float) height / 2);
-                if (circleCursorPos == null) {
-                    circleCursorPos = Vec2.ZERO;
-                }
-            }
+            circlePos = clampToGuiArea(new Vec2(width / 2f, height / 2f), 10);
+            circleCursorPos = clampToGuiArea(Vec2.ZERO, 10);
             setMouseInvisible();
-            //var xpos = (double)(this.minecraft.getWindow().getScreenWidth() / 2);
-            //var ypos = (double)(this.minecraft.getWindow().getScreenHeight() / 2);
-            //InputConstants.grabOrReleaseMouse(this.minecraft.getWindow().getWindow(), 212995, xpos, ypos);
         }
     }
 
-    public void setMouseVisible() {
-        assert minecraft != null;
-        GLFW.glfwSetInputMode(this.minecraft.getWindow().getWindow(), 208897, InputConstants.CURSOR_NORMAL);
+    /* ----------------------------- STATIC METHODS ----------------------------- */
+    public static String getProgressText(Entity entity) {
+        if (entity == null) return "";
+        return entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null)
+                .orElse(new ChangedAddonModVariables.PlayerVariables())
+                .consciousnessFightProgress + "/" + STRUGGLE_NEED;
     }
 
-    public void setMouseInvisible() {
-        assert minecraft != null;
-        GLFW.glfwSetInputMode(this.minecraft.getWindow().getWindow(), 208897, InputConstants.CURSOR_DISABLED);
+    public static String getTimeRemaining(Entity entity) {
+        if (entity instanceof Player player) {
+            TransfurVariantInstance<?> TransfurInstance = ProcessTransfur.getPlayerTransfurVariant(player);
+            if (TransfurInstance != null) {
+                int ticks = TransfurInstance.ageAsVariant / STRUGGLE_TIME;
+                return "" + ticks;
+            }
+        }
+        return "";
     }
 }

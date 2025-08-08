@@ -1,9 +1,13 @@
 package net.foxyas.changedaddon.client.model;
 
+// Made with Blockbench 4.9.4
+// Exported for Minecraft version 1.17 or later with Mojang mappings
+// Paste this class into your mod and generate all required imports
+
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets;
 import net.ltxprogrammer.changed.client.renderer.animate.HumanoidAnimator;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -12,14 +16,15 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity> implements AdvancedHumanoidModelInterface<Experiment009BossEntity, KetBossModel> {
+public class Experiment009Model extends AdvancedHumanoidModel<Experiment009Entity> implements AdvancedHumanoidModelInterface<Experiment009Entity, Experiment009Model> {
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("ket_exp_009_boss"), "main");
+    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("changed_addon", "exp_009"), "main");
 
     private final ModelPart RightLeg;
     private final ModelPart LeftLeg;
@@ -28,9 +33,9 @@ public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity>
     private final ModelPart Head;
     private final ModelPart Torso;
     private final ModelPart Tail;
-    private final HumanoidAnimator<Experiment009BossEntity, KetBossModel> animator;
+    private final HumanoidAnimator<Experiment009Entity, Experiment009Model> animator;
 
-    public KetBossModel(ModelPart root) {
+    public Experiment009Model(ModelPart root) {
         super(root);
         this.RightLeg = root.getChild("RightLeg");
         this.LeftLeg = root.getChild("LeftLeg");
@@ -44,6 +49,7 @@ public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity>
         var tailSecondary = tailPrimary.getChild("TailSecondary");
         var tailTertiary = tailSecondary.getChild("TailTertiary");
         var tailQuaternary = tailTertiary.getChild("TailQuaternary");
+
 
         var leftLowerLeg = LeftLeg.getChild("LeftLowerLeg");
         var leftFoot = leftLowerLeg.getChild("LeftFoot");
@@ -234,7 +240,7 @@ public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity>
     }
 
     @Override
-    public void prepareMobModel(Experiment009BossEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(Experiment009Entity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -245,13 +251,13 @@ public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity>
         return corrector;
     } */
     @Override
-    public void setupHand(Experiment009BossEntity entity) {
+    public void setupHand(Experiment009Entity entity) {
         animator.setupHand();
     }
 
 
     @Override
-    public void setupAnim(@NotNull Experiment009BossEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull Experiment009Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
@@ -284,7 +290,7 @@ public class KetBossModel extends AdvancedHumanoidModel<Experiment009BossEntity>
     }
 
     @Override
-    public HumanoidAnimator<Experiment009BossEntity, KetBossModel> getAnimator(Experiment009BossEntity entity) {
+    public HumanoidAnimator<Experiment009Entity, Experiment009Model> getAnimator(Experiment009Entity entity) {
         return animator;
     }
 }
