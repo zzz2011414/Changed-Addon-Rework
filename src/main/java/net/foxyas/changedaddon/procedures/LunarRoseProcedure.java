@@ -48,7 +48,7 @@ public class LunarRoseProcedure {
                     }
                 }
                 itemstack.getOrCreateTag().putBoolean("Unbreakable", true);
-            } else if (instance.getFormId().toString().equals("changed_addon:form_puro_kind") || instance.getFormId().toString().equals("changed_addon:form_light_latex_wolf")) {
+            } else if (instance.getFormId().toString().startsWith("changed_addon:form_puro_kind") || instance.getFormId().toString().equals("changed_addon:form_light_latex_wolf")) {
                 if (!player.hasEffect(MobEffects.REGENERATION)) {
                     if (!player.level.isClientSide())
                         player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60, 1, false, false));

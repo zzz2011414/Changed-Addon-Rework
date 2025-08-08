@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.mixins.client.MouseHandlerAccessor;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.network.FightToKeepConsciousnessMinigameButtonMessage;
 import net.foxyas.changedaddon.util.GeometryUtil;
@@ -90,7 +91,7 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             circlePos = new Vec2((float) width / 2, (float) height / 2);
             int barWidth = 100;
             int barHeight = 10;
-            int x = (int) this.getCircleCenter().x + 10;
+            int x = (int) this.getCircleCenter().x - 45;
             int y = (int) this.getCircleCenter().y + 20;
             int centerX = x + barWidth / 2;
             int filledHalfWidth = (int) (this.struggleProgress * ((float) barWidth / 2));
@@ -116,8 +117,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             return;
         }
 
-        float newX = Mth.lerp(0.5f, circleCursorPos.x, mouseX);
-        float newY = Mth.lerp(0.5f, circleCursorPos.y, mouseY);
+        float newX = Mth.lerp(0.25f, circleCursorPos.x, mouseX);
+        float newY = Mth.lerp(0.25f, circleCursorPos.y, mouseY);
         this.circleCursorPos = clampToGuiArea(new Vec2(newX, newY), 5);
 
         this.button_fight.visible = false;
@@ -136,8 +137,16 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     @Override
     protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
         Color color = this.minigameType != MinigameType.KEY_PRESS ? Color.WHITE : new Color(-12829636);
-        this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(entity)), 18, 9, color.getRGB());
-        this.font.draw(poseStack, getProgressText(entity), 74, 53, color.getRGB());
+        if (this.minigameType == MinigameType.KEY_PRESS) {
+            this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(entity)), 18, 9, color.getRGB());
+            this.font.draw(poseStack, getProgressText(entity), 74, 53, color.getRGB());
+        } else if (this.minigameType == MinigameType.MOUSE_CIRCLE_PULL) {
+            this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(entity)), getCircleCenter().x - 95, getCircleCenter().y - 50, color.getRGB());
+            this.font.draw(poseStack, getProgressText(entity), circlePos.x + 10, circlePos.y + 8, color.getRGB());
+        } else if (this.minigameType == MinigameType.MOUSE_PULL) {
+            this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(entity)), getCircleCenter().x - 95, getCircleCenter().y - 35, color.getRGB());
+            this.font.draw(poseStack, getProgressText(entity), getCircleCenter().x + 10, getCircleCenter().y + 8, color.getRGB());
+        }
     }
 
     /* ----------------------------- LOGIC ----------------------------- */
@@ -151,7 +160,13 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
                 if (GeometryUtil.isInsideCircle(circleCursorPos, circlePos, INTERACTION_RADIUS)) {
                     increaseStruggle();
                 } else if (minigameType == MinigameType.MOUSE_PULL && struggleProgress > 0) {
-                    struggleProgress -= 0.05f;
+                    if (struggleProgress - 0.05 >= 0) {
+                        struggleProgress -= 0.05f;
+                    } else {
+                        struggleProgress = 0;
+                    }
+                } else if (struggleProgress < 0) {
+                    struggleProgress = 0;
                 }
             }
         }
@@ -160,6 +175,10 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     @Override
     public void mouseMoved(double pMouseX, double pMouseY) {
         super.mouseMoved(pMouseX, pMouseY);
+        float newX = (float) Mth.lerp(0.5f, circleCursorPos.x, pMouseX);
+        float newY = (float) Mth.lerp(0.5f, circleCursorPos.y, pMouseY);
+        this.circleCursorPos = clampToGuiArea(new Vec2(newX, newY), 5);
+
         //this.updateMousePos(this.getCircleCenter());
         /*{
             if (this.minecraft != null && minigameType != MinigameType.KEY_PRESS) {
@@ -190,8 +209,7 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
 
         struggleProgress += 0.05f;
         if (struggleProgress >= 1.0f) {
-            struggleProgress = 0f;
-            randomizeCursorPos(120);
+            randomizeCursorPos(450);
             ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 2));
             FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(entity, 0, 2);
         }
@@ -207,9 +225,9 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
 
     private void randomizeCursorPos(float offset) {
         Random rand = entity.getRandom();
-        float x = getCircleCenter().x + rand.nextFloat(-offset, offset);
-        float y = getCircleCenter().y + rand.nextFloat(-offset, offset);
-        this.updateMousePos(x * 4, y * 4);
+        float x = getCircleCenterOld().x + rand.nextFloat(-offset, offset);
+        float y = getCircleCenterOld().y + rand.nextFloat(-offset, offset);
+        this.updateMousePos(x * 1, y * 1);
         //circleCursorPos = clampToGuiArea(new Vec2(x, y), 10);
     }
 
@@ -236,6 +254,10 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
         setMouseVisible();
         assert minecraft != null;
         GLFW.glfwSetCursorPos(minecraft.getWindow().getWindow(), screenX, screenY);
+        if (minecraft.mouseHandler instanceof MouseHandlerAccessor mouseHandlerAccessor) {
+            mouseHandlerAccessor.setXpos((int) screenX);
+            mouseHandlerAccessor.setYpos((int) screenY);
+        }
         setMouseInvisible();
     }
 
