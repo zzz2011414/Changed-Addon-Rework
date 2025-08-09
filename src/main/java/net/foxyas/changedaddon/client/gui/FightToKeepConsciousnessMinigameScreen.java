@@ -4,6 +4,9 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.client.gui.ftkc.KeyPressMinigameScreen;
+import net.foxyas.changedaddon.client.gui.ftkc.MouseCirclePullMinigameScreen;
+import net.foxyas.changedaddon.client.gui.ftkc.MousePullMinigameScreen;
 import net.foxyas.changedaddon.mixins.client.MouseHandlerAccessor;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.network.FightToKeepConsciousnessMinigameButtonMessage;
@@ -13,6 +16,7 @@ import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -21,6 +25,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec2;
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.jetbrains.annotations.NotNull;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWImage;
@@ -29,6 +34,7 @@ import org.lwjgl.system.MemoryUtil;
 import java.awt.*;
 import java.nio.ByteBuffer;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHandle.STRUGGLE_NEED;
 import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHandle.STRUGGLE_TIME;
@@ -36,10 +42,16 @@ import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHan
 public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScreen<FightToKeepConsciousnessMinigameMenu> {
 
     /* ----------------------------- ENUM ----------------------------- */
-    public enum MinigameType {
-        MOUSE_PULL,
-        MOUSE_CIRCLE_PULL,
-        KEY_PRESS;
+    public enum MinigameType {//Just in case do not replace lambda with method reference
+        MOUSE_PULL(FMLLoader.getDist().isDedicatedServer() ? () -> null : () -> new MousePullMinigameScreen()),
+        MOUSE_CIRCLE_PULL(FMLLoader.getDist().isDedicatedServer() ? () -> null : () -> new MouseCirclePullMinigameScreen()),
+        KEY_PRESS(FMLLoader.getDist().isDedicatedServer() ? () -> null : () -> new KeyPressMinigameScreen());
+
+        public final Supplier<Screen> screen;
+
+        MinigameType(Supplier<Screen> supplier){
+            this.screen = supplier;
+        }
 
         public static MinigameType getRandom(Random random) {
             return values()[random.nextInt(values().length)];
@@ -60,8 +72,8 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     protected final Minecraft minecraft = Minecraft.getInstance();
     private final Player player;
     public final MinigameType minigameType;
-    public Vec2 circlePos, circleCursorPos = Vec2.ZERO;
-    public float struggleProgress = 0f;
+    private Vec2 circlePos, circleCursorPos = Vec2.ZERO;
+    private float struggleProgress = 0f;
     private Button button_fight;
     private Button button_give_up;
 
@@ -85,7 +97,6 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
     public void render(@NotNull PoseStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         super.render(ms, mouseX, mouseY, partialTicks);
-        this.renderTooltip(ms, mouseX, mouseY);
 
         if(minigameType != MinigameType.MOUSE_PULL) return;
 
