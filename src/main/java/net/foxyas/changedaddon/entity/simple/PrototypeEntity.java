@@ -1,27 +1,23 @@
-package net.foxyas.changedaddon.entity.mobs;
+package net.foxyas.changedaddon.entity.simple;
 
+import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.resources.ResourceLocation;
+import net.ltxprogrammer.changed.entity.TransfurMode;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
-public class PrototypeEntity extends Monster {
+public class PrototypeEntity extends AbstractBasicChangedEntity {
+
     public PrototypeEntity(PlayMessages.SpawnEntity packet, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
     }
@@ -29,7 +25,6 @@ public class PrototypeEntity extends Monster {
     public PrototypeEntity(EntityType<PrototypeEntity> type, Level world) {
         super(type, world);
         xpReward = 0;
-        setNoAi(false);
         setPersistenceRequired();
     }
 
@@ -47,8 +42,8 @@ public class PrototypeEntity extends Monster {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    public TransfurMode getTransfurMode() {
+        return TransfurMode.REPLICATION;
     }
 
     @Override
@@ -57,7 +52,7 @@ public class PrototypeEntity extends Monster {
         this.getNavigation().getNodeEvaluator().setCanOpenDoors(true);
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, false) {
             @Override
-            protected double getAttackReachSqr(LivingEntity entity) {
+            protected double getAttackReachSqr(@NotNull LivingEntity entity) {
                 return this.mob.getBbWidth() * this.mob.getBbWidth() + entity.getBbWidth();
             }
         });
@@ -72,22 +67,7 @@ public class PrototypeEntity extends Monster {
     }
 
     @Override
-    public MobType getMobType() {
-        return MobType.UNDEFINED;
-    }
-
-    @Override
     public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return false;
-    }
-
-    @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
-        return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
-    }
-
-    @Override
-    public SoundEvent getDeathSound() {
-        return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 }

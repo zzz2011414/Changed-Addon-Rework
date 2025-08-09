@@ -1,14 +1,12 @@
 package net.foxyas.changedaddon.entity.customHandle;
 
-import net.foxyas.changedaddon.ChangedAddonMod;
-import net.minecraft.resources.ResourceLocation;
+import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public enum BossMusicTheme {
-    EXP9("exp9_phase2", ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(ChangedAddonMod.MODID, "music.boss.exp9"))),
-    EXP10("exp10", ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(ChangedAddonMod.MODID, "experiment10_theme")));
+    EXP9("exp9_phase2", ChangedAddonSounds.EXP9_THEME),
+    EXP10("exp10", ChangedAddonSounds.EXP10_THEME);
 
     private final SoundEvent soundEvent;
     private final String ID;

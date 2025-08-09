@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.client.renderer.mobs;
 
 import net.foxyas.changedaddon.client.model.ModelProtoTypeMob;
-import net.foxyas.changedaddon.entity.mobs.PrototypeEntity;
+import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
