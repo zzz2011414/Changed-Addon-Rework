@@ -37,6 +37,7 @@ public class ChangedAddonItems {
     public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ChangedAddonMod.MODID);
 
     public static final RegistryObject<Item> CHANGED_BOOK = REGISTRY.register("changedbook", ChangedBookItem::new);
+    public static final RegistryObject<Item> LUMINARA_BLOOM = block(ChangedAddonBlocks.LUMINARA_BLOOM, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> ANTI_LATEX_BASE = REGISTRY.register("anti_latex_base", UnlatexbaseItem::new);
     public static final RegistryObject<Item> LATEX_INSULATOR = block(ChangedAddonBlocks.LATEX_INSULATOR, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> IMPURE_AMMONIA = REGISTRY.register("impure_ammonia", InpureammoniaItem::new);
@@ -118,8 +119,8 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> REINFORCED_WALL_CAUTION = block(ChangedAddonBlocks.REINFORCED_WALL_CAUTION, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> REINFORCED_CROSS_BLOCK = block(ChangedAddonBlocks.REINFORCED_CROSS_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> WALL_WHITE_CRACKED = block(ChangedAddonBlocks.WALL_WHITE_CRACKED, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> WALL_WHITE_STAIR = block(ChangedAddonBlocks.WALL_WHITE_STAIR, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> WALL_WHITE_SLAB = block(ChangedAddonBlocks.WALL_WHITE_SLAB, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    //public static final RegistryObject<Item> WALL_WHITE_STAIR = block(ChangedAddonBlocks.WALL_WHITE_STAIR, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    //public static final RegistryObject<Item> WALL_WHITE_SLAB = block(ChangedAddonBlocks.WALL_WHITE_SLAB, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.BLUE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);

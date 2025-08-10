@@ -1,6 +1,8 @@
 package net.foxyas.changedaddon;
 
 import net.foxyas.changedaddon.init.*;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraftforge.client.model.MultiLayerModel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import org.apache.logging.log4j.Logger;
@@ -57,6 +59,10 @@ public class ChangedAddonMod {
 
 	public static ResourceLocation textureLoc(String path){
 		return new ResourceLocation(MODID, path + ".png");
+	}
+
+	public static ModelLayerLocation layerLocation(String path, String layer) {
+		return new ModelLayerLocation(resourceLoc(path), layer);
 	}
 
 	public static <T extends Event> boolean postEvent(T event) {

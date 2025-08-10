@@ -5,6 +5,8 @@ import net.foxyas.changedaddon.block.*;
 import net.foxyas.changedaddon.block.advanced.HandScanner;
 import net.foxyas.changedaddon.block.advanced.PawsScanner;
 import net.foxyas.changedaddon.block.advanced.TimedKeypad;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.api.distmarker.Dist;
@@ -43,8 +45,8 @@ public class ChangedAddonBlocks {
     public static final RegistryObject<Block> REINFORCED_WALL_CAUTION = REGISTRY.register("reinforced_wall_caution", ReinforcedWallCautionBlock::new);
     public static final RegistryObject<Block> REINFORCED_CROSS_BLOCK = REGISTRY.register("reinforced_cross_block", ReinforcedCrossBlock::new);
     public static final RegistryObject<Block> WALL_WHITE_CRACKED = REGISTRY.register("wall_white_cracked", WallWhiteCrackedBlock::new);
-    public static final RegistryObject<Block> WALL_WHITE_STAIR = REGISTRY.register("wall_white_stair", WallWhiteStairBlock::new);
-    public static final RegistryObject<Block> WALL_WHITE_SLAB = REGISTRY.register("wall_white_slab", WallWhiteSlabBlock::new);
+    //public static final RegistryObject<Block> WALL_WHITE_STAIR = REGISTRY.register("wall_white_stair", WallWhiteStairBlock::new);
+    //public static final RegistryObject<Block> WALL_WHITE_SLAB = REGISTRY.register("wall_white_slab", WallWhiteSlabBlock::new);
     public static final RegistryObject<Block> BLUE_WOLF_CRYSTAL_BLOCK = REGISTRY.register("blue_wolf_crystal_block", BlueWolfCrystalBlockBlock::new);
     public static final RegistryObject<Block> ORANGE_WOLF_CRYSTAL_BLOCK = REGISTRY.register("orange_wolf_crystal_block", OrangeWolfCrystalBlockBlock::new);
     public static final RegistryObject<Block> YELLOW_WOLF_CRYSTAL_BLOCK = REGISTRY.register("yellow_wolf_crystal_block", YellowWolfCrystalBlockBlock::new);
@@ -62,6 +64,7 @@ public class ChangedAddonBlocks {
     public static final RegistryObject<Block> TIMED_KEYPAD = REGISTRY.register("timed_keypad", TimedKeypad::new);
     public static final RegistryObject<Block> HAND_SCANNER = REGISTRY.register("hand_scanner", HandScanner::new);
     public static final RegistryObject<Block> PAWS_SCANNER = REGISTRY.register("paws_scanner", PawsScanner::new);
+    public static final RegistryObject<Block> LUMINARA_BLOOM = REGISTRY.register("luminara_bloom", LuminaraBloom::new);
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientSideHandler {
@@ -83,6 +86,7 @@ public class ChangedAddonBlocks {
             SnepsiCanBlock.registerRenderLayer();
             HandScanner.registerRenderLayer();
             LuminarCrystalBlock.registerRenderLayer();
+            LuminaraBloom.registerRenderLayer();
         }
     }
 }

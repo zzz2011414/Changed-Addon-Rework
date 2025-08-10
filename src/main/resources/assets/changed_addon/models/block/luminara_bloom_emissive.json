@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "changed_addon:blocks/untransfur_flower_emissive"
+  }
+}

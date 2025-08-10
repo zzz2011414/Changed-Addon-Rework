@@ -77,6 +77,7 @@ public class ChangedAddonEntities {
         ADDON_CHANGED_ENTITIES.add(LATEX_KITSUNE_FEMALE.get());
         ADDON_CHANGED_ENTITIES.add(LATEX_CALICO_CAT.get());
         ADDON_CHANGED_ENTITIES.add(PROTOGEN.get());
+        ADDON_CHANGED_ENTITIES.add(PROTOTYPE.get());
         ADDON_CHANGED_ENTITIES.add(MONGOOSE.get());
         ADDON_CHANGED_ENTITIES.add(BOREALIS_MALE.get());
         return ADDON_CHANGED_ENTITIES;

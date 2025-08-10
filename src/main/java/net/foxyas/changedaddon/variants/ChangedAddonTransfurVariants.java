@@ -124,6 +124,8 @@ public class ChangedAddonTransfurVariants {
     //Advanced
     public static final RegistryObject<TransfurVariant<AvaliEntity>> AVALI = register("form_avali", TransfurVariant.Builder.of(ChangedAddonEntities.AVALI).stepSize(0.7F).breatheMode(TransfurVariant.BreatheMode.NORMAL).addAbility(ChangedAddonAbilities.CUSTOM_INTERACTION).glide().transfurMode(TransfurMode.NONE).scares(List.of()).nightVision());
     public static final RegistryObject<TransfurVariant<ProtogenEntity>> PROTOGEN = register("form_protogen", () -> TransfurVariant.Builder.of(ChangedAddonEntities.PROTOGEN).nightVision());
+    public static final RegistryObject<TransfurVariant<PrototypeEntity>> PROTOTYPE = register("form_prototype", () -> TransfurVariant.Builder.of(ChangedAddonEntities.PROTOTYPE).nightVision());
+
 
     //OCs
     public static final RegistryObject<TransfurVariant<WolfyEntity>> WOLFY = register("form_wolfy", TransfurVariant.Builder.of(ChangedAddonEntities.WOLFY).stepSize(0.7F).breatheMode(TransfurVariant.BreatheMode.NORMAL).transfurMode(TransfurMode.NONE).scares(List.of()).nightVision());

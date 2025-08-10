@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CompoundIngredient;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -41,7 +42,7 @@ public class ElectricKatanaItem extends AbstractKatanaItem {
 				return 30;
 			}
 
-			public Ingredient getRepairIngredient() {
+			public @NotNull Ingredient getRepairIngredient() {
 				return CompoundIngredient.of(Ingredient.of(new ItemStack(ChangedAddonItems.ELECTRIC_KATANA.get())), Ingredient.of(ItemTags.create(new ResourceLocation("changed_addon:tsc_katana_repair"))));
 			}
 		}, 3, -2.3f, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT));

@@ -39,8 +39,8 @@ public class ChangedAddonEntityRenderers {
         event.registerEntityRenderer(ChangedAddonEntities.EXP_1_MALE.get(), Exp1MaleRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.EXP_1_FEMALE.get(), Exp1FemaleRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.LATEX_SNEP.get(), LatexSnepRenderer::new);
-        event.registerEntityRenderer(ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE.get(), LuminarcticLeopardRenderer::new);
-        event.registerEntityRenderer(ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE.get(), FemaleLuminarcticLeopardRenderer::new);
+        event.registerEntityRenderer(ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE.get(), LuminarcticLeopardMaleRenderer::new);
+        event.registerEntityRenderer(ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE.get(), LuminarcticLeopardFemaleRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.LATEX_SQUID_TIGER_SHARK.get(), LatexSquidTigerSharkRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.LYNX.get(), LynxRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.FOXTA_FOXY.get(), FoxtaFoxyRenderer::new);

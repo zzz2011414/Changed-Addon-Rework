@@ -2,23 +2,30 @@ package net.foxyas.changedaddon.entity.simple;
 
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
+import net.ltxprogrammer.changed.entity.ChangedEntity;
+import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurMode;
-import net.minecraft.server.level.ServerPlayer;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
+import net.ltxprogrammer.changed.init.ChangedAttributes;
+import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.PlayMessages;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Objects;
 
 public class PrototypeEntity extends AbstractBasicChangedEntity {
 
-    public PrototypeEntity(PlayMessages.SpawnEntity packet, Level world) {
+    public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
     }
 
@@ -32,7 +39,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        AttributeSupplier.Builder builder = Mob.createMobAttributes();
+        AttributeSupplier.Builder builder = ChangedEntity.createLatexAttributes();
+        builder = builder.add(ChangedAttributes.TRANSFUR_DAMAGE.get(), 0f);
         builder = builder.add(Attributes.MOVEMENT_SPEED, 0.3);
         builder = builder.add(Attributes.MAX_HEALTH, 24);
         builder = builder.add(Attributes.ARMOR, 0);
@@ -41,29 +49,46 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
         return builder;
     }
 
+    protected void setAttributes(AttributeMap attributes) {
+        Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue((0));
+        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue((24));
+        attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(40.0f);
+        attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.05f);
+        attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.95f);
+        attributes.getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(3.0f);
+        attributes.getInstance(Attributes.ARMOR).setBaseValue(0);
+        attributes.getInstance(Attributes.ARMOR_TOUGHNESS).setBaseValue(0);
+        attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
+    }
+
+    @Override
+    protected boolean targetSelectorTest(LivingEntity livingEntity) {
+        return false;
+    }
+
+    @Override
+    public boolean tryTransfurTarget(Entity entity) {
+        return false;
+    }
+
+    @Override
+    public boolean tryAbsorbTarget(LivingEntity target, IAbstractChangedEntity source, float amount, @Nullable List<TransfurVariant<?>> possibleMobFusions) {
+        return false;
+    }
+
     @Override
     public TransfurMode getTransfurMode() {
-        return TransfurMode.REPLICATION;
+        return TransfurMode.NONE;
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.getNavigation().getNodeEvaluator().setCanOpenDoors(true);
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, false) {
-            @Override
-            protected double getAttackReachSqr(@NotNull LivingEntity entity) {
-                return this.mob.getBbWidth() * this.mob.getBbWidth() + entity.getBbWidth();
-            }
-        });
-        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, ServerPlayer.class, (float) 6));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, (float) 6));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1));
-        this.targetSelector.addGoal(5, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(7, new FloatGoal(this));
-        this.goalSelector.addGoal(8, new OpenDoorGoal(this, true));
-        this.goalSelector.addGoal(9, new OpenDoorGoal(this, false));
+    }
+
+    @Override
+    public Color3 getTransfurColor(TransfurCause cause) {
+        return super.getTransfurColor(cause);
     }
 
     @Override

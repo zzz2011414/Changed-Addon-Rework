@@ -31,7 +31,6 @@ public class ChangedAddonModels {
         event.registerLayerDefinition(ModelLuminarCrystalSpearModel.LAYER_LOCATION, ModelLuminarCrystalSpearModel::createBodyLayer);
 
         // --- MONSTER/MOB ENTITIES MODELS---
-        event.registerLayerDefinition(ModelProtoTypeMob.LAYER_LOCATION, ModelProtoTypeMob::createBodyLayer);
         event.registerLayerDefinition(ModelFoxyasModel.LAYER_LOCATION, ModelFoxyasModel::createBodyLayer);
 
         // --- CHANGED ENTITIES MODELS---
@@ -81,7 +80,7 @@ public class ChangedAddonModels {
         event.registerLayerDefinition(MongooseModel.LAYER_LOCATION, MongooseModel::createBodyLayer);
         event.registerLayerDefinition(BorealisMaleModel.LAYER_LOCATION, BorealisMaleModel::createBodyLayer);
         event.registerLayerDefinition(BorealisFemaleModel.LAYER_LOCATION, BorealisFemaleModel::createBodyLayer);
-
+        event.registerLayerDefinition(PrototypeModel.LAYER_LOCATION, PrototypeModel::createBodyLayer);
 
 
         // --- PROJECTILES ENTITIES MODELS ---

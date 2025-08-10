@@ -23,15 +23,15 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<LuminarcticLeopardFemaleEntity, LuminarcticFemaleLeopardModel, ArmorLatexFemaleCatModel<LuminarcticLeopardFemaleEntity>> {
-    public FemaleLuminarcticLeopardRenderer(EntityRendererProvider.Context context) {
+public class LuminarcticLeopardFemaleRenderer extends AdvancedHumanoidRenderer<LuminarcticLeopardFemaleEntity, LuminarcticFemaleLeopardModel, ArmorLatexFemaleCatModel<LuminarcticLeopardFemaleEntity>> {
+    public LuminarcticLeopardFemaleRenderer(EntityRendererProvider.Context context) {
         super(context, new LuminarcticFemaleLeopardModel(context.bakeLayer(LuminarcticFemaleLeopardModel.LAYER_LOCATION)),
                 ArmorLatexFemaleCatModel.MODEL_SET, 0.5f);
 
         this.addLayer(new LatexParticlesLayer<>(this, getModel(), model::isPartNotArmFur));
 
         Color3 RED = new Color3(255, 0, 0);
-        this.addLayer(new FemaleLuminarcticLeopardRenderer.thisConditionalLayers.thisCustomEyesLayer<>(this,
+        this.addLayer(new LuminarcticLeopardFemaleRenderer.thisConditionalLayers.thisCustomEyesLayer<>(this,
                 new CustomEyesLayer<>(this, context.getModelSet(),
                         CustomEyesLayer::scleraColor,
                         CustomEyesLayer::irisColorLeft,
@@ -48,8 +48,8 @@ public class FemaleLuminarcticLeopardRenderer extends AdvancedHumanoidRenderer<L
         ));
         this.addLayer(TransfurCapeLayer.normalCape(this, context.getModelSet()));
         this.addLayer(new GasMaskLayer<>(this, context.getModelSet()));
-        this.addLayer(new FemaleLuminarcticLeopardRenderer.thisConditionalLayers.thisGlowLayer<>(this, new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/female/luminarctic_leopard_female_ability_active.png")));
-        this.addLayer(new FemaleLuminarcticLeopardRenderer.thisConditionalLayers.thisGlowFelineEyesLayer<>(this, new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/female/luminarctic_leopard_feline_eyes_female.png")));
+        this.addLayer(new LuminarcticLeopardFemaleRenderer.thisConditionalLayers.thisGlowLayer<>(this, new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/female/luminarctic_leopard_female_ability_active.png")));
+        this.addLayer(new LuminarcticLeopardFemaleRenderer.thisConditionalLayers.thisGlowFelineEyesLayer<>(this, new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/female/luminarctic_leopard_feline_eyes_female.png")));
         this.addLayer(new EmissiveBodyLayer<>(this, new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/crystals_layer.png")));
 
     }

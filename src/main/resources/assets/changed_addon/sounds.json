@@ -92,7 +92,7 @@
     "sounds": [
       {
         "name": "changed_addon:misstake",
-        "stream": true
+        "stream": false
       }
     ]
   },
@@ -101,7 +101,7 @@
     "sounds": [
       {
         "name": "changed_addon:meaningless_strafe",
-        "stream": true
+        "stream": false
       }
     ]
   },
