@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
-import net.foxyas.changedaddon.network.FightToKeepConsciousnessMinigameButtonMessage;
+import net.foxyas.changedaddon.network.packets.ServerboundProgressFTKCPacket;
 import net.foxyas.changedaddon.util.RenderUtil;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
@@ -17,8 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHandle.STRUGGLE_NEED;
-import static net.foxyas.changedaddon.procedures.FightToKeepYourConsciousnessHandle.STRUGGLE_TIME;
+import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.STRUGGLE_NEED;
+import static net.foxyas.changedaddon.qte.FightToKeepConsciousness.STRUGGLE_TIME;
 
 public class KeyPressMinigameScreen extends Screen {
 
@@ -40,18 +40,13 @@ public class KeyPressMinigameScreen extends Screen {
 
         button_fight = new Button(0, 0, 166, 20,
                 new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.button_fight"),
-                e -> {
-                    //ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 1));
-                    //FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(player, 0, 1);
-                }
+                e ->
+                        ChangedAddonMod.PACKET_HANDLER.sendToServer(new ServerboundProgressFTKCPacket())
         );
 
         button_give_up = new Button(0, 0, 166, 20,
                 new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.button_give_up"),
-                e -> {
-                    ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(1, 1));
-                    FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(player, 1, 1);
-                }
+                e -> minecraft.setScreen(null)
         );
     }
 
@@ -100,6 +95,13 @@ public class KeyPressMinigameScreen extends Screen {
         RenderSystem.disableBlend();
     }
 
+    @Override
+    public void tick() {
+        if(ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).FTKCminigameType == null){
+            minecraft.setScreen(null);
+        }
+    }
+
     /* ----------------------------- STATIC METHODS ----------------------------- */
     public static String getProgressText(@NotNull Player entity) {
         return ChangedAddonModVariables.PlayerVariables.ofOrDefault(entity)
@@ -109,6 +111,6 @@ public class KeyPressMinigameScreen extends Screen {
     public static String getTimeRemaining(@NotNull Player player) {
         TransfurVariantInstance<?> transfurInstance = ProcessTransfur.getPlayerTransfurVariant(player);
 
-        return transfurInstance == null ? "" : String.valueOf(transfurInstance.ageAsVariant / STRUGGLE_TIME);
+        return transfurInstance == null ? "" : Integer.toString(STRUGGLE_TIME - transfurInstance.ageAsVariant);
     }
 }

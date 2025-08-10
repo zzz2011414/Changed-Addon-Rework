@@ -2,15 +2,13 @@ package net.foxyas.changedaddon.event;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.network.*;
-import net.foxyas.changedaddon.network.packets.ConfirmMovementPacket;
-import net.foxyas.changedaddon.network.packets.KeyPressPacket;
-import net.foxyas.changedaddon.network.packets.RequestMovementCheckPacket;
-import net.foxyas.changedaddon.network.packets.SyncTransfurVisionsPacket;
+import net.foxyas.changedaddon.network.packets.*;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
+import net.minecraftforge.network.NetworkDirection;
 
 @Mod.EventBusSubscriber(modid = ChangedAddonMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonMod {
@@ -19,9 +17,6 @@ public class CommonMod {
     public static void registerPackets(FMLConstructModEvent event) {
         ChangedAddonMod.addNetworkMessage(KeyPressPacket.class, KeyPressPacket::encode, KeyPressPacket::decode, KeyPressPacket::handle);
         ChangedAddonMod.addNetworkMessage(SyncTransfurVisionsPacket.class, SyncTransfurVisionsPacket::encode, SyncTransfurVisionsPacket::decode, SyncTransfurVisionsPacket::handle);
-
-        ChangedAddonMod.addNetworkMessage(FightToKeepConsciousnessMinigameButtonMessage.class, FightToKeepConsciousnessMinigameButtonMessage::buffer, FightToKeepConsciousnessMinigameButtonMessage::new,
-                FightToKeepConsciousnessMinigameButtonMessage::handler);
 
         ChangedAddonMod.addNetworkMessage(RequestMovementCheckPacket.class, RequestMovementCheckPacket::encode, RequestMovementCheckPacket::decode, RequestMovementCheckPacket::handle);
         ChangedAddonMod.addNetworkMessage(ConfirmMovementPacket.class, ConfirmMovementPacket::encode, ConfirmMovementPacket::decode, ConfirmMovementPacket::handle);
@@ -53,9 +48,6 @@ public class CommonMod {
         ChangedAddonMod.addNetworkMessage(OpenExtraDetailsMessage.class, OpenExtraDetailsMessage::buffer, OpenExtraDetailsMessage::new,
                 OpenExtraDetailsMessage::handler);
 
-        ChangedAddonMod.addNetworkMessage(OpenStruggleMenuMessage.class, OpenStruggleMenuMessage::buffer, OpenStruggleMenuMessage::new,
-                OpenStruggleMenuMessage::handler);
-
         ChangedAddonMod.addNetworkMessage(PatKeyMessage.class, PatKeyMessage::buffer, PatKeyMessage::new, PatKeyMessage::handler);
 
         ChangedAddonMod.addNetworkMessage(TransfurSoundsGuiButtonMessage.class, TransfurSoundsGuiButtonMessage::buffer,
@@ -68,5 +60,19 @@ public class CommonMod {
                 InformantBlockGuiKeyMessage::encode,
                 InformantBlockGuiKeyMessage::decode,
                 InformantBlockGuiKeyMessage::handle);
+
+
+
+        ChangedAddonMod.addNetworkMessage(ServerboundProgressFTKCPacket.class,
+                ServerboundProgressFTKCPacket::encode,
+                ServerboundProgressFTKCPacket::new,
+                ServerPacketHandler::handleProgressFTKCPacket,
+                NetworkDirection.PLAY_TO_SERVER);
+
+        ChangedAddonMod.addNetworkMessage(ClientboundOpenFTKCScreenPacket.class,
+                ClientboundOpenFTKCScreenPacket::encode,
+                ClientboundOpenFTKCScreenPacket::new,
+                (packet, contextSupplier) ->  ClientPacketHandler.handleOpenFTKCScreenPacket(packet, contextSupplier),
+                NetworkDirection.PLAY_TO_CLIENT);
     }
 }

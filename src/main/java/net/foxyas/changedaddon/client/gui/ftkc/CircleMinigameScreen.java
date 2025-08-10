@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.util.RenderUtil;
 import net.foxyas.changedaddon.util.Vector2f;
 import net.minecraft.client.Minecraft;
@@ -79,6 +80,11 @@ public abstract class CircleMinigameScreen extends Screen {
 
     @Override
     public void tick() {
+        if(ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).FTKCminigameType == null){
+            minecraft.setScreen(null);
+            return;
+        }
+
         struggleProgressO = struggleProgress;
         if (Vector2f.distSqr(cursor, circle) <= INTERACTION_RADIUS_SQR) {
             increaseStruggle();
@@ -91,7 +97,7 @@ public abstract class CircleMinigameScreen extends Screen {
         }
 
         if (struggleProgress > 0) {
-            struggleProgress = Math.max(0, struggleProgress - .05f);
+            struggleProgress = Math.max(0, struggleProgress - .1f);
         }
     }
 
