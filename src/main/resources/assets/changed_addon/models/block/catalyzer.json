@@ -2,11 +2,11 @@
   "parent": "block/cube",
   "textures": {
     "down": "changed_addon:blocks/catalyzer_button",
-    "up": "changed_addon:blocks/newcatalyzer_animationtexture",
-    "north": "changed_addon:blocks/catalyzersideb",
-    "east": "changed_addon:blocks/catalyzersideb",
+    "up": "changed_addon:blocks/new_catalyzer_animation_texture",
+    "north": "changed_addon:blocks/catalyzer_side_b.png",
+    "east": "changed_addon:blocks/catalyzer_side_b.png",
     "south": "changed_addon:blocks/catalyzer_back",
-    "west": "changed_addon:blocks/catalyzersideb",
+    "west": "changed_addon:blocks/catalyzer_side_b",
     "particle": "changed_addon:blocks/catalyzer_button"
   }
 }

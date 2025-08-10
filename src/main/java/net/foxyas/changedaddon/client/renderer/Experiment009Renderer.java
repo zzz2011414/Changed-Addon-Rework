@@ -2,8 +2,10 @@ package net.foxyas.changedaddon.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.foxyas.changedaddon.client.model.Experiment009BossModel;
+import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.client.model.Experiment009Model;
 import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.ltxprogrammer.changed.client.FormRenderHandler;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.CustomEyesLayer;
@@ -26,24 +28,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
 import org.jetbrains.annotations.NotNull;
 
-public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<Experiment009BossEntity, Experiment009BossModel, ArmorLatexMaleWolfModel<Experiment009BossEntity>> {
-    public KetExperiment009BossRenderer(EntityRendererProvider.Context context) {
-        super(context, new Experiment009BossModel(context.bakeLayer(Experiment009BossModel.LAYER_LOCATION)),
+public class Experiment009Renderer extends AdvancedHumanoidRenderer<Experiment009Entity, Experiment009Model, ArmorLatexMaleWolfModel<Experiment009Entity>> {
+    public Experiment009Renderer(EntityRendererProvider.Context context) {
+        super(context, new Experiment009Model(context.bakeLayer(Experiment009Model.LAYER_LOCATION)),
                 ArmorLatexMaleWolfModel.MODEL_SET, 0.5f);
-        this.addLayer(new CustomEmissiveBodyLayer<>(this, new ResourceLocation("changed_addon", "textures/entities/experiment_9/experiment_009_glow_layer.png"), 0.75f));
-        //this.addLayer(new ParticlesTrailsLayer<>(this));
+        this.addLayer(new CustomEmissiveBodyLayer<>(this, ChangedAddonMod.textureLoc("textures/entities/experiment_9/experiment_009_glow_layer"), 0.7f));
         this.addLayer(new LatexParticlesLayer<>(this, getModel()));
         this.addLayer(new GasMaskLayer<>(this, context.getModelSet()));
         this.addLayer(new CustomEyesLayer<>(this, context.getModelSet(), CustomEyesLayer::scleraColor, CustomEyesLayer.fixedColorGlowing(Color3.parseHex("#8dcfff")), CustomEyesLayer.fixedColorGlowing(Color3.parseHex("#8dcfff")), CustomEyesLayer::noRender, CustomEyesLayer::noRender));
     }
 
     @Override
-    public void render(@NotNull Experiment009BossEntity entity, float yRot, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
-        super.render(entity, yRot, partialTicks, poseStack, bufferSource, packedLight);
-    }
-
-    @Override
-    public @NotNull ResourceLocation getTextureLocation(@NotNull Experiment009BossEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Experiment009Entity entity) {
         return new ResourceLocation("changed_addon:textures/entities/experiment_9/experiment_009.png");
     }
 
@@ -65,7 +61,7 @@ public class KetExperiment009BossRenderer extends AdvancedHumanoidRenderer<Exper
 
         @Override
         public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if (entity.getUnderlyingPlayer() == null && entity instanceof Experiment009BossEntity ketExperiment009 && ketExperiment009.isPhase2()) {
+            if (entity.getUnderlyingPlayer() == null && entity instanceof Experiment009Entity ketExperiment009 && ketExperiment009.isPhase2()) {
                 VertexConsumer vertexConsumer = bufferSource.getBuffer(this.renderType());
                 this.getParentModel().renderToBuffer(poseStack, vertexConsumer, 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             }
