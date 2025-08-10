@@ -153,11 +153,11 @@ public class FightToKeepConsciousnessMinigameScreen extends AbstractContainerScr
             }
             case MOUSE_CIRCLE_PULL -> {
                 font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(player)), getCircleCenter().x - 95, getCircleCenter().y - 50, color);
-                font.draw(poseStack, getProgressText(player), circlePos.x + 10, circlePos.y + 10, color);
+                font.draw(poseStack, getProgressText(player), circlePos.x + 10, circlePos.y + 5, color);
             }
             case MOUSE_PULL -> {
                 font.draw(poseStack, new TranslatableComponent("gui.changed_addon.fight_to_keep_consciousness_minigame.label_text", getTimeRemaining(player)), getCircleCenter().x - 95, getCircleCenter().y - 35, color);
-                font.draw(poseStack, getProgressText(player), getCircleCenter().x + 10, getCircleCenter().y + 10, color);
+                font.draw(poseStack, getProgressText(player), getCircleCenter().x + 10, getCircleCenter().y + 5, color);
             }
         }
     }

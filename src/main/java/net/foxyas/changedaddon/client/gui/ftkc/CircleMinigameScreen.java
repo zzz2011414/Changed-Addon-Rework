@@ -45,6 +45,11 @@ public abstract class CircleMinigameScreen extends Screen {
     }
 
     @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
     protected void init() {
         halfWidth = width / 2f;
         halfHeight = height / 2f;
