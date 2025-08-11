@@ -53,6 +53,10 @@ public class LuminaraBloomBlock extends FlowerBlock {
 
     @Override
     public boolean canSurvive(@NotNull BlockState pState, @NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
+        BlockState below = pLevel.getBlockState(pPos.below());
+        if (below.getBlock() instanceof AbstractLatexBlock) {
+            return true;
+        }
         return super.canSurvive(pState, pLevel, pPos);
     }
 
