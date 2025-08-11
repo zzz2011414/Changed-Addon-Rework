@@ -39,6 +39,12 @@ public class LuminaraBloomBlock extends FlowerBlock {
         ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.LUMINARA_BLOOM.get(), renderType -> renderType == RenderType.cutout());
     }
 
+    @SuppressWarnings("deprecation")
+    @Override
+    public int getLightBlock(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
+        return 3;
+    }
+
     @Override
     public boolean canSurvive(@NotNull BlockState pState, @NotNull LevelReader pLevel, @NotNull BlockPos pPos) {
         return super.canSurvive(pState, pLevel, pPos);
