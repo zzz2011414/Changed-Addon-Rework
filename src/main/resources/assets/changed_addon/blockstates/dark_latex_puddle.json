@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "changed_addon:block/darklatexpuddle"
+      "model": "changed_addon:block/dark_latex_puddle"
     },
     "facing=east": {
-      "model": "changed_addon:block/darklatexpuddle",
+      "model": "changed_addon:block/dark_latex_puddle",
       "y": 90
     },
     "facing=south": {
-      "model": "changed_addon:block/darklatexpuddle",
+      "model": "changed_addon:block/dark_latex_puddle",
       "y": 180
     },
     "facing=west": {
-      "model": "changed_addon:block/darklatexpuddle",
+      "model": "changed_addon:block/dark_latex_puddle",
       "y": 270
     }
   }
