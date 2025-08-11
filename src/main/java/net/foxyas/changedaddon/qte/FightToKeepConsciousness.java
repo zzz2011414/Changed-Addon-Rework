@@ -1,9 +1,6 @@
 package net.foxyas.changedaddon.qte;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.client.gui.ftkc.KeyPressMinigameScreen;
-import net.foxyas.changedaddon.client.gui.ftkc.MouseCirclePullMinigameScreen;
-import net.foxyas.changedaddon.client.gui.ftkc.MousePullMinigameScreen;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.network.packets.ClientboundOpenFTKCScreenPacket;
@@ -113,10 +110,10 @@ public class FightToKeepConsciousness {
         updatePlayerVariables(vars, null, 0, player);
     }
 
-    public enum MinigameType {//Just in case do not replace lambda with method reference
-        MOUSE_PULL(3.5f, FMLLoader.getDist().isDedicatedServer() ? () -> null : () -> new MousePullMinigameScreen()),
-        MOUSE_CIRCLE_PULL(4.2f, FMLLoader.getDist().isDedicatedServer() ? () -> null : () -> new MouseCirclePullMinigameScreen()),
-        KEY_PRESS(1, FMLLoader.getDist().isDedicatedServer() ? () -> null : () -> new KeyPressMinigameScreen());
+    public enum MinigameType {
+        MOUSE_PULL(3.5f, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.MOUSE_PULL()),
+        MOUSE_CIRCLE_PULL(4.2f, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.MOUSE_CIRCLE_PULL()),
+        KEY_PRESS(1, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.KEY_PRESS());
 
         public final Supplier<Screen> screen;
         public final float progressAmount;
