@@ -84,7 +84,7 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
     @Override
     public boolean isValidBonemealTarget(@NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull BlockState blockState, boolean pIsClient) {
         return BlockPos.betweenClosedStream(new AABB(blockPos).inflate(3, 1, 3))
-                .noneMatch(pos -> {
+                .anyMatch(pos -> {
                     BlockState normal = blockGetter.getBlockState(pos);
                     BlockState below = blockGetter.getBlockState(pos.below());
                     return normal.isAir() && (below.getBlock() instanceof AbstractLatexBlock || below.is(BlockTags.DIRT) || below.is(Blocks.FARMLAND));
