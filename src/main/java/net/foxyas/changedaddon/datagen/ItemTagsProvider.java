@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.datagen;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.init.ChangedTagsExtension;
 import net.ltxprogrammer.changed.init.ChangedItems;
@@ -110,6 +111,8 @@ public class ItemTagsProvider extends net.minecraft.data.tags.ItemTagsProvider {
                 Items.TRIDENT);
 
         tag(ChangedAddonTags.Items.TAME_ITEM);
+
+        tag(ItemTags.SMALL_FLOWERS).add(LUMINARA_BLOOM.get());
 
 
         tag(ChangedAddonTags.Items.AQUATIC_DIET).add(

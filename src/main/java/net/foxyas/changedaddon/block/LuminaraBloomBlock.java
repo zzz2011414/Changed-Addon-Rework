@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.EntityBlock;
@@ -33,6 +34,11 @@ public class LuminaraBloomBlock extends FlowerBlock {
                         .emissiveRendering((state, blockGetter, blockPos) -> true)
                         .hasPostProcess((state, blockGetter, blockPos) -> true)
                         .noCollission().dynamicShape().instabreak().sound(SoundType.GRASS));
+    }
+
+    @Override
+    public @NotNull MobEffect getSuspiciousStewEffect() {
+        return super.getSuspiciousStewEffect();
     }
 
     public static void registerRenderLayer() {
