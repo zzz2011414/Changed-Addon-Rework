@@ -32,7 +32,6 @@ public class DescontrolSyringePlayerFinishesUsingItemProcedure {
         if (entity == null)
             return;
         if (entity instanceof  Player player && ProcessTransfur.isPlayerTransfurred(player)) {
-            SummonEntityProcedure.execute((Level) world, (Player) entity);
             if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).resetTransfurAdvancements) {
                 {
                     Entity _ent = entity;
@@ -40,7 +39,6 @@ public class DescontrolSyringePlayerFinishesUsingItemProcedure {
                         _ent.getServer().getCommands().performCommand(_ent.createCommandSourceStack().withSuppressedOutput().withPermission(4), "advancement revoke @s from minecraft:changed/transfur");
                 }
             }
-            PlayerUtil.UnTransfurPlayer(entity);
             if (new Object() {
                 public boolean checkGamemode(Entity _ent) {
                     if (_ent instanceof ServerPlayer _serverPlayer) {

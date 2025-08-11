@@ -46,8 +46,8 @@ public class SyringewithlitixcammoniaPlayerFinishesUsingItemProcedure {
                             _player.displayClientMessage(new TextComponent((new TranslatableComponent("changedaddon.untransfur.sloweffect").getString())), true);
                     }
                 } else {
-                    SummonDripParticlesProcedure.execute(entity);
-                    PlayerUtil.UnTransfurPlayer(entity);
+                    SummonDripParticlesProcedure.execute(player);
+                    PlayerUtil.UnTransfurPlayer(player);
                     if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).resetTransfurAdvancements) {
                         new Object() {
                             private int ticks = 0;

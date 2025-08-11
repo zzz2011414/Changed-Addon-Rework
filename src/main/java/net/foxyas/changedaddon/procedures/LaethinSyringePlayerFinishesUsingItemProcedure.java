@@ -51,8 +51,8 @@ public class LaethinSyringePlayerFinishesUsingItemProcedure {
         }
 
         // Visual feedback
-        SummonDripParticlesProcedure.execute(entity);
-        PlayerUtil.UnTransfurPlayer(entity);
+        SummonDripParticlesProcedure.execute(player);
+        PlayerUtil.UnTransfurPlayer(player);
 
         // Optional: Reset advancement
         if (playerVars.resetTransfurAdvancements) {

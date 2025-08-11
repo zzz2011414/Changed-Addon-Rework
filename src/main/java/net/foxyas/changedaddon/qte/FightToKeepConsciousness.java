@@ -83,7 +83,7 @@ public class FightToKeepConsciousness {
         vars.FTKCminigameType = null;
         vars.syncPlayerVariables(player);
 
-        PlayerUtil.UnTransfurPlayer(entity);
+        PlayerUtil.UnTransfurPlayer(player);
     }
 
     private static void updatePlayerVariables(ChangedAddonModVariables.PlayerVariables vars, MinigameType minigameType, int progress, Entity entity) {

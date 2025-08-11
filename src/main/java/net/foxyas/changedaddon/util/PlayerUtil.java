@@ -2,6 +2,7 @@ package net.foxyas.changedaddon.util;
 
 import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.ltxprogrammer.changed.effect.particle.ColoredParticleOption;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
@@ -22,6 +23,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +52,7 @@ public class PlayerUtil {
     public static void TransfurPlayer(Player player, String id) {
         ResourceLocation form = ResourceLocation.tryParse(id);
         TransfurVariant<?> latexVariant = form == null ? null : ChangedRegistry.TRANSFUR_VARIANT.get().getValue(form);
-        if(latexVariant == null) return;
+        if (latexVariant == null) return;
 
         ProcessTransfur.transfur(player, player.getLevel(), latexVariant, true, TransfurContext.hazard(TransfurCause.GRAB_REPLICATE));
     }
@@ -56,7 +60,7 @@ public class PlayerUtil {
     public static void TransfurPlayer(Player player, String id, float progress) {
         ResourceLocation form = ResourceLocation.tryParse(id);
         TransfurVariant<?> latexVariant = form == null ? null : ChangedRegistry.TRANSFUR_VARIANT.get().getValue(form);
-        if(latexVariant == null) return;
+        if (latexVariant == null) return;
 
         ProcessTransfur.setPlayerTransfurVariant(player, latexVariant, TransfurContext.hazard(TransfurCause.GRAB_REPLICATE), progress);
     }
@@ -64,7 +68,7 @@ public class PlayerUtil {
     public static void TransfurPlayerAndLoadData(Player player, String id, CompoundTag data, float progress) {
         ResourceLocation form = ResourceLocation.tryParse(id);
         TransfurVariant<?> latexVariant = form == null ? null : ChangedRegistry.TRANSFUR_VARIANT.get().getValue(form);
-        if(latexVariant == null) return;
+        if (latexVariant == null) return;
 
         var tf = ProcessTransfur.setPlayerTransfurVariant(player, latexVariant, TransfurContext.hazard(TransfurCause.GRAB_REPLICATE), progress);
         if (tf != null) {
@@ -72,12 +76,38 @@ public class PlayerUtil {
         }
     }
 
-    public static void UnTransfurPlayer(Entity entity) {
-        Player player = (Player) entity;
+    public static void UnTransfurPlayer(Player player) {
         ProcessTransfur.ifPlayerTransfurred(player, (variant) -> {
             variant.unhookAll(player);
             ProcessTransfur.removePlayerTransfurVariant(player);
             ProcessTransfur.setPlayerTransfurProgress(player, 0.0f);
+        });
+    }
+
+    public static void UnTransfurPlayer(Player player, boolean shouldApplyEffects) {
+        ProcessTransfur.ifPlayerTransfurred(player, (variant) -> {
+            variant.unhookAll(player);
+            ProcessTransfur.removePlayerTransfurVariant(player);
+            ProcessTransfur.setPlayerTransfurProgress(player, 0.0f);
+            if (shouldApplyEffects && !player.getLevel().isClientSide()) {
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60, 0, false, false));
+            }
+        });
+    }
+
+    public static void UnTransfurPlayerAndPlaySound(Player player, boolean shouldApplyEffects) {
+        ProcessTransfur.ifPlayerTransfurred(player, (variant) -> {
+            variant.unhookAll(player);
+            ProcessTransfur.removePlayerTransfurVariant(player);
+            ProcessTransfur.setPlayerTransfurProgress(player, 0.0f);
+            if (shouldApplyEffects && !player.getLevel().isClientSide()) {
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 40, 0, false, false));
+                player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 60, 0, false, false));
+                if (player.getLevel() instanceof ServerLevel serverLevel) {
+                    serverLevel.playSound(null, player.getX(), player.getEyeY(), player.getZ(), ChangedAddonSounds.UNTRANSFUR, SoundSource.PLAYERS, 1, 1);
+                }
+            }
         });
     }
 

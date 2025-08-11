@@ -22,17 +22,15 @@ public class SummonEntityProcedure {
                 ChangedEntity fakeEntity = instance.getChangedEntity();
 
                 Entity entityToSpawn = fakeEntity.getType().create(_level);
+                assert entityToSpawn != null;
                 entityToSpawn.moveTo(x, y, z, 0, 0);
                 entityToSpawn.setYBodyRot(0);
                 entityToSpawn.setYHeadRot(0);
-                Player _ent = player;
-
-                if (!_ent.level.isClientSide() && _ent.getServer() != null) {
+                if (!player.level.isClientSide() && player.getServer() != null) {
                     if (entityToSpawn instanceof Mob mob) {
                         mob.finalizeSpawn(_level, world.getCurrentDifficultyAt(entityToSpawn.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
                     }
                     world.addFreshEntity(entityToSpawn);
-                    //_ent.getServer().getCommands().performCommand(_ent.createCommandSourceStack().withSuppressedOutput().withPermission(4), ("summon " + ForgeRegistries.ENTITIES.getKey(entityToSpawn.getType()).toString() + " ~ ~ ~"));
                 }
             }
         }

@@ -1,8 +1,13 @@
 
 package net.foxyas.changedaddon.item;
 
+import net.foxyas.changedaddon.procedures.SummonEntityProcedure;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.item.SpecializedAnimations;
 import net.ltxprogrammer.changed.item.Syringe;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.Rarity;
@@ -36,11 +41,17 @@ public class DiffusionSyringeItem extends Item implements SpecializedAnimations 
 	@Override
 	public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
 		ItemStack retval = super.finishUsingItem(itemstack, world, entity);
-		double x = entity.getX();
-		double y = entity.getY();
-		double z = entity.getZ();
+		//double x = entity.getX();
+		//double y = entity.getY();
+		//double z = entity.getZ();
+		//DescontrolSyringePlayerFinishesUsingItemProcedure.execute(world, x, y, z, entity);
 
-		DescontrolSyringePlayerFinishesUsingItemProcedure.execute(world, x, y, z, entity);
+		if (entity instanceof Player player) {
+			SummonEntityProcedure.execute(world, player);
+			PlayerUtil.UnTransfurPlayerAndPlaySound(player, !player.isCreative() && !player.isSpectator());
+			player.displayClientMessage(new TranslatableComponent("changedaddon.untransfur.diffusion"), true);
+		}
+
 		return retval;
 	}
 

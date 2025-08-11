@@ -151,7 +151,7 @@ public class TransfurTotemItem extends Item {
             return;
 
         SummonDripParticlesProcedure.execute(entity);
-        PlayerUtil.UnTransfurPlayer(entity);
+        PlayerUtil.UnTransfurPlayer(player);
 
         level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.totem.use")), SoundSource.NEUTRAL, 1, 1);
 
