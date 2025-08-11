@@ -83,7 +83,7 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
 
     @Override
     public boolean isValidBonemealTarget(@NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull BlockState blockState, boolean pIsClient) {
-        return BlockPos.betweenClosedStream(new AABB(blockPos).inflate(3, 1, 3))
+        return BlockPos.betweenClosedStream(new AABB(blockPos,blockPos).inflate(3, 1, 3))
                 .anyMatch(pos -> {
                     BlockState normal = blockGetter.getBlockState(pos);
                     BlockState below = blockGetter.getBlockState(pos.below());
