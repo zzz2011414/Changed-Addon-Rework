@@ -71,7 +71,7 @@ public abstract class AbstractLuminarcticLeopard extends AbstractSnowLeopard imp
     public int SuperAbilitiesTicksCooldown = 0;
     public int PassivesTicksCooldown = 0;
     public int DashingTicks = 0;
-    boolean ActivatedAbility = false;
+    private boolean ActivatedAbility = false;
     private boolean isBoss = false;
     private boolean Aggro = false;
     public DodgeAbilityInstance dodgeAbilityInstance = null;
@@ -165,7 +165,7 @@ public abstract class AbstractLuminarcticLeopard extends AbstractSnowLeopard imp
         return ActivatedAbility;
     }
 
-    public void SetActivatedAbility(boolean value) {
+    public void setActivatedAbility(boolean value) {
         this.ActivatedAbility = value;
     }
 
@@ -419,7 +419,7 @@ public abstract class AbstractLuminarcticLeopard extends AbstractSnowLeopard imp
             LivingEntity target = event.getEntityLiving();
             Entity source = event.getSource().getEntity();
             if (source instanceof AbstractLuminarcticLeopard lumi && lumi.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
-                PlayerUtil.ParticlesUtil.sendParticles(target.level, ParticleTypes.SNOWFLAKE, target.position(), 0.3f, 0.5f, 0.3f, 4, 0.25f);
+                PlayerUtil.ParticlesUtil.sendParticles(target.level, ParticleTypes.SNOWFLAKE, target.getEyePosition(), 0.3f, 0.5f, 0.3f, 4, 0.05f);
                 target.setTicksFrozen(target.getTicksFrozen() + (int) (target.getTicksRequiredToFreeze() * 0.25f));
                 target.playSound(SoundEvents.PLAYER_HURT_FREEZE, 2f, 1f);
             } else if (source instanceof Player player) {
@@ -427,7 +427,7 @@ public abstract class AbstractLuminarcticLeopard extends AbstractSnowLeopard imp
                 if (player.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()
                         && instance != null
                         && instance.getParent().is(ChangedAddonTags.TransfurTypes.CAUSE_FREEZING)) {
-                    PlayerUtil.ParticlesUtil.sendParticles(target.level, ParticleTypes.SNOWFLAKE, target.position(), 0.3f, 0.5f, 0.3f, 4, 0.25f);
+                    PlayerUtil.ParticlesUtil.sendParticles(target.level, ParticleTypes.SNOWFLAKE, target.getEyePosition(), 0.3f, 0.5f, 0.3f, 4, 0.05f);
                     target.setTicksFrozen(target.getTicksFrozen() + (int) (target.getTicksRequiredToFreeze() * 0.25f));
                     target.playSound(SoundEvents.PLAYER_HURT_FREEZE, 2f, 1f);
                 }

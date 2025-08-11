@@ -37,10 +37,17 @@ public class CustomInteractionInstance extends AbstractAbilityInstance {
         if (entity.getChangedEntity() instanceof LatexSnepEntity latexSnepEntity) {
             latexSnepEntity.WantLoaf = !latexSnepEntity.WantLoaf;
         } else if (entity.getChangedEntity() instanceof AbstractLuminarcticLeopard lumi) {
-            switch (lumi.getGlowStage()) {
-                case AbstractLuminarcticLeopard.GLOW_NONE -> lumi.setGlowStage(AbstractLuminarcticLeopard.GLOW_PULSE);
-                case AbstractLuminarcticLeopard.GLOW_PULSE -> lumi.setGlowStage(AbstractLuminarcticLeopard.GLOW_ALWAYS);
-                case AbstractLuminarcticLeopard.GLOW_ALWAYS -> lumi.setGlowStage(AbstractLuminarcticLeopard.GLOW_NONE);
+            if (entity.isCrouching()) {
+                switch (lumi.getGlowStage()) {
+                    case AbstractLuminarcticLeopard.GLOW_NONE ->
+                            lumi.setGlowStage(AbstractLuminarcticLeopard.GLOW_PULSE);
+                    case AbstractLuminarcticLeopard.GLOW_PULSE ->
+                            lumi.setGlowStage(AbstractLuminarcticLeopard.GLOW_ALWAYS);
+                    case AbstractLuminarcticLeopard.GLOW_ALWAYS ->
+                            lumi.setGlowStage(AbstractLuminarcticLeopard.GLOW_NONE);
+                }
+            } else {
+                lumi.setActivatedAbility(!lumi.isActivatedAbility());
             }
         } else if (entity.getChangedEntity() instanceof AvaliEntity avaliEntity) {
             float scale = avaliEntity.getDimensionScale();

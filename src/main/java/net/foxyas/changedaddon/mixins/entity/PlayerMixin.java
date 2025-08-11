@@ -2,6 +2,7 @@ package net.foxyas.changedaddon.mixins.entity;
 
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.abilities.ClawsAbility;
+import net.foxyas.changedaddon.item.AbstractKatanaItem;
 import net.foxyas.changedaddon.variants.ExtraVariantStats;
 import net.ltxprogrammer.changed.ability.AbstractAbility;
 import net.ltxprogrammer.changed.ability.AbstractAbilityInstance;
@@ -37,6 +38,14 @@ public abstract class PlayerMixin {
 
     @Shadow
     public abstract ItemStack getItemBySlot(EquipmentSlot p_36257_);
+
+    @Inject(method = "sweepAttack", at = @At("HEAD"), cancellable = true)
+    private void customSweepAttackEffect(CallbackInfo ci){
+        if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() instanceof AbstractKatanaItem abstractKatanaItem) {
+            ci.cancel();
+            abstractKatanaItem.spawnElectricSwingParticle((Player) (Object) this, 2);
+        }
+    }
 
     @Inject(method = "attack", at = @At("HEAD"))
     private void CustomClawSweepAttack(Entity entity, CallbackInfo ci) {

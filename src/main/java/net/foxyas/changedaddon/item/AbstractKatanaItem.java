@@ -26,37 +26,16 @@ import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractKatanaItem extends TieredItem implements SpecializedItemRendering {
-    private final float attackDamage;
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+public abstract class AbstractKatanaItem extends SwordItem implements SpecializedItemRendering {
 
-    public AbstractKatanaItem(Tier tier, float pAttackDamageModifier, float pAttackSpeedModifier, Item.Properties pProperties) {
-        super(tier, pProperties);
-        this.attackDamage = pAttackDamageModifier + tier.getAttackDamageBonus();
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", pAttackSpeedModifier, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
-    }
-
-    public float getAttackDamage() {
-        return attackDamage;
-    }
-
-    @Override
-    public boolean canAttackBlock(@NotNull BlockState pState, @NotNull Level pLevel, @NotNull BlockPos pPos, Player pPlayer) {
-        return !pPlayer.isCreative();
+    public AbstractKatanaItem(Tier tier, int pAttackDamageModifier, float pAttackSpeedModifier, Item.Properties pProperties) {
+        super(tier, pAttackDamageModifier, pAttackSpeedModifier, pProperties);
     }
 
     /*@Override
     public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
         return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
     }*/
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot, stack);
-    }
 
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
@@ -87,9 +66,6 @@ public abstract class AbstractKatanaItem extends TieredItem implements Specializ
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity target) {
         boolean retVal = super.onLeftClickEntity(stack, player, target);
-        if (retVal && player.getAttackStrengthScale(1) >= 0.9f) {
-            spawnElectricSwingParticle(player, 2f);
-        }
         return retVal;
     }
 
