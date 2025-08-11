@@ -39,6 +39,7 @@
     "client.MouseHandlerAccessor",
     "renderer.AdvancedHumanoidRendererMixin",
     "renderer.GameRendererMixin",
+    "renderer.LevelRendererMixin",
     "renderer.LivingEntityRendererAccessor",
     "renderer.PostChainMixin",
     "renderer.renderHandMixin"

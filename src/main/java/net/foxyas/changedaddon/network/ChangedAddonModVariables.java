@@ -61,15 +61,18 @@ public class ChangedAddonModVariables {
     }
 
     public static class PlayerVariables {
-        public boolean showWarns = true;
-        public float consciousnessFightProgress = 0;
+        @Nullable
         public FightToKeepConsciousness.MinigameType FTKCminigameType = null;
-        public String LatexEntitySummon = "any";
+
+        public float consciousnessFightProgress = 0;
+
+        public double LatexInfectionCooldown = 0.0;
+        public double untransfurProgress = 0.0;
+
+        public boolean showWarns = true;
         public boolean resetTransfurAdvancements = false;
         public boolean actCooldown = false;
         public boolean areDarkLatex = false;
-        public double LatexInfectionCooldown = 0.0;
-        public double untransfurProgress = 0.0;
         public boolean Exp009TransfurAllowed = false;
         public boolean Exp009Buff = false;
         public boolean Exp10TransfurAllowed = false;
@@ -95,7 +98,6 @@ public class ChangedAddonModVariables {
         }
 
         public void copyTo(PlayerVariables other, boolean wasDeath) {
-            other.LatexEntitySummon = LatexEntitySummon;
             other.resetTransfurAdvancements = resetTransfurAdvancements;
             other.areDarkLatex = areDarkLatex;
             other.untransfurProgress = untransfurProgress;
@@ -114,8 +116,7 @@ public class ChangedAddonModVariables {
             CompoundTag nbt = new CompoundTag();
             nbt.putBoolean("showWarns", showWarns);
             nbt.putFloat("consciousnessFightProgress", consciousnessFightProgress);
-            nbt.putByte("FTKCminigameType", (byte) FTKCminigameType.ordinal());
-            nbt.putString("LatexEntitySummon", LatexEntitySummon);
+            nbt.putByte("FTKCminigameType", FTKCminigameType != null ? (byte) FTKCminigameType.ordinal() : -1);
             nbt.putBoolean("resetTransfurAdvancements", resetTransfurAdvancements);
             nbt.putBoolean("actCooldown", actCooldown);
             nbt.putBoolean("areDarkLatex", areDarkLatex);
@@ -131,8 +132,7 @@ public class ChangedAddonModVariables {
             CompoundTag nbt = (CompoundTag) Tag;
             showWarns = nbt.getBoolean("showWarns");
             consciousnessFightProgress = nbt.getFloat("consciousnessFightProgress");
-            FTKCminigameType = FightToKeepConsciousness.MinigameType.values()[nbt.getByte("FTKCminigameType")];
-            LatexEntitySummon = nbt.getString("LatexEntitySummon");
+            FTKCminigameType = nbt.getByte("FTKCminigameType") != (byte) -1 ? FightToKeepConsciousness.MinigameType.values()[nbt.getByte("FTKCminigameType")] : null;
             resetTransfurAdvancements = nbt.getBoolean("resetTransfurAdvancements");
             actCooldown = nbt.getBoolean("actCooldown");
             areDarkLatex = nbt.getBoolean("areDarkLatex");
@@ -171,7 +171,6 @@ public class ChangedAddonModVariables {
                 variables.showWarns = message.data.showWarns;
                 variables.consciousnessFightProgress = message.data.consciousnessFightProgress;
                 variables.FTKCminigameType = message.data.FTKCminigameType;
-                variables.LatexEntitySummon = message.data.LatexEntitySummon;
                 variables.resetTransfurAdvancements = message.data.resetTransfurAdvancements;
                 variables.actCooldown = message.data.actCooldown;
                 variables.areDarkLatex = message.data.areDarkLatex;
