@@ -3,7 +3,6 @@ package net.foxyas.changedaddon.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.block.entity.LuminaraBloomBlockEntity;
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
 import net.ltxprogrammer.changed.block.AbstractLatexBlock;
@@ -27,10 +26,13 @@ import net.minecraftforge.client.model.data.EmptyModelData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class LuminaraBloomBlock extends FlowerBlock implements EntityBlock {
+public class LuminaraBloomBlock extends FlowerBlock {
     public LuminaraBloomBlock() {
         super(ChangedAddonMobEffects.UNTRANSFUR, 60,
-                BlockBehaviour.Properties.of(Material.PLANT).noCollission().dynamicShape().instabreak().sound(SoundType.GRASS));
+                BlockBehaviour.Properties.of(Material.PLANT)
+                        .emissiveRendering((state, blockGetter, blockPos) -> true)
+                        .hasPostProcess((state, blockGetter, blockPos) -> true)
+                        .noCollission().dynamicShape().instabreak().sound(SoundType.GRASS));
     }
 
     public static void registerRenderLayer() {
@@ -48,10 +50,5 @@ public class LuminaraBloomBlock extends FlowerBlock implements EntityBlock {
             return true;
         }
         return super.mayPlaceOn(pState, pLevel, pPos);
-    }
-
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new LuminaraBloomBlockEntity(blockPos, blockState);
     }
 }

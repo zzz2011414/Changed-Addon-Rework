@@ -28,7 +28,6 @@ public class ChangedAddonBlockEntities {
     public static final RegistryObject<BlockEntityType<?>> GENERATOR = register("generator_block_entity", ChangedAddonBlocks.GENERATOR, GeneratorBlockEntity::new);
 
     //Non generic Ones
-    public static final RegistryObject<BlockEntityType<LuminaraBloomBlockEntity>> LUMINARA_BLOOM_BLOCK_ENTITY = REGISTRY.register("luminara_bloom_block_entity", () -> BlockEntityType.Builder.of(LuminaraBloomBlockEntity::new, ChangedAddonBlocks.LUMINARA_BLOOM.get()).build(null));
     public static final RegistryObject<BlockEntityType<TimedKeypadBlockEntity>> TIMED_KEYPAD_BLOCK_ENTITY = REGISTRY.register("timed_keypad_block_entity", () -> BlockEntityType.Builder.of(TimedKeypadBlockEntity::new, ChangedAddonBlocks.TIMED_KEYPAD.get()).build(null));
     public static final RegistryObject<BlockEntityType<SnepPlushBlockEntity>> SNEP_PLUSH = REGISTRY.register("snep_plush_block_entity", () -> BlockEntityType.Builder.of(SnepPlushBlockEntity::new, ChangedAddonBlocks.SNEP_PLUSH.get()).build(null));
     public static final RegistryObject<BlockEntityType<InformantBlockEntity>> INFORMANT_BLOCK = REGISTRY.register("informant_block_block_entity", () -> BlockEntityType.Builder.of(InformantBlockEntity::new, ChangedAddonBlocks.INFORMANT_BLOCK.get()).build(null));
@@ -40,7 +39,6 @@ public class ChangedAddonBlockEntities {
 
     @SubscribeEvent
     public static void registerBlockEntitiesRender(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(LUMINARA_BLOOM_BLOCK_ENTITY.get(), LuminaraBloomBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(CONTAINMENT_CONTAINER.get(), ContainmentContainerRenderer::new);
         event.registerBlockEntityRenderer(SNEP_PLUSH.get(), SnepPlushBlockEntityRenderer::new);
         event.registerBlockEntityRenderer(CONTAINMENT_CONTAINER.get(), ContainmentContainerRenderer::new);
