@@ -1,21 +1,17 @@
 package net.foxyas.changedaddon.client.gui.ftkc;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.network.packets.ServerboundProgressFTKCPacket;
 import net.foxyas.changedaddon.util.RenderUtil;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.Random;
 
 public class MouseCirclePullMinigameScreen extends CircleMinigameScreen {
-
-    private static final int imageWidth = 620;
-    private static final int halfImgWidth = imageWidth / 2;
-    private static final int imageHeight = 325;
-    private static final int halfImgHeight = imageHeight / 2;
 
     public MouseCirclePullMinigameScreen() {
         super(TextComponent.EMPTY);
@@ -24,8 +20,8 @@ public class MouseCirclePullMinigameScreen extends CircleMinigameScreen {
     @Override
     protected void init() {
         super.init();
-        if(circle.x == 0 && circle.y == 0) randomizeCirclePos(halfWidth, halfHeight);
-        if(cursor.x == 0 && cursor.y == 0) randomizeCursorPos(halfWidth, halfHeight);
+        if(circle.x == 0 && circle.y == 0) randomizeCirclePos(width / 3f, height / 3f);
+        if(cursor.x == 0 && cursor.y == 0) randomizeCursorPos(width / 3f, height / 3f);
     }
 
     @Override
@@ -43,16 +39,15 @@ public class MouseCirclePullMinigameScreen extends CircleMinigameScreen {
 
     protected void increaseStruggle() {
         struggleProgressO = struggleProgress;
-        struggleProgress += 0.05f;
+        struggleProgress += 0.25f;
         if(struggleProgress < 1) return;
 
         struggleProgressO = 0;
         struggleProgress = 0;
-        randomizeCursorPos(halfWidth, halfHeight);
-        randomizeCirclePos(width / 2.5f, height / 2.5f);
+        randomizeCursorPos(width / 3f, height / 3f);
+        randomizeCirclePos(width / 3f, height / 3f);
 
-        //ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 4));
-        //FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(player, 0, 4);
+        ChangedAddonMod.PACKET_HANDLER.sendToServer(new ServerboundProgressFTKCPacket());
     }
 
     protected void randomizeCirclePos(float offsetX, float offsetY) {

@@ -1,17 +1,14 @@
 package net.foxyas.changedaddon.client.gui.ftkc;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.network.packets.ServerboundProgressFTKCPacket;
 import net.foxyas.changedaddon.util.RenderUtil;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class MousePullMinigameScreen extends CircleMinigameScreen {
-
-    private static final int imageWidth = 620;
-    private static final int halfImgWidth = imageWidth / 2;
-    private static final int imageHeight = 325;
-    private static final int halfImgHeight = imageHeight / 2;
 
     public MousePullMinigameScreen() {
         super(TextComponent.EMPTY);
@@ -21,7 +18,7 @@ public class MousePullMinigameScreen extends CircleMinigameScreen {
     protected void init() {
         super.init();
         circle.set(halfWidth, halfHeight);
-        if(cursor.x == 0 && cursor.y == 0) randomizeCursorPos(halfWidth, halfHeight);
+        if(cursor.x == 0 && cursor.y == 0) randomizeCursorPos(width / 3f, height / 3f);
     }
 
     @Override
@@ -39,14 +36,13 @@ public class MousePullMinigameScreen extends CircleMinigameScreen {
 
     protected void increaseStruggle() {
         struggleProgressO = struggleProgress;
-        struggleProgress += 0.05f;
+        struggleProgress += 0.25f;
         if(struggleProgress < 1) return;
 
         struggleProgressO = 0;
         struggleProgress = 0;
-        randomizeCursorPos(halfWidth, halfHeight);
+        randomizeCursorPos(width / 3f, height / 3f);
 
-        //ChangedAddonMod.PACKET_HANDLER.sendToServer(new FightToKeepConsciousnessMinigameButtonMessage(0, 2));
-        //FightToKeepConsciousnessMinigameButtonMessage.handleButtonAction(player, 0, 2);
+        ChangedAddonMod.PACKET_HANDLER.sendToServer(new ServerboundProgressFTKCPacket());
     }
 }

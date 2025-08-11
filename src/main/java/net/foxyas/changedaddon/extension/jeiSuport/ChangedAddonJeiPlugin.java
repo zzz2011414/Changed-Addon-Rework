@@ -3,19 +3,15 @@ package net.foxyas.changedaddon.extension.jeiSuport;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.handlers.IGuiContainerHandler;
-import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.foxyas.changedaddon.client.gui.FightToKeepConsciousnessMinigameScreen;
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.init.ChangedAddonEnchantments;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.foxyas.changedaddon.recipes.CatalyzerRecipe;
 import net.foxyas.changedaddon.recipes.UnifuserRecipe;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +22,9 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 
 @JeiPlugin
@@ -56,11 +54,6 @@ public class ChangedAddonJeiPlugin implements IModPlugin {
 
         //Items Info
         ChangedAddonJeiDescriptionHandler.registerDescriptions(registration);
-    }
-
-    @Override
-    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addGuiScreenHandler(FightToKeepConsciousnessMinigameScreen.class, guiScreen -> null);
     }
 
     @Override

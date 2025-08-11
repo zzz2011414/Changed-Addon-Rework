@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.network;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.qte.FightToKeepConsciousness;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -61,8 +62,8 @@ public class ChangedAddonModVariables {
 
     public static class PlayerVariables {
         public boolean showWarns = true;
-        public double consciousnessFightProgress = 0;
-        public boolean conscienceFight = false;
+        public float consciousnessFightProgress = 0;
+        public FightToKeepConsciousness.MinigameType FTKCminigameType = null;
         public String LatexEntitySummon = "any";
         public boolean resetTransfurAdvancements = false;
         public boolean actCooldown = false;
@@ -71,7 +72,6 @@ public class ChangedAddonModVariables {
         public double untransfurProgress = 0.0;
         public boolean Exp009TransfurAllowed = false;
         public boolean Exp009Buff = false;
-        public boolean consciousnessFightGiveUp = false;
         public boolean Exp10TransfurAllowed = false;
 
         /**
@@ -104,18 +104,17 @@ public class ChangedAddonModVariables {
             other.Exp10TransfurAllowed = Exp10TransfurAllowed;
             if (!wasDeath) {
                 other.consciousnessFightProgress = consciousnessFightProgress;
-                other.conscienceFight = conscienceFight;
+                other.FTKCminigameType = FTKCminigameType;
                 other.actCooldown = actCooldown;
                 other.LatexInfectionCooldown = LatexInfectionCooldown;
-                other.consciousnessFightGiveUp = consciousnessFightGiveUp;
             }
         }
 
         public CompoundTag writeNBT() {
             CompoundTag nbt = new CompoundTag();
             nbt.putBoolean("showWarns", showWarns);
-            nbt.putDouble("consciousnessFightProgress", consciousnessFightProgress);
-            nbt.putBoolean("conscienceFight", conscienceFight);
+            nbt.putFloat("consciousnessFightProgress", consciousnessFightProgress);
+            nbt.putByte("FTKCminigameType", (byte) FTKCminigameType.ordinal());
             nbt.putString("LatexEntitySummon", LatexEntitySummon);
             nbt.putBoolean("resetTransfurAdvancements", resetTransfurAdvancements);
             nbt.putBoolean("actCooldown", actCooldown);
@@ -124,7 +123,6 @@ public class ChangedAddonModVariables {
             nbt.putDouble("UntransfurProgress", untransfurProgress);
             nbt.putBoolean("Exp009TransfurAllowed", Exp009TransfurAllowed);
             nbt.putBoolean("Exp009Buff", Exp009Buff);
-            nbt.putBoolean("consciousnessFightGiveUp", consciousnessFightGiveUp);
             nbt.putBoolean("Exp10TransfurAllowed", Exp10TransfurAllowed);
             return nbt;
         }
@@ -132,8 +130,8 @@ public class ChangedAddonModVariables {
         public void readNBT(Tag Tag) {
             CompoundTag nbt = (CompoundTag) Tag;
             showWarns = nbt.getBoolean("showWarns");
-            consciousnessFightProgress = nbt.getDouble("consciousnessFightProgress");
-            conscienceFight = nbt.getBoolean("conscienceFight");
+            consciousnessFightProgress = nbt.getFloat("consciousnessFightProgress");
+            FTKCminigameType = FightToKeepConsciousness.MinigameType.values()[nbt.getByte("FTKCminigameType")];
             LatexEntitySummon = nbt.getString("LatexEntitySummon");
             resetTransfurAdvancements = nbt.getBoolean("resetTransfurAdvancements");
             actCooldown = nbt.getBoolean("actCooldown");
@@ -142,7 +140,6 @@ public class ChangedAddonModVariables {
             untransfurProgress = nbt.getDouble("UntransfurProgress");
             Exp009TransfurAllowed = nbt.getBoolean("Exp009TransfurAllowed");
             Exp009Buff = nbt.getBoolean("Exp009Buff");
-            consciousnessFightGiveUp = nbt.getBoolean("consciousnessFightGiveUp");
             Exp10TransfurAllowed = nbt.getBoolean("Exp10TransfurAllowed");
         }
     }
@@ -173,7 +170,7 @@ public class ChangedAddonModVariables {
                 PlayerVariables variables = Minecraft.getInstance().player.getCapability(PLAYER_VARIABLES_CAPABILITY, null).orElse(new PlayerVariables());
                 variables.showWarns = message.data.showWarns;
                 variables.consciousnessFightProgress = message.data.consciousnessFightProgress;
-                variables.conscienceFight = message.data.conscienceFight;
+                variables.FTKCminigameType = message.data.FTKCminigameType;
                 variables.LatexEntitySummon = message.data.LatexEntitySummon;
                 variables.resetTransfurAdvancements = message.data.resetTransfurAdvancements;
                 variables.actCooldown = message.data.actCooldown;
@@ -182,7 +179,6 @@ public class ChangedAddonModVariables {
                 variables.untransfurProgress = message.data.untransfurProgress;
                 variables.Exp009TransfurAllowed = message.data.Exp009TransfurAllowed;
                 variables.Exp009Buff = message.data.Exp009Buff;
-                variables.consciousnessFightGiveUp = message.data.consciousnessFightGiveUp;
                 variables.Exp10TransfurAllowed = message.data.Exp10TransfurAllowed;
             });
         }

@@ -1,9 +1,8 @@
 package net.foxyas.changedaddon.event;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.client.gui.FightToKeepConsciousnessMinigameScreen;
-import net.foxyas.changedaddon.util.TransfurVariantUtils;
 import net.foxyas.changedaddon.process.sounds.BossMusicHandler;
+import net.foxyas.changedaddon.util.TransfurVariantUtils;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedItems;
@@ -18,35 +17,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = ChangedAddonMod.MODID, value = Dist.CLIENT)
 public class ClientEvent {
-
-    @SubscribeEvent
-    public static void input(InputEvent.KeyInputEvent event){
-        if(Minecraft.getInstance().screen != null) return;
-
-        if(event.getKey() == GLFW.GLFW_KEY_K){
-            Minecraft.getInstance().setScreen(FightToKeepConsciousnessMinigameScreen.MinigameType.KEY_PRESS.screen.get());
-        }
-
-        if(event.getKey() == GLFW.GLFW_KEY_M){
-            Minecraft.getInstance().setScreen(FightToKeepConsciousnessMinigameScreen.MinigameType.MOUSE_PULL.screen.get());
-        }
-
-        if(event.getKey() == GLFW.GLFW_KEY_C){
-            Minecraft.getInstance().setScreen(FightToKeepConsciousnessMinigameScreen.MinigameType.MOUSE_CIRCLE_PULL.screen.get());
-        }
-    }
 
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {

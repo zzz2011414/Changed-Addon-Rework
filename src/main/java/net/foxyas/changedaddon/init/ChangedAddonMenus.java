@@ -19,7 +19,6 @@ public class ChangedAddonMenus {
     public static final MenuType<GeneratorGuiMenu> GENERATORGUI = register("generator_gui", GeneratorGuiMenu::new);
     public static final MenuType<CatalyzerGuiMenu> CATALYZER_GUI = register("catalyzer_gui", CatalyzerGuiMenu::new);
     public static final MenuType<UnifuserGuiMenu> UNIFUSER_GUI = register("unifuser_gui", UnifuserGuiMenu::new);
-    public static final MenuType<FightToKeepConsciousnessMinigameMenu> FIGHT_TO_KEEP_CONSCIOUSNESS_MINIGAME = register("fight_to_keep_consciousness_minigame", FightToKeepConsciousnessMinigameMenu::new);
     public static final MenuType<FoxyasGui2Menu> FOXYAS_GUI_2 = register("foxyas_gui_2", FoxyasGui2Menu::new);
     public static final MenuType<TransfurSoundsGuiMenu> TRANSFUR_SOUNDS_GUI = register("transfur_sounds_gui", TransfurSoundsGuiMenu::new);
     public static final MenuType<TransfurTotemGuiMenu> TRANSFUR_TOTEM_GUI = register("transfur_totem_gui", TransfurTotemGuiMenu::new);
