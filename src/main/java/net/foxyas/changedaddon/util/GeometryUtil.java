@@ -9,6 +9,56 @@ import net.minecraft.world.phys.Vec3;
 public class GeometryUtil {
 
     /**
+     * Checks if a point is inside an ellipsoid (or a sphere if all radii are equal).
+     *
+     * @param dx Offset along the X axis from the center
+     * @param dy Offset along the Y axis from the center
+     * @param dz Offset along the Z axis from the center
+     * @param radiusX Radius along the X axis
+     * @param radiusY Radius along the Y axis
+     * @param radiusZ Radius along the Z axis
+     * @return true if the point is inside or on the surface of the ellipsoid
+     */
+    public static boolean isInsideEllipsoid(double dx, double dy, double dz,
+                                            double radiusX, double radiusY, double radiusZ) {
+        double nx = (dx * dx) / (radiusX * radiusX);
+        double ny = (dy * dy) / (radiusY * radiusY);
+        double nz = (dz * dz) / (radiusZ * radiusZ);
+        return (nx + ny + nz) <= 1.0;
+    }
+
+    /**
+     *
+     * @param dx Offset along the X axis from the center
+     * @param dy Offset along the Y axis from the center
+     * @param dz Offset along the Z axis from the center
+     * @param radiusX Radius along the X axis
+     * @param radiusY Radius along the Y axis
+     * @param radiusZ Radius along the Z axis
+     * @return value of the Ellipsoid
+     */
+    public static double getEllipsoidValue(double dx, double dy, double dz,
+                                            double radiusX, double radiusY, double radiusZ) {
+        double nx = (dx * dx) / (radiusX * radiusX);
+        double ny = (dy * dy) / (radiusY * radiusY);
+        double nz = (dz * dz) / (radiusZ * radiusZ);
+        return (nx + ny + nz);
+    }
+
+    /**
+     * Checks if a point is inside a sphere.
+     *
+     * @param dx Offset along the X axis from the center
+     * @param dy Offset along the Y axis from the center
+     * @param dz Offset along the Z axis from the center
+     * @param radius Radius of the sphere
+     * @return true if the point is inside or on the surface of the sphere
+     */
+    public static boolean isInsideSphere(double dx, double dy, double dz, double radius) {
+        return isInsideEllipsoid(dx, dy, dz, radius, radius, radius);
+    }
+
+    /**
      * Checks whether a 2D point is inside a circle.
      *
      * @param point  The 2D point to check (X, Y)

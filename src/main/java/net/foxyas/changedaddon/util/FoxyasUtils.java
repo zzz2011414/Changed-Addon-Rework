@@ -220,6 +220,38 @@ public class FoxyasUtils {
         return false;
     }
 
+    public static boolean isConnectedToSource(ServerLevel level, BlockPos start, Block targetBlock, int maxDepth) {
+        Set<BlockPos> visited = new HashSet<>();
+        Queue<Pair<BlockPos, Integer>> toVisit = new ArrayDeque<>();
+        toVisit.add(Pair.of(start, 0));
+
+        while (!toVisit.isEmpty()) {
+            Pair<BlockPos, Integer> entry = toVisit.poll();
+            BlockPos current = entry.first;
+            int depth = entry.second;
+
+            if (depth > maxDepth) {
+                continue;
+            }
+
+            if (!visited.add(current)) {
+                continue;
+            }
+
+            BlockState state = level.getBlockState(current);
+            if (state.is(targetBlock)) {
+                return true;
+            }
+
+            for (Direction dir : Direction.values()) {
+                BlockPos neighbor = current.relative(dir);
+                toVisit.add(Pair.of(neighbor, depth + 1));
+            }
+        }
+
+        return false;
+    }
+
 
     public static void spreadFromSource(ServerLevel level, BlockPos source, int maxDepth) {
         Set<BlockPos> visited = new HashSet<>();
