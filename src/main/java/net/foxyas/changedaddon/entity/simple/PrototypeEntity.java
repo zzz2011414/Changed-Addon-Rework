@@ -1,7 +1,10 @@
 package net.foxyas.changedaddon.entity.simple;
 
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
-import net.foxyas.changedaddon.entity.goals.prototype.HarvestCropsGoal;
+import net.foxyas.changedaddon.entity.goals.prototype.DepositToChestGoal;
+import net.foxyas.changedaddon.entity.goals.prototype.FindAndHarvestCropsGoal;
+import net.foxyas.changedaddon.entity.goals.prototype.FindChestGoal;
+import net.foxyas.changedaddon.entity.goals.prototype.GrabCropsGoal;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
@@ -11,12 +14,10 @@ import net.ltxprogrammer.changed.entity.TransfurMode;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Container;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -25,9 +26,15 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,6 +52,12 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         }
     };
 
+    public static final int MAX_HARVEST = 10;
+    private int harvestsDone = 0;
+
+    @Nullable
+    private BlockPos targetChestPos = null;
+
     public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
     }
@@ -55,7 +68,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         setPersistenceRequired();
     }
 
-    public static void init() {}
+    public static void init() {
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = ChangedEntity.createLatexAttributes();
@@ -85,6 +99,16 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.put("Inventory", inventory.createTag());
+        tag.putInt("harvestDone", this.harvestsDone);
+
+        if (targetChestPos != null) {
+            CompoundTag nbt = new CompoundTag();
+            nbt.putInt("targetX", targetChestPos.getX());
+            nbt.putInt("targetY", targetChestPos.getY());
+            nbt.putInt("targetZ", targetChestPos.getZ());
+
+            tag.put("TargetChestPos", nbt);
+        }
     }
 
     // Load inventory
@@ -92,6 +116,17 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         inventory.fromTag(tag.getList("Inventory", 10));
+        if (tag.contains("harvestDone")) {
+            this.harvestsDone = tag.getInt("harvestsDone");
+        }
+
+        if (tag.contains("TargetChestPos")) {
+            CompoundTag nbt = tag.getCompound("TargetChestPos");
+            int x = nbt.getInt("targetX");
+            int y = nbt.getInt("targetY");
+            int z = nbt.getInt("targetZ");
+            this.targetChestPos = new BlockPos(x, y, z);
+        }
     }
 
     @Override
@@ -120,9 +155,20 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
     }
 
     @Override
+    public boolean canTakeItem(ItemStack pItemstack) {
+        if (pItemstack.is(Tags.Items.CROPS) || pItemstack.is(Tags.Items.SEEDS)) {
+            return true;
+        }
+        return super.canTakeItem(pItemstack);
+    }
+
+    @Override
     public void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(10, new HarvestCropsGoal(this));
+        this.goalSelector.addGoal(10, new FindAndHarvestCropsGoal(this));
+        this.goalSelector.addGoal(10, new GrabCropsGoal(this));
+        this.goalSelector.addGoal(10, new FindChestGoal(this));
+        this.goalSelector.addGoal(10, new DepositToChestGoal(this));
     }
 
     public boolean isInventoryFull() {
@@ -132,6 +178,29 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
             }
         }
         return true;
+    }
+
+
+    public void addToInventory(ItemStack stack) {
+
+        // Only store crop-related items
+        if (!stack.is(Tags.Items.CROPS) || !stack.is(Tags.Items.SEEDS)) {
+            return;
+        }
+
+        for (int i = 0; i < getInventory().getContainerSize(); i++) {
+            ItemStack slot = getInventory().getItem(i);
+            if (slot.isEmpty()) {
+                getInventory().setItem(i, stack.copy());
+                stack.setCount(0);
+                return;
+            } else if (ItemStack.isSameItemSameTags(slot, stack)) {
+                int canAdd = Math.min(slot.getMaxStackSize() - slot.getCount(), stack.getCount());
+                slot.grow(canAdd);
+                stack.shrink(canAdd);
+                if (stack.isEmpty()) return;
+            }
+        }
     }
 
     @Override
@@ -146,20 +215,62 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         return ret;
     }
 
+    @Override
+    public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
+        if (!getLevel().isClientSide && player.isShiftKeyDown()) {
+            player.openMenu(getMenuProvider());
+            return InteractionResult.CONSUME; // we handled it
+        }
+        return super.interactAt(player, vec, hand);
+    }
+
+    @Override
+    public void baseTick() {
+        super.baseTick();
+    }
+
     // MenuProvider — for opening GUI
+    private final MenuProvider menuProvider = new MenuProvider() {
+        @Override
+        public @NotNull Component getDisplayName() {
+            return PrototypeEntity.this.getDisplayName();
+        }
+
+        @Override
+        public @Nullable AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
+            return PrototypeEntity.this.createMenu(i, inventory, player);
+        }
+    };
+
+    public MenuProvider getMenuProvider() {
+        return menuProvider;
+    }
+
     @Override
     public @NotNull Component getDisplayName() {
-        return this.getDisplayName();
+        return this.getName();
     }
 
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player player) {
-        return ChestMenu.threeRows(id, playerInventory, this.inventory);
+        return new ChestMenu(MenuType.GENERIC_9x1, id, playerInventory, this.inventory, 1);
     }
 
     // Public accessor
     public SimpleContainer getInventory() {
         return inventory;
+    }
+
+    public int getHarvestsDone() {
+        return this.harvestsDone;
+    }
+
+    public @Nullable BlockPos getTargetChestPos() {
+        return targetChestPos;
+    }
+
+    public void setTargetChestPos(@Nullable BlockPos targetChestPos) {
+        this.targetChestPos = targetChestPos;
     }
 }
