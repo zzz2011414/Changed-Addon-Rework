@@ -28,6 +28,9 @@ public class ChangedAddonSounds {
     public static final SoundEvent HAMMER_SWING = registerSimple("hammer_swing");
     public static final SoundEvent HAMMER_GUN_SHOT = registerSimple("hammer_gun_shot");
 
+    public static final SoundEvent PROTOTYPE_IDEA = registerSimple("entity.prototype.idea_sfx");
+
+
     private static SoundEvent registerSimple(String path){
         ResourceLocation loc = ChangedAddonMod.resourceLoc(path);
         SoundEvent sound = new SoundEvent(loc);

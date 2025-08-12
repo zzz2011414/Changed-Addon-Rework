@@ -166,6 +166,7 @@ public class SleepingWithOwnerGoal extends Goal {
         private Player owner;
         private BlockPos bedPos;
         private int sleepTimer = 0;
+
         public BipedSleepGoal(LivingEntity pet) {
             this.pet = pet;
             this.isDogOrCat = false;

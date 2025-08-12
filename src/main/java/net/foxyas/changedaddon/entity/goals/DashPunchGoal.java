@@ -20,6 +20,7 @@ public class DashPunchGoal extends Goal {
     private int dashTicks = 0;
     private int cooldown = 0;
     private LivingEntity target;
+
     public DashPunchGoal(Mob mob) {
         this.mob = mob;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));

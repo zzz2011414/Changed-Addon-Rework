@@ -1,10 +1,8 @@
 package net.foxyas.changedaddon.entity.simple;
 
+import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
-import net.foxyas.changedaddon.entity.goals.prototype.DepositToChestGoal;
-import net.foxyas.changedaddon.entity.goals.prototype.FindAndHarvestCropsGoal;
-import net.foxyas.changedaddon.entity.goals.prototype.FindChestGoal;
-import net.foxyas.changedaddon.entity.goals.prototype.GrabCropsGoal;
+import net.foxyas.changedaddon.entity.goals.prototype.*;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
@@ -18,20 +16,23 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.npc.InventoryCarrier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
@@ -39,22 +40,30 @@ import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuProvider {
+public class PrototypeEntity extends AbstractBasicChangedEntity implements InventoryCarrier, MenuProvider {
 
+    public static final int MAX_HARVEST = 10;
     // Our internal inventory (9 slots)
-    private final SimpleContainer inventory = new SimpleContainer(9) {
+    private final SimpleContainer inventory = new SimpleContainer(9);
+
+    // MenuProvider — for opening GUI
+    private final MenuProvider menuProvider = new MenuProvider() {
         @Override
-        public void setChanged() {
-            super.setChanged();
+        public @NotNull Component getDisplayName() {
+            return PrototypeEntity.this.getDisplayName();
+        }
+
+        @Override
+        public @Nullable AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
+            return PrototypeEntity.this.createMenu(i, inventory, player);
         }
     };
 
-    public static final int MAX_HARVEST = 10;
-    private int harvestsDone = 0;
-
+    private int harvestsTimes = 0;
     @Nullable
     private BlockPos targetChestPos = null;
 
@@ -99,7 +108,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.put("Inventory", inventory.createTag());
-        tag.putInt("harvestDone", this.harvestsDone);
+        tag.putInt("harvestDone", this.harvestsTimes);
 
         if (targetChestPos != null) {
             CompoundTag nbt = new CompoundTag();
@@ -117,7 +126,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         super.readAdditionalSaveData(tag);
         inventory.fromTag(tag.getList("Inventory", 10));
         if (tag.contains("harvestDone")) {
-            this.harvestsDone = tag.getInt("harvestsDone");
+            this.harvestsTimes = tag.getInt("harvestsTimes");
         }
 
         if (tag.contains("TargetChestPos")) {
@@ -155,11 +164,38 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
     }
 
     @Override
-    public boolean canTakeItem(ItemStack pItemstack) {
-        if (pItemstack.is(Tags.Items.CROPS) || pItemstack.is(Tags.Items.SEEDS)) {
+    public boolean canTakeItem(@NotNull ItemStack pItemstack) {
+        if (this.pickAbleItems().contains(pItemstack.getItem()) || (pItemstack.is(Tags.Items.CROPS) || pItemstack.is(Tags.Items.SEEDS))) {
             return true;
         }
         return super.canTakeItem(pItemstack);
+    }
+
+    public List<Item> pickAbleItems() {
+        return List.of(Items.BONE_MEAL);
+    }
+
+    @Override
+    public boolean canPickUpLoot() {
+        return true;
+    }
+
+    @Override
+    public boolean wantsToPickUp(ItemStack pStack) {
+        if (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS)) {
+            return true;
+        }
+        return super.wantsToPickUp(pStack);
+    }
+
+    @Override
+    protected void pickUpItem(@NotNull ItemEntity pItemEntity) {
+        ItemStack pStack = pItemEntity.getItem();
+        if (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS)) {
+            addToInventory(pStack);
+            return;
+        }
+        super.pickUpItem(pItemEntity);
     }
 
     @Override
@@ -169,6 +205,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         this.goalSelector.addGoal(10, new GrabCropsGoal(this));
         this.goalSelector.addGoal(10, new FindChestGoal(this));
         this.goalSelector.addGoal(10, new DepositToChestGoal(this));
+        this.goalSelector.addGoal(10, new PlantSeedsGoal(this));
+        this.goalSelector.addGoal(10, new ApplyBonemealGoal(this));
     }
 
     public boolean isInventoryFull() {
@@ -180,14 +218,12 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         return true;
     }
 
+    public boolean isInventoryEmpty() {
+        return inventory.isEmpty();
+    }
 
     public void addToInventory(ItemStack stack) {
-
-        // Only store crop-related items
-        if (!stack.is(Tags.Items.CROPS) || !stack.is(Tags.Items.SEEDS)) {
-            return;
-        }
-
+        ChangedAddonMod.LOGGER.info("THE THING HAPPEN");
         for (int i = 0; i < getInventory().getContainerSize(); i++) {
             ItemStack slot = getInventory().getItem(i);
             if (slot.isEmpty()) {
@@ -201,7 +237,54 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
                 if (stack.isEmpty()) return;
             }
         }
+        if (this.isInventoryFull()) {
+            for (EquipmentSlot equipmentSlot : Arrays.stream(EquipmentSlot.values()).filter((equipmentSlot -> equipmentSlot.getType() == EquipmentSlot.Type.HAND)).toList()) {
+                ItemStack itemStack = this.getItemBySlot(equipmentSlot);
+                if (itemStack.isEmpty()) {
+                    this.setItemSlot(equipmentSlot, stack);
+                } else if (ItemStack.isSameItemSameTags(itemStack, stack)) {
+                    itemStack.grow(1);
+                    stack.shrink(1);
+                }
+            }
+        }
     }
+
+    @Override
+    public void die(@NotNull DamageSource pDamageSource) {
+        if (!this.inventory.isEmpty()) {
+            for (int i = 0; i < inventory.getContainerSize(); i++) {
+                dropInventoryItems();
+            }
+        }
+        super.die(pDamageSource);
+
+    }
+
+    private void dropInventoryItems() {
+        Level level = this.level; // ou entity.getLevel(), depende do contexto
+        if (level.isClientSide) return; // Só no servidor!
+
+        for (int i = 0; i < this.inventory.getContainerSize(); i++) {
+            ItemStack stack = this.inventory.getItem(i);
+            if (!stack.isEmpty()) {
+                // Cria entidade de item no mundo na posição da entidade
+                ItemEntity itemEntity = new ItemEntity(level, this.getX(), this.getY() + 0.5, this.getZ(), stack.copy());
+                // Dá um pequeno impulso aleatório para o item "espalhar"
+                itemEntity.setDeltaMovement(
+                        (level.random.nextDouble() - 0.5) * 0.2,
+                        0.2,
+                        (level.random.nextDouble() - 0.5) * 0.2
+                );
+                level.addFreshEntity(itemEntity);
+
+                // Esvazia o slot depois de dropar
+                this.inventory.setItem(i, ItemStack.EMPTY);
+            }
+        }
+        this.inventory.setChanged(); // Marca o inventário alterado
+    }
+
 
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
@@ -229,19 +312,6 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
         super.baseTick();
     }
 
-    // MenuProvider — for opening GUI
-    private final MenuProvider menuProvider = new MenuProvider() {
-        @Override
-        public @NotNull Component getDisplayName() {
-            return PrototypeEntity.this.getDisplayName();
-        }
-
-        @Override
-        public @Nullable AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
-            return PrototypeEntity.this.createMenu(i, inventory, player);
-        }
-    };
-
     public MenuProvider getMenuProvider() {
         return menuProvider;
     }
@@ -258,12 +328,21 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuP
     }
 
     // Public accessor
-    public SimpleContainer getInventory() {
+    @Override
+    public @NotNull SimpleContainer getInventory() {
         return inventory;
     }
 
-    public int getHarvestsDone() {
-        return this.harvestsDone;
+    public int getHarvestsTimes() {
+        return this.harvestsTimes;
+    }
+
+    public void setHarvestsTimes(int harvestsTimes) {
+        this.harvestsTimes = harvestsTimes;
+    }
+
+    public void addHarvestsTime() {
+        this.harvestsTimes++;
     }
 
     public @Nullable BlockPos getTargetChestPos() {

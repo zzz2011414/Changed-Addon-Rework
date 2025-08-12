@@ -113,5 +113,14 @@
         "stream": false
       }
     ]
+  },
+  "entity.prototype.idea_sfx": {
+    "subtitle": "subtitles.entity.prototype.idea_sfx",
+    "sounds": [
+      {
+        "name": "changed_addon:prototype_idea",
+        "stream": false
+      }
+    ]
   }
 }

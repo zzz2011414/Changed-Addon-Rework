@@ -2,9 +2,9 @@ package net.foxyas.changedaddon.entity.bosses;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;
+import net.foxyas.changedaddon.entity.goals.*;
 import net.foxyas.changedaddon.entity.interfaces.CrawlFeature;
 import net.foxyas.changedaddon.entity.interfaces.IHasBossMusic;
-import net.foxyas.changedaddon.entity.goals.*;
 import net.foxyas.changedaddon.entity.projectile.AbstractGenericParticleProjectile;
 import net.foxyas.changedaddon.entity.projectile.ParticleProjectile;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
@@ -63,11 +63,11 @@ public class VoidFoxEntity extends ChangedEntity implements CrawlFeature, IHasBo
     public final ServerBossEvent bossBar = getBossBar();
     public int timesUsedAttack1, timesUsedAttack2, timesUsedAttack3, timesUsedAttack4/*, timesUsedAttack5*/ = 0;
     public int stunTicks = 0;
+    public DodgeAbilityInstance dodgeAbilityInstance = null;
     private int Attack1Cooldown, Attack2Cooldown, Attack3Cooldown, Attack4Cooldown/*, Attack5Cooldown*/;
     private int AttackInUse;
     private int ticksInUse;
     private int ticksTakeDmgFromFire = 0;
-    public DodgeAbilityInstance dodgeAbilityInstance = null;
 
     public VoidFoxEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.VOID_FOX.get(), world);

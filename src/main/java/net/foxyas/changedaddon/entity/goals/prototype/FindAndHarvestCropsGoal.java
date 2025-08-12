@@ -1,19 +1,21 @@
 package net.foxyas.changedaddon.entity.goals.prototype;
 
 import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.init.ChangedAddonSounds;
+import net.ltxprogrammer.changed.entity.Emote;
+import net.ltxprogrammer.changed.init.ChangedParticles;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 
 import java.util.EnumSet;
 
@@ -21,9 +23,8 @@ public class FindAndHarvestCropsGoal extends Goal {
 
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private BlockPos targetCropPos;
-
     private final int searchRange = 8;
+    private BlockPos targetCropPos;
 
     public FindAndHarvestCropsGoal(PrototypeEntity entity) {
         this.entity = entity;
@@ -34,7 +35,7 @@ public class FindAndHarvestCropsGoal extends Goal {
     @Override
     public boolean canUse() {
         // Can only harvest if inventory not full and there's a mature crop nearby
-        return !entity.isInventoryFull() && findNearbyCrop(entity.getLevel(), entity.blockPosition(), searchRange) != null;
+        return (!entity.isInventoryFull() && entity.getHarvestsTimes() < PrototypeEntity.MAX_HARVEST) && findNearbyCrop(entity.getLevel(), entity.blockPosition(), searchRange) != null;
     }
 
     @Override
@@ -46,6 +47,18 @@ public class FindAndHarvestCropsGoal extends Goal {
     public void start() {
         targetCropPos = findNearbyCrop(entity.getLevel(), entity.blockPosition(), searchRange);
         if (targetCropPos != null) {
+            entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
+            if (entity.getLevel().isClientSide) {
+                entity.getLevel().addParticle(
+                        ChangedParticles.emote(entity, Emote.IDEA),
+                        entity.getX(),
+                        entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
+                        entity.getZ(),
+                        0.0f,
+                        0.0f,
+                        0.0f
+                );
+            }
             navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
         }
     }
@@ -96,6 +109,8 @@ public class FindAndHarvestCropsGoal extends Goal {
             Block.dropResources(state, level, pos, null);
             // Replant at age 0
             level.setBlock(pos, crop.getStateForAge(0), 3);
+            level.playSound(null, pos, state.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, 1);
+            this.entity.addHarvestsTime();
         }
     }
 }

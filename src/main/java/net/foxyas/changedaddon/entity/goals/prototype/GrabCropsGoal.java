@@ -1,6 +1,10 @@
 package net.foxyas.changedaddon.entity.goals.prototype;
 
 import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.init.ChangedAddonSounds;
+import net.ltxprogrammer.changed.entity.Emote;
+import net.ltxprogrammer.changed.init.ChangedParticles;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -60,6 +64,18 @@ public class GrabCropsGoal extends Goal {
 
         if (closestItem != null) {
             // Mandar ir até o item mais próximo com velocidade 0.5 (ajuste como quiser)
+            prototype.getLevel().playSound(null, prototype.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
+            if (prototype.getLevel().isClientSide) {
+                prototype.getLevel().addParticle(
+                        ChangedParticles.emote(prototype, Emote.IDEA),
+                        prototype.getX(),
+                        prototype.getY() + (double) prototype.getDimensions(prototype.getPose()).height + 0.65,
+                        prototype.getZ(),
+                        0.0f,
+                        0.0f,
+                        0.0f
+                );
+            }
             prototype.getNavigation().moveTo(closestItem, 0.25f);
         }
     }

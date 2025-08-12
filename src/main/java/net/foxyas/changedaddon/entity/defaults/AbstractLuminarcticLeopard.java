@@ -2,10 +2,10 @@ package net.foxyas.changedaddon.entity.defaults;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;
-import net.foxyas.changedaddon.init.*;
 import net.foxyas.changedaddon.block.AbstractLuminarCrystal;
 import net.foxyas.changedaddon.entity.customHandle.BossAbilitiesHandle;
 import net.foxyas.changedaddon.entity.interfaces.CrawlFeature;
+import net.foxyas.changedaddon.init.*;
 import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.EyeStyle;
@@ -71,19 +71,15 @@ public abstract class AbstractLuminarcticLeopard extends AbstractSnowLeopard imp
     public int SuperAbilitiesTicksCooldown = 0;
     public int PassivesTicksCooldown = 0;
     public int DashingTicks = 0;
+    public DodgeAbilityInstance dodgeAbilityInstance = null;
     private boolean ActivatedAbility = false;
     private boolean isBoss = false;
     private boolean Aggro = false;
-    public DodgeAbilityInstance dodgeAbilityInstance = null;
 
     //public int DEVATTACKTESTTICK = 0;
     public AbstractLuminarcticLeopard(EntityType<? extends AbstractSnowLeopard> p_19870_, Level p_19871_) {
         super(p_19870_, p_19871_);
         this.dodgeAbilityInstance = this.registerAbility((this::canDodge), new DodgeAbilityInstance(ChangedAddonAbilities.DODGE.get(), IAbstractChangedEntity.forEntity(this)));
-    }
-
-    public boolean canDodge(DodgeAbilityInstance abilityInstance) {
-        return true;
     }
 
     public static <T extends AbstractLuminarcticLeopard> boolean canSpawnNear(EntityType<T> entityType, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random random) {
@@ -120,6 +116,10 @@ public abstract class AbstractLuminarcticLeopard extends AbstractSnowLeopard imp
 
         return currentEntities < maxEntitiesNear; // Já tem muitas entidades perto, impedir novo spawn
         // Condições atendidas, pode spawnar
+    }
+
+    public boolean canDodge(DodgeAbilityInstance abilityInstance) {
+        return true;
     }
 
     public boolean isBoss() {

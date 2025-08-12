@@ -34,6 +34,7 @@ public class AvaliEntity extends AbstractBasicOrganicChangedEntity implements Ex
     private static final EntityDataAccessor<Float> SIZE_SCALE = SynchedEntityData.defineId(AvaliEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<String> STYLE_OF_COLOR = SynchedEntityData.defineId(AvaliEntity.class, EntityDataSerializers.STRING);
     public final Set<String> StyleTypes = Set.of("male", "female");
+
     public AvaliEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.AVALI.get(), world);
     }

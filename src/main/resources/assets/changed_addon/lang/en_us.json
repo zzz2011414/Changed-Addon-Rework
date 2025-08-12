@@ -650,6 +650,9 @@
   "subtitles.spray.sound": "Using Spray",
   "subtitles.untransfursound": "Untransfurmization",
   "subtitles.warn": "Warn Sound",
+  "subtitles.gecko_sound": "Gecko Beep",
+  "subtitles.entity.prototype.idea_sfx": "Prototype Chime",
+
 
   "text.changed_addon.additionalHealth": "Additional Health \u003d %s",
   "text.changed_addon.additionalHealth.Hearts": " Hearts",

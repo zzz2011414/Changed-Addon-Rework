@@ -580,9 +580,9 @@ public class Exp9AttacksHandle {
     public static class ThunderPathway extends Goal {
 
         public final Experiment009BossEntity boss;
+        private final int MaxThunderIndex;
         private int ticks;
         private int thunderIndex;
-        private final int MaxThunderIndex;
         private boolean running;
         private Vec3 forward; // Recalcula para cada tick
 

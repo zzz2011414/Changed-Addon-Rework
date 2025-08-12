@@ -17,9 +17,7 @@ import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.DustColorTransitionOptions;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -34,11 +32,13 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.*;
 
 import javax.annotation.Nullable;
 import java.awt.*;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -445,6 +445,64 @@ public class PlayerUtil {
     }
 
     public static class ParticlesUtil {
+
+        public static void addParticlesAroundBlockBonemealStyle(LevelAccessor pLevel, BlockPos pPos, ParticleOptions particleOptions, int pData) {
+            if (pData == 0) {
+                pData = 15;
+            }
+
+            BlockState blockstate = pLevel.getBlockState(pPos);
+            if (!blockstate.isAir()) {
+                double d0 = 0.5F;
+                double d1;
+                if (blockstate.is(Blocks.WATER)) {
+                    pData *= 3;
+                    d1 = 1.0F;
+                    d0 = 3.0F;
+                } else if (blockstate.isSolidRender(pLevel, pPos)) {
+                    pPos = pPos.above();
+                    pData *= 3;
+                    d0 = 3.0F;
+                    d1 = 1.0F;
+                } else {
+                    d1 = blockstate.getShape(pLevel, pPos).max(Direction.Axis.Y);
+                }
+
+                pLevel.addParticle(particleOptions, (double)pPos.getX() + (double)0.5F, (double)pPos.getY() + (double)0.5F, (double)pPos.getZ() + (double)0.5F, 0.0F, 0.0F, 0.0F);
+                Random random = pLevel.getRandom();
+
+                for(int i = 0; i < pData; ++i) {
+                    double d2 = random.nextGaussian() * 0.02;
+                    double d3 = random.nextGaussian() * 0.02;
+                    double d4 = random.nextGaussian() * 0.02;
+                    double d5 = (double)0.5F - d0;
+                    double d6 = (double)pPos.getX() + d5 + random.nextDouble() * d0 * (double)2.0F;
+                    double d7 = (double)pPos.getY() + random.nextDouble() * d1;
+                    double d8 = (double)pPos.getZ() + d5 + random.nextDouble() * d0 * (double)2.0F;
+                    if (!pLevel.getBlockState((new BlockPos(d6, d7, d8)).below()).isAir()) {
+                        pLevel.addParticle(particleOptions, d6, d7, d8, d2, d3, d4);
+                    }
+                }
+            }
+
+        }
+
+        public static void spawnParticlesAroundBlockRedStoneOreStyle(Level pLevel, BlockPos pPos, ParticleOptions particleOptions) {
+            double d0 = 0.5625F;
+            Random random = pLevel.random;
+
+            for(Direction direction : Direction.values()) {
+                BlockPos blockpos = pPos.relative(direction);
+                if (!pLevel.getBlockState(blockpos).isSolidRender(pLevel, blockpos)) {
+                    Direction.Axis direction$axis = direction.getAxis();
+                    double d1 = direction$axis == Direction.Axis.X ? (double)0.5F + (double)0.5625F * (double)direction.getStepX() : (double)random.nextFloat();
+                    double d2 = direction$axis == Direction.Axis.Y ? (double)0.5F + (double)0.5625F * (double)direction.getStepY() : (double)random.nextFloat();
+                    double d3 = direction$axis == Direction.Axis.Z ? (double)0.5F + (double)0.5625F * (double)direction.getStepZ() : (double)random.nextFloat();
+                    pLevel.addParticle(particleOptions, (double)pPos.getX() + d1, (double)pPos.getY() + d2, (double)pPos.getZ() + d3, 0.0F, 0.0F, 0.0F);
+                }
+            }
+
+        }
 
         public static void sendColorTransitionParticles(Level level, double x, double y, double z,
                                                         float redStart, float greenStart, float blueStart,

@@ -1,8 +1,8 @@
 package net.foxyas.changedaddon.entity.simple;
 
 import net.foxyas.changedaddon.client.model.animations.parameters.PatReactionAnimationParameters;
-import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
+import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonAnimationEvents;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.ltxprogrammer.changed.entity.AttributePresets;

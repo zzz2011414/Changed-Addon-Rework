@@ -27,10 +27,10 @@ public class BossComboAbilityGoal extends Goal {
     private final Consumer<LivingEntity>[] phaseActions;
     private final Runnable onStart;
     private final Runnable onStop;
+    private final int delay = 5;
     private LivingEntity target;
     private int phase = 0;
     private int ticks = 0;
-    private final int delay = 5;
 
     @SafeVarargs
     public BossComboAbilityGoal(Mob entity, int maxPhases, float minDistance, float maxDistance, float activationChance,
