@@ -209,7 +209,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         this.goalSelector.addGoal(10, new FindAndHarvestCropsGoal(this));
         this.goalSelector.addGoal(10, new GrabCropsGoal(this));
         this.goalSelector.addGoal(10, new FindChestGoal(this));
-        //this.goalSelector.addGoal(10, new DepositToChestGoal(this));
+        this.goalSelector.addGoal(10, new DepositToChestGoal(this));
         this.goalSelector.addGoal(10, new PlantSeedsGoal(this));
         this.goalSelector.addGoal(10, new ApplyBonemealGoal(this));
     }
@@ -228,7 +228,6 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     public void addToInventory(ItemStack stack) {
-        ChangedAddonMod.LOGGER.info("THE THING HAPPEN");
         for (int i = 0; i < getInventory().getContainerSize(); i++) {
             ItemStack slot = getInventory().getItem(i);
             if (slot.isEmpty()) {
@@ -314,12 +313,12 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     @Override
     public void baseTick() {
         super.baseTick();
-        if (targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
+        /*if (targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
             if (this.getLevel() instanceof ServerLevel serverLevel) {
                 depositToChest(serverLevel, targetChestPos);
             }
             this.setTargetChestPos(null); // Reset target after deposit
-        }
+        }*/
     }
 
     private void depositToChest(ServerLevel level, BlockPos chestPos) {

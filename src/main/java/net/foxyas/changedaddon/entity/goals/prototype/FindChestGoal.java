@@ -52,11 +52,16 @@ public class FindChestGoal extends Goal {
     }
 
     @Override
+    public boolean isInterruptable() {
+        return true;
+    }
+
+    @Override
     public void start() {
-        this.entity.setTargetChestPos(targetChestPos);
+        //this.entity.setTargetChestPos(targetChestPos);
         if (targetChestPos != null) {
             this.entity.setTargetChestPos(targetChestPos);
-            entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
+            //entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
             if (entity.getLevel().isClientSide) {
                 entity.getLevel().addParticle(
                         ChangedParticles.emote(entity, Emote.IDEA),
