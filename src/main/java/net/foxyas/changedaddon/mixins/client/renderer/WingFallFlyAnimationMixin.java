@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.renderer;
+package net.foxyas.changedaddon.mixins.client.renderer;
 
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.Inject;

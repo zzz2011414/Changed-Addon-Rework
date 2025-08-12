@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.renderer;
+package net.foxyas.changedaddon.mixins.client.renderer;
 
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;

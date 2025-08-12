@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.renderer;
+package net.foxyas.changedaddon.mixins.client.renderer;
 
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;

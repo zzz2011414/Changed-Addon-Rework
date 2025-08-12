@@ -10,6 +10,9 @@
     "blocks.CrossCollisionBlockMixin",
     "blocks.DroppedSyringeMixin",
     "blocks.WolfCrystalSmallMixin",
+    "client.renderer.AnimationsMixin",
+    "client.renderer.WingFallFlyAnimationMixin",
+    "client.renderer.WingFlyAnimationMixin",
     "enchantments.EnchantmentMixin",
     "enchantments.InfinityEnchantmentMixin",
     "entity.AvoidEntityGoalMixin",
@@ -27,20 +30,18 @@
     "entity.variant.ServerTransfurVariantInstanceMixin",
     "entity.variant.TransfurVariantInstanceMixin",
     "mods.ChangedMixin",
-    "mods.NEAElytraAnimationMixin",
-    "renderer.AnimationsMixin",
-    "renderer.WingFallFlyAnimationMixin",
-    "renderer.WingFlyAnimationMixin"
+    "mods.NEAElytraAnimationMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
     "client.MouseHandlerAccessor",
-    "renderer.AdvancedHumanoidRendererMixin",
-    "renderer.GameRendererMixin",
-    "renderer.LivingEntityRendererAccessor",
-    "renderer.PostChainMixin",
-    "renderer.renderHandMixin"
+    "client.renderer.AdvancedHumanoidModelMixin",
+    "client.renderer.AdvancedHumanoidRendererMixin",
+    "client.renderer.GameRendererMixin",
+    "client.renderer.LivingEntityRendererAccessor",
+    "client.renderer.PostChainMixin",
+    "client.renderer.renderHandMixin"
   ]
 }

@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.renderer;
+package net.foxyas.changedaddon.mixins.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.configuration.ChangedAddonClientConfiguration;
@@ -29,7 +29,7 @@ public abstract class AdvancedHumanoidRendererMixin {
 
     @Inject(method = "render(Lnet/ltxprogrammer/changed/entity/ChangedEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("TAIL"), cancellable = true)
-    private void TurnOffPlantoid(ChangedEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
+    private void TurnOffPlantoids(ChangedEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
         var torso = this.getModel(entity).getTorso();
         try {
             ModelPart plantoidsPart = torso.getChild("Plantoids");

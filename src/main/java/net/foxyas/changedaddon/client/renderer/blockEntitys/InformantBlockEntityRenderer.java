@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.block.entity.InformantBlockEntity;
 import net.foxyas.changedaddon.client.renderer.renderTypes.ChangedAddonRenderTypes;
-import net.foxyas.changedaddon.mixins.renderer.LivingEntityRendererAccessor;
+import net.foxyas.changedaddon.mixins.client.renderer.LivingEntityRendererAccessor;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
 import net.ltxprogrammer.changed.entity.ChangedEntity;

@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.renderer;
+package net.foxyas.changedaddon.mixins.client.renderer;
 
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.client.renderer.layers.animation.CarryAbilityAnimation;
