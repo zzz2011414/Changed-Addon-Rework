@@ -45,16 +45,6 @@ public class DepositToChestGoal extends Goal {
     }
 
     @Override
-    public boolean requiresUpdateEveryTick() {
-        return true;
-    }
-
-    @Override
-    protected int adjustedTickDelay(int pAdjustment) {
-        return super.adjustedTickDelay(5);
-    }
-
-    @Override
     public void start() {
         if (targetChestPos != null) {
             entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
@@ -87,11 +77,12 @@ public class DepositToChestGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return targetChestPos != null && !entity.getInventory().isEmpty() && !entity.blockPosition().closerThan(targetChestPos, 2.0);
+        return targetChestPos != null && !entity.getInventory().isEmpty() && entity.blockPosition().closerThan(targetChestPos, 2.0);
     }
 
     private void depositToChest(ServerLevel level, BlockPos chestPos) {
         BlockEntity be = level.getBlockEntity(chestPos);
+
         if (be instanceof ChestBlockEntity chest) {
             for (int i = 0; i < entity.getInventory().getContainerSize() + 1; i++) {
                 ItemStack stack = entity.getInventory().getItem(i);
@@ -99,9 +90,9 @@ public class DepositToChestGoal extends Goal {
                     this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY(), chestPos.getZ()));
                     entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
                     ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
-                    //chest.setChanged();
+                    chest.setChanged();
                     entity.getInventory().setItem(i, remaining);
-                    //entity.getInventory().setChanged();
+                    entity.getInventory().setChanged();
                 }
             }
         }
