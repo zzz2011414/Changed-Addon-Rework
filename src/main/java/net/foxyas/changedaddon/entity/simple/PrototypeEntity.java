@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.entity.simple;
 
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
+import net.foxyas.changedaddon.entity.goals.prototype.HarvestCropsGoal;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
@@ -11,21 +12,38 @@ import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.Container;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.PlayMessages;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Objects;
 
-public class PrototypeEntity extends AbstractBasicChangedEntity {
+public class PrototypeEntity extends AbstractBasicChangedEntity implements MenuProvider {
+
+    // Our internal inventory (9 slots)
+    private final SimpleContainer inventory = new SimpleContainer(9) {
+        @Override
+        public void setChanged() {
+            super.setChanged();
+        }
+    };
 
     public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
@@ -37,8 +55,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
         setPersistenceRequired();
     }
 
-    public static void init() {
-    }
+    public static void init() {}
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = ChangedEntity.createLatexAttributes();
@@ -52,8 +69,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
     }
 
     protected void setAttributes(AttributeMap attributes) {
-        Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue((0));
-        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue((24));
+        Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue(0);
+        attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue(24);
         attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(40.0f);
         attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.05f);
         attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue(0.95f);
@@ -61,6 +78,25 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
         attributes.getInstance(Attributes.ARMOR).setBaseValue(0);
         attributes.getInstance(Attributes.ARMOR_TOUGHNESS).setBaseValue(0);
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
+    }
+
+    // Save inventory
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.put("Inventory", inventory.createTag());
+    }
+
+    // Load inventory
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        inventory.fromTag(tag.getList("Inventory", 10));
+    }
+
+    @Override
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return false;
     }
 
     @Override
@@ -84,8 +120,18 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
     }
 
     @Override
-    protected void registerGoals() {
+    public void registerGoals() {
         super.registerGoals();
+        this.goalSelector.addGoal(10, new HarvestCropsGoal(this));
+    }
+
+    public boolean isInventoryFull() {
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (inventory.getItem(i).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -94,14 +140,26 @@ public class PrototypeEntity extends AbstractBasicChangedEntity {
     }
 
     @Override
-    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
-        return false;
-    }
-
-    @Override
-    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         SpawnGroupData ret = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
         this.getBasicPlayerInfo().setEyeStyle(EyeStyle.TALL);
         return ret;
+    }
+
+    // MenuProvider — for opening GUI
+    @Override
+    public @NotNull Component getDisplayName() {
+        return this.getDisplayName();
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player player) {
+        return ChestMenu.threeRows(id, playerInventory, this.inventory);
+    }
+
+    // Public accessor
+    public SimpleContainer getInventory() {
+        return inventory;
     }
 }
