@@ -17,6 +17,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -35,9 +38,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
@@ -209,7 +214,6 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         this.goalSelector.addGoal(10, new FindAndHarvestCropsGoal(this));
         this.goalSelector.addGoal(10, new GrabCropsGoal(this));
         this.goalSelector.addGoal(10, new FindChestGoal(this));
-        this.goalSelector.addGoal(10, new DepositToChestGoal(this));
         this.goalSelector.addGoal(10, new PlantSeedsGoal(this));
         this.goalSelector.addGoal(10, new ApplyBonemealGoal(this));
     }
@@ -266,15 +270,13 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     private void dropInventoryItems() {
-        Level level = this.level; // ou entity.getLevel(), depende do contexto
-        if (level.isClientSide) return; // Só no servidor!
+        Level level = this.level;
+        if (level.isClientSide) return;
 
         for (int i = 0; i < this.inventory.getContainerSize(); i++) {
             ItemStack stack = this.inventory.getItem(i);
             if (!stack.isEmpty()) {
-                // Cria entidade de item no mundo na posição da entidade
                 ItemEntity itemEntity = new ItemEntity(level, this.getX(), this.getY() + 0.5, this.getZ(), stack.copy());
-                // Dá um pequeno impulso aleatório para o item "espalhar"
                 itemEntity.setDeltaMovement(
                         (level.random.nextDouble() - 0.5) * 0.2,
                         0.2,
@@ -282,11 +284,10 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
                 );
                 level.addFreshEntity(itemEntity);
 
-                // Esvazia o slot depois de dropar
                 this.inventory.setItem(i, ItemStack.EMPTY);
             }
         }
-        this.inventory.setChanged(); // Marca o inventário alterado
+        this.inventory.setChanged();
     }
 
     @Override
@@ -313,15 +314,16 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     @Override
     public void baseTick() {
         super.baseTick();
-        /*if (targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
+        if (targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
             if (this.getLevel() instanceof ServerLevel serverLevel) {
                 depositToChest(serverLevel, targetChestPos);
             }
             this.setTargetChestPos(null); // Reset target after deposit
-        }*/
+        }
     }
 
     private void depositToChest(ServerLevel level, BlockPos chestPos) {
+        BlockState state = level.getBlockState(chestPos);
         BlockEntity be = level.getBlockEntity(chestPos);
 
         if (be instanceof ChestBlockEntity chest) {
@@ -334,6 +336,9 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
                     chest.setChanged();
                     this.getInventory().setItem(i, remaining);
                     this.getInventory().setChanged();
+                    if ((i == 0 || i == this.inventory.getContainerSize())&& state.getBlock() instanceof ChestBlock chestBlock) {
+                        this.level.playSound(null, chestPos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.25f, 1);
+                    }
                 }
             }
         }
