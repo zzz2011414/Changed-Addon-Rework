@@ -59,6 +59,12 @@ public class DepositToChestGoal extends Goal {
                         0.0f
                 );
             }
+            if (entity.blockPosition().closerThan(targetChestPos, 2.0)) {
+                if (entity.getLevel() instanceof ServerLevel serverLevel) {
+                    depositToChest(serverLevel, targetChestPos);
+                }
+                entity.setTargetChestPos(null); // Reset target after deposit
+            }
             navigation.moveTo(targetChestPos.getX() + 0.5, targetChestPos.getY(), targetChestPos.getZ() + 0.5, 0.35f);
         }
     }
@@ -84,7 +90,7 @@ public class DepositToChestGoal extends Goal {
         BlockEntity be = level.getBlockEntity(chestPos);
 
         if (be instanceof ChestBlockEntity chest) {
-            for (int i = 0; i < entity.getInventory().getContainerSize() + 1; i++) {
+            for (int i = 0; i < entity.getInventory().getContainerSize(); i++) {
                 ItemStack stack = entity.getInventory().getItem(i);
                 if (!stack.isEmpty()) {
                     this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY(), chestPos.getZ()));

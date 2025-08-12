@@ -12,9 +12,11 @@ import net.ltxprogrammer.changed.entity.TransfurMode;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -33,6 +35,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
@@ -204,7 +209,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         this.goalSelector.addGoal(10, new FindAndHarvestCropsGoal(this));
         this.goalSelector.addGoal(10, new GrabCropsGoal(this));
         this.goalSelector.addGoal(10, new FindChestGoal(this));
-        this.goalSelector.addGoal(10, new DepositToChestGoal(this));
+        //this.goalSelector.addGoal(10, new DepositToChestGoal(this));
         this.goalSelector.addGoal(10, new PlantSeedsGoal(this));
         this.goalSelector.addGoal(10, new ApplyBonemealGoal(this));
     }
@@ -285,7 +290,6 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         this.inventory.setChanged(); // Marca o inventário alterado
     }
 
-
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
         return super.getTransfurColor(cause);
@@ -310,6 +314,30 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     @Override
     public void baseTick() {
         super.baseTick();
+        if (targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
+            if (this.getLevel() instanceof ServerLevel serverLevel) {
+                depositToChest(serverLevel, targetChestPos);
+            }
+            this.setTargetChestPos(null); // Reset target after deposit
+        }
+    }
+
+    private void depositToChest(ServerLevel level, BlockPos chestPos) {
+        BlockEntity be = level.getBlockEntity(chestPos);
+
+        if (be instanceof ChestBlockEntity chest) {
+            for (int i = 0; i < this.getInventory().getContainerSize(); i++) {
+                ItemStack stack = this.getInventory().getItem(i);
+                if (!stack.isEmpty()) {
+                    this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY(), chestPos.getZ()));
+                    this.swing(this.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+                    ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
+                    chest.setChanged();
+                    this.getInventory().setItem(i, remaining);
+                    this.getInventory().setChanged();
+                }
+            }
+        }
     }
 
     public MenuProvider getMenuProvider() {
