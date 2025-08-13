@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.entity.goals.prototype;
 
-import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.init.ChangedParticles;
@@ -33,6 +33,11 @@ public class PlantSeedsGoal extends Goal {
         this.entity = entity;
         this.navigation = entity.getNavigation();
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+    }
+
+    @Override
+    public boolean isInterruptable() {
+        return false;
     }
 
     @Override

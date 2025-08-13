@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.entity.goals.prototype;
 
-import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.init.ChangedParticles;
@@ -28,7 +28,7 @@ public class FindChestGoal extends Goal {
     public boolean canUse() {
         // Use only if inventory full or max harvests reached, and a chest exists nearby
         if (entity.getTargetChestPos() == null
-                && (entity.isInventoryFull(itemStacks -> itemStacks.stream().filter(entity::canTakeItem).count() >= 4)
+                && ((entity.isInventoryFull((itemStacks -> itemStacks.stream().filter((stack) -> entity.getDepositeType().isRightType(stack)).count() >= 4)))
                 || entity.getHarvestsTimes() >= PrototypeEntity.MAX_HARVEST_TIMES)) {
             targetChestPos = entity.tryFindNearbyChest(entity.getLevel(), entity.blockPosition(), searchRange);
             return targetChestPos != null;

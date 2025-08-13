@@ -5,7 +5,7 @@ import net.foxyas.changedaddon.entity.advanced.*;
 import net.foxyas.changedaddon.entity.bosses.*;
 import net.foxyas.changedaddon.entity.mobs.ErikEntity;
 import net.foxyas.changedaddon.entity.mobs.FoxyasEntity;
-import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.entity.projectile.LuminarCrystalSpearEntity;
 import net.foxyas.changedaddon.entity.projectile.ParticleProjectile;
 import net.foxyas.changedaddon.entity.simple.*;

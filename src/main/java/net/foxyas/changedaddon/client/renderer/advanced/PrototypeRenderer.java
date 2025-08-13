@@ -2,7 +2,7 @@ package net.foxyas.changedaddon.client.renderer.advanced;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.model.PrototypeModel;
-import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.*;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel;

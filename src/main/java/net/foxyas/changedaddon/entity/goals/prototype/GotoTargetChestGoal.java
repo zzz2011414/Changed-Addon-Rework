@@ -1,6 +1,6 @@
 package net.foxyas.changedaddon.entity.goals.prototype;
 
-import net.foxyas.changedaddon.entity.simple.PrototypeEntity;
+import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -26,7 +26,7 @@ public class GotoTargetChestGoal extends Goal {
     public boolean canUse() {
         // Use only if inventory full or max harvests reached, and a chest exists nearby
         return entity.getTargetChestPos() != null
-                && ((entity.isInventoryFull((itemStacks -> itemStacks.stream().filter(entity::canTakeItem).count() >= 4)))
+                && ((entity.isInventoryFull((itemStacks -> itemStacks.stream().filter((stack) -> entity.getDepositeType().isRightType(stack)).count() >= 4)))
                 || entity.getHarvestsTimes() >= PrototypeEntity.MAX_HARVEST_TIMES);
     }
 
@@ -37,7 +37,7 @@ public class GotoTargetChestGoal extends Goal {
 
     @Override
     public boolean isInterruptable() {
-        return true;
+        return false;
     }
 
     @Override

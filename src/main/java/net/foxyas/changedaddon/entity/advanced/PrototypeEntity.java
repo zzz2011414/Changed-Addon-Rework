@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.entity.simple;
+package net.foxyas.changedaddon.entity.advanced;
 
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
 import net.foxyas.changedaddon.entity.goals.prototype.*;
@@ -85,14 +85,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         }
 
         public DepositeType switchDepositeType() {
-            int value = this.ordinal();
-            int maxValues = DepositeType.values().length;
-            if (value++ > maxValues) {
-                value = 0;
-            } else {
-                value++;
-            }
-            return DepositeType.values()[value];
+            int next = (this.ordinal() + 1) % DepositeType.values().length;
+            return DepositeType.values()[next];
         }
     }
 
@@ -112,7 +106,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
 
     private int harvestsTimes = 0;
     private DepositeType depositeType = DepositeType.BOTH;
-    @Nullable private BlockPos targetChestPos = null;
+    @Nullable
+    private BlockPos targetChestPos = null;
 
     // Constructors
     public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
@@ -126,7 +121,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     // Static methods
-    public static void init() {}
+    public static void init() {
+    }
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = ChangedEntity.createLatexAttributes();
@@ -178,6 +174,11 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
             nbt.putInt("targetZ", targetChestPos.getZ());
             tag.put("TargetChestPos", nbt);
         }
+    }
+
+    @Override
+    protected boolean shouldDespawnInPeaceful() {
+        return false;
     }
 
     @Override
@@ -241,15 +242,32 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
 
     @Override
     public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
-        if (!getLevel().isClientSide && player.isShiftKeyDown()) {
-            player.openMenu(getMenuProvider());
-            return InteractionResult.CONSUME;
-        } else if (!getLevel().isClientSide) {
-            this.depositeType = depositeType.switchDepositeType();
+        if (!player.isShiftKeyDown()) {
             player.displayClientMessage(new TranslatableComponent("entity.changed_addon.prototype.deposite_type.switch", depositeType.name().toLowerCase(Locale.ROOT)), true);
-            return InteractionResult.CONSUME;
+            if (!getLevel().isClientSide) {
+                this.depositeType = depositeType.switchDepositeType();
+            }
+        } else {
+            if (!getLevel().isClientSide) {
+                player.openMenu(getMenuProvider());
+            }
         }
-        return super.interactAt(player, vec, hand);
+        player.swing(hand);
+        if (!getLevel().isClientSide) {
+            return InteractionResult.CONSUME;
+        } else {
+            return InteractionResult.SUCCESS;
+        }
+    }
+
+    @Override
+    protected @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand pHand) {
+        if (!player.getLevel().isClientSide()) {
+
+        }
+
+
+        return super.mobInteract(player, pHand);
     }
 
     @Override
@@ -546,7 +564,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
             for (int i = 0; i < this.getInventory().getContainerSize(); i++) {
                 ItemStack stack = this.getInventory().getItem(i);
                 if (!isChestFull(chest)) {
-                    if (!stack.isEmpty() && (stack.is(Tags.Items.CROPS))) {
+                    if (!stack.isEmpty() && (this.depositeType.isRightType(stack))) {
                         this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY() - 1, chestPos.getZ()));
                         this.swing(this.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
                         ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
