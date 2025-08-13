@@ -24,15 +24,30 @@ import java.util.EnumSet;
 
 public class ApplyBonemealGoal extends Goal {
 
+    private static final int searchRange = 6;
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private static final int searchRange = 6;
     private BlockPos targetPos;
 
     public ApplyBonemealGoal(PrototypeEntity entity) {
         this.entity = entity;
         this.navigation = entity.getNavigation();
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+    }
+
+    @Override
+    public boolean isInterruptable() {
+        return false;
+    }
+
+    @Override
+    public boolean requiresUpdateEveryTick() {
+        return true;
+    }
+
+    @Override
+    protected int adjustedTickDelay(int pAdjustment) {
+        return 0;
     }
 
     @Override
@@ -46,7 +61,7 @@ public class ApplyBonemealGoal extends Goal {
 
     @Override
     public void start() {
-        if(targetPos == null) return;
+        if (targetPos == null) return;
 
         entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
 
@@ -76,12 +91,12 @@ public class ApplyBonemealGoal extends Goal {
         }
     }
 
-    private ItemStack findBoneMeal(){
+    private ItemStack findBoneMeal() {
         ItemStack boneMeal = entity.getItemBySlot(EquipmentSlot.MAINHAND);
-        if(!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) return boneMeal;
+        if (!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) return boneMeal;
 
         boneMeal = entity.getItemBySlot(EquipmentSlot.OFFHAND);
-        if(!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) return boneMeal;
+        if (!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) return boneMeal;
 
         for (int i = 0; i < entity.getInventory().getContainerSize(); i++) {
             boneMeal = entity.getInventory().getItem(i);
@@ -110,15 +125,15 @@ public class ApplyBonemealGoal extends Goal {
 
     private void applyBoneMeal(BlockPos pos) {
         Level level = entity.getLevel();
-        if(!(level instanceof ServerLevel serverLevel)) return;
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
         ItemStack boneMeal = findBoneMeal();
-        if(boneMeal.isEmpty()) return;
+        if (boneMeal.isEmpty()) return;
 
         BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
 
-        if(!(block instanceof BonemealableBlock fertilizable)
+        if (!(block instanceof BonemealableBlock fertilizable)
                 || !fertilizable.isValidBonemealTarget(level, pos, state, false)) return;
 
         this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));

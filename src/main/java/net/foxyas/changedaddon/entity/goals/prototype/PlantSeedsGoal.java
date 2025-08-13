@@ -24,9 +24,9 @@ import java.util.EnumSet;
 
 public class PlantSeedsGoal extends Goal {
 
+    private static final int searchRange = 6;
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private static final int searchRange = 6;
     private BlockPos targetPos;
 
     public PlantSeedsGoal(PrototypeEntity entity) {
@@ -38,7 +38,7 @@ public class PlantSeedsGoal extends Goal {
     @Override
     public boolean canUse() {
         ItemStack seeds = findSeeds();
-        if(seeds.isEmpty()) return false;
+        if (seeds.isEmpty()) return false;
 
         // Look for farmland with air above to plant
         targetPos = findPlantableFarmland(entity.getLevel(), entity.blockPosition(), searchRange);
@@ -47,7 +47,7 @@ public class PlantSeedsGoal extends Goal {
 
     @Override
     public void start() {
-        if(targetPos == null) return;
+        if (targetPos == null) return;
 
         entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
 
@@ -73,17 +73,20 @@ public class PlantSeedsGoal extends Goal {
             plantSeedAt(targetPos);
             targetPos = null; // reset target after planting
             return;
+        } else {
+            navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
+            this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(targetPos.getX(), targetPos.getY(), targetPos.getZ()));
         }
 
         navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
     }
 
-    private ItemStack findSeeds(){
+    private ItemStack findSeeds() {
         ItemStack seeds = entity.getItemBySlot(EquipmentSlot.MAINHAND);
-        if(isSeed(seeds)) return seeds;
+        if (isSeed(seeds)) return seeds;
 
         seeds = entity.getItemBySlot(EquipmentSlot.OFFHAND);
-        if(isSeed(seeds)) return seeds;
+        if (isSeed(seeds)) return seeds;
 
         for (int i = 0; i < entity.getInventory().getContainerSize(); i++) {
             seeds = entity.getInventory().getItem(i);
@@ -119,10 +122,10 @@ public class PlantSeedsGoal extends Goal {
 
     private void plantSeedAt(BlockPos pos) {
         Level level = entity.getLevel();
-        if(level.isClientSide) return;
+        if (level.isClientSide) return;
 
         ItemStack seeds = findSeeds();
-        if(seeds.isEmpty()) return;
+        if (seeds.isEmpty()) return;
 
         // Place the crop block at target position
         entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));

@@ -13,11 +13,14 @@ import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -36,7 +39,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
@@ -48,17 +53,51 @@ import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Predicate;
 
 public class PrototypeEntity extends AbstractBasicChangedEntity implements InventoryCarrier, MenuProvider {
+    // Constants
+    public static final int MAX_HARVEST_TIMES = 10;
 
-    public static final int MAX_HARVEST = 10;
-    // Our internal inventory (9 slots)
+    // Enums
+    public enum DepositeType {
+        SEEDS(Tags.Items.SEEDS),
+        CROPS(Tags.Items.CROPS),
+        BOTH(Tags.Items.CROPS, Tags.Items.SEEDS);
+
+        final List<TagKey<Item>> tagKeys;
+
+        DepositeType(TagKey<Item> crops, TagKey<Item> seeds) {
+            this.tagKeys = List.of(crops, seeds);
+        }
+
+        DepositeType(TagKey<Item> typeTag) {
+            this.tagKeys = List.of(typeTag);
+        }
+
+        public List<TagKey<Item>> getTagKeys() {
+            return tagKeys;
+        }
+
+        public boolean isRightType(ItemStack stack) {
+            return this.tagKeys.stream().anyMatch(stack::is);
+        }
+
+        public DepositeType switchDepositeType() {
+            int value = this.ordinal();
+            int maxValues = DepositeType.values().length;
+            if (value++ > maxValues) {
+                value = 0;
+            } else {
+                value++;
+            }
+            return DepositeType.values()[value];
+        }
+    }
+
+    // Fields
     private final SimpleContainer inventory = new SimpleContainer(9);
-
-    // MenuProvider — for opening GUI
     private final MenuProvider menuProvider = new MenuProvider() {
         @Override
         public @NotNull Component getDisplayName() {
@@ -72,9 +111,10 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     };
 
     private int harvestsTimes = 0;
-    @Nullable
-    private BlockPos targetChestPos = null;
+    private DepositeType depositeType = DepositeType.BOTH;
+    @Nullable private BlockPos targetChestPos = null;
 
+    // Constructors
     public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
     }
@@ -85,8 +125,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         setPersistenceRequired();
     }
 
-    public static void init() {
-    }
+    // Static methods
+    public static void init() {}
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = ChangedEntity.createLatexAttributes();
@@ -99,6 +139,8 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         return builder;
     }
 
+    // Entity overrides
+    @Override
     protected void setAttributes(AttributeMap attributes) {
         Objects.requireNonNull(attributes.getInstance(ChangedAttributes.TRANSFUR_DAMAGE.get())).setBaseValue(0);
         attributes.getInstance(Attributes.MAX_HEALTH).setBaseValue(24);
@@ -111,30 +153,42 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    // Save inventory
+    @Override
+    public void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(50, new FindAndHarvestCropsGoal(this));
+        this.goalSelector.addGoal(15, new TryGrabItemsGoal(this));
+        this.goalSelector.addGoal(10, new FindChestGoal(this));
+        this.goalSelector.addGoal(30, new GotoTargetChestGoal(this));
+        this.goalSelector.addGoal(30, new PlantSeedsGoal(this));
+        this.goalSelector.addGoal(30, new ApplyBonemealGoal(this));
+    }
+
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.put("Inventory", inventory.createTag());
         tag.putInt("harvestDone", this.harvestsTimes);
+        tag.putString("DepositeType", this.depositeType.toString().toLowerCase(Locale.ROOT));
 
         if (targetChestPos != null) {
             CompoundTag nbt = new CompoundTag();
             nbt.putInt("targetX", targetChestPos.getX());
             nbt.putInt("targetY", targetChestPos.getY());
             nbt.putInt("targetZ", targetChestPos.getZ());
-
             tag.put("TargetChestPos", nbt);
         }
     }
 
-    // Load inventory
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         inventory.fromTag(tag.getList("Inventory", 10));
         if (tag.contains("harvestDone")) {
             this.harvestsTimes = tag.getInt("harvestsTimes");
+        }
+        if (tag.contains("DepositeType")) {
+            this.depositeType = DepositeType.valueOf(tag.getString("DepositeType").toUpperCase());
         }
 
         if (tag.contains("TargetChestPos")) {
@@ -172,15 +226,92 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     @Override
+    public Color3 getTransfurColor(TransfurCause cause) {
+        return super.getTransfurColor(cause);
+    }
+
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+        SpawnGroupData ret = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+        this.getBasicPlayerInfo().setEyeStyle(EyeStyle.TALL);
+        this.getBasicPlayerInfo().setRightIrisColor(Color3.parseHex("#59c5ff"));
+        this.getBasicPlayerInfo().setLeftIrisColor(Color3.parseHex("#59c5ff"));
+        return ret;
+    }
+
+    @Override
+    public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
+        if (!getLevel().isClientSide && player.isShiftKeyDown()) {
+            player.openMenu(getMenuProvider());
+            return InteractionResult.CONSUME;
+        } else if (!getLevel().isClientSide) {
+            this.depositeType = depositeType.switchDepositeType();
+            player.displayClientMessage(new TranslatableComponent("entity.changed_addon.prototype.deposite_type.switch", depositeType.name().toLowerCase(Locale.ROOT)), true);
+            return InteractionResult.CONSUME;
+        }
+        return super.interactAt(player, vec, hand);
+    }
+
+    @Override
+    public void baseTick() {
+        super.baseTick();
+        if (this.isInventoryFull((itemStacks -> itemStacks.stream().filter(this::canTakeItem).count() >= 4)) && targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
+            if (this.getLevel() instanceof ServerLevel serverLevel) {
+                depositToChest(serverLevel, targetChestPos);
+            }
+        }
+
+        if (tickCount % 120 == 0) {
+            if (this.harvestsTimes >= MAX_HARVEST_TIMES) {
+                this.harvestsTimes = 0;
+            }
+        }
+    }
+
+    @Override
+    public void die(@NotNull DamageSource pDamageSource) {
+        super.die(pDamageSource);
+    }
+
+    @Override
+    protected void dropAllDeathLoot(@NotNull DamageSource pDamageSource) {
+        super.dropAllDeathLoot(pDamageSource);
+
+        if (!this.inventory.isEmpty()) {
+            for (int i = 0; i < inventory.getContainerSize(); i++) {
+                dropInventoryItems();
+            }
+        }
+    }
+
+    @Override
+    protected void dropEquipment() {
+        super.dropEquipment();
+
+        for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+            if (equipmentSlot.getType() == EquipmentSlot.Type.HAND) {
+                ItemStack stack = this.getItemBySlot(equipmentSlot);
+                if (!stack.isEmpty()) {
+                    ItemEntity itemEntity = new ItemEntity(level, this.getX(), this.getY() + 0.5, this.getZ(), stack.copy());
+                    itemEntity.setDeltaMovement(
+                            (level.random.nextDouble() - 0.5) * 0.2,
+                            0.2,
+                            (level.random.nextDouble() - 0.5) * 0.2
+                    );
+                    level.addFreshEntity(itemEntity);
+                    this.setItemSlot(equipmentSlot, ItemStack.EMPTY);
+                }
+            }
+        }
+    }
+
+    // Inventory related methods
+    @Override
     public boolean canTakeItem(@NotNull ItemStack pItemstack) {
         if (this.pickAbleItems().contains(pItemstack.getItem()) || (pItemstack.is(Tags.Items.CROPS) || pItemstack.is(Tags.Items.SEEDS))) {
             return true;
         }
         return super.canTakeItem(pItemstack);
-    }
-
-    public List<Item> pickAbleItems() {
-        return List.of(Items.BONE_MEAL);
     }
 
     @Override
@@ -189,17 +320,24 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     @Override
-    public boolean wantsToPickUp(ItemStack pStack) {
-        if (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS)) {
-            return true;
+    public boolean wantsToPickUp(@NotNull ItemStack pStack) {
+        if (!isInventoryAndHandsFull()) {
+            if (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS) || pickAbleItems().contains(pStack.getItem())) {
+                return true;
+            }
         }
         return super.wantsToPickUp(pStack);
     }
 
     @Override
+    public boolean canHoldItem(@NotNull ItemStack pStack) {
+        return !isInventoryAndHandsFull() && (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS) || pickAbleItems().contains(pStack.getItem()));
+    }
+
+    @Override
     protected void pickUpItem(@NotNull ItemEntity pItemEntity) {
         ItemStack pStack = pItemEntity.getItem();
-        if (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS)) {
+        if (pStack.is(Tags.Items.CROPS) || pStack.is(Tags.Items.SEEDS) || pickAbleItems().contains(pStack.getItem())) {
             addToInventory(pStack);
             return;
         }
@@ -207,15 +345,27 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     @Override
-    public void registerGoals() {
-        super.registerGoals();
-        this.goalSelector.addGoal(10, new FindAndHarvestCropsGoal(this));
-        this.goalSelector.addGoal(10, new GrabCropsGoal(this));
-        this.goalSelector.addGoal(10, new FindChestGoal(this));
-        this.goalSelector.addGoal(10, new PlantSeedsGoal(this));
-        this.goalSelector.addGoal(10, new ApplyBonemealGoal(this));
+    public @NotNull SimpleContainer getInventory() {
+        return inventory;
     }
 
+    // MenuProvider implementation
+    @Override
+    public @NotNull Component getDisplayName() {
+        return this.getName();
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player player) {
+        return new ChestMenu(MenuType.GENERIC_9x1, id, playerInventory, this.inventory, 1);
+    }
+
+    public MenuProvider getMenuProvider() {
+        return menuProvider;
+    }
+
+    // Inventory management
     public boolean isInventoryFull() {
         for (int i = 0; i < inventory.getContainerSize(); i++) {
             if (inventory.getItem(i).isEmpty()) {
@@ -223,6 +373,34 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
             }
         }
         return true;
+    }
+
+    public boolean isInventoryAndHandsFull() {
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            if (inventory.getItem(i).isEmpty()) {
+                return false;
+            }
+        }
+
+        if (this.getMainHandItem().isEmpty()) {
+            return false;
+        } else if (this.getOffhandItem().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isInventoryFull(Predicate<NonNullList<ItemStack>> listPredicate) {
+        NonNullList<ItemStack> itemStacks = this.getInventoryItems();
+        return listPredicate.test(itemStacks);
+    }
+
+    public NonNullList<ItemStack> getInventoryItems() {
+        NonNullList<ItemStack> itemStacks = NonNullList.create();
+        for (int i = 0; i < inventory.getContainerSize(); i++) {
+            itemStacks.add(inventory.getItem(i));
+        }
+        return itemStacks;
     }
 
     public boolean isInventoryEmpty() {
@@ -256,17 +434,6 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         }
     }
 
-    @Override
-    public void die(@NotNull DamageSource pDamageSource) {
-        if (!this.inventory.isEmpty()) {
-            for (int i = 0; i < inventory.getContainerSize(); i++) {
-                dropInventoryItems();
-            }
-        }
-        super.die(pDamageSource);
-
-    }
-
     private void dropInventoryItems() {
         Level level = this.level;
         if (level.isClientSide) return;
@@ -281,42 +448,71 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
                         (level.random.nextDouble() - 0.5) * 0.2
                 );
                 level.addFreshEntity(itemEntity);
-
                 this.inventory.setItem(i, ItemStack.EMPTY);
             }
         }
         this.inventory.setChanged();
     }
 
-    @Override
-    public Color3 getTransfurColor(TransfurCause cause) {
-        return super.getTransfurColor(cause);
-    }
-
-    @Override
-    public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
-        SpawnGroupData ret = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
-        this.getBasicPlayerInfo().setEyeStyle(EyeStyle.TALL);
-        return ret;
-    }
-
-    @Override
-    public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
-        if (!getLevel().isClientSide && player.isShiftKeyDown()) {
-            player.openMenu(getMenuProvider());
-            return InteractionResult.CONSUME; // we handled it
+    // Crop and chest related methods
+    public BlockPos tryFindNearbyChest(Level level, BlockPos center, int range) {
+        List<ItemStack> carriedItems = new ArrayList<>();
+        for (int i = 0; i < getInventory().getContainerSize(); i++) {
+            ItemStack stack = getInventory().getItem(i);
+            if (!stack.isEmpty()) carriedItems.add(stack);
         }
-        return super.interactAt(player, vec, hand);
+
+        // First try to find chest containing at least one matching item
+        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof ChestBlockEntity chest) {
+                if (!isChestFull(chest)) {
+                    for (int slot = 0; slot < chest.getContainerSize(); slot++) {
+                        ItemStack chestItem = chest.getItem(slot);
+                        if (!chestItem.isEmpty()) {
+                            for (ItemStack carried : carriedItems) {
+                                if (ItemStack.isSameItemSameTags(carried, chestItem)) {
+                                    return pos.immutable();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Otherwise return any chest
+        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof ChestBlockEntity chest && !isChestFull(chest)) return pos.immutable();
+        }
+
+        return null;
     }
 
-    @Override
-    public void baseTick() {
-        super.baseTick();
-        if (targetChestPos != null && this.blockPosition().closerThan(targetChestPos, 2.0)) {
-            if (this.getLevel() instanceof ServerLevel serverLevel) {
-                depositToChest(serverLevel, targetChestPos);
+    public BlockPos findNearbyCrop(Level level, BlockPos center, int range) {
+        for (BlockPos pos : BlockPos.betweenClosed(
+                center.offset(-range, -range, -range),
+                center.offset(range, range, range))) {
+            BlockState state = level.getBlockState(pos);
+            if (state.getBlock() instanceof CropBlock crop) {
+                if (crop.isMaxAge(state)) {
+                    return pos.immutable();
+                }
             }
-            this.setTargetChestPos(null); // Reset target after deposit
+        }
+        return null;
+    }
+
+    public void harvestCrop(ServerLevel level, BlockPos pos) {
+        BlockState state = level.getBlockState(pos);
+        if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
+            // Drop items naturally (simulate player breaking)
+            Block.dropResources(state, level, pos, null);
+            // Replant at age 0
+            level.setBlock(pos, crop.getStateForAge(0), 3);
+            level.playSound(null, pos, state.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, 1);
+            this.addHarvestsTime();
         }
     }
 
@@ -325,42 +521,74 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         BlockEntity be = level.getBlockEntity(chestPos);
 
         if (be instanceof ChestBlockEntity chest) {
-            for (int i = 0; i < this.getInventory().getContainerSize(); i++) {
-                ItemStack stack = this.getInventory().getItem(i);
-                if (!stack.isEmpty()) {
-                    this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY(), chestPos.getZ()));
-                    this.swing(this.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-                    ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
-                    chest.setChanged();
-                    this.getInventory().setItem(i, remaining);
-                    this.getInventory().setChanged();
-                    if ((i == 0 || i == this.inventory.getContainerSize())&& state.getBlock() instanceof ChestBlock chestBlock) {
-                        this.level.playSound(null, chestPos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.25f, 1);
+            for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+                if (equipmentSlot.getType() == EquipmentSlot.Type.HAND) {
+                    ItemStack stack = this.getItemBySlot(equipmentSlot);
+                    if (!isChestFull(chest)) {
+                        if (!stack.isEmpty() && (this.depositeType.isRightType(stack))) {
+                            this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY() - 1, chestPos.getZ()));
+                            this.swing(this.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+                            ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
+                            chest.setChanged();
+                            this.setItemSlot(equipmentSlot, remaining);
+                            this.getInventory().setChanged();
+                            if (state.getBlock() instanceof ChestBlock chestBlock) {
+                                this.level.playSound(null, chestPos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.25f, 1);
+                                this.setHarvestsTimes(0);
+                            }
+                        }
+                    } else {
+                        tryFindNearbyChest(getLevel(), this.blockPosition(), 8);
                     }
                 }
             }
+
+            for (int i = 0; i < this.getInventory().getContainerSize(); i++) {
+                ItemStack stack = this.getInventory().getItem(i);
+                if (!isChestFull(chest)) {
+                    if (!stack.isEmpty() && (stack.is(Tags.Items.CROPS))) {
+                        this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY() - 1, chestPos.getZ()));
+                        this.swing(this.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+                        ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
+                        chest.setChanged();
+                        this.getInventory().setItem(i, remaining);
+                        this.getInventory().setChanged();
+                        if ((i == 0 || i == this.inventory.getContainerSize()) && state.getBlock() instanceof ChestBlock chestBlock) {
+                            this.level.playSound(null, chestPos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.25f, 1);
+                            this.setHarvestsTimes(0);
+                        }
+                        this.setTargetChestPos(null);
+                    }
+                } else {
+                    tryFindNearbyChest(getLevel(), this.blockPosition(), 8);
+                }
+            }
+        } else {
+            this.setTargetChestPos(null);
         }
     }
 
-    public MenuProvider getMenuProvider() {
-        return menuProvider;
+    private boolean isChestFull(ChestBlockEntity chest) {
+        for (int i = 0; i < chest.getContainerSize(); i++) {
+            ItemStack stack = chest.getItem(i);
+            if (stack.isEmpty() || stack.getCount() < stack.getMaxStackSize()) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    @Override
-    public @NotNull Component getDisplayName() {
-        return this.getName();
+    // Getters and setters
+    public List<Item> pickAbleItems() {
+        return List.of(Items.BONE_MEAL);
     }
 
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int id, @NotNull Inventory playerInventory, @NotNull Player player) {
-        return new ChestMenu(MenuType.GENERIC_9x1, id, playerInventory, this.inventory, 1);
+    public DepositeType getDepositeType() {
+        return depositeType;
     }
 
-    // Public accessor
-    @Override
-    public @NotNull SimpleContainer getInventory() {
-        return inventory;
+    public void setDepositeType(DepositeType depositeType) {
+        this.depositeType = depositeType;
     }
 
     public int getHarvestsTimes() {
@@ -381,5 +609,9 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
 
     public void setTargetChestPos(@Nullable BlockPos targetChestPos) {
         this.targetChestPos = targetChestPos;
+    }
+
+    public boolean willDepositSeeds() {
+        return this.depositeType == DepositeType.SEEDS || this.depositeType == DepositeType.BOTH;
     }
 }

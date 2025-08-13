@@ -8,23 +8,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
 public class FindChestGoal extends Goal {
 
+    private static final int searchRange = 8;
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private static final int searchRange = 8;
     private BlockPos targetChestPos;
 
     public FindChestGoal(PrototypeEntity entity) {
@@ -36,10 +27,13 @@ public class FindChestGoal extends Goal {
     @Override
     public boolean canUse() {
         // Use only if inventory full or max harvests reached, and a chest exists nearby
-        if(!entity.isInventoryFull() && entity.getHarvestsTimes() < PrototypeEntity.MAX_HARVEST) return false;
-
-        targetChestPos = findNearbyChest(entity.getLevel(), entity.blockPosition(), searchRange);
-        return targetChestPos != null;
+        if (entity.getTargetChestPos() == null
+                && (entity.isInventoryFull(itemStacks -> itemStacks.stream().filter(entity::canTakeItem).count() >= 4)
+                || entity.getHarvestsTimes() >= PrototypeEntity.MAX_HARVEST_TIMES)) {
+            targetChestPos = entity.tryFindNearbyChest(entity.getLevel(), entity.blockPosition(), searchRange);
+            return targetChestPos != null;
+        }
+        return false;
     }
 
     @Override
@@ -50,11 +44,11 @@ public class FindChestGoal extends Goal {
     @Override
     public void start() {
         //this.entity.setTargetChestPos(targetChestPos);
-        if(targetChestPos == null) return;
+        if (targetChestPos == null) return;
 
         BlockPos targetChestPosOld = entity.getTargetChestPos();
         this.entity.setTargetChestPos(targetChestPos);
-        if (targetChestPosOld != targetChestPos) {
+        if (targetChestPosOld != entity.getTargetChestPos()) {
             entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
         }
 
@@ -91,41 +85,7 @@ public class FindChestGoal extends Goal {
     public void stop() {
         this.entity.setTargetChestPos(targetChestPos);
         targetChestPos = null;
-    }
-
-    private BlockPos findNearbyChest(Level level, BlockPos center, int range) {
-        List<ItemStack> carriedItems = new ArrayList<>();
-        for (int i = 0; i < entity.getInventory().getContainerSize(); i++) {
-            ItemStack stack = entity.getInventory().getItem(i);
-            if (!stack.isEmpty()) carriedItems.add(stack);
-        }
-
-        BlockPos fallbackChestPos = null;
-        // First try to find chest containing at least one matching item
-        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
-            BlockEntity be = level.getBlockEntity(pos);
-            if(!(be instanceof ChestBlockEntity chest)) continue;
-
-            LazyOptional<IItemHandler> chestCap = chest.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
-            IItemHandler chestInv = chestCap.resolve().orElse(null);
-            if(chestInv == null) continue;
-
-            ItemStack chestItem;
-            for (int slot = 0; slot < chestInv.getSlots(); slot++) {
-                chestItem = chestInv.getStackInSlot(slot);
-                if(chestItem.isEmpty()) continue;
-
-                for (ItemStack carried : carriedItems) {
-                    if (ItemStack.isSameItemSameTags(carried, chestItem)) {
-                        return pos.immutable();
-                    }
-                }
-            }
-
-            if(fallbackChestPos == null) fallbackChestPos = pos.immutable();
-        }
-
-        // Otherwise return any chest
-        return fallbackChestPos;
+        super.stop();
+        //this.entity.setTargetChestPos(targetChestPos);
     }
 }

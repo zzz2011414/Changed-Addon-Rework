@@ -8,16 +8,15 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.Tags;
 
 import java.util.EnumSet;
 import java.util.List;
 
-public class GrabCropsGoal extends Goal {
+public class TryGrabItemsGoal extends Goal {
 
     private final PrototypeEntity prototype;
 
-    public GrabCropsGoal(PrototypeEntity entity) {
+    public TryGrabItemsGoal(PrototypeEntity entity) {
         this.prototype = entity;
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
@@ -28,7 +27,7 @@ public class GrabCropsGoal extends Goal {
         List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
                 prototype.getBoundingBox().inflate(8.0),
                 item -> !item.getItem().isEmpty());
-        return !nearbyItems.isEmpty();
+        return !nearbyItems.isEmpty() && !prototype.isInventoryFull();
     }
 
     @Override
@@ -45,25 +44,22 @@ public class GrabCropsGoal extends Goal {
     public void start() {
         super.start();
 
-        // Buscar itens próximos não vazios
         List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
-                prototype.getBoundingBox().inflate(8.0), // alcance maior pra buscar
+                prototype.getBoundingBox().inflate(8.0),
                 item -> !item.getItem().isEmpty());
 
         if (nearbyItems.isEmpty()) {
-            return; // nada para fazer
+            return;
         }
 
-        // Encontrar o item mais próximo
         ItemEntity closestItem = nearbyItems.stream().filter((itemEntity) -> {
                     ItemStack stack = itemEntity.getItem();
-                    return stack.is(Tags.Items.CROPS) || stack.is(Tags.Items.SEEDS);
+                    return prototype.canTakeItem(stack);
                 })
                 .min((i1, i2) -> Double.compare(i1.distanceToSqr(prototype), i2.distanceToSqr(prototype)))
                 .orElse(null);
 
         if (closestItem != null) {
-            // Mandar ir até o item mais próximo com velocidade 0.5 (ajuste como quiser)
             prototype.getLevel().playSound(null, prototype.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
             if (prototype.getLevel().isClientSide) {
                 prototype.getLevel().addParticle(
