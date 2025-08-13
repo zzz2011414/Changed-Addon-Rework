@@ -11,8 +11,9 @@ import net.minecraftforge.fml.common.Mod;
 public class ChangedAddonFacilityPieces {
 
     public static void RegisterAddonFacilityPieces(GatherFacilityPiecesEvent event) {
-        event.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:exp009room"), new ResourceLocation("changed_addon:chests/experiment_009_loot_dna")));
-        event.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:exp10room"), new ResourceLocation("changed_addon:chests/experiment_10_loot_op")));
-        event.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:luminar_crystal_room"), new ResourceLocation("changed:chests/high_tier_lab")));
+        event.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/exp009room"), new ResourceLocation("changed_addon:chests/experiment_009_loot_dna")));
+        event.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/exp10room"), new ResourceLocation("changed_addon:chests/experiment_10_loot_op")));
+        event.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/luminar_crystal_room"), new ResourceLocation("changed:chests/high_tier_lab")));
+        event.register(FacilityPieceCollectionBuilder.WEIGHT_COMMON, new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/closed_meteor"), new ResourceLocation("changed:chests/high_tier_lab")));
     }
 }

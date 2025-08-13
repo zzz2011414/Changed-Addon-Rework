@@ -6,9 +6,11 @@ import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.network.packets.ClientboundOpenFTKCScreenPacket;
 import net.foxyas.changedaddon.procedures.SummonEntityProcedure;
 import net.foxyas.changedaddon.util.PlayerUtil;
+import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -27,13 +30,20 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber
 public class FightToKeepConsciousness {
 
-    public static final int STRUGGLE_TIME = 100;
-    public static final int STRUGGLE_NEED = 25;
+    public static final int STRUGGLE_TIME = 150;
+    public static final int STRUGGLE_NEED = 30;
 
     @SubscribeEvent
     public static void onPlayerTransfur(ProcessTransfur.KeepConsciousEvent event) {
-        if(!(event.player instanceof ServerPlayer player) //|| event.shouldKeepConscious //FIXME uncomment after testing is done
+        if(!(event.player instanceof ServerPlayer player) || event.shouldKeepConscious //FIXME uncomment after testing is done
                 || !player.level.getGameRules().getBoolean(ChangedAddonGameRules.FIGHT_TO_KEEP_CONSCIOUSNESS)) return;
+
+        @Nullable
+        TransfurVariantInstance<?> oldVariantInstance = ProcessTransfur.getPlayerTransfurVariant(player);
+
+        if (event.context.cause == TransfurCause.WHITE_LATEX && oldVariantInstance != null) {
+            return;
+        }
 
         event.shouldKeepConscious = true;
 
@@ -112,7 +122,7 @@ public class FightToKeepConsciousness {
 
     public enum MinigameType {
         MOUSE_PULL(3.5f, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.MOUSE_PULL()),
-        MOUSE_CIRCLE_PULL(4.2f, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.MOUSE_CIRCLE_PULL()),
+        MOUSE_CIRCLE_PULL(4.5f, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.MOUSE_CIRCLE_PULL()),
         KEY_PRESS(1, FMLLoader.getDist().isDedicatedServer() ? null : FightToKeepConsciousnessClient.KEY_PRESS());
 
         public final Supplier<Screen> screen;
