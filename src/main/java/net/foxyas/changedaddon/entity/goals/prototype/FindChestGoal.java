@@ -24,7 +24,7 @@ public class FindChestGoal extends Goal {
 
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private final int searchRange = 8;
+    private static final int searchRange = 8;
     private BlockPos targetChestPos;
 
     public FindChestGoal(PrototypeEntity entity) {
@@ -36,14 +36,10 @@ public class FindChestGoal extends Goal {
     @Override
     public boolean canUse() {
         // Use only if inventory full or max harvests reached, and a chest exists nearby
-        if ((entity.isInventoryFull() || entity.getHarvestsTimes() >= PrototypeEntity.MAX_HARVEST)) {
-            BlockPos chest = findNearbyChest(entity.getLevel(), entity.blockPosition(), searchRange);
-            if (chest != null) {
-                targetChestPos = chest;
-                return true;
-            }
-        }
-        return false;
+        if(!entity.isInventoryFull() && entity.getHarvestsTimes() < PrototypeEntity.MAX_HARVEST) return false;
+
+        targetChestPos = findNearbyChest(entity.getLevel(), entity.blockPosition(), searchRange);
+        return targetChestPos != null;
     }
 
     @Override
@@ -52,37 +48,32 @@ public class FindChestGoal extends Goal {
     }
 
     @Override
-    public boolean isInterruptable() {
-        return true;
-    }
-
-    @Override
     public void start() {
         //this.entity.setTargetChestPos(targetChestPos);
-        if (targetChestPos != null) {
-            BlockPos targetChestPosOld = entity.getTargetChestPos();
-            this.entity.setTargetChestPos(targetChestPos);
-            if (targetChestPosOld != targetChestPos) {
-                entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
-            }
+        if(targetChestPos == null) return;
 
-            if (entity.getLevel().isClientSide) {
-                entity.getLevel().addParticle(
-                        ChangedParticles.emote(entity, Emote.IDEA),
-                        entity.getX(),
-                        entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
-                        entity.getZ(),
-                        0.0f,
-                        0.0f,
-                        0.0f
-                );
-            }
-            navigation.moveTo(targetChestPos.getX() + 0.5, targetChestPos.getY(), targetChestPos.getZ() + 0.5, 0.25f);
+        BlockPos targetChestPosOld = entity.getTargetChestPos();
+        this.entity.setTargetChestPos(targetChestPos);
+        if (targetChestPosOld != targetChestPos) {
+            entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
         }
+
+        if (entity.getLevel().isClientSide) {
+            entity.getLevel().addParticle(
+                    ChangedParticles.emote(entity, Emote.IDEA),
+                    entity.getX(),
+                    entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
+                    entity.getZ(),
+                    0.0f,
+                    0.0f,
+                    0.0f
+            );
+        }
+        navigation.moveTo(targetChestPos.getX() + 0.5, targetChestPos.getY(), targetChestPos.getZ() + 0.5, 0.25f);
     }
 
     @Override
-    public void tick() {
+    public void tick() {//Maybe check whether the chest is still there?
         this.entity.setTargetChestPos(targetChestPos);
         // Just keep moving towards chest
         if (targetChestPos != null && !entity.blockPosition().closerThan(targetChestPos, 2.0)) {
@@ -109,33 +100,32 @@ public class FindChestGoal extends Goal {
             if (!stack.isEmpty()) carriedItems.add(stack);
         }
 
+        BlockPos fallbackChestPos = null;
         // First try to find chest containing at least one matching item
         for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof ChestBlockEntity chest) {
-                LazyOptional<IItemHandler> chestCap = chest.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
-                IItemHandler chestInv = chestCap.orElse(null);
-                if (chestInv != null) {
-                    for (int slot = 0; slot < chestInv.getSlots(); slot++) {
-                        ItemStack chestItem = chestInv.getStackInSlot(slot);
-                        if (!chestItem.isEmpty()) {
-                            for (ItemStack carried : carriedItems) {
-                                if (ItemStack.isSameItemSameTags(carried, chestItem)) {
-                                    return pos.immutable();
-                                }
-                            }
-                        }
+            if(!(be instanceof ChestBlockEntity chest)) continue;
+
+            LazyOptional<IItemHandler> chestCap = chest.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+            IItemHandler chestInv = chestCap.resolve().orElse(null);
+            if(chestInv == null) continue;
+
+            ItemStack chestItem;
+            for (int slot = 0; slot < chestInv.getSlots(); slot++) {
+                chestItem = chestInv.getStackInSlot(slot);
+                if(chestItem.isEmpty()) continue;
+
+                for (ItemStack carried : carriedItems) {
+                    if (ItemStack.isSameItemSameTags(carried, chestItem)) {
+                        return pos.immutable();
                     }
                 }
             }
+
+            if(fallbackChestPos == null) fallbackChestPos = pos.immutable();
         }
 
         // Otherwise return any chest
-        for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
-            BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof ChestBlockEntity) return pos.immutable();
-        }
-
-        return null;
+        return fallbackChestPos;
     }
 }

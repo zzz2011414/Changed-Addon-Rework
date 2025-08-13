@@ -23,7 +23,7 @@ public class FindAndHarvestCropsGoal extends Goal {
 
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private final int searchRange = 8;
+    private static final int searchRange = 8;
     private BlockPos targetCropPos;
 
     public FindAndHarvestCropsGoal(PrototypeEntity entity) {
@@ -46,21 +46,22 @@ public class FindAndHarvestCropsGoal extends Goal {
     @Override
     public void start() {
         targetCropPos = findNearbyCrop(entity.getLevel(), entity.blockPosition(), searchRange);
-        if (targetCropPos != null) {
-            entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
-            if (entity.getLevel().isClientSide) {
-                entity.getLevel().addParticle(
-                        ChangedParticles.emote(entity, Emote.IDEA),
-                        entity.getX(),
-                        entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
-                        entity.getZ(),
-                        0.0f,
-                        0.0f,
-                        0.0f
-                );
-            }
-            navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
+        if(targetCropPos == null) return;
+
+        entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
+
+        if (entity.getLevel().isClientSide) {
+            entity.getLevel().addParticle(
+                    ChangedParticles.emote(entity, Emote.IDEA),
+                    entity.getX(),
+                    entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
+                    entity.getZ(),
+                    0.0f,
+                    0.0f,
+                    0.0f
+            );
         }
+        navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
     }
 
     @Override
@@ -76,15 +77,17 @@ public class FindAndHarvestCropsGoal extends Goal {
                 entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
 
                 targetCropPos = null; // Reset to find new crop next tick
-            } else {
-                navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
+                return;
             }
-        } else {
-            // No crop found, try again next tick
-            targetCropPos = findNearbyCrop(level, entity.blockPosition(), searchRange);
-            if (targetCropPos != null) {
-                navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
-            }
+
+            navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
+            return;
+        }
+
+        // No crop found, try again next tick
+        targetCropPos = findNearbyCrop(level, entity.blockPosition(), searchRange);
+        if (targetCropPos != null) {
+            navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
         }
     }
 
@@ -104,13 +107,13 @@ public class FindAndHarvestCropsGoal extends Goal {
 
     private void harvestCrop(ServerLevel level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
-            // Drop items naturally (simulate player breaking)
-            Block.dropResources(state, level, pos, null);
-            // Replant at age 0
-            level.setBlock(pos, crop.getStateForAge(0), 3);
-            level.playSound(null, pos, state.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, 1);
-            this.entity.addHarvestsTime();
-        }
+        if(!(state.getBlock() instanceof CropBlock crop) || !crop.isMaxAge(state)) return;
+
+        // Drop items naturally (simulate player breaking)
+        Block.dropResources(state, level, pos, null);
+        // Replant at age 0
+        level.setBlock(pos, crop.getStateForAge(0), 3);
+        level.playSound(null, pos, state.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, 1);
+        entity.addHarvestsTime();
     }
 }

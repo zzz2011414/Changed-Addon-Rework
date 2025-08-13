@@ -26,7 +26,7 @@ public class ApplyBonemealGoal extends Goal {
 
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
-    private final int searchRange = 6;
+    private static final int searchRange = 6;
     private BlockPos targetPos;
 
     public ApplyBonemealGoal(PrototypeEntity entity) {
@@ -37,7 +37,7 @@ public class ApplyBonemealGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (!hasBonemeal()) return false;
+        if (findBoneMeal().isEmpty()) return false;
 
         // Find a growable crop nearby
         targetPos = findGrowableCrop(entity.getLevel(), entity.blockPosition(), searchRange);
@@ -46,21 +46,22 @@ public class ApplyBonemealGoal extends Goal {
 
     @Override
     public void start() {
-        if (targetPos != null) {
-            entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
-            if (entity.getLevel().isClientSide) {
-                entity.getLevel().addParticle(
-                        ChangedParticles.emote(entity, Emote.IDEA),
-                        entity.getX(),
-                        entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
-                        entity.getZ(),
-                        0.0f,
-                        0.0f,
-                        0.0f
-                );
-            }
-            navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
+        if(targetPos == null) return;
+
+        entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
+
+        if (entity.getLevel().isClientSide) {
+            entity.getLevel().addParticle(
+                    ChangedParticles.emote(entity, Emote.IDEA),
+                    entity.getX(),
+                    entity.getY() + (double) entity.getDimensions(entity.getPose()).height + 0.65,
+                    entity.getZ(),
+                    0.0f,
+                    0.0f,
+                    0.0f
+            );
         }
+        navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
     }
 
     @Override
@@ -68,82 +69,62 @@ public class ApplyBonemealGoal extends Goal {
         if (targetPos == null) return;
 
         if (entity.blockPosition().closerThan(targetPos, 1.5)) {
-            applyBonemeal(targetPos);
+            applyBoneMeal(targetPos);
             targetPos = null; // reset target after applying
         } else {
             navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
         }
     }
 
-    private boolean hasBonemeal() {
+    private ItemStack findBoneMeal(){
+        ItemStack boneMeal = entity.getItemBySlot(EquipmentSlot.MAINHAND);
+        if(!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) return boneMeal;
+
+        boneMeal = entity.getItemBySlot(EquipmentSlot.OFFHAND);
+        if(!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) return boneMeal;
+
         for (int i = 0; i < entity.getInventory().getContainerSize(); i++) {
-            ItemStack stack = entity.getInventory().getItem(i);
-            if (!stack.isEmpty() && stack.getItem() == Items.BONE_MEAL) {
-                return true;
+            boneMeal = entity.getInventory().getItem(i);
+            if (!boneMeal.isEmpty() && boneMeal.is(Items.BONE_MEAL)) {
+                return boneMeal;
             }
         }
 
-        return entity.getItemBySlot(EquipmentSlot.MAINHAND).is(Items.BONE_MEAL)
-                || entity.getItemBySlot(EquipmentSlot.OFFHAND).is(Items.BONE_MEAL);
+        return ItemStack.EMPTY;
     }
 
     private BlockPos findGrowableCrop(Level level, BlockPos center, int range) {
+        BlockState state;
         for (BlockPos pos : BlockPos.betweenClosed(
                 center.offset(-range, -1, -range),
                 center.offset(range, 1, range))) {
-            BlockState state = level.getBlockState(pos);
-            Block block = state.getBlock();
+            state = level.getBlockState(pos);
 
-            if (block instanceof BonemealableBlock fertilizable && fertilizable.isValidBonemealTarget(level, pos, state, level.isClientSide())) {
+            if (state.getBlock() instanceof BonemealableBlock fertilizable
+                    && fertilizable.isValidBonemealTarget(level, pos, state, level.isClientSide())) {
                 return pos.immutable();
             }
         }
         return null;
     }
 
-    private void applyBonemeal(BlockPos pos) {
+    private void applyBoneMeal(BlockPos pos) {
         Level level = entity.getLevel();
+        if(!(level instanceof ServerLevel serverLevel)) return;
 
-        if (!entity.getMainHandItem().is(Items.BONE_MEAL) && !entity.getOffhandItem().is(Items.BONE_MEAL)) {
-            for (int i = 0; i < entity.getInventory().getContainerSize(); i++) {
-                ItemStack stack = entity.getInventory().getItem(i);
-                if (stack.getItem() == Items.BONE_MEAL) {
-                    if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
-                        BlockState state = level.getBlockState(pos);
-                        Block block = state.getBlock();
+        ItemStack boneMeal = findBoneMeal();
+        if(boneMeal.isEmpty()) return;
 
-                        if (block instanceof BonemealableBlock fertilizable) {
-                            if (fertilizable.isValidBonemealTarget(level, pos, state, false)) {
-                                this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));
-                                entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-                                fertilizable.performBonemeal(serverLevel, level.getRandom(), pos, state);
-                                serverLevel.levelEvent(1505, targetPos, 1); // Bone meal particles
-                                stack.shrink(1);
-                                break;
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-        } else {
-            ItemStack stack = entity.getMainHandItem().is(Items.BONE_MEAL) ? entity.getMainHandItem() : entity.getOffhandItem();
-            if (stack.getItem() == Items.BONE_MEAL) {
-                if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
-                    BlockState state = level.getBlockState(pos);
-                    Block block = state.getBlock();
+        BlockState state = level.getBlockState(pos);
+        Block block = state.getBlock();
 
-                    if (block instanceof BonemealableBlock fertilizable) {
-                        if (fertilizable.isValidBonemealTarget(level, pos, state, false)) {
-                            this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));
-                            entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-                            fertilizable.performBonemeal(serverLevel, level.getRandom(), pos, state);
-                            serverLevel.levelEvent(1505, targetPos, 1); // Bone meal particles
-                            stack.shrink(1);
-                        }
-                    }
-                }
-            }
-        }
+        if(!(block instanceof BonemealableBlock fertilizable)
+                || !fertilizable.isValidBonemealTarget(level, pos, state, false)) return;
+
+        this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));
+        entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
+        fertilizable.performBonemeal(serverLevel, level.getRandom(), pos, state);
+        serverLevel.levelEvent(1505, targetPos, 1); // Bone meal particles
+        boneMeal.shrink(1);
     }
 }

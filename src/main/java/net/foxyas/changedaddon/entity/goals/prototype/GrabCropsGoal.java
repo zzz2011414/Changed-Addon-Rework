@@ -59,7 +59,7 @@ public class GrabCropsGoal extends Goal {
                     ItemStack stack = itemEntity.getItem();
                     return stack.is(Tags.Items.CROPS) || stack.is(Tags.Items.SEEDS);
                 })
-                .min((i1, i2) -> Double.compare(i1.distanceTo(prototype), i2.distanceTo(prototype)))
+                .min((i1, i2) -> Double.compare(i1.distanceToSqr(prototype), i2.distanceToSqr(prototype)))
                 .orElse(null);
 
         if (closestItem != null) {
