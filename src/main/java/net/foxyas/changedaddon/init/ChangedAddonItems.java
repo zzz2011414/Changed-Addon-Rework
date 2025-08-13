@@ -38,25 +38,26 @@ public class ChangedAddonItems {
 
     public static final RegistryObject<Item> CHANGED_BOOK = REGISTRY.register("changedbook", ChangedBookItem::new);
     public static final RegistryObject<Item> LUMINARA_BLOOM = block(ChangedAddonBlocks.LUMINARA_BLOOM, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> BIOMASS = REGISTRY.register("biomass", BiomassItem::new);
     public static final RegistryObject<Item> ANTI_LATEX_BASE = REGISTRY.register("anti_latex_base", UnlatexbaseItem::new);
-    public static final RegistryObject<Item> LATEX_INSULATOR = block(ChangedAddonBlocks.LATEX_INSULATOR, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> IMPURE_AMMONIA = REGISTRY.register("impure_ammonia", InpureammoniaItem::new);
     public static final RegistryObject<Item> AMMONIA_PARTICLE = REGISTRY.register("ammonia_particle", AmmoniaParticleItem::new);
     public static final RegistryObject<Item> AMMONIA_COMPRESSED = REGISTRY.register("ammonia_compressed", AmmoniaCompressedItem::new);
     public static final RegistryObject<Item> AMMONIA = REGISTRY.register("ammonia", AmmoniaItem::new);
     public static final RegistryObject<Item> LITIX_CAMONIA = REGISTRY.register("litix_camonia", LitixCamoniaItem::new);
     public static final RegistryObject<Item> LAETHIN = REGISTRY.register("laethin", LaethinItem::new);
-    public static final RegistryObject<Item> SYRINGE = REGISTRY.register("syringe", SyringeItem::new);
     public static final RegistryObject<Item> CATALYZED_DNA = REGISTRY.register("catalyzed_dna", CatalyzedDNAItem::new);
+    public static final RegistryObject<Item> SYRINGE = REGISTRY.register("syringe", SyringeItem::new);
     public static final RegistryObject<Item> DIFFUSION_SYRINGE = REGISTRY.register("diffusion_syringe", DiffusionSyringeItem::new);
     public static final RegistryObject<Item> SYRINGE_WITH_LITIX_CAMMONIA = REGISTRY.register("syringe_with_litix_cammonia", SyringeWithLitixCammoniaItem::new);
     public static final RegistryObject<Item> LAETHIN_SYRINGE = REGISTRY.register("laethin_syringe", LaethinSyringeItem::new);
     public static final RegistryObject<Item> POT_WITH_CAMONIA = REGISTRY.register("pot_with_camonia", PotWithCamoniaItem::new);
-    public static final RegistryObject<Item> ORANGE_JUICE = REGISTRY.register("orange_juice", OrangeJuiceItem::new);
+
     public static final RegistryObject<Item> RAW_IRIDIUM = REGISTRY.register("raw_iridium", RawIridiumItem::new);
     public static final RegistryObject<Item> IRIDIUM = REGISTRY.register("iridium", IridiumItem::new);
     public static final RegistryObject<Item> IRIDIUM_ORE = block(ChangedAddonBlocks.IRIDIUM_ORE, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> IRIDIUM_BLOCK = block(ChangedAddonBlocks.IRIDIUM_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
     public static final RegistryObject<Item> PAINITE = REGISTRY.register("painite", PainiteItem::new);
     public static final RegistryObject<Item> ACCESSORIES_CHESTPLATE = REGISTRY.register("accessories_chestplate", AccessoriesItem.Chestplate::new);
     public static final RegistryObject<Item> PAINITE_SWORD = REGISTRY.register("painite_sword", PainiteSwordItem::new);
@@ -70,47 +71,28 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> PAINITE_ARMOR_BOOTS = REGISTRY.register("painite_armor_boots", PainiteArmorItem.Boots::new);
     public static final RegistryObject<Item> PAINITE_ORE = block(ChangedAddonBlocks.PAINITE_ORE, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> PAINITE_BLOCK = block(ChangedAddonBlocks.PAINITE_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> LITIX_CAMONIA_SPRAY = REGISTRY.register("litix_camonia_spray", LitixCamoniaSprayItem::new);
-    public static final RegistryObject<Item> EMPTY_SPRAY = REGISTRY.register("empty_spray", EmptySprayItem::new);
+
     public static final RegistryObject<Item> LITIX_CAMONIA_FLUID_BUCKET = REGISTRY.register("litix_camonia_fluid_bucket", LitixCamoniaFluidItem::new);
-    public static final RegistryObject<Item> CATALYZER = block(ChangedAddonBlocks.CATALYZER, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> UNIFUSER = block(ChangedAddonBlocks.UNIFUSER, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> HAZARD_SUIT_HELMET = REGISTRY.register("hazard_suit_helmet", HazardSuitItem.Helmet::new);
-    public static final RegistryObject<Item> HAZARD_SUIT_CHESTPLATE = REGISTRY.register("hazard_suit_chestplate", HazardSuitItem.Chestplate::new);
-    public static final RegistryObject<Item> HAZARD_SUIT_LEGGINGS = REGISTRY.register("hazard_suit_leggings", HazardSuitItem.Leggings::new);
-    public static final RegistryObject<Item> HAZARD_SUIT_BOOTS = REGISTRY.register("hazard_suit_boots", HazardSuitItem.Boots::new);
-    public static final RegistryObject<Item> DARK_LATEX_PUDDLE = block(ChangedAddonBlocks.DARK_LATEX_PUDDLE, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> LUNAR_ROSE_HELMET = REGISTRY.register("lunarrose_helmet", LunarroseItem.Helmet::new);
+
     public static final RegistryObject<Item> EXPERIMENT_009_DNA = REGISTRY.register("experiment_009_dna", Experiment009dnaItem::new);
     public static final RegistryObject<Item> EXP_9_LATEX_BASE = REGISTRY.register("exp_9_latex_base", Exp9LatexBaseItem::new);
     public static final RegistryObject<Item> EXP_9_CONTAINMENT_VIAL = REGISTRY.register("exp_9_containment_vial", Experiment009SpawneggItem::new);
     public static final RegistryObject<Item> TRANSFUR_TOTEM = REGISTRY.register("transfur_totem", TransfurTotemItem::new);
-    public static final RegistryObject<Item> SIGNAL_BLOCK = block(ChangedAddonBlocks.SIGNAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> SIGNAL_CATCHER = REGISTRY.register("signal_catcher", SignalCatcherItem::new);
+
     public static final RegistryObject<Item> EXPERIMENT_10_DNA = REGISTRY.register("experiment_10_dna", Experiment10DnaItem::new);
     public static final RegistryObject<Item> EXP_10_LATEX_BASE = REGISTRY.register("exp_10_latex_base", Exp10LatexBaseItem::new);
     public static final RegistryObject<Item> EXP_10_CONTAINMENT_VIAL = REGISTRY.register("exp_10_containment_vial", BossExperiment10SpawnEggItem::new);
     public static final RegistryObject<Item> RED_LATEX_GOO = REGISTRY.register("red_latex_goo", RedLatexGooItem::new);
-    public static final RegistryObject<Item> INFORMANT_BLOCK = block(ChangedAddonBlocks.INFORMANT_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> CRYSTAL_DAGGER_RED = REGISTRY.register("crystal_dagger_red", CrystalAddagerRedItem::new);
-    public static final RegistryObject<Item> CRYSTAL_DAGGER_GREEN = REGISTRY.register("crystal_dagger_green", CrystalAddagerGreenItem::new);
-    public static final RegistryObject<Item> CRYSTAL_DAGGER_BLACK = REGISTRY.register("crystal_dagger_black", CrystalAddagerBlackItem::new);
-    public static final RegistryObject<Item> LAETHINMINATOR = REGISTRY.register("laethinminator", LaethinminatorItem::new);
-    public static final RegistryObject<Item> CROWBAR = REGISTRY.register("crow_bar", CrowbarItem::new);
+
+    public static final RegistryObject<Item> ORANGE_JUICE = REGISTRY.register("orange_juice", OrangeJuiceItem::new);
     public static final RegistryObject<Item> SNEPSI = REGISTRY.register("snepsi", SnepsiItem::new);
     public static final RegistryObject<Item> FOXTA = REGISTRY.register("foxta", FoxtaItem::new);
-    public static final RegistryObject<Item> DORMANT_DARK_LATEX = block(ChangedAddonBlocks.DORMANT_DARK_LATEX, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> DORMANT_WHITE_LATEX = block(ChangedAddonBlocks.DORMANT_WHITE_LATEX, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> DARK_LATEX_SPRAY = REGISTRY.register("dark_latex_spray", DarkLatexSprayItem::new);
-    public static final RegistryObject<Item> WHITE_LATEX_SPRAY = REGISTRY.register("white_latex_spray", WhiteLatexSprayItem::new);
-    public static final RegistryObject<Item> HAZMAT_SUIT_HELMET = REGISTRY.register("hazmat_suit_helmet", HazmatSuitItem.Helmet::new);
-    public static final RegistryObject<Item> HAZMAT_SUIT_CHESTPLATE = REGISTRY.register("hazmat_suit_chestplate", HazmatSuitItem.Chestplate::new);
-    public static final RegistryObject<Item> HAZMAT_SUIT_LEGGINGS = REGISTRY.register("hazmat_suit_leggings", HazmatSuitItem.Leggings::new);
-    public static final RegistryObject<Item> HAZMAT_SUIT_BOOTS = REGISTRY.register("hazmat_suit_boots", HazmatSuitItem.Boots::new);
+    public static final RegistryObject<Item> GOLDEN_ORANGE = REGISTRY.register("golden_orange", GoldenOrange::new);
+
     public static final RegistryObject<Item> SNEP_PLUSH = block(ChangedAddonBlocks.SNEP_PLUSH, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> WOLF_PLUSH = block(ChangedAddonBlocks.WOLF_PLUSH, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> BIOMASS = REGISTRY.register("biomass", BiomassItem::new);
-    public static final RegistryObject<Item> CONTAINMENT_CONTAINER = block(ChangedAddonBlocks.CONTAINMENT_CONTAINER, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> CATALYZER = block(ChangedAddonBlocks.CATALYZER, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> UNIFUSER = block(ChangedAddonBlocks.UNIFUSER, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> ADVANCED_UNIFUSER = block(ChangedAddonBlocks.ADVANCED_UNIFUSER, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> ADVANCED_CATALYZER = block(ChangedAddonBlocks.ADVANCED_CATALYZER, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> REINFORCED_WALL = block(ChangedAddonBlocks.REINFORCED_WALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
@@ -119,32 +101,74 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> REINFORCED_WALL_CAUTION = block(ChangedAddonBlocks.REINFORCED_WALL_CAUTION, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> REINFORCED_CROSS_BLOCK = block(ChangedAddonBlocks.REINFORCED_CROSS_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> WALL_WHITE_CRACKED = block(ChangedAddonBlocks.WALL_WHITE_CRACKED, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> CONTAINMENT_CONTAINER = block(ChangedAddonBlocks.CONTAINMENT_CONTAINER, ChangedAddonTabs.TAB_CHANGED_ADDON);
     //public static final RegistryObject<Item> WALL_WHITE_STAIR = block(ChangedAddonBlocks.WALL_WHITE_STAIR, ChangedAddonTabs.TAB_CHANGED_ADDON);
     //public static final RegistryObject<Item> WALL_WHITE_SLAB = block(ChangedAddonBlocks.WALL_WHITE_SLAB, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.BLUE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> WHITE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.WHITE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> LUMINAR_CRYSTAL_BLOCK = block(ChangedAddonBlocks.LUMINAR_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> LUMINAR_CRYSTAL_SMALL = block(ChangedAddonBlocks.LUMINAR_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.BLUE_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> WHITE_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.WHITE_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
-    public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("blue_wolf_crystal_fragment", BlueWolfCrystalFragmentItem::new);
-    public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("orange_wolf_crystal_fragment", OrangeWolfCrystalFragmentItem::new);
-    public static final RegistryObject<Item> ELECTRIC_KATANA = REGISTRY.register("electric_katana", ElectricKatanaItem::new);
-    public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("yellow_wolf_crystal_fragment", YellowWolfCrystalFragmentItem::new);
-    public static final RegistryObject<Item> ELECTRIC_KATANA_RED = REGISTRY.register("electric_katana_red", ElectricKatanaRedItem::new);
-    public static final RegistryObject<Item> WHITE_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("white_wolf_crystal_fragment", WhiteWolfCrystalFragmentItem::new);
+
+    public static final RegistryObject<Item> LATEX_INSULATOR = block(ChangedAddonBlocks.LATEX_INSULATOR, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> DARK_LATEX_PUDDLE = block(ChangedAddonBlocks.DARK_LATEX_PUDDLE, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> DORMANT_DARK_LATEX = block(ChangedAddonBlocks.DORMANT_DARK_LATEX, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> DORMANT_WHITE_LATEX = block(ChangedAddonBlocks.DORMANT_WHITE_LATEX, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> SIGNAL_BLOCK = block(ChangedAddonBlocks.SIGNAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> SIGNAL_CATCHER = REGISTRY.register("signal_catcher", SignalCatcherItem::new);
+    public static final RegistryObject<Item> INFORMANT_BLOCK = block(ChangedAddonBlocks.INFORMANT_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
     public static final RegistryObject<Item> LUMINAR_CRYSTAL_SHARD = REGISTRY.register("luminar_crystal_shard", LuminarCrystalShardItem::new);
     public static final RegistryObject<Item> LUMINAR_CRYSTAL_SHARD_HEARTED = REGISTRY.register("luminar_crystal_shard_hearted", LuminarCrystalShardHeartedItem::new);
-    public static final RegistryObject<Item> GOO_CORE = block(ChangedAddonBlocks.GOO_CORE, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> LUMINAR_CRYSTAL_SMALL = block(ChangedAddonBlocks.LUMINAR_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> LUMINAR_CRYSTAL_BLOCK = block(ChangedAddonBlocks.LUMINAR_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
+    public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("yellow_wolf_crystal_fragment", YellowWolfCrystalFragmentItem::new);
+    public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> YELLOW_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
+    public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("orange_wolf_crystal_fragment", OrangeWolfCrystalFragmentItem::new);
+    public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> ORANGE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
+    public static final RegistryObject<Item> WHITE_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("white_wolf_crystal_fragment", WhiteWolfCrystalFragmentItem::new);
+    public static final RegistryObject<Item> WHITE_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.WHITE_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> WHITE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.WHITE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
+    public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_FRAGMENT = REGISTRY.register("blue_wolf_crystal_fragment", BlueWolfCrystalFragmentItem::new);
+    public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_SMALL = block(ChangedAddonBlocks.BLUE_WOLF_CRYSTAL_SMALL, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> BLUE_WOLF_CRYSTAL_BLOCK = block(ChangedAddonBlocks.BLUE_WOLF_CRYSTAL_BLOCK, ChangedAddonTabs.TAB_CHANGED_ADDON);
+
+    public static final RegistryObject<Item> ELECTRIC_KATANA = REGISTRY.register("electric_katana", ElectricKatanaItem::new);
+    public static final RegistryObject<Item> ELECTRIC_KATANA_RED = REGISTRY.register("electric_katana_red", ElectricKatanaRedItem::new);
+
+
     public static final RegistryObject<Item> GOO_CORE_FRAGMENT = REGISTRY.register("goo_core_fragment", GooCoreFragmentItem::new);
+    public static final RegistryObject<Item> GOO_CORE = block(ChangedAddonBlocks.GOO_CORE, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> MEANINGLESS_STRAFE_MUSIC_DISC = REGISTRY.register("meaningless_strafe_music_disc", MeaninglessStrafeMusicDiscItem::new);
     public static final RegistryObject<Item> LUMINAR_CRYSTAL_SPEAR = REGISTRY.register("luminar_crystal_spear", LuminarCrystalSpearItem::new);
     public static final RegistryObject<Item> THE_DECIMATOR = REGISTRY.register("the_decimator", TheDecimatorItem::new);
+    public static final RegistryObject<Item> CROWBAR = REGISTRY.register("crow_bar", CrowbarItem::new);
+    public static final RegistryObject<Item> LAETHINMINATOR = REGISTRY.register("laethinminator", LaethinminatorItem::new);
+
+    public static final RegistryObject<Item> CRYSTAL_DAGGER_RED = REGISTRY.register("crystal_dagger_red", CrystalAddagerRedItem::new);
+    public static final RegistryObject<Item> CRYSTAL_DAGGER_GREEN = REGISTRY.register("crystal_dagger_green", CrystalAddagerGreenItem::new);
+    public static final RegistryObject<Item> CRYSTAL_DAGGER_BLACK = REGISTRY.register("crystal_dagger_black", CrystalAddagerBlackItem::new);
+
+    public static final RegistryObject<Item> EMPTY_SPRAY = REGISTRY.register("empty_spray", EmptySprayItem::new);
+    public static final RegistryObject<Item> LITIX_CAMONIA_SPRAY = REGISTRY.register("litix_camonia_spray", LitixCamoniaSprayItem::new);
+    public static final RegistryObject<Item> DARK_LATEX_SPRAY = REGISTRY.register("dark_latex_spray", DarkLatexSprayItem::new);
+    public static final RegistryObject<Item> WHITE_LATEX_SPRAY = REGISTRY.register("white_latex_spray", WhiteLatexSprayItem::new);
+
+    public static final RegistryObject<Item> LUNAR_ROSE_HELMET = REGISTRY.register("lunarrose_helmet", LunarroseItem.Helmet::new);
+
+    public static final RegistryObject<Item> HAZMAT_SUIT_HELMET = REGISTRY.register("hazmat_suit_helmet", HazmatSuitItem.Helmet::new);
+    public static final RegistryObject<Item> HAZMAT_SUIT_CHESTPLATE = REGISTRY.register("hazmat_suit_chestplate", HazmatSuitItem.Chestplate::new);
+    public static final RegistryObject<Item> HAZMAT_SUIT_LEGGINGS = REGISTRY.register("hazmat_suit_leggings", HazmatSuitItem.Leggings::new);
+    public static final RegistryObject<Item> HAZMAT_SUIT_BOOTS = REGISTRY.register("hazmat_suit_boots", HazmatSuitItem.Boots::new);
+
+    public static final RegistryObject<Item> HAZARD_SUIT_HELMET = REGISTRY.register("hazard_suit_helmet", HazardSuitItem.Helmet::new);
+    public static final RegistryObject<Item> HAZARD_SUIT_CHESTPLATE = REGISTRY.register("hazard_suit_chestplate", HazardSuitItem.Chestplate::new);
+    public static final RegistryObject<Item> HAZARD_SUIT_LEGGINGS = REGISTRY.register("hazard_suit_leggings", HazardSuitItem.Leggings::new);
+    public static final RegistryObject<Item> HAZARD_SUIT_BOOTS = REGISTRY.register("hazard_suit_boots", HazardSuitItem.Boots::new);
+
     public static final RegistryObject<Item> GENERATOR = block(ChangedAddonBlocks.GENERATOR, null);
+
     public static final RegistryObject<Item> CATALYZER_BLOCK_ILLUSTRATIVE_ITEM = REGISTRY.register("catalyzer_block_illustrative_item", CatalyzerBlockIllustrativeItemItem::new);
     public static final RegistryObject<Item> UNIFUSER_BLOCK_ILLUSTRATIVE_ITEM = REGISTRY.register("unifuser_block_illustrative_item", UnifuserblockIllustrativeItemItem::new);
     public static final RegistryObject<Item> AMMONIA_PARTICLES_JEI_ILLUSTRATIVE = REGISTRY.register("ammonia_particles_jei_illustrative", AmmoniaParticlesJeiIllustrativeItem::new);
@@ -153,7 +177,6 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> SNEP_ICON = REGISTRY.register("snep_icon", SnepIconItem::new);
     public static final RegistryObject<Item> FRIENDLY_GOEY_ICON = REGISTRY.register("friendly_goey_icon", FriendlyGoeyIconItem::new);
     public static final RegistryObject<Item> PAT_ICON = REGISTRY.register("pat_icon", PatIconItem::new);
-    public static final RegistryObject<Item> GOLDEN_ORANGE = REGISTRY.register("golden_orange", GoldenOrange::new);
 
     // --- MOBS SPAWN EGGS ---
     public static final RegistryObject<Item> ERIK_SPAWN_EGG = REGISTRY.register("erik_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.ERIK, -1, -1, new Item.Properties().tab(null)));
