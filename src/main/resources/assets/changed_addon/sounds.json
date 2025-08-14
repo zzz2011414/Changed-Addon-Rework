@@ -21,8 +21,8 @@
       }
     ]
   },
-  "untransfursound": {
-    "subtitle": "subtitles.untransfursound",
+  "untransfur.sound": {
+    "subtitle": "subtitles.untransfur.sound",
     "sounds": [
       {
         "name": "changed_addon:healing",

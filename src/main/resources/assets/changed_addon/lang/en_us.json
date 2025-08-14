@@ -626,8 +626,8 @@
   "item.minecraft.tipped_arrow.effect.litix_cammonia_effect": "Arrow of LitixCammonia",
   "item.minecraft.tipped_arrow.effect.transfur_sickness_potion": "Arrow of Transfur Sickness",
 
-  "itemGroup.tabchanged_addon": "Changed Addon Plus",
-  "itemGroup.tabchanged_addon_combat_optional": "Changed Addon Plus Combat Optional",
+  "itemGroup.tab_changed_addon": "Changed Addon Plus",
+  "itemGroup.tab_changed_addon_combat_optional": "Changed Addon Plus Combat Optional",
 
   "key.categories.changed_addon": "Changed Addon Keybinds",
   "key.changed_addon.leap_key": "Leap Key",
@@ -649,7 +649,7 @@
   "subtitles.music.boss.exp9": "Meaningless Strafe playing",
   "subtitles.music.boss.luminarctic_leopard": "Misstake playing",
   "subtitles.spray.sound": "Using Spray",
-  "subtitles.untransfursound": "Untransfurmization",
+  "subtitles.untransfur.sound": "Untransfurmization",
   "subtitles.warn": "Warn Sound",
   "subtitles.gecko_sound": "Gecko Beep",
   "subtitles.entity.prototype.idea_sfx": "Prototype Chime",

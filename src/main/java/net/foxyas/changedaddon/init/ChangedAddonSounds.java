@@ -19,7 +19,7 @@ public class ChangedAddonSounds {
     public static final SoundEvent GECKO = registerSimple("gecko_sound");
     public static final SoundEvent PUSH_SOUND = registerSimple("block.plushes.sfx");
     public static final SoundEvent SPRAY_SOUND = registerSimple("spray.sound");
-    public static final SoundEvent UNTRANSFUR = registerSimple("untransfursound");
+    public static final SoundEvent UNTRANSFUR = registerSimple("untransfur.sound");
     public static final SoundEvent WARN = registerSimple("warn");
 
     public static final SoundEvent EXP10_THEME = registerSimple("experiment10_theme");

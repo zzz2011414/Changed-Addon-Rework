@@ -44,6 +44,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.*;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -521,7 +522,6 @@ public class AbstractLuminarCrystal {
                         }
                     }
                 } else {
-                    // Spawna novo leopardo
                     var leopardType = level.random.nextBoolean()
                             ? ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE.get()
                             : ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE.get();
@@ -545,6 +545,22 @@ public class AbstractLuminarCrystal {
                         newLeopard.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pos), MobSpawnType.MOB_SUMMONED, null, null);
                         if (closestEntity != null) {
                             newLeopard.setTarget(closestEntity);
+
+                            // Posição atrás da entidade (um bloco de distância)
+                            Vec3 targetPos = closestEntity.position().add(
+                                    closestEntity.getViewVector(1).scale(-1.5) // escala define distância
+                            );
+
+                            spawnPos = new BlockPos(targetPos);
+
+                            if (level.getBlockState(spawnPos).isAir() &&
+                                    level.getBlockState(spawnPos.above()).isAir()) {
+
+                                spawnPos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, spawnPos);
+
+                                newLeopard.setPos(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5);
+                                level.addFreshEntity(newLeopard);
+                            }
                         }
                         level.addFreshEntity(newLeopard);
                         newLeopard.playSound(SoundEvents.ENDERMAN_SCREAM, 1, 0);

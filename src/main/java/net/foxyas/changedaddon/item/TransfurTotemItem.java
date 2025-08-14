@@ -2,6 +2,7 @@
 package net.foxyas.changedaddon.item;
 
 import net.foxyas.changedaddon.configuration.ChangedAddonServerConfiguration;
+import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
 import net.foxyas.changedaddon.procedures.SummonDripParticlesProcedure;
 import net.foxyas.changedaddon.util.PlayerUtil;
@@ -17,6 +18,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -83,7 +85,7 @@ public class TransfurTotemItem extends Item {
         if (player.isShiftKeyDown()) {
             if (!form.isEmpty()) {
                 stack.getOrCreateTag().putString("form", "");
-                activateVisuals(level, player, stack, null, 50, "block.beacon.deactivate");
+                activateVisuals(level, player, stack, null, 50, SoundEvents.BEACON_DEACTIVATE);
                 return ar;
             }
 
@@ -100,7 +102,7 @@ public class TransfurTotemItem extends Item {
             SummonDripParticlesProcedure.execute(player);
             PlayerUtil.UnTransfurPlayer(player);
             cooldown(player, stack, 100);
-            visualActivate(level, player, "changed_addon:untransfursound");
+            visualActivate(level, player, ChangedAddonSounds.UNTRANSFUR);
             grantAdvancement(player, "changed_addon:transfur_totem_advancement_1");
             return ar;
         }
@@ -153,7 +155,7 @@ public class TransfurTotemItem extends Item {
         SummonDripParticlesProcedure.execute(entity);
         PlayerUtil.UnTransfurPlayer(player);
 
-        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.totem.use")), SoundSource.NEUTRAL, 1, 1);
+        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.TOTEM_USE, SoundSource.NEUTRAL, 1, 1);
 
         player.getCooldowns().addCooldown(itemstack.getItem(), 100);
         if (level.isClientSide()) Minecraft.getInstance().gameRenderer.displayItemActivation(itemstack);
@@ -180,7 +182,7 @@ public class TransfurTotemItem extends Item {
             linkForm(level, player, itemstack, tf, latexForm);
         } else if (latexForm.startsWith("changed_addon:form")) {
             cooldown(player, itemstack, 50);
-            visualActivate(level, player, "entity.zombie.attack_iron_door");
+            visualActivate(level, player, SoundEvents.ZOMBIE_ATTACK_IRON_DOOR);
             player.displayClientMessage(new TranslatableComponent("changed_addon.latex_totem.notvalid"), true);
         } else if (latexForm.startsWith("changed:special")) {
             linkForm(level, player, itemstack, tf, "changed:form_light_latex_wolf");
@@ -190,7 +192,7 @@ public class TransfurTotemItem extends Item {
     private static void linkForm(Level level, Player player, ItemStack stack, TransfurVariantInstance<?> tf, String form) {
         stack.getOrCreateTag().putString("form", form);
         stack.getOrCreateTag().put("TransfurVariantData", tf.save());
-        activateVisuals(level, player, stack, null, 100, "block.beacon.activate");
+        activateVisuals(level, player, stack, null, 100, SoundEvents.BEACON_ACTIVATE);
     }
 
     private static void cooldown(Player entity, ItemStack itemstack, int ticks) {
@@ -199,19 +201,18 @@ public class TransfurTotemItem extends Item {
         }
     }
 
-    private static void activateVisuals(Level level, Player entity, ItemStack itemstack, String advancement, int cooldown, String soundId) {
+    private static void activateVisuals(Level level, Player entity, ItemStack itemstack, String advancement, int cooldown, SoundEvent soundEvent) {
         if (level.isClientSide())
             Minecraft.getInstance().gameRenderer.displayItemActivation(itemstack);
 
         cooldown(entity, itemstack, cooldown);
-        if (soundId != null) visualActivate(level, entity, soundId);
+        if (soundEvent != null) visualActivate(level, entity, soundEvent);
 
         if (advancement != null)
             grantAdvancement(entity, advancement);
     }
 
-    private static void visualActivate(Level level, Player player, String soundId) {
-        SoundEvent sound = ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(soundId));
+    private static void visualActivate(Level level, Player player, SoundEvent sound) {
         level.playSound(null, player.getX(), player.getY(), player.getZ(), sound, SoundSource.NEUTRAL, 1, 1);
     }
 
