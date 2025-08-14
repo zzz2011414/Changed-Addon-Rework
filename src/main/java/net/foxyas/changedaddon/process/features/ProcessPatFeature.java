@@ -106,7 +106,7 @@ public class ProcessPatFeature {
             }
 
             if (globalPatReaction.world instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 4, 0.3, 0.3, 0.3, 1);
+                //serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 4, 0.3, 0.3, 0.3, 1);
             } else {
                 SpawnEmote(player, target);
             }

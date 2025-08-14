@@ -52,6 +52,12 @@ public class FindAndHarvestCropsGoal extends Goal {
 
     @Override
     public void start() {
+        if (entity.isTame()) {
+            if (entity.isFollowingOwner()) {
+                entity.setFollowOwner(false);
+            }
+        }
+
         targetCropPos = entity.findNearbyCrop(entity.getLevel(), entity.blockPosition(), searchRange);
         if (targetCropPos == null) return;
         entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
@@ -96,6 +102,16 @@ public class FindAndHarvestCropsGoal extends Goal {
             targetCropPos = entity.findNearbyCrop(level, entity.blockPosition(), searchRange);
             if (targetCropPos != null) {
                 navigation.moveTo(targetCropPos.getX() + 0.5, targetCropPos.getY(), targetCropPos.getZ() + 0.5, 0.25f);
+            }
+        }
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        if (entity.isTame()) {
+            if (!entity.isFollowingOwner()) {
+                entity.setFollowOwner(true);
             }
         }
     }

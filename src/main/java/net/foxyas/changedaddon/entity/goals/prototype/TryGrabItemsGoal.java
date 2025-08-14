@@ -30,7 +30,7 @@ public class TryGrabItemsGoal extends Goal {
                         item -> !item.getItem().isEmpty())
                 .stream().filter((itemEntity) -> {
                     ItemStack stack = itemEntity.getItem();
-                    return prototype.canTakeItem(stack);
+                    return prototype.canTakeItem(stack) && prototype.wantsToPickUp(stack);
                 }).toList();
         this.nearbyItems = nearbyItems;
         return !nearbyItems.isEmpty() && !prototype.isInventoryFull();

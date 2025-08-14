@@ -53,6 +53,11 @@ public class PlantSeedsGoal extends Goal {
     @Override
     public void start() {
         if (targetPos == null) return;
+        if (entity.isTame()) {
+            if (entity.isFollowingOwner()) {
+                entity.setFollowOwner(false);
+            }
+        }
 
         entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
 
@@ -89,6 +94,16 @@ public class PlantSeedsGoal extends Goal {
         }
 
         navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        if (entity.isTame()) {
+            if (!entity.isFollowingOwner()) {
+                entity.setFollowOwner(true);
+            }
+        }
     }
 
     private ItemStack findSeeds() {

@@ -342,6 +342,7 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         if (this.pickAbleItems().contains(pItemstack.getItem()) || (pItemstack.is(Tags.Items.CROPS) || pItemstack.is(Tags.Items.SEEDS))) {
             return true;
         }
+
         return super.canTakeItem(pItemstack);
     }
 
