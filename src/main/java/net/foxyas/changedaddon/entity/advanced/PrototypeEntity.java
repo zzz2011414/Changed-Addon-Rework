@@ -155,22 +155,22 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
     @Override
     public void WhenPattedReaction(Player patter, InteractionHand hand) {
         CustomPatReaction.super.WhenPattedReaction(patter, hand);
-        if (!this.isTame()) {
-            this.tame(patter);
-        } else {
-            InteractionResult interactionresult = super.mobInteract(patter, hand);
-            if ((!interactionresult.consumesAction() || this.isBaby()) && this.isOwnedBy(patter)) {
-                boolean shouldFollow = !this.isFollowingOwner();
-                this.setFollowOwner(shouldFollow);
+        if (!patter.level.isClientSide()) {
+            if (!this.isTame()) {
+                this.tame(patter);
+            } else {
+                InteractionResult interactionresult = super.mobInteract(patter, hand);
+                if ((!interactionresult.consumesAction() || this.isBaby()) && this.isOwnedBy(patter)) {
+                    boolean shouldFollow = !this.isFollowingOwner();
+                    this.setFollowOwner(shouldFollow);
 
-                patter.displayClientMessage(new TranslatableComponent(shouldFollow ? "text.changed.tamed.follow" : "text.changed.tamed.wander", this.getDisplayName()), false);
-                this.jumping = false;
-                this.navigation.stop();
-                this.setTarget(null);
+                    patter.displayClientMessage(new TranslatableComponent(shouldFollow ? "text.changed.tamed.follow" : "text.changed.tamed.wander", this.getDisplayName()), false);
+                    this.jumping = false;
+                    this.navigation.stop();
+                    this.setTarget(null);
+                }
             }
         }
-
-
     }
 
     @Override

@@ -6,6 +6,7 @@ import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
 import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
 import net.foxyas.changedaddon.entity.bosses.Experiment10Entity;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
+import net.foxyas.changedaddon.entity.interfaces.SpecialPatLatex;
 import net.foxyas.changedaddon.init.ChangedAddonCriteriaTriggers;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
@@ -13,6 +14,7 @@ import net.ltxprogrammer.changed.ability.GrabEntityAbility;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.entity.beast.AbstractDarkLatexWolf;
+import net.ltxprogrammer.changed.entity.beast.SpecialLatex;
 import net.ltxprogrammer.changed.init.ChangedAbilities;
 import net.ltxprogrammer.changed.init.ChangedParticles;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
@@ -67,8 +69,7 @@ public class PatFeatureHandle {
 
         if (!(isPossibleToPat(player))) return;
 
-        if (targetEntity instanceof Experiment10Entity || targetEntity instanceof Experiment009Entity
-                || targetEntity instanceof Experiment10BossEntity || targetEntity instanceof Experiment009BossEntity) {
+        if (targetEntity instanceof SpecialPatLatex) {
             handleSpecialEntities(player, targetEntityResult);
         } else {
             if (targetEntity instanceof ChangedEntity) {
@@ -123,11 +124,16 @@ public class PatFeatureHandle {
         Entity target = entityHitResult.getEntity();
 
         if (isHandEmpty(player, InteractionHand.MAIN_HAND) || isHandEmpty(player, InteractionHand.OFF_HAND)) {
-            if (player instanceof Player) {
-                ((Player) player).swing(getSwingHand(player), true);
-            } else if (player instanceof Player p) {
+            if (player instanceof Player p) {
+                p.swing(getSwingHand(p));
                 if (target instanceof CustomPatReaction pat) {
                     InteractionHand hand = getSwingHand(player);
+                    if (target instanceof LivingEntity livingEntity) {
+                        ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(player.getLevel(), p, hand, livingEntity, entityHitResult.getLocation());
+                        if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
+                            return;
+                        }
+                    }
                     pat.WhenPattedReaction(p, hand, entityHitResult.getLocation());
                     pat.WhenPattedReaction(p, hand);
                     pat.WhenPattedReaction();
