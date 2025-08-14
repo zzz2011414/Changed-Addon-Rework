@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.network.packets.ServerboundProgressFTKCPacket;
+import net.foxyas.changedaddon.qte.FightToKeepConsciousness;
 import net.foxyas.changedaddon.util.RenderUtil;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +76,7 @@ public class KeyPressMinigameScreen extends Screen {
 
     @Override
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-        renderBackground(poseStack);
+        renderBackground(poseStack, partialTick);
 
         int halfWidth = width / 2;
         int halfHeight = height / 2;
@@ -85,8 +87,20 @@ public class KeyPressMinigameScreen extends Screen {
         RenderUtil.drawCentered(font, poseStack, getProgressText(player), halfWidth, halfHeight + 7, -12829636);
     }
 
-    @Override
-    public void renderBackground(@NotNull PoseStack poseStack) {
+    public void renderBackground(@NotNull PoseStack poseStack, float partialTick) {
+        TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
+
+        if(tf != null) {
+            float fightProgress = ChangedAddonModVariables.PlayerVariables.nonNullOf(player).consciousnessFightProgress / FightToKeepConsciousness.STRUGGLE_NEED;
+            float loseProgress = Mth.lerp(partialTick, Math.max(0, tf.ageAsVariant - 1), tf.ageAsVariant) / FightToKeepConsciousness.STRUGGLE_TIME;
+
+            int alpha = (int) (128 + 128 * (loseProgress - fightProgress));
+
+            RenderUtil.fill(poseStack.last().pose(), 0, 0, width, height, alpha << 24 | tf.getTransfurColor().toInt());
+        } else {
+            RenderUtil.fill(poseStack.last().pose(), 0, 0, width, height, -8355712);
+        }
+
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();

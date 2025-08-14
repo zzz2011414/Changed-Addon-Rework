@@ -6,8 +6,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
+import net.foxyas.changedaddon.qte.FightToKeepConsciousness;
 import net.foxyas.changedaddon.util.RenderUtil;
 import net.foxyas.changedaddon.util.Vector2f;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -74,8 +77,24 @@ public abstract class CircleMinigameScreen extends Screen {
     }
 
     @Override
-    public void renderBackground(@NotNull PoseStack stack) {
-        RenderUtil.fill(stack.last().pose(), 0, 0, width, height, -2139062144);
+    public void render(@NotNull PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+        renderBackground(pPoseStack, pPartialTick);
+        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    }
+
+    public void renderBackground(@NotNull PoseStack stack, float partialTick) {
+        TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
+        if(tf == null) {
+            RenderUtil.fill(stack.last().pose(), 0, 0, width, height, -8355712);
+            return;
+        }
+
+        float fightProgress = ChangedAddonModVariables.PlayerVariables.nonNullOf(player).consciousnessFightProgress / FightToKeepConsciousness.STRUGGLE_NEED;
+        float loseProgress = Mth.lerp(partialTick, Math.max(0, tf.ageAsVariant - 1), tf.ageAsVariant) / FightToKeepConsciousness.STRUGGLE_TIME;
+
+        int alpha = (int) (128 + 128 * (loseProgress - fightProgress));
+
+        RenderUtil.fill(stack.last().pose(), 0, 0, width, height, alpha << 24 | tf.getTransfurColor().toInt());
     }
 
     @Override

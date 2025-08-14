@@ -23,7 +23,6 @@ public class MousePullMinigameScreen extends CircleMinigameScreen {
 
     @Override
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-        renderBackground(poseStack);
         super.render(poseStack, mouseX, mouseY, partialTick);
 
         drawProgressBar(poseStack, halfWidth, halfHeight + 25, partialTick);

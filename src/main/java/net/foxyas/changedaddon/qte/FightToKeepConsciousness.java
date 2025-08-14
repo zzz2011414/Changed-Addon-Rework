@@ -10,7 +10,6 @@ import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,7 +34,7 @@ public class FightToKeepConsciousness {
 
     @SubscribeEvent
     public static void onPlayerTransfur(ProcessTransfur.KeepConsciousEvent event) {
-        if(!(event.player instanceof ServerPlayer player) || event.shouldKeepConscious //FIXME uncomment after testing is done
+        if(!(event.player instanceof ServerPlayer player) || event.shouldKeepConscious
                 || !player.level.getGameRules().getBoolean(ChangedAddonGameRules.FIGHT_TO_KEEP_CONSCIOUSNESS)) return;
 
         @Nullable
