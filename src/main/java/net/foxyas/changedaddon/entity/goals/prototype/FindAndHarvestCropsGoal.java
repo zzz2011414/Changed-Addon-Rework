@@ -18,7 +18,7 @@ import java.util.EnumSet;
 
 public class FindAndHarvestCropsGoal extends Goal {
 
-    private static final int searchRange = 8;
+    private static final int searchRange = 10;
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
     private BlockPos targetCropPos;

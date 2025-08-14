@@ -82,12 +82,10 @@ public class ApplyBonemealGoal extends Goal {
     @Override
     public void tick() {
         if (targetPos == null) return;
-
-        if (entity.blockPosition().closerThan(targetPos, 2)) {
+        navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
+        if (entity.blockPosition().closerThan(targetPos, 1)) {
             applyBoneMeal(targetPos);
             targetPos = null; // reset target after applying
-        } else {
-            navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
         }
     }
 
@@ -109,6 +107,10 @@ public class ApplyBonemealGoal extends Goal {
     }
 
     private BlockPos findGrowableCrop(Level level, BlockPos center, int range) {
+        BlockPos closestGrowableCrop = null;
+        double closestDist = Double.MAX_VALUE;
+
+
         BlockState state;
         for (BlockPos pos : BlockPos.betweenClosed(
                 center.offset(-range, -1, -range),
@@ -117,10 +119,14 @@ public class ApplyBonemealGoal extends Goal {
 
             if (state.getBlock() instanceof BonemealableBlock fertilizable
                     && fertilizable.isValidBonemealTarget(level, pos, state, level.isClientSide())) {
-                return pos.immutable();
+                double dist = pos.distSqr(center);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestGrowableCrop = pos.immutable();
+                }
             }
         }
-        return null;
+        return closestGrowableCrop;
     }
 
     private void applyBoneMeal(BlockPos pos) {

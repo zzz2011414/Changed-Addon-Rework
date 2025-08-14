@@ -17,6 +17,8 @@ import java.util.List;
 public class TryGrabItemsGoal extends Goal {
 
     private final PrototypeEntity prototype;
+    private List<ItemEntity> nearbyItems;
+    private int ticksTrying = 0;
 
     public TryGrabItemsGoal(PrototypeEntity entity) {
         this.prototype = entity;
@@ -27,9 +29,24 @@ public class TryGrabItemsGoal extends Goal {
     public boolean canUse() {
         // Only run if there is at least one item nearby to pick up
         List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
-                prototype.getBoundingBox().inflate(16.0),
-                item -> !item.getItem().isEmpty());
+                        prototype.getBoundingBox().inflate(16.0),
+                        item -> !item.getItem().isEmpty())
+                .stream().filter((itemEntity) -> {
+                    ItemStack stack = itemEntity.getItem();
+                    return prototype.canTakeItem(stack);
+                }).toList();
+        this.nearbyItems = nearbyItems;
         return !nearbyItems.isEmpty() && !prototype.isInventoryFull();
+    }
+
+    @Override
+    public boolean isInterruptable() {
+        return false;
+    }
+
+    @Override
+    public boolean canContinueToUse() {
+        return canUse() && ticksTrying <= 120;
     }
 
     @Override
@@ -45,11 +62,6 @@ public class TryGrabItemsGoal extends Goal {
     @Override
     public void start() {
         super.start();
-
-        List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
-                prototype.getBoundingBox().inflate(16.0),
-                item -> !item.getItem().isEmpty());
-
         if (nearbyItems.isEmpty()) {
             return;
         }
@@ -63,19 +75,9 @@ public class TryGrabItemsGoal extends Goal {
 
         if (closestItem != null) {
             prototype.getLevel().playSound(null, prototype.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
-            if (prototype.getLevel().isClientSide) {
-                prototype.getLevel().addParticle(
-                        ChangedParticles.emote(prototype, Emote.IDEA),
-                        prototype.getX(),
-                        prototype.getY() + (double) prototype.getDimensions(prototype.getPose()).height + 0.65,
-                        prototype.getZ(),
-                        0.0f,
-                        0.0f,
-                        0.0f
-                );
-            }
             prototype.getNavigation().moveTo(closestItem, 0.25f);
-            prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 1,0));
+            prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 1, 0));
+            ticksTrying++;
         }
     }
 
@@ -83,19 +85,38 @@ public class TryGrabItemsGoal extends Goal {
     public void tick() {
         super.tick();
 
-//        // Se chegou perto o suficiente do item, pegar
+        if (nearbyItems.isEmpty()) {
+            return;
+        }
+
+        ItemEntity closestItem = nearbyItems.stream().filter((itemEntity) -> {
+                    ItemStack stack = itemEntity.getItem();
+                    return prototype.canTakeItem(stack);
+                })
+                .min((i1, i2) -> Double.compare(i1.distanceToSqr(prototype), i2.distanceToSqr(prototype)))
+                .orElse(null);
+
+        if (closestItem != null) {
+            if (closestItem.distanceTo(prototype) >= 0.25f) {
+                prototype.getNavigation().moveTo(closestItem, 0.25f);
+                prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 1, 0));
+                ticksTrying++;
+            }
+        }
+
 //        List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
-//                prototype.getBoundingBox().inflate(2.0),
+//                prototype.getBoundingBox().inflate(16.0),
 //                item -> !item.getItem().isEmpty());
 //
-//        for (ItemEntity itemEntity : nearbyItems) {
-//            if (prototype.distanceTo(itemEntity) < 2.0) {
-//                prototype.addToInventory(itemEntity.getItem());
-//                if (itemEntity.getItem().isEmpty()) {
-//                    itemEntity.discard();
-//                }
-//            }
+//        if (nearbyItems.isEmpty()) {
+//            return;
 //        }
+
     }
 
+    @Override
+    public void stop() {
+        super.stop();
+        ticksTrying = 0;
+    }
 }

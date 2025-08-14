@@ -155,7 +155,7 @@ public class PatFeatureHandle {
                 }
             }
 
-            if (ProcessTransfur.getPlayerTransfurVariant(_player).getChangedEntity() instanceof CustomPatReaction playerPat) {
+            if (ProcessTransfur.getPlayerTransfurVariant(_player) != null && ProcessTransfur.getPlayerTransfurVariant(_player).getChangedEntity() instanceof CustomPatReaction playerPat) {
                 if (target instanceof ChangedEntity changedEntity) {
                     playerPat.WhenPatEvent(_player, changedEntity);
                 }

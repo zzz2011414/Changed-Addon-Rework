@@ -102,8 +102,9 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
     @Mod.EventBusSubscriber
     public static class EventHandle {
+
         @SubscribeEvent
-        public void onFarmlandTrample(BlockEvent.FarmlandTrampleEvent event) {
+        public static void onFarmlandTrample(BlockEvent.FarmlandTrampleEvent event) {
             if (event.getEntity() instanceof PrototypeEntity) {
                 event.setCanceled(true);
             } else if (event.getEntity() instanceof Player player) {
@@ -601,6 +602,19 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
             }
         }
         return closestCrop;
+    }
+
+    public BlockPos findNearbyCropCubeNoFilter(Level level, BlockPos center, int range) {
+        for (BlockPos pos : BlockPos.betweenClosed(
+                center.offset(-range, -range, -range),
+                center.offset(range, range, range))) {
+
+            BlockState state = level.getBlockState(pos);
+            if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
+                return pos.immutable();
+            }
+        }
+        return null;
     }
 
 
