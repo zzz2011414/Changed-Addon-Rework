@@ -81,7 +81,11 @@ public class GotoTargetChestGoal extends Goal {
 
         if (targetChestPos != null && !entity.blockPosition().closerThan(targetChestPos, 2.0)) {
             navigation.moveTo(targetChestPos.getX() + 0.5, targetChestPos.getY(), targetChestPos.getZ() + 0.5, 0.25f);
-            entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(targetChestPos).subtract(0, 3, 0));
+            this.entity.getLookControl().setLookAt(
+                    targetChestPos.getX(), targetChestPos.getY() , targetChestPos.getZ(),
+                    30.0F, // yaw change speed (degrees per tick)
+                    30.0F  // pitch change speed
+            );
             ticks++;
         }
 

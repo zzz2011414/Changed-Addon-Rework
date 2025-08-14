@@ -73,7 +73,12 @@ public class TryGrabItemsGoal extends Goal {
         if (closestItem != null) {
             prototype.getLevel().playSound(null, prototype.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
             prototype.getNavigation().moveTo(closestItem, 0.25f);
-            prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 3, 0));
+            // Make entity look at a target position
+            prototype.getLookControl().setLookAt(
+                    closestItem.position().x(), closestItem.position().y() , closestItem.position().z(),
+                    30.0F, // yaw change speed (degrees per tick)
+                    30.0F  // pitch change speed
+            );
             ticksTrying++;
         }
     }
@@ -96,7 +101,12 @@ public class TryGrabItemsGoal extends Goal {
         if (closestItem != null) {
             if (closestItem.distanceTo(prototype) >= 0.25f) {
                 prototype.getNavigation().moveTo(closestItem, 0.25f);
-                prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 3, 0));
+                // Place the crop block at target position
+                this.prototype.getLookControl().setLookAt(
+                        closestItem.position().x(), closestItem.position().y() , closestItem.position().z(),
+                        30.0F, // yaw change speed (degrees per tick)
+                        30.0F  // pitch change speed
+                );
                 ticksTrying++;
             }
         }

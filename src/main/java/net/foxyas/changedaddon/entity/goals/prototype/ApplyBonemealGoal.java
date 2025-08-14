@@ -142,7 +142,11 @@ public class ApplyBonemealGoal extends Goal {
         if (!(block instanceof BonemealableBlock fertilizable)
                 || !fertilizable.isValidBonemealTarget(level, pos, state, false)) return;
 
-        this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(pos).subtract(0, 1, 0));
+        this.entity.getLookControl().setLookAt(
+                pos.getX(), pos.getY() , pos.getZ(),
+                30.0F, // yaw change speed (degrees per tick)
+                30.0F  // pitch change speed
+        );
         entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         fertilizable.performBonemeal(serverLevel, level.getRandom(), pos, state);
         serverLevel.levelEvent(1505, targetPos, 1); // Bone meal particles

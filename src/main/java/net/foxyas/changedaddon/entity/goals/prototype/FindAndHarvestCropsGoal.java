@@ -78,7 +78,13 @@ public class FindAndHarvestCropsGoal extends Goal {
                 entity.harvestCrop((ServerLevel) level, targetCropPos);
 
                 // Look at crop and swing arm
-                entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(targetCropPos).subtract(0, 3, 0));
+
+                // Place the crop block at target position
+                this.entity.getLookControl().setLookAt(
+                        targetCropPos.getX(), targetCropPos.getY() , targetCropPos.getZ(),
+                        30.0F, // yaw change speed (degrees per tick)
+                        30.0F  // pitch change speed
+                );
                 entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
 
                 targetCropPos = null; // Reset to find new crop next tick

@@ -74,13 +74,18 @@ public class PlantSeedsGoal extends Goal {
     public void tick() {
         if (targetPos == null) return;
 
-        if (entity.blockPosition().closerThan(targetPos, 4)) {
+        if (entity.blockPosition().closerThan(targetPos, 3)) {
             plantSeedAt(targetPos);
             targetPos = null; // reset target after planting
             return;
         } else {
             navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
-            this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(targetPos.getX(), targetPos.getY() - 1, targetPos.getZ()));
+            // Make entity look at a target position
+            this.entity.getLookControl().setLookAt(
+                    targetPos.getX(), targetPos.getY() , targetPos.getZ(),
+                    30.0F, // yaw change speed (degrees per tick)
+                    30.0F  // pitch change speed
+            );
         }
 
         navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
@@ -133,7 +138,11 @@ public class PlantSeedsGoal extends Goal {
         if (seeds.isEmpty()) return;
 
         // Place the crop block at target position
-        entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));
+        this.entity.getLookControl().setLookAt(
+                pos.getX(), pos.getY() , pos.getZ(),
+                30.0F, // yaw change speed (degrees per tick)
+                30.0F  // pitch change speed
+        );
         entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         Block block = ((BlockItem) seeds.getItem()).getBlock();
         level.setBlock(pos, block.defaultBlockState(), 3);

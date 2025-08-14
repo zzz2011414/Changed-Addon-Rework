@@ -604,7 +604,13 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
                 ItemStack stack = this.getInventory().getItem(i);
                 if (!isChestFull(chest)) {
                     if (!stack.isEmpty() && (this.depositeType.isRightType(stack))) {
-                        this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY() - 1, chestPos.getZ()));
+                        // Make entity look at a target position
+                        this.getLookControl().setLookAt(
+                                chestPos.getX(), chestPos.getY() , chestPos.getZ(),
+                                30.0F, // yaw change speed (degrees per tick)
+                                30.0F  // pitch change speed
+                        );
+                        //this.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(chestPos.getX(), chestPos.getY() - 1, chestPos.getZ()));
                         this.swing(this.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
                         ItemStack remaining = HopperBlockEntity.addItem(null, chest, stack, null);
                         chest.setChanged();
