@@ -525,6 +525,9 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
             if (!stack.isEmpty()) carriedItems.add(stack);
         }
 
+        BlockPos closestChest = null;
+        double closestDist = Double.MAX_VALUE;
+
         // First try to find chest containing at least one matching item
         for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
             BlockEntity be = level.getBlockEntity(pos);
@@ -535,7 +538,11 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
                         if (!chestItem.isEmpty()) {
                             for (ItemStack carried : carriedItems) {
                                 if (ItemStack.isSameItemSameTags(carried, chestItem)) {
-                                    return pos.immutable();
+                                    double dist = pos.distSqr(center);
+                                    if (dist < closestDist) {
+                                        closestDist = dist;
+                                        closestChest = pos.immutable();
+                                    }
                                 }
                             }
                         }
@@ -547,10 +554,16 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         // Otherwise return any chest
         for (BlockPos pos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof ChestBlockEntity chest && !isChestFull(chest)) return pos.immutable();
+            if (be instanceof ChestBlockEntity chest && !isChestFull(chest)) {
+                double dist = pos.distSqr(center);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestChest = pos.immutable();
+                }
+            }
         }
 
-        return null;
+        return closestChest;
     }
 
     public BlockPos findNearbyCrop(Level level, BlockPos center, int range) {
