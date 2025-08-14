@@ -83,7 +83,7 @@ public class ApplyBonemealGoal extends Goal {
     public void tick() {
         if (targetPos == null) return;
         navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
-        if (entity.blockPosition().closerThan(targetPos, 4)) {
+        if (entity.blockPosition().closerThan(targetPos, 3)) {
             applyBoneMeal(targetPos);
             targetPos = null; // reset target after applying
         }

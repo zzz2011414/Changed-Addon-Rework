@@ -74,7 +74,7 @@ public class FindAndHarvestCropsGoal extends Goal {
         Level level = entity.getLevel();
 
         if (targetCropPos != null) {
-            if (entity.blockPosition().closerThan(targetCropPos, 4.0)) {
+            if (entity.blockPosition().closerThan(targetCropPos, 2.5)) {
                 entity.harvestCrop((ServerLevel) level, targetCropPos);
 
                 // Look at crop and swing arm
