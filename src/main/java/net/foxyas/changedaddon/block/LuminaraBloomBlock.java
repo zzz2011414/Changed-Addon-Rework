@@ -68,6 +68,11 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
     }
 
     @Override
+    public void animateTick(BlockState pState, Level pLevel, BlockPos pPos, Random pRandom) {
+        super.animateTick(pState, pLevel, pPos, pRandom);
+    }
+
+    @Override
     protected boolean mayPlaceOn(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
         if (pState.getBlock() instanceof AbstractLatexBlock) {
             return true;

@@ -17,6 +17,7 @@ import net.ltxprogrammer.changed.init.ChangedTags;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -37,9 +38,9 @@ import static net.ltxprogrammer.changed.client.FormRenderHandler.renderModelPart
 @Mixin(value = FormRenderHandler.class, remap = false)
 public class renderHandMixin {
 
-    @Inject(method = "renderHand(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/HumanoidArm;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IFZ)V",
+    @Inject(method = "renderHand(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/HumanoidArm;Lnet/minecraft/client/model/geom/PartPose;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IFZ)V",
             at = @At("TAIL"), cancellable = true)
-    private static void renderBothHand(LivingEntity living, HumanoidArm arm, PoseStack stack, MultiBufferSource buffer, int light, float partialTick, boolean layers, CallbackInfo ci) {
+    private static void renderBothHand(LivingEntity living, HumanoidArm arm, PartPose armPose, PoseStack stack, MultiBufferSource buffer, int light, float partialTick, boolean layers, CallbackInfo ci) {
         if (!(living instanceof ChangedEntity changedEntity) || changedEntity.getUnderlyingPlayer() == null) {
             return;
         }

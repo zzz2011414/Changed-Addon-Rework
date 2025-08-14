@@ -11,6 +11,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.FirstPersonLayer;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
+import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -91,21 +92,22 @@ public class LuminarcticLeopardsConditionalLayers {
         }
 
         @Override
-        public void renderFirstPersonOnArms(PoseStack stack, MultiBufferSource bufferSource, int packedLight, T entity, HumanoidArm arm, PoseStack stackCorrector, float partialTick) {
+        public void renderFirstPersonOnArms(PoseStack stack, MultiBufferSource bufferSource, int packedLight, T entity, HumanoidArm arm, PartPose armPose, PoseStack stackCorrector, float partialTick) {
+            super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, armPose, stackCorrector, partialTick);
             if (entity.getUnderlyingPlayer() != null) {
                 Player player = entity.getUnderlyingPlayer();
                 var instance = ProcessTransfur.getPlayerTransfurVariant(player).getSelectedAbility();
                 if (instance != null && instance.ability instanceof HypnosisAbility ability) {
                     if (instance.getController().getHoldTicks() > 0) {
-                        super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
+                        super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, armPose, stackCorrector, partialTick);
                     }
                 } else if (entity instanceof LuminarcticLeopardFemaleEntity LUMI && LUMI.isActivatedAbility()) {
-                    super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
+                    super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, armPose, stackCorrector, partialTick);
                 }
             }
 
             if (entity instanceof LuminarcticLeopardFemaleEntity WILD_LUMI && WILD_LUMI.getTarget() != null) {
-                super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, stackCorrector, partialTick);
+                super.renderFirstPersonOnArms(stack, bufferSource, packedLight, entity, arm, armPose, stackCorrector, partialTick);
             }
         }
     }
