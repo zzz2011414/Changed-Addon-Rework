@@ -74,13 +74,13 @@ public class PlantSeedsGoal extends Goal {
     public void tick() {
         if (targetPos == null) return;
 
-        if (entity.blockPosition().closerThan(targetPos, 1.5)) {
+        if (entity.blockPosition().closerThan(targetPos, 3)) {
             plantSeedAt(targetPos);
             targetPos = null; // reset target after planting
             return;
         } else {
             navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
-            this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(targetPos.getX(), targetPos.getY(), targetPos.getZ()));
+            this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(targetPos.getX(), targetPos.getY() - 1, targetPos.getZ()));
         }
 
         navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
@@ -137,6 +137,7 @@ public class PlantSeedsGoal extends Goal {
         entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         Block block = ((BlockItem) seeds.getItem()).getBlock();
         level.setBlock(pos, block.defaultBlockState(), 3);
+        level.playSound(null, pos, block.defaultBlockState().getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1, 1);
         seeds.shrink(1);
     }
 }

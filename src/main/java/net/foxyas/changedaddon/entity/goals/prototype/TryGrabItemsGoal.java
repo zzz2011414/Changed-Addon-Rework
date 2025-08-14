@@ -4,10 +4,12 @@ import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.init.ChangedParticles;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -25,7 +27,7 @@ public class TryGrabItemsGoal extends Goal {
     public boolean canUse() {
         // Only run if there is at least one item nearby to pick up
         List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
-                prototype.getBoundingBox().inflate(8.0),
+                prototype.getBoundingBox().inflate(16.0),
                 item -> !item.getItem().isEmpty());
         return !nearbyItems.isEmpty() && !prototype.isInventoryFull();
     }
@@ -45,7 +47,7 @@ public class TryGrabItemsGoal extends Goal {
         super.start();
 
         List<ItemEntity> nearbyItems = prototype.getLevel().getEntitiesOfClass(ItemEntity.class,
-                prototype.getBoundingBox().inflate(8.0),
+                prototype.getBoundingBox().inflate(16.0),
                 item -> !item.getItem().isEmpty());
 
         if (nearbyItems.isEmpty()) {
@@ -73,6 +75,7 @@ public class TryGrabItemsGoal extends Goal {
                 );
             }
             prototype.getNavigation().moveTo(closestItem, 0.25f);
+            prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 1,0));
         }
     }
 

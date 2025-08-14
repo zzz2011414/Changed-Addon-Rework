@@ -74,11 +74,11 @@ public class FindAndHarvestCropsGoal extends Goal {
         Level level = entity.getLevel();
 
         if (targetCropPos != null) {
-            if (entity.blockPosition().closerThan(targetCropPos, 2.0)) {
+            if (entity.blockPosition().closerThan(targetCropPos, 3.0)) {
                 entity.harvestCrop((ServerLevel) level, targetCropPos);
 
                 // Look at crop and swing arm
-                entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(targetCropPos));
+                entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(targetCropPos).subtract(0, 1,0));
                 entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
 
                 targetCropPos = null; // Reset to find new crop next tick

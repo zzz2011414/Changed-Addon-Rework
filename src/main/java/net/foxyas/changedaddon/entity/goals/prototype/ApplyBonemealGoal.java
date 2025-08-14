@@ -24,7 +24,7 @@ import java.util.EnumSet;
 
 public class ApplyBonemealGoal extends Goal {
 
-    private static final int searchRange = 6;
+    private static final int searchRange = 12;
     private final PrototypeEntity entity;
     private final PathNavigation navigation;
     private BlockPos targetPos;
@@ -83,7 +83,7 @@ public class ApplyBonemealGoal extends Goal {
     public void tick() {
         if (targetPos == null) return;
 
-        if (entity.blockPosition().closerThan(targetPos, 1.5)) {
+        if (entity.blockPosition().closerThan(targetPos, 2)) {
             applyBoneMeal(targetPos);
             targetPos = null; // reset target after applying
         } else {
@@ -136,7 +136,7 @@ public class ApplyBonemealGoal extends Goal {
         if (!(block instanceof BonemealableBlock fertilizable)
                 || !fertilizable.isValidBonemealTarget(level, pos, state, false)) return;
 
-        this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, new Vec3(pos.getX(), pos.getY(), pos.getZ()));
+        this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(pos).subtract(0,1,0));
         entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         fertilizable.performBonemeal(serverLevel, level.getRandom(), pos, state);
         serverLevel.levelEvent(1505, targetPos, 1); // Bone meal particles

@@ -3,13 +3,16 @@ package net.foxyas.changedaddon.entity.advanced;
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
 import net.foxyas.changedaddon.entity.goals.prototype.*;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.EyeStyle;
 import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurMode;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
@@ -49,6 +52,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +64,7 @@ import java.util.function.Predicate;
 
 public class PrototypeEntity extends AbstractBasicChangedEntity implements InventoryCarrier, MenuProvider {
     // Constants
-    public static final int MAX_HARVEST_TIMES = 10;
+    public static final int MAX_HARVEST_TIMES = 32;
 
     // Enums
     public enum DepositeType {
@@ -88,6 +94,22 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
             int next = (this.ordinal() + 1) % DepositeType.values().length;
             return DepositeType.values()[next];
         }
+    }
+
+    @Mod.EventBusSubscriber
+    public static class EventHandle {
+        @SubscribeEvent
+        public void onFarmlandTrample(BlockEvent.FarmlandTrampleEvent event) {
+            if (event.getEntity() instanceof PrototypeEntity) {
+                event.setCanceled(true);
+            } else if (event.getEntity() instanceof Player player) {
+                TransfurVariantInstance<?> transfurVariant = ProcessTransfur.getPlayerTransfurVariant(player);
+                if (transfurVariant != null && transfurVariant.is(ChangedAddonTransfurVariants.PROTOTYPE)) {
+                    event.setCanceled(true);
+                }
+            }
+        }
+
     }
 
     // Fields
@@ -243,10 +265,10 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     @Override
     public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
         if (!player.isShiftKeyDown()) {
-            player.displayClientMessage(new TranslatableComponent("entity.changed_addon.prototype.deposite_type.switch", depositeType.name().toLowerCase(Locale.ROOT)), true);
             if (!getLevel().isClientSide) {
                 this.depositeType = depositeType.switchDepositeType();
             }
+            player.displayClientMessage(new TranslatableComponent("entity.changed_addon.prototype.deposite_type.switch", depositeType.name().toLowerCase(Locale.ROOT)), true);
         } else {
             if (!getLevel().isClientSide) {
                 player.openMenu(getMenuProvider());
@@ -550,6 +572,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
                             chest.setChanged();
                             this.setItemSlot(equipmentSlot, remaining);
                             this.getInventory().setChanged();
+                            chest.triggerEvent(1, 1);
                             if (state.getBlock() instanceof ChestBlock chestBlock) {
                                 this.level.playSound(null, chestPos, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 0.25f, 1);
                                 this.setHarvestsTimes(0);
