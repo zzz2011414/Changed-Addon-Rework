@@ -3,6 +3,7 @@ package net.foxyas.changedaddon.entity.advanced;
 import net.foxyas.changedaddon.entity.defaults.AbstractCanTameChangedEntity;
 import net.foxyas.changedaddon.entity.goals.prototype.*;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
+import net.foxyas.changedaddon.entity.interfaces.IDynamicPawColor;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
@@ -63,10 +64,12 @@ import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.Predicate;
 
-public class PrototypeEntity extends AbstractCanTameChangedEntity implements InventoryCarrier, MenuProvider, CustomPatReaction {
+public class PrototypeEntity extends AbstractCanTameChangedEntity implements InventoryCarrier, MenuProvider, CustomPatReaction, IDynamicPawColor {
     // Constants
     public static final int MAX_HARVEST_TIMES = 32;
     // Fields
@@ -698,6 +701,11 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
     public boolean willDepositSeeds() {
         return this.depositeType == DepositeType.SEEDS || this.depositeType == DepositeType.BOTH;
+    }
+
+    @Override
+    public Color getPawColor() {
+        return Color.CYAN;
     }
 
     // Enums
