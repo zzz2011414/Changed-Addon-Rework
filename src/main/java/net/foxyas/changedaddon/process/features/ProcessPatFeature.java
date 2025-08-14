@@ -5,7 +5,9 @@ import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.entity.beast.AbstractDarkLatexWolf;
 import net.ltxprogrammer.changed.init.ChangedParticles;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,20 +61,23 @@ public class ProcessPatFeature {
         public final Player player;
         public final LivingEntity target;
         public final LevelAccessor world;
+        public final InteractionHand hand;
         @Nullable
         public final Vec3 pattedLocation;
 
-        public GlobalPatReaction(LevelAccessor world, Player player, LivingEntity target) {
+        public GlobalPatReaction(LevelAccessor world, Player player, InteractionHand hand, LivingEntity target) {
             this.player = player;
             this.target = target;
             this.world = world;
+            this.hand = hand;
             this.pattedLocation = null;
         }
 
-        public GlobalPatReaction(LevelAccessor world, Player player, LivingEntity target, @Nullable Vec3 pattedLocation) {
+        public GlobalPatReaction(LevelAccessor world, Player player, InteractionHand hand, LivingEntity target, @Nullable Vec3 pattedLocation) {
             this.player = player;
             this.target = target;
             this.world = world;
+            this.hand = hand;
             this.pattedLocation = pattedLocation;
         }
 
@@ -92,6 +97,14 @@ public class ProcessPatFeature {
         public static void HandlePat(GlobalPatReaction globalPatReaction) {
             Player player = globalPatReaction.player;
             LivingEntity target = globalPatReaction.target;
+
+            if (!player.level.isClientSide()) {
+                player.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
+                if (target instanceof Player targetPlayer) {
+                    targetPlayer.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_received", player.getDisplayName().getString()), true);
+                }
+            }
+
             if (globalPatReaction.world instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 4, 0.3, 0.3, 0.3, 1);
             } else {

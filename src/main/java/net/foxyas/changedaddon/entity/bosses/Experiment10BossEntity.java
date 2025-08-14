@@ -29,6 +29,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -498,7 +499,7 @@ public class Experiment10BossEntity extends ChangedEntity implements GenderedEnt
     }
 
     @Override
-    public void WhenPattedReaction(Player player) {
+    public void WhenPattedReaction(Player player, InteractionHand hand) {
         if (!player.getLevel().isClientSide) {
             return;
         }

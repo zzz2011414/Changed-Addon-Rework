@@ -125,14 +125,11 @@ public class PatFeatureHandle {
         if (isHandEmpty(player, InteractionHand.MAIN_HAND) || isHandEmpty(player, InteractionHand.OFF_HAND)) {
             if (player instanceof Player) {
                 ((Player) player).swing(getSwingHand(player), true);
-            }
-            if (player instanceof Player p && !p.level.isClientSide()) {
-                p.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
-
             } else if (player instanceof Player p) {
                 if (target instanceof CustomPatReaction pat) {
-                    pat.WhenPattedReaction(p, entityHitResult.getLocation());
-                    pat.WhenPattedReaction(p);
+                    InteractionHand hand = getSwingHand(player);
+                    pat.WhenPattedReaction(p, hand, entityHitResult.getLocation());
+                    pat.WhenPattedReaction(p, hand);
                     pat.WhenPattedReaction();
                 }
             }
@@ -149,7 +146,8 @@ public class PatFeatureHandle {
             _player.swing(getSwingHand(player), true);
 
             if (target instanceof LivingEntity targetLiving) {
-                ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, _player, targetLiving, entityHitResult.getLocation());
+                InteractionHand hand = getSwingHand(_player);
+                ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, _player, hand, targetLiving, entityHitResult.getLocation());
                 if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
                     return;
                 }
@@ -157,36 +155,30 @@ public class PatFeatureHandle {
 
             if (ProcessTransfur.getPlayerTransfurVariant(_player) != null && ProcessTransfur.getPlayerTransfurVariant(_player).getChangedEntity() instanceof CustomPatReaction playerPat) {
                 if (target instanceof ChangedEntity changedEntity) {
-                    playerPat.WhenPatEvent(_player, changedEntity);
+                    InteractionHand hand = getSwingHand(_player);
+                    playerPat.WhenPatEvent(_player, hand, changedEntity);
                 }
                 if (target instanceof CustomPatReaction e) {
-                    e.WhenPattedReaction(_player, entityHitResult.getLocation());
-                    e.WhenPattedReaction(_player);
+                    InteractionHand hand = getSwingHand(_player);
+                    e.WhenPattedReaction(_player, hand, entityHitResult.getLocation());
+                    e.WhenPattedReaction(_player, hand);
                     e.WhenPattedReaction();
                 }
             } else {
                 if (target instanceof CustomPatReaction e) {
-                    e.WhenPattedReaction(_player, entityHitResult.getLocation());
-                    e.WhenPattedReaction(_player);
+                    InteractionHand hand = getSwingHand(_player);
+                    e.WhenPattedReaction(_player, hand, entityHitResult.getLocation());
+                    e.WhenPattedReaction(_player, hand);
                     e.WhenPattedReaction();
                 }
             }
-
             if (world instanceof ServerLevel) {
                 _player.swing(getSwingHand(player), true);
 
                 if (_player instanceof ServerPlayer sp) {
                     GiveStealthPatAdvancement(sp, target);
                 }
-
-
-                // Exibe mensagens
-                _player.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
-            } else {
-                SpawnEmote(_player, target);
             }
-
-
         }
     }
 
@@ -204,38 +196,35 @@ public class PatFeatureHandle {
             player.swing(getSwingHand(player), true);
 
             if (ProcessTransfur.getPlayerTransfurVariant(player).getChangedEntity() instanceof CustomPatReaction playerPat) {
-                playerPat.WhenPatEvent(player, target);
+                InteractionHand hand = getSwingHand(player);
+                playerPat.WhenPatEvent(player, hand, target);
                 if (ProcessTransfur.getPlayerTransfurVariant(target).getChangedEntity() instanceof CustomPatReaction TargetPat) {
-                    TargetPat.WhenPattedReaction(player, entityHitResult.getLocation());
-                    TargetPat.WhenPattedReaction(player);
+                    TargetPat.WhenPattedReaction(player, hand, entityHitResult.getLocation());
+                    TargetPat.WhenPattedReaction(player, hand);
                     TargetPat.WhenPattedReaction();
                     //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
                 }
             } else {
                 if (ProcessTransfur.getPlayerTransfurVariant(target).getChangedEntity() instanceof CustomPatReaction e) {
-                    e.WhenPattedReaction(player, entityHitResult.getLocation());
-                    e.WhenPattedReaction(player);
+                    InteractionHand hand = getSwingHand(player);
+                    e.WhenPattedReaction(player, hand, entityHitResult.getLocation());
+                    e.WhenPattedReaction(player, hand);
                     e.WhenPattedReaction();
                     //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
                 }
             }
 
-
-            ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, player, target, entityHitResult.getLocation());
+            InteractionHand hand = getSwingHand(player);
+            ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, player, hand, target, entityHitResult.getLocation());
+            if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
+                return;
+            }
             if (isTargetTransfur && world instanceof ServerLevel serverLevel) {
                 //serverLevel.sendParticles(ParticleTypes.HEART, target.getX(), target.getY() + 1, target.getZ(), 7, 0.3, 0.3, 0.3, 1);
-                if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
-                    return;
-                }
                 if (serverLevel.random.nextFloat() <= (0.025f + (player.getLuck() * 0.01f))) {
                     target.heal(6f);
                     GivePatAdvancement(player, target);
                 }
-            }
-
-            if (!player.level.isClientSide()) {
-                player.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_message", target.getDisplayName().getString()), true);
-                target.displayClientMessage(new TranslatableComponent("key.changed_addon.pat_received", player.getDisplayName().getString()), true);
             }
         }
     }

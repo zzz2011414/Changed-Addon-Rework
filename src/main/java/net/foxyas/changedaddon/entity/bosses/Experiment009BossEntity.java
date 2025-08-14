@@ -36,6 +36,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -638,7 +639,7 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
     }
 
     @Override
-    public void WhenPattedReaction(Player player) {
+    public void WhenPattedReaction(Player player, InteractionHand hand) {
         if (!player.getLevel().isClientSide) {
             return;
         }

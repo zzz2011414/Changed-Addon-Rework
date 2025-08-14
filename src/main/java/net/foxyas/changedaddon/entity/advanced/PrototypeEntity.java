@@ -2,9 +2,9 @@ package net.foxyas.changedaddon.entity.advanced;
 
 import net.foxyas.changedaddon.entity.defaults.AbstractCanTameChangedEntity;
 import net.foxyas.changedaddon.entity.goals.prototype.*;
+import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.util.FoxyasUtils;
-import net.foxyas.changedaddon.util.MathUtils;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
@@ -19,6 +19,7 @@ import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -51,6 +52,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.Tags;
@@ -64,7 +66,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class PrototypeEntity extends AbstractCanTameChangedEntity implements InventoryCarrier, MenuProvider {
+public class PrototypeEntity extends AbstractCanTameChangedEntity implements InventoryCarrier, MenuProvider, CustomPatReaction {
     // Constants
     public static final int MAX_HARVEST_TIMES = 32;
     // Fields
@@ -151,6 +153,27 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
     }
 
     @Override
+    public void WhenPattedReaction(Player patter, InteractionHand hand) {
+        CustomPatReaction.super.WhenPattedReaction(patter, hand);
+        if (!this.isTame()) {
+            this.tame(patter);
+        } else {
+            InteractionResult interactionresult = super.mobInteract(patter, hand);
+            if ((!interactionresult.consumesAction() || this.isBaby()) && this.isOwnedBy(patter)) {
+                boolean shouldFollow = !this.isFollowingOwner();
+                this.setFollowOwner(shouldFollow);
+
+                patter.displayClientMessage(new TranslatableComponent(shouldFollow ? "text.changed.tamed.follow" : "text.changed.tamed.wander", this.getDisplayName()), false);
+                this.jumping = false;
+                this.navigation.stop();
+                this.setTarget(null);
+            }
+        }
+
+
+    }
+
+    @Override
     protected boolean shouldDespawnInPeaceful() {
         return false;
     }
@@ -212,28 +235,13 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         this.getBasicPlayerInfo().setEyeStyle(EyeStyle.TALL);
         this.getBasicPlayerInfo().setRightIrisColor(Color3.parseHex("#59c5ff"));
         this.getBasicPlayerInfo().setLeftIrisColor(Color3.parseHex("#59c5ff"));
-
-        if (!this.isTame()) {
-            // Find the closest player who is looking at this entity
-            Player closestLookingPlayer = pLevel.getEntitiesOfClass(
-                            Player.class,
-                            this.getBoundingBox().inflate(16), // search radius
-                            player -> MathUtils.dotEntityLookingToEntity(player, this) > 0.7
-                    ).stream()
-                    .min(Comparator.comparingDouble(player -> player.distanceToSqr(this)))
-                    .orElse(null);
-
-            // If found, tame this entity to that player
-            if (closestLookingPlayer != null) {
-                this.tame(closestLookingPlayer);
-            }
-        }
-
         return ret;
     }
 
     @Override
     public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        Item item = itemstack.getItem();
         if (!player.isShiftKeyDown()) {
             if (!getLevel().isClientSide) {
                 this.depositeType = depositeType.switchDepositeType();
@@ -244,6 +252,19 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
                 player.openMenu(getMenuProvider());
             }
         }
+
+        if (this.isTame()) {
+            if (this.isTame() && this.isTameItem(itemstack) && this.getHealth() < this.getMaxHealth()) {
+                itemstack.shrink(1);
+                this.heal(2.0F);
+                if (this.level instanceof ServerLevel _level) {
+                    _level.sendParticles(ParticleTypes.HEART, (this.getX()), (this.getY() + 1), (this.getZ()), 7, 0.3, 0.3, 0.3, 1); //Spawn Heal Particles
+                }
+                this.gameEvent(GameEvent.MOB_INTERACT, this.eyeBlockPosition());
+                return InteractionResult.SUCCESS;
+            }
+        }
+
         player.swing(hand);
         if (!getLevel().isClientSide) {
             return InteractionResult.CONSUME;
