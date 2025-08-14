@@ -3,8 +3,6 @@ package net.foxyas.changedaddon.recipes.special;
 import com.google.gson.JsonObject;
 import net.foxyas.changedaddon.item.LaserPointer;
 import net.foxyas.changedaddon.recipes.ChangedAddonModRecipeTypes;
-
-import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;

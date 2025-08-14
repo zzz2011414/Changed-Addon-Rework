@@ -31,23 +31,24 @@ import javax.annotation.Nullable;
 
 public class InformantBlockEntity extends RandomizableContainerBlockEntity implements Container {
 
-    private NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private final LazyOptional<IItemHandler> generic = LazyOptional.of(() -> new InvWrapper(this));
-    private final LazyOptional<IItemHandler> in = LazyOptional.of(() -> new InvWrapper(this){
+    private final LazyOptional<IItemHandler> in = LazyOptional.of(() -> new InvWrapper(this) {
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return ItemStack.EMPTY;
         }
     });
-    private final LazyOptional<IItemHandler> out = LazyOptional.of(() -> new InvWrapper(this){
+    private final LazyOptional<IItemHandler> out = LazyOptional.of(() -> new InvWrapper(this) {
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             return stack;
         }
     });
+    private NonNullList<ItemStack> stacks = NonNullList.withSize(1, ItemStack.EMPTY);
     private String text = "";
     private TransfurVariant<?> selectedTf;
     private TransfurVariant<?> itemTF;
+    private AABB aabb;
 
     public InformantBlockEntity(BlockPos position, BlockState state) {
         super(ChangedAddonBlockEntities.INFORMANT_BLOCK.get(), position, state);
@@ -58,28 +59,28 @@ public class InformantBlockEntity extends RandomizableContainerBlockEntity imple
     }
 
     @ApiStatus.Internal
-    public void updateInternal(@NotNull String text, @Nullable TransfurVariant<?> selectedTf){
+    public void updateInternal(@NotNull String text, @Nullable TransfurVariant<?> selectedTf) {
         boolean changed = false;
 
-        if(!this.text.equals(text)){
+        if (!this.text.equals(text)) {
             this.text = text;
             changed = true;
         }
 
-        if(this.selectedTf != selectedTf){
+        if (this.selectedTf != selectedTf) {
             this.selectedTf = selectedTf;
             changed = true;
         }
 
-        if(changed) setChanged();
+        if (changed) setChanged();
     }
 
-    public @Nullable TransfurVariant<?> getDisplayTf(){
+    public @Nullable TransfurVariant<?> getDisplayTf() {
         return itemTF != null ? itemTF : selectedTf;
     }
 
-    private void updateItemTF(ItemStack stack){
-        if(stack.isEmpty()) {
+    private void updateItemTF(ItemStack stack) {
+        if (stack.isEmpty()) {
             itemTF = null;
             return;
         }
@@ -93,7 +94,7 @@ public class InformantBlockEntity extends RandomizableContainerBlockEntity imple
     public void setItem(int pIndex, @NotNull ItemStack pStack) {
         super.setItem(pIndex, pStack);
 
-        if(pIndex == 0) updateItemTF(pStack);
+        if (pIndex == 0) updateItemTF(pStack);
     }
 
     @Override
@@ -101,7 +102,7 @@ public class InformantBlockEntity extends RandomizableContainerBlockEntity imple
         super.setChanged();
 
         BlockState state = getBlockState();
-        if(level != null) level.sendBlockUpdated(getBlockPos(), state, state, 3);
+        if (level != null) level.sendBlockUpdated(getBlockPos(), state, state, 3);
     }
 
     @Override
@@ -122,7 +123,7 @@ public class InformantBlockEntity extends RandomizableContainerBlockEntity imple
         }
 
         compound.putString("Text", text);
-        if(selectedTf != null) compound.putString("SelectedTf", selectedTf.toString());
+        if (selectedTf != null) compound.putString("SelectedTf", selectedTf.toString());
     }
 
     @Override
@@ -172,19 +173,18 @@ public class InformantBlockEntity extends RandomizableContainerBlockEntity imple
 
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction facing) {
-        if(capability != CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return super.getCapability(capability, facing);
+        if (capability != CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) return super.getCapability(capability, facing);
 
-        if(facing == null) return generic.cast();
+        if (facing == null) return generic.cast();
 
-        if(facing == Direction.DOWN) return out.cast();
+        if (facing == Direction.DOWN) return out.cast();
 
         return in.cast();
     }
 
-    private AABB aabb;
     @Override
     public AABB getRenderBoundingBox() {
-        if(aabb == null) {
+        if (aabb == null) {
             BlockPos above = getBlockPos().above();
             aabb = new AABB(above.getX(), above.getY(), above.getZ(), above.getX() + 1, above.getY() + 1.5, above.getZ() + 1);
         }

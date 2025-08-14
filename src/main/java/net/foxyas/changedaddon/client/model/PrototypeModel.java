@@ -68,10 +68,6 @@ public class PrototypeModel extends AdvancedHumanoidModel<PrototypeEntity> imple
                 ));
     }
 
-    public ModelPart getTail() {
-        return Tail;
-    }
-
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
@@ -172,6 +168,10 @@ public class PrototypeModel extends AdvancedHumanoidModel<PrototypeEntity> imple
         PartDefinition LeftArm = partdefinition.addOrReplaceChild("LeftArm", CubeListBuilder.create().texOffs(0, 44).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(5.0F, 1.5F, 0.0F));
 
         return LayerDefinition.create(meshdefinition, 96, 96);
+    }
+
+    public ModelPart getTail() {
+        return Tail;
     }
 
     @Override

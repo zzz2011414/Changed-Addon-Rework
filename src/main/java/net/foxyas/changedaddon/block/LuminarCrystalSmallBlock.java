@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.block;
 
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
@@ -9,10 +8,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LuminarCrystalSmallBlock extends AbstractLuminarCrystal.CrystalSmall {
 
-	public LuminarCrystalSmallBlock(){super();}
+    public LuminarCrystalSmallBlock() {
+        super();
+    }
 
-	@OnlyIn(Dist.CLIENT)
-	public static void registerRenderLayer() {
-		ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.LUMINAR_CRYSTAL_SMALL.get(), renderType -> renderType == RenderType.cutout());
-	}
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.LUMINAR_CRYSTAL_SMALL.get(), renderType -> renderType == RenderType.cutout());
+    }
 }

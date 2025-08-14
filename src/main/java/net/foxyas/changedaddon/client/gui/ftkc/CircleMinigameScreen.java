@@ -34,11 +34,11 @@ public abstract class CircleMinigameScreen extends Screen {
 
     protected final Minecraft minecraft;
     protected final Player player;
-    protected float struggleProgressO = 0;
-    protected float struggleProgress = 0;
     protected final Vector2f circle = new Vector2f();
     protected final Vector2f mouseLast = new Vector2f();
     protected final Vector2f cursor = new Vector2f();
+    protected float struggleProgressO = 0;
+    protected float struggleProgress = 0;
     protected float halfWidth;
     protected float halfHeight;
 
@@ -60,7 +60,7 @@ public abstract class CircleMinigameScreen extends Screen {
         GLFW.glfwSetInputMode(minecraft.getWindow().getWindow(), GLFW.GLFW_CURSOR, InputConstants.CURSOR_DISABLED);
     }
 
-    protected void drawProgressBar(PoseStack stack, float x, float y, float partialTick){
+    protected void drawProgressBar(PoseStack stack, float x, float y, float partialTick) {
         final int barWidth = 100;
         final int barHeight = 10;
 
@@ -68,7 +68,7 @@ public abstract class CircleMinigameScreen extends Screen {
         RenderUtil.fill(stack, x - filledHalfWidth, y - barHeight / 2f, x + filledHalfWidth, y + barHeight / 2f, Color.WHITE.getRGB());
     }
 
-    protected void drawCircles(PoseStack stack){
+    protected void drawCircles(PoseStack stack) {
         RenderSystem.setShaderTexture(0, CIRCLE_SLOT);
         blit(stack, (int) circle.x - 9, (int) circle.y - 9, 0, 0, 19, 19, 19, 19);
 
@@ -84,7 +84,7 @@ public abstract class CircleMinigameScreen extends Screen {
 
     public void renderBackground(@NotNull PoseStack stack, float partialTick) {
         TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
-        if(tf == null) {
+        if (tf == null) {
             RenderUtil.fill(stack.last().pose(), 0, 0, width, height, -8355712);
             return;
         }
@@ -99,7 +99,7 @@ public abstract class CircleMinigameScreen extends Screen {
 
     @Override
     public void tick() {
-        if(ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).FTKCminigameType == null){
+        if (ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).FTKCminigameType == null) {
             minecraft.setScreen(null);
             return;
         }
@@ -110,7 +110,7 @@ public abstract class CircleMinigameScreen extends Screen {
             return;
         }
 
-        if(struggleProgress < 0){
+        if (struggleProgress < 0) {
             struggleProgress = 0;
             return;
         }

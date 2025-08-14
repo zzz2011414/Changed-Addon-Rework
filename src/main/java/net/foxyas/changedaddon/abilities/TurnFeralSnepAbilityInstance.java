@@ -22,9 +22,6 @@ import java.util.Random;
 
 public class TurnFeralSnepAbilityInstance extends AbstractAbilityInstance {
 
-    public TransfurVariant<?> OldVariant = null;
-    //public TransfurVariant<?> NewVariant = null;
-
     /*public static Map<TransfurVariant<?>, Function<TransfurVariant<?>, TransfurVariant<?>>> VARIANT_CONVERSION () {
         return new HashMap<TransfurVariant<?>, Function<TransfurVariant<?>, TransfurVariant<?>>>() {{
                 // Mapeamento de variantes e suas conversões
@@ -35,10 +32,16 @@ public class TurnFeralSnepAbilityInstance extends AbstractAbilityInstance {
         };
     }*/
     private static final String OLD_TRANSFUR_VARIANT = "OldVariant";
+    //public TransfurVariant<?> NewVariant = null;
+    public TransfurVariant<?> OldVariant = null;
 
     //private static final String NEW_TRANSFUR_VARIANT = "NewVariant";
     public TurnFeralSnepAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
         super(ability, entity);
+    }
+
+    public static String getOldTransfurVariant() {
+        return OLD_TRANSFUR_VARIANT;
     }
 
     @Override
@@ -110,10 +113,6 @@ public class TurnFeralSnepAbilityInstance extends AbstractAbilityInstance {
             }
 
          }*/
-    }
-
-    public static String getOldTransfurVariant() {
-        return OLD_TRANSFUR_VARIANT;
     }
 
     /*

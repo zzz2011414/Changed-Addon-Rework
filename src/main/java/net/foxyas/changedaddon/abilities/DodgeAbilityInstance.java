@@ -23,27 +23,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class DodgeAbilityInstance extends AbstractAbilityInstance {
 
-    public enum DodgeType {
-
-        TELEPORT(),
-
-        WEAVE();
-
-        DodgeType() {
-        }
-
-    }
-
+    private final int defaultRegenCooldown = 20;
+    public boolean ultraInstinct = false; //FUNNY VARIABLE
+    public DodgeType dodgeType = DodgeType.WEAVE;
     private int dodgeAmount = 4;
     private int maxDodgeAmount = 4;
     private boolean dodgeActive = false;
-
-    private final int defaultRegenCooldown = 20;
     private int dodgeRegenCooldown = defaultRegenCooldown;
-
-    public boolean ultraInstinct = false; //FUNNY VARIABLE
-
-    public DodgeType dodgeType = DodgeType.WEAVE;
 
     public DodgeAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
         super(ability, entity);
@@ -53,6 +39,20 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         this(ability, entity);
         this.maxDodgeAmount = maxDodge;
         this.dodgeAmount = maxDodge;
+    }
+
+    private static void dodgeAwayFromAttacker(Entity dodger, Entity attacker) {
+        Vec3 motion = attacker.position().subtract(dodger.position()).scale(-0.25);
+        if (dodger instanceof ServerPlayer serverPlayer) {
+            serverPlayer.setDeltaMovement(motion.x, motion.y, motion.z);
+            serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer.getId(), serverPlayer.getDeltaMovement()));
+        } else {
+            dodger.setDeltaMovement(motion.x, motion.y, motion.z);
+        }
+    }
+
+    public static boolean isSpectator(Entity entity) {
+        return entity instanceof Player player && player.isSpectator();
     }
 
     public DodgeAbilityInstance withDodgeType(DodgeType dodgeType) {
@@ -178,16 +178,6 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
 
     }
 
-    private static void dodgeAwayFromAttacker(Entity dodger, Entity attacker) {
-        Vec3 motion = attacker.position().subtract(dodger.position()).scale(-0.25);
-        if (dodger instanceof ServerPlayer serverPlayer) {
-            serverPlayer.setDeltaMovement(motion.x, motion.y, motion.z);
-            serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer.getId(), serverPlayer.getDeltaMovement()));
-        } else {
-            dodger.setDeltaMovement(motion.x, motion.y, motion.z);
-        }
-    }
-
     private void spawnDodgeParticles(ServerLevel level, Entity entity, float middle, float xV, float yV, float zV, int count, float speed) {
         level.sendParticles(ParticleTypes.POOF,
                 entity.getX(), entity.getY() + middle, entity.getZ(), count, xV, yV, zV, speed);
@@ -204,10 +194,6 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
 
     public float getDodgeStaminaRatio() {
         return ((float) dodgeAmount / maxDodgeAmount) * 100f;
-    }
-
-    public static boolean isSpectator(Entity entity) {
-        return entity instanceof Player player && player.isSpectator();
     }
 
     public void setUltraInstinct(boolean ultraInstinct) {
@@ -319,5 +305,16 @@ public class DodgeAbilityInstance extends AbstractAbilityInstance {
         tag.putInt("DodgeRegenCooldown", dodgeRegenCooldown);
         tag.putBoolean("DodgeActivate", dodgeActive);
         tag.putBoolean("ultraInstinct", ultraInstinct);
+    }
+
+    public enum DodgeType {
+
+        TELEPORT(),
+
+        WEAVE();
+
+        DodgeType() {
+        }
+
     }
 }

@@ -10,7 +10,10 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -31,6 +34,9 @@ public class ChangedAddonModVariables {
     @Mod.EventBusSubscriber
     public static class PlayerVariablesProvider implements ICapabilitySerializable<CompoundTag> {
 
+        private final PlayerVariables playerVariables = new PlayerVariables();
+        private final LazyOptional<PlayerVariables> instance = LazyOptional.of(() -> playerVariables);
+
         @SubscribeEvent
         public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
             if (event.getObject() instanceof Player player && !(player instanceof FakePlayer)) {
@@ -40,9 +46,6 @@ public class ChangedAddonModVariables {
                 );
             }
         }
-
-        private final PlayerVariables playerVariables = new PlayerVariables();
-        private final LazyOptional<PlayerVariables> instance = LazyOptional.of(() -> playerVariables);
 
         @Override
         public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {

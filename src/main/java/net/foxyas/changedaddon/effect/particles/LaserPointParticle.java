@@ -5,8 +5,8 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.configuration.ChangedAddonClientConfiguration;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.item.LaserPointer;
 import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.foxyas.changedaddon.util.PlayerUtil;
@@ -40,141 +40,9 @@ import java.util.stream.Collectors;
 import static net.foxyas.changedaddon.util.FoxyasUtils.manualRaycastIgnoringBlocks;
 
 public class LaserPointParticle extends TextureSheetParticle {
-    public static class Option implements ParticleOptions {
-        public static final Deserializer<LaserPointParticle.Option> DESERIALIZER = new Deserializer<>() {
-            @Override
-            public @NotNull LaserPointParticle.Option fromNetwork(@NotNull ParticleType<LaserPointParticle.Option> type, FriendlyByteBuf buffer) {
-                int entityId = buffer.readInt();
-                int color = buffer.readInt(); // <- nova cor
-                float alpha = buffer.readFloat();
-                return new LaserPointParticle.Option(entityId, color, alpha);
-            }
-
-            @Override
-            public @NotNull LaserPointParticle.Option fromCommand(@NotNull ParticleType<LaserPointParticle.Option> type, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                if (!reader.canRead()) {
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerExpectedInt().create();
-                }
-
-                int entityId;
-                try {
-                    entityId = reader.readInt();
-                } catch (Exception e) {
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidInt().create(reader);
-                }
-
-                reader.expect(' '); // <- espera mais um espaço
-                if (!reader.canRead()) {
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerExpectedInt().create();
-                }
-
-                int color;
-                try {
-                    color = reader.readInt();
-                } catch (Exception e) {
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidInt().create(reader);
-                }
-
-                reader.expect(' '); // <- espera mais um espaço
-                if (!reader.canRead()) {
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerExpectedInt().create();
-                }
-
-                float alpha;
-                try {
-                    alpha = reader.readFloat();
-                } catch (Exception e) {
-                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidInt().create(reader);
-                }
-
-                return new LaserPointParticle.Option(entityId, color, alpha);
-            }
-        };
-
-        public static Codec<LaserPointParticle.Option> codec(ParticleType<LaserPointParticle.Option> type) {
-            return RecordCodecBuilder.create(builder -> builder.group(
-                    Codec.INT.fieldOf("entity").forGetter(Option::getEntityId),
-                    Codec.INT.fieldOf("color").forGetter(Option::getColorAsInt),
-                    Codec.FLOAT.fieldOf("alpha").forGetter(Option::getColorAlpha)
-            ).apply(builder, Option::new));
-        }
-
-        private final int entityId, color;
-        private float alpha;
-        private final Entity entity;
-
-        public Option(int entityId, int color, float alpha) {
-            this.entityId = entityId;
-            this.entity = null;
-            this.color = color;
-            this.alpha = alpha;
-        }
-
-        public Option(Entity entity, int color, float alpha) {
-            this.entity = entity;
-            this.entityId = entity.getId();
-            this.color = color;
-            this.alpha = alpha;
-        }
-
-        public int getEntityId() {
-            return entityId;
-        }
-
-        public int getColorAsInt() {
-            return color;
-        }
-
-        public Color3 getColorAsColor3() {
-            return Color3.fromInt(color);
-        }
-
-        @Override
-        public @NotNull ParticleType<?> getType() {
-            return ChangedAddonParticles.LAZER_POINT; // Substitua pelo seu ParticleType real
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeInt(entityId);
-            buffer.writeInt(getColorAsInt());
-            buffer.writeFloat(getColorAlpha());
-        }
-
-        @Override
-        public @NotNull String writeToString() {
-            return "EntityId:" + entityId + " ,Color:" + color;
-        }
-
-        public float getColorAlpha() {
-            return alpha;
-        }
-
-        public void setColorAlpha(float alpha) {
-            this.alpha = alpha;
-        }
-    }
-
-    public static class Provider implements ParticleProvider<LaserPointParticle.Option> {
-        protected final SpriteSet sprite;
-
-        public Provider(SpriteSet p_106394_) {
-            this.sprite = p_106394_;
-        }
-
-        @Nullable
-        @Override
-        public Particle createParticle(LaserPointParticle.Option type, ClientLevel level, double x, double y, double z,
-                                       double xSpeed, double ySpeed, double zSpeed) {
-            return new LaserPointParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type, sprite);
-        }
-    }
-
-
+    public final SpriteSet spriteSet;
     private final Entity entity;
 
-    public final SpriteSet spriteSet;
 
     public LaserPointParticle(ClientLevel level, double x, double y, double z, double dx, double dy, double dz,
                               LaserPointParticle.Option data, SpriteSet sprites) {
@@ -297,9 +165,137 @@ public class LaserPointParticle extends TextureSheetParticle {
         this.age = 0; // Reset idade para manter a partícula viva
     }
 
-
     @Override
     public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_LIT;
+    }
+
+    public static class Option implements ParticleOptions {
+        public static final Deserializer<LaserPointParticle.Option> DESERIALIZER = new Deserializer<>() {
+            @Override
+            public @NotNull LaserPointParticle.Option fromNetwork(@NotNull ParticleType<LaserPointParticle.Option> type, FriendlyByteBuf buffer) {
+                int entityId = buffer.readInt();
+                int color = buffer.readInt(); // <- nova cor
+                float alpha = buffer.readFloat();
+                return new LaserPointParticle.Option(entityId, color, alpha);
+            }
+
+            @Override
+            public @NotNull LaserPointParticle.Option fromCommand(@NotNull ParticleType<LaserPointParticle.Option> type, StringReader reader) throws CommandSyntaxException {
+                reader.expect(' ');
+                if (!reader.canRead()) {
+                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerExpectedInt().create();
+                }
+
+                int entityId;
+                try {
+                    entityId = reader.readInt();
+                } catch (Exception e) {
+                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidInt().create(reader);
+                }
+
+                reader.expect(' '); // <- espera mais um espaço
+                if (!reader.canRead()) {
+                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerExpectedInt().create();
+                }
+
+                int color;
+                try {
+                    color = reader.readInt();
+                } catch (Exception e) {
+                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidInt().create(reader);
+                }
+
+                reader.expect(' '); // <- espera mais um espaço
+                if (!reader.canRead()) {
+                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerExpectedInt().create();
+                }
+
+                float alpha;
+                try {
+                    alpha = reader.readFloat();
+                } catch (Exception e) {
+                    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.readerInvalidInt().create(reader);
+                }
+
+                return new LaserPointParticle.Option(entityId, color, alpha);
+            }
+        };
+        private final int entityId, color;
+        private final Entity entity;
+        private float alpha;
+        public Option(int entityId, int color, float alpha) {
+            this.entityId = entityId;
+            this.entity = null;
+            this.color = color;
+            this.alpha = alpha;
+        }
+
+        public Option(Entity entity, int color, float alpha) {
+            this.entity = entity;
+            this.entityId = entity.getId();
+            this.color = color;
+            this.alpha = alpha;
+        }
+
+        public static Codec<LaserPointParticle.Option> codec(ParticleType<LaserPointParticle.Option> type) {
+            return RecordCodecBuilder.create(builder -> builder.group(
+                    Codec.INT.fieldOf("entity").forGetter(Option::getEntityId),
+                    Codec.INT.fieldOf("color").forGetter(Option::getColorAsInt),
+                    Codec.FLOAT.fieldOf("alpha").forGetter(Option::getColorAlpha)
+            ).apply(builder, Option::new));
+        }
+
+        public int getEntityId() {
+            return entityId;
+        }
+
+        public int getColorAsInt() {
+            return color;
+        }
+
+        public Color3 getColorAsColor3() {
+            return Color3.fromInt(color);
+        }
+
+        @Override
+        public @NotNull ParticleType<?> getType() {
+            return ChangedAddonParticles.LAZER_POINT; // Substitua pelo seu ParticleType real
+        }
+
+        @Override
+        public void writeToNetwork(FriendlyByteBuf buffer) {
+            buffer.writeInt(entityId);
+            buffer.writeInt(getColorAsInt());
+            buffer.writeFloat(getColorAlpha());
+        }
+
+        @Override
+        public @NotNull String writeToString() {
+            return "EntityId:" + entityId + " ,Color:" + color;
+        }
+
+        public float getColorAlpha() {
+            return alpha;
+        }
+
+        public void setColorAlpha(float alpha) {
+            this.alpha = alpha;
+        }
+    }
+
+    public static class Provider implements ParticleProvider<LaserPointParticle.Option> {
+        protected final SpriteSet sprite;
+
+        public Provider(SpriteSet p_106394_) {
+            this.sprite = p_106394_;
+        }
+
+        @Nullable
+        @Override
+        public Particle createParticle(LaserPointParticle.Option type, ClientLevel level, double x, double y, double z,
+                                       double xSpeed, double ySpeed, double zSpeed) {
+            return new LaserPointParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type, sprite);
+        }
     }
 }

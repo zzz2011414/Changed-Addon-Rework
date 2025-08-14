@@ -13,9 +13,9 @@ public class MathUtils {
      * @param entity   The entity whose look direction will be used.
      * @param position The world position to compare against.
      * @return Dot product value:
-     *         > 0 if the position is in front of the entity,
-     *         < 0 if behind,
-     *         0 if exactly to the side.
+     * > 0 if the position is in front of the entity,
+     * < 0 if behind,
+     * 0 if exactly to the side.
      */
     public static double dotEntityLookingToPos(Entity entity, Vec3 position) {
         // Entity's look direction (normalized)
@@ -35,9 +35,9 @@ public class MathUtils {
      * @param entity   The entity whose look direction will be used.
      * @param position The world position to compare against.
      * @return Dot product value:
-     *         > 0 if the position is in front of the entity,
-     *         < 0 if behind,
-     *         0 if exactly to the side.
+     * > 0 if the position is in front of the entity,
+     * < 0 if behind,
+     * 0 if exactly to the side.
      */
     public static double dotEntityLookingToPos(LivingEntity entity, Vec3 position) {
         // Entity's look direction (normalized)
@@ -57,9 +57,9 @@ public class MathUtils {
      * @param entity   The entity whose look direction will be used.
      * @param position The world position to compare against.
      * @return Dot product value:
-     *         > 0 if the position is in front of the entity,
-     *         < 0 if behind,
-     *         0 if exactly to the side.
+     * > 0 if the position is in front of the entity,
+     * < 0 if behind,
+     * 0 if exactly to the side.
      */
     public static double dotEntityLookingToEntity(LivingEntity entity, LivingEntity position) {
         // Entity's look direction (normalized)

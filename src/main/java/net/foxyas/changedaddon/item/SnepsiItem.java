@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.item;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
@@ -30,6 +29,13 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class SnepsiItem extends Item implements SpecializedItemRendering {
+    private static final ModelResourceLocation GUIMODEL =
+            new ModelResourceLocation(ChangedAddonMod.resourceLoc("snepsi_gui"), "inventory");
+    private static final ModelResourceLocation HANDMODEL =
+            new ModelResourceLocation(ChangedAddonMod.resourceLoc("snepsi_hand"), "inventory");
+    private static final ModelResourceLocation GROUNDMODEL =
+            new ModelResourceLocation(ChangedAddonMod.resourceLoc("snepsi_ground"), "inventory");
+
     public SnepsiItem() {
         super(new Item.Properties()
                 .tab(ChangedAddonTabs.TAB_CHANGED_ADDON)
@@ -65,17 +71,19 @@ public class SnepsiItem extends Item implements SpecializedItemRendering {
     public ItemStack finishUsingItem(ItemStack itemstack, Level world, LivingEntity entity) {
         ItemStack retval = super.finishUsingItem(itemstack, world, entity);
 
-        if(!(entity instanceof ServerPlayer sPlayer)) return retval;
+        if (!(entity instanceof ServerPlayer sPlayer)) return retval;
 
         // Distância percorrida no ar
         String form = itemstack.getOrCreateTag().getString("form");
-        TransfurVariant<?> var = switch (form){
-            case "changed_addon:form_latex_snow_leopard_partial" -> ChangedAddonTransfurVariants.SNOW_LEOPARD_PARTIAL.get();
+        TransfurVariant<?> var = switch (form) {
+            case "changed_addon:form_latex_snow_leopard_partial" ->
+                    ChangedAddonTransfurVariants.SNOW_LEOPARD_PARTIAL.get();
             case "changed_addon:form_exp2/male" -> ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant();
             case "changed_addon:form_exp2/female" -> ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant();
             case "changed_addon:form_exp6" -> ChangedAddonTransfurVariants.EXP6.get();
             case "changed_addon:form_latex_snep" -> ChangedAddonTransfurVariants.LATEX_SNEP.get();
-            default -> sPlayer.getRandom().nextFloat() <= 0.001f ? ChangedAddonTransfurVariants.SNEPSI_LEOPARD.get() : ChangedAddonTransfurVariants.SNOW_LEOPARD_PARTIAL.get();
+            default ->
+                    sPlayer.getRandom().nextFloat() <= 0.001f ? ChangedAddonTransfurVariants.SNEPSI_LEOPARD.get() : ChangedAddonTransfurVariants.SNOW_LEOPARD_PARTIAL.get();
         };
 
         ProcessTransfur.progressTransfur(sPlayer, 15, var, TransfurContext.hazard(TransfurCause.GRAB_REPLICATE));
@@ -92,14 +100,6 @@ public class SnepsiItem extends Item implements SpecializedItemRendering {
         //serverPlayer.displayClientMessage(new TextComponent("Drink this = " + Snepsi_Drink_Amount),false);
         return retval;
     }
-
-    private static final ModelResourceLocation GUIMODEL =
-            new ModelResourceLocation(ChangedAddonMod.resourceLoc("snepsi_gui"), "inventory");
-    private static final ModelResourceLocation HANDMODEL =
-            new ModelResourceLocation(ChangedAddonMod.resourceLoc("snepsi_hand"), "inventory");
-    private static final ModelResourceLocation GROUNDMODEL =
-            new ModelResourceLocation(ChangedAddonMod.resourceLoc("snepsi_ground"), "inventory");
-
 
     @Override
     public ModelResourceLocation getModelLocation(ItemStack itemStack, ItemTransforms.TransformType transformType) {

@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
@@ -42,7 +42,7 @@ public class LeapProcedure {
         double speed, ySpeed;
 
         TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
-        if(tf == null) return;
+        if (tf == null) return;
 
         if (canLeap(tf)) {
             if (!player.hasEffect(ChangedAddonMobEffects.FADIGE.get()) && player.getFoodData().getFoodLevel() > 6
@@ -146,7 +146,7 @@ public class LeapProcedure {
                                     player.addEffect(new MobEffectInstance(ChangedAddonMobEffects.FADIGE.get(), 100, 0));
                             }
 
-                            if(!(entity instanceof Player pl) || pl.isCreative() || pl.isSpectator()) continue;
+                            if (!(entity instanceof Player pl) || pl.isCreative() || pl.isSpectator()) continue;
 
                             entity.setDeltaMovement(new Vec3(0, 0.7, 0));
                             level.addParticle(ParticleTypes.FLASH, x + xi, y + yi, z + zi, 0, 0.7, 0);
@@ -184,7 +184,8 @@ public class LeapProcedure {
                 }
             }
         } else if (canFly(tf)) {
-            if (player.hasEffect(ChangedAddonMobEffects.FADIGE.get()) || player.getFoodData().getFoodLevel() < 8) return;
+            if (player.hasEffect(ChangedAddonMobEffects.FADIGE.get()) || player.getFoodData().getFoodLevel() < 8)
+                return;
 
             if (player.getAbilities().flying && !player.isFallFlying()) {
                 deltaX = -Math.sin((player.getYRot() / 180) * (float) Math.PI);
@@ -226,7 +227,7 @@ public class LeapProcedure {
         }
     }
 
-    private static boolean canLeap(TransfurVariantInstance<?> tf){
+    private static boolean canLeap(TransfurVariantInstance<?> tf) {
         TransfurVariant<?> Variant = TransfurVariant.getEntityVariant(tf.getChangedEntity());
         if (Variant.is(ChangedAddonTags.TransfurTypes.CAT_LIKE) || Variant.is(ChangedAddonTags.TransfurTypes.LEOPARD_LIKE)) {
             return !Variant.is(ChangedAddonTransfurVariants.LATEX_SNEP.get())
@@ -238,7 +239,7 @@ public class LeapProcedure {
         return false;
     }
 
-    private static boolean canFly(TransfurVariantInstance<?> tf){
+    private static boolean canFly(TransfurVariantInstance<?> tf) {
         /*TransfurVariant Variant = TransfurVariant.getEntityVariant(tf.getChangedEntity());
 		if (Variant.canGlide){
 			return true;

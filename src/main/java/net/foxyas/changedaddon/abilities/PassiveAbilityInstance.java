@@ -3,11 +3,11 @@ package net.foxyas.changedaddon.abilities;
 import net.ltxprogrammer.changed.ability.AbstractAbility;
 import net.ltxprogrammer.changed.ability.AbstractAbilityInstance;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.ability.SimpleAbilityInstance;
 import net.minecraft.nbt.CompoundTag;
 
 public class PassiveAbilityInstance extends AbstractAbilityInstance {
     public boolean isActivated = true;
+
     public PassiveAbilityInstance(AbstractAbility<PassiveAbilityInstance> ability, IAbstractChangedEntity entity) {
         super(ability, entity);
     }

@@ -344,9 +344,9 @@ public class ModelUtils {
         return null;
     }
 
-    public static @Nullable AdvancedHumanoidRenderer<ChangedEntity, AdvancedHumanoidModel<ChangedEntity>, LatexHumanoidArmorModel<ChangedEntity,?>>  getChangedEntityRenderNonRaw(ChangedEntity entity) {
+    public static @Nullable AdvancedHumanoidRenderer<ChangedEntity, AdvancedHumanoidModel<ChangedEntity>, LatexHumanoidArmorModel<ChangedEntity, ?>> getChangedEntityRenderNonRaw(ChangedEntity entity) {
         EntityRenderer<?> renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(entity);
-        if (renderer instanceof AdvancedHumanoidRenderer<?,?,?> advRenderer) {
+        if (renderer instanceof AdvancedHumanoidRenderer<?, ?, ?> advRenderer) {
             return (AdvancedHumanoidRenderer<ChangedEntity, AdvancedHumanoidModel<ChangedEntity>, LatexHumanoidArmorModel<ChangedEntity, ?>>) advRenderer;
         }
         return null;

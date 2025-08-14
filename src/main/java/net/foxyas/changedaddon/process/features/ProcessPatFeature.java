@@ -29,6 +29,32 @@ public class ProcessPatFeature {
         }
     }
 
+    public static void SpawnEmote(Player player, LivingEntity target) {
+        if (target instanceof ChangedEntity changedEntity) {
+            if (changedEntity.getTarget() == player) {
+                return;
+            }
+            if (shouldBeConfused(player, target)) {
+                player.getLevel().addParticle(ChangedParticles.emote(changedEntity, Emote.CONFUSED),
+                        target.getX(), target.getY() + (double) target.getDimensions(target.getPose()).height + 0.65, target.getZ(),
+                        0.0f, 0.0f, 0.0f);
+            } else {
+                player.getLevel().addParticle(ChangedParticles.emote(changedEntity, Emote.HEART),
+                        target.getX(), target.getY() + (double) target.getDimensions(target.getPose()).height + 0.65, target.getZ(),
+                        0.0f, 0.0f, 0.0f);
+            }
+        }
+    }
+
+    private static boolean shouldBeConfused(Player player, Entity entity) {
+        if (entity instanceof AbstractDarkLatexWolf) {
+            // Verificando se o jogador usa a armadura correta
+            return player.getItemBySlot(EquipmentSlot.HEAD).is(DARK_LATEX_HEAD_CAP.get())
+                    && player.getItemBySlot(EquipmentSlot.CHEST).is(DARK_LATEX_COAT.get());
+        }
+        return false;
+    }
+
     public static class GlobalPatReaction extends Event {
         public final Player player;
         public final LivingEntity target;
@@ -60,7 +86,6 @@ public class ProcessPatFeature {
         }
     }
 
-
     @Mod.EventBusSubscriber
     public static class HandleGlobalPatReaction {
         @SubscribeEvent
@@ -73,32 +98,6 @@ public class ProcessPatFeature {
                 SpawnEmote(player, target);
             }
         }
-    }
-
-    public static void SpawnEmote(Player player, LivingEntity target) {
-        if (target instanceof ChangedEntity changedEntity) {
-            if (changedEntity.getTarget() == player) {
-                return;
-            }
-            if (shouldBeConfused(player, target)) {
-                player.getLevel().addParticle(ChangedParticles.emote(changedEntity, Emote.CONFUSED),
-                        target.getX(), target.getY() + (double) target.getDimensions(target.getPose()).height + 0.65, target.getZ(),
-                        0.0f, 0.0f, 0.0f);
-            } else {
-                player.getLevel().addParticle(ChangedParticles.emote(changedEntity, Emote.HEART),
-                        target.getX(), target.getY() + (double) target.getDimensions(target.getPose()).height + 0.65, target.getZ(),
-                        0.0f, 0.0f, 0.0f);
-            }
-        }
-    }
-
-    private static boolean shouldBeConfused(Player player, Entity entity) {
-        if (entity instanceof AbstractDarkLatexWolf) {
-            // Verificando se o jogador usa a armadura correta
-            return player.getItemBySlot(EquipmentSlot.HEAD).is(DARK_LATEX_HEAD_CAP.get())
-                    && player.getItemBySlot(EquipmentSlot.CHEST).is(DARK_LATEX_COAT.get());
-        }
-        return false;
     }
 
 }

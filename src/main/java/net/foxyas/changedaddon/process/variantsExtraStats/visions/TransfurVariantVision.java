@@ -23,8 +23,8 @@ public record TransfurVariantVision(ResourceLocation visionEffect, ResourceLocat
         String effectStr = GsonHelper.getAsString(json, "visionEffect");
         String formStr = GsonHelper.getAsString(json, "form");
         return new TransfurVariantVision(
-            new ResourceLocation(effectStr),
-            new ResourceLocation(formStr)
+                new ResourceLocation(effectStr),
+                new ResourceLocation(formStr)
         );
     }
 }

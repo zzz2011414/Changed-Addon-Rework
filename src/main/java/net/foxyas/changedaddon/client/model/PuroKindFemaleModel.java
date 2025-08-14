@@ -31,20 +31,7 @@ import static net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets.
 
 public class PuroKindFemaleModel extends AdvancedHumanoidModel<PuroKindFemaleEntity> implements AdvancedHumanoidModelInterface<PuroKindFemaleEntity, PuroKindFemaleModel> {
 
-    public static class FemaleModelAnimation {
-        public FemaleModelAnimation() {
-
-        }
-
-        public static <T extends ChangedEntity, M extends AdvancedHumanoidModel<T>> Consumer<HumanoidAnimator<T, M>> PuroLike(ModelPart head, ModelPart leftEar, ModelPart rightEar, ModelPart torso, ModelPart leftArm, ModelPart rightArm, ModelPart tail, List<ModelPart> tailJoints, ModelPart leftLeg, ModelPart leftLegLower, ModelPart leftFoot, ModelPart leftPad, ModelPart rightLeg, ModelPart rightLegLower, ModelPart rightFoot, ModelPart rightPad) {
-            return (animator) -> {
-                animator.addPreset(wolfBipedal(leftLeg, leftLegLower, leftFoot, leftPad, rightLeg, rightLegLower, rightFoot, rightPad)).addPreset(wolfUpperBody(head, torso, leftArm, rightArm)).addPreset(catTail(tail, tailJoints)).addPreset(wolfEars(leftEar, rightEar)).addAnimator(new WolfHeadInitAnimator(head)).addAnimator(new ArmSwimAnimator(leftArm, rightArm)).addAnimator(new ArmBobAnimator(leftArm, rightArm)).addAnimator(new ArmRideAnimator(leftArm, rightArm));
-            };
-        }
-    }
-
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("female_puro_kind"), "main");
-
     private final ModelPart RightLeg;
     private final ModelPart LeftLeg;
     private final ModelPart RightArm;
@@ -52,10 +39,8 @@ public class PuroKindFemaleModel extends AdvancedHumanoidModel<PuroKindFemaleEnt
     private final ModelPart Head;
     private final ModelPart Torso;
     private final ModelPart Tail;
-
     private final ModelPart Mask;
     private final HumanoidAnimator<PuroKindFemaleEntity, PuroKindFemaleModel> animator;
-
     public PuroKindFemaleModel(ModelPart root) {
         super(root);
         this.RightLeg = root.getChild("RightLeg");
@@ -285,12 +270,15 @@ public class PuroKindFemaleModel extends AdvancedHumanoidModel<PuroKindFemaleEnt
         animator.setupHand();
     }
 
-
     @Override
     public void setupAnim(@NotNull PuroKindFemaleEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         CarryAbilityAnimation.playAnimation(entity, this);
+    }
+
+    public ModelPart getArm(HumanoidArm p_102852) {
+        return p_102852 == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
     }
 
 	/*public PoseStack getPlacementCorrectors(CorrectorType type) {
@@ -301,10 +289,6 @@ public class PuroKindFemaleModel extends AdvancedHumanoidModel<PuroKindFemaleEnt
 			corrector.translate(0.0f, -0.5f / 16.0f, -0.025f);
 		return corrector;
 	}*/
-
-    public ModelPart getArm(HumanoidArm p_102852) {
-        return p_102852 == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
-    }
 
     public ModelPart getHead() {
         return this.Head;
@@ -331,6 +315,18 @@ public class PuroKindFemaleModel extends AdvancedHumanoidModel<PuroKindFemaleEnt
     @Override
     public HumanoidAnimator<PuroKindFemaleEntity, PuroKindFemaleModel> getAnimator(PuroKindFemaleEntity entity) {
         return animator;
+    }
+
+    public static class FemaleModelAnimation {
+        public FemaleModelAnimation() {
+
+        }
+
+        public static <T extends ChangedEntity, M extends AdvancedHumanoidModel<T>> Consumer<HumanoidAnimator<T, M>> PuroLike(ModelPart head, ModelPart leftEar, ModelPart rightEar, ModelPart torso, ModelPart leftArm, ModelPart rightArm, ModelPart tail, List<ModelPart> tailJoints, ModelPart leftLeg, ModelPart leftLegLower, ModelPart leftFoot, ModelPart leftPad, ModelPart rightLeg, ModelPart rightLegLower, ModelPart rightFoot, ModelPart rightPad) {
+            return (animator) -> {
+                animator.addPreset(wolfBipedal(leftLeg, leftLegLower, leftFoot, leftPad, rightLeg, rightLegLower, rightFoot, rightPad)).addPreset(wolfUpperBody(head, torso, leftArm, rightArm)).addPreset(catTail(tail, tailJoints)).addPreset(wolfEars(leftEar, rightEar)).addAnimator(new WolfHeadInitAnimator(head)).addAnimator(new ArmSwimAnimator(leftArm, rightArm)).addAnimator(new ArmBobAnimator(leftArm, rightArm)).addAnimator(new ArmRideAnimator(leftArm, rightArm));
+            };
+        }
     }
 }
 

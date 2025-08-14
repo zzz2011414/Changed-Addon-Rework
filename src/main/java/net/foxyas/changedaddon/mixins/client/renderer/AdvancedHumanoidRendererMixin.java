@@ -22,10 +22,10 @@ import java.util.NoSuchElementException;
 public abstract class AdvancedHumanoidRendererMixin {
 
     @Shadow
-    public abstract AdvancedHumanoidModel<ChangedEntity> getModel(ChangedEntity entity);
+    private LatexHumanoidArmorLayer<ChangedEntity, AdvancedHumanoidModel<ChangedEntity>, LatexHumanoidArmorModel<ChangedEntity, ?>> armorLayer;
 
     @Shadow
-    private LatexHumanoidArmorLayer<ChangedEntity, AdvancedHumanoidModel<ChangedEntity>, LatexHumanoidArmorModel<ChangedEntity, ?>> armorLayer;
+    public abstract AdvancedHumanoidModel<ChangedEntity> getModel(ChangedEntity entity);
 
     @Inject(method = "render(Lnet/ltxprogrammer/changed/entity/ChangedEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At("TAIL"), cancellable = true)

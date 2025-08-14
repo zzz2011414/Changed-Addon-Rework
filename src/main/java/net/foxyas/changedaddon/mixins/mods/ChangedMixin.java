@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ChangedMixin {
 
     @Inject(method = "registerLoadingEventListeners", at = @At("HEAD"), cancellable = true)
-    private void CustomAbilitiesCode(IEventBus eventBus, CallbackInfo ci){
-      eventBus.addListener(ChangedAddonAbilities::addUniversalAbilities);
-      eventBus.addListener(ChangedAddonFacilityPieces::RegisterAddonFacilityPieces);
+    private void CustomAbilitiesCode(IEventBus eventBus, CallbackInfo ci) {
+        eventBus.addListener(ChangedAddonAbilities::addUniversalAbilities);
+        eventBus.addListener(ChangedAddonFacilityPieces::RegisterAddonFacilityPieces);
     }
 }

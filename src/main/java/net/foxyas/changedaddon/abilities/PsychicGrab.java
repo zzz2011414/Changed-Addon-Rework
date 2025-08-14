@@ -1,9 +1,10 @@
 package net.foxyas.changedaddon.abilities;
 
 import net.foxyas.changedaddon.mixins.entity.projectiles.AbstractArrowAccessor;
-import net.foxyas.changedaddon.util.PlayerUtil;
 import net.foxyas.changedaddon.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.ability.*;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.DoubleTag;
 import net.minecraft.nbt.ListTag;
@@ -22,16 +23,27 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.*;
-import net.minecraft.client.multiplayer.ClientLevel;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
 
 public class PsychicGrab extends SimpleAbility {
+    public static final Set<Integer> Keys = Set.of(
+            GLFW.GLFW_KEY_UP,
+            GLFW.GLFW_KEY_DOWN,
+            GLFW.GLFW_KEY_LEFT,
+            GLFW.GLFW_KEY_RIGHT
+    );
     public Vec3 offset = Vec3.ZERO;
     public Vec3 look = Vec3.ZERO;
     public UUID TargetID = UUID.fromString("0-0-0-0-0"); //Fail Safe
-
     private AbstractAbilityInstance abilityInstance;
     private Controller controller;
+
+    public static boolean isSpectator(Entity entity) {
+        return entity instanceof Player player && player.isSpectator();
+    }
 
     @Override
     public SimpleAbilityInstance makeInstance(IAbstractChangedEntity entity) {
@@ -112,10 +124,7 @@ public class PsychicGrab extends SimpleAbility {
                 }
             }
             if (entity.getEntity().distanceTo(target) > 10) {
-            	if (self.isShiftKeyDown()){
-            		return true;
-            	}
-                return false;
+                return self.isShiftKeyDown();
             } else if (target instanceof Player player && isSpectator(player)) {
                 return false;
             }
@@ -285,15 +294,4 @@ public class PsychicGrab extends SimpleAbility {
                 Mth.clamp(newOffset.z, 0, 4)
         );
     }
-
-    public static boolean isSpectator(Entity entity) {
-        return entity instanceof Player player && player.isSpectator();
-    }
-
-    public static final Set<Integer> Keys = Set.of(
-            GLFW.GLFW_KEY_UP,
-            GLFW.GLFW_KEY_DOWN,
-            GLFW.GLFW_KEY_LEFT,
-            GLFW.GLFW_KEY_RIGHT
-    );
 }

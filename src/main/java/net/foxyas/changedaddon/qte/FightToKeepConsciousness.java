@@ -34,7 +34,7 @@ public class FightToKeepConsciousness {
 
     @SubscribeEvent
     public static void onPlayerTransfur(ProcessTransfur.KeepConsciousEvent event) {
-        if(!(event.player instanceof ServerPlayer player) || event.shouldKeepConscious
+        if (!(event.player instanceof ServerPlayer player) || event.shouldKeepConscious
                 || !player.level.getGameRules().getBoolean(ChangedAddonGameRules.FIGHT_TO_KEEP_CONSCIOUSNESS)) return;
 
         @Nullable
@@ -54,16 +54,16 @@ public class FightToKeepConsciousness {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if(event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) return;
+        if (event.phase != TickEvent.Phase.END || !(event.player instanceof ServerPlayer player)) return;
 
-        if(!player.isAlive()) return;
+        if (!player.isAlive()) return;
 
         TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
         ChangedAddonModVariables.PlayerVariables vars = ChangedAddonModVariables.PlayerVariables.ofOrDefault(player);
 
-        if(vars.FTKCminigameType == null) return;
+        if (vars.FTKCminigameType == null) return;
 
-        if(instance == null){
+        if (instance == null) {
             FightToKeepConsciousness.successFTKC(vars, player);
             return;
         }
@@ -82,12 +82,12 @@ public class FightToKeepConsciousness {
     @SubscribeEvent
     public static void onEntityDeath(LivingDeathEvent event) {
         Entity entity = event.getEntity();
-        if(!(entity instanceof ServerPlayer player)) return;
+        if (!(entity instanceof ServerPlayer player)) return;
 
         TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
         ChangedAddonModVariables.PlayerVariables vars = ChangedAddonModVariables.PlayerVariables.ofOrDefault(player);
 
-        if(instance == null || vars.FTKCminigameType == null) return;
+        if (instance == null || vars.FTKCminigameType == null) return;
 
         vars.FTKCminigameType = null;
         vars.syncPlayerVariables(player);
@@ -102,14 +102,14 @@ public class FightToKeepConsciousness {
     }
 
     @ApiStatus.Internal
-    public static void successFTKC(ChangedAddonModVariables.PlayerVariables vars, ServerPlayer player){
+    public static void successFTKC(ChangedAddonModVariables.PlayerVariables vars, ServerPlayer player) {
         player.displayClientMessage(new TranslatableComponent("changedaddon.fight_conscience.success"), true);
 
         updatePlayerVariables(vars, null, 0, player);
     }
 
     @ApiStatus.Internal
-    public static void failFTKC(ChangedAddonModVariables.PlayerVariables vars, ServerPlayer player){
+    public static void failFTKC(ChangedAddonModVariables.PlayerVariables vars, ServerPlayer player) {
         player.displayClientMessage(new TranslatableComponent("changedaddon.fight_conscience.fail"), true);
 
         SummonEntityProcedure.execute(player.level, player);
@@ -127,7 +127,7 @@ public class FightToKeepConsciousness {
         public final Supplier<Screen> screen;
         public final float progressAmount;
 
-        MinigameType(float progressAmount, Supplier<Screen> supplier){
+        MinigameType(float progressAmount, Supplier<Screen> supplier) {
             this.screen = supplier;
             this.progressAmount = progressAmount;
         }

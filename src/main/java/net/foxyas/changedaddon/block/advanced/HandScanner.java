@@ -48,24 +48,21 @@ public class HandScanner extends Block {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty POWERED = LeverBlock.POWERED;
     public static final EnumProperty<LockType> LOCK_TYPE = EnumProperty.create("lock_type", LockType.class);
+    // Shapes por direção
+    protected static final VoxelShape SHAPE_NORTH = Block.box(5, 3.5, 14, 11, 12.5, 16);
+    protected static final VoxelShape SHAPE_SOUTH = Block.box(5, 3.5, 0, 11, 12.5, 2);
+    protected static final VoxelShape SHAPE_WEST = Block.box(14, 3.5, 5, 16, 12.5, 11);
+    protected static final VoxelShape SHAPE_EAST = Block.box(0, 3.5, 5, 2, 12.5, 11);
 
-    public enum LockType implements StringRepresentable {
-        HUMAN(),
-        TRANSFURRED();
-
-        @Override
-        public @NotNull String getSerializedName() {
-            return this.name().toLowerCase();
-        }
-
-        public static LockType getValueByPlayer(@NotNull Player player) {
-            return ProcessTransfur.isPlayerTransfurred(player) ? TRANSFURRED : HUMAN;
-        }
-    }
 
     public HandScanner() {
         super(Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).isRedstoneConductor((state, blockGetter, blockPos) -> state.getValue(POWERED)).sound(SoundType.METAL).strength(3.0F, 3.0F).dynamicShape());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(POWERED, Boolean.FALSE).setValue(LOCK_TYPE, LockType.TRANSFURRED));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.HAND_SCANNER.get(), renderType -> renderType == RenderType.cutout());
     }
 
     @Override
@@ -82,7 +79,6 @@ public class HandScanner extends Block {
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
-
     @Override
     protected @NotNull ImmutableMap<BlockState, VoxelShape> getShapeForEachState(@NotNull Function<BlockState, VoxelShape> p_152459_) {
         return super.getShapeForEachState(p_152459_);
@@ -92,12 +88,6 @@ public class HandScanner extends Block {
         super.createBlockStateDefinition(builder);
         builder.add(POWERED, FACING, LOCK_TYPE);
     }
-
-    // Shapes por direção
-    protected static final VoxelShape SHAPE_NORTH = Block.box(5, 3.5, 14, 11, 12.5, 16);
-    protected static final VoxelShape SHAPE_SOUTH = Block.box(5, 3.5, 0, 11, 12.5, 2);
-    protected static final VoxelShape SHAPE_WEST = Block.box(14, 3.5, 5, 16, 12.5, 11);
-    protected static final VoxelShape SHAPE_EAST = Block.box(0, 3.5, 5, 2, 12.5, 11);
 
     @Override
     public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
@@ -245,8 +235,17 @@ public class HandScanner extends Block {
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void registerRenderLayer() {
-        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.HAND_SCANNER.get(), renderType -> renderType == RenderType.cutout());
+    public enum LockType implements StringRepresentable {
+        HUMAN(),
+        TRANSFURRED();
+
+        public static LockType getValueByPlayer(@NotNull Player player) {
+            return ProcessTransfur.isPlayerTransfurred(player) ? TRANSFURRED : HUMAN;
+        }
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return this.name().toLowerCase();
+        }
     }
 }

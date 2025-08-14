@@ -18,7 +18,7 @@ public class SleepWithUntransfurEffectProcedure {
         Entity entity = event.getEntity();
         Level level = entity.level;
 
-        if(!level.isDay() || !(entity instanceof Player player)
+        if (!level.isDay() || !(entity instanceof Player player)
                 || !player.hasEffect(ChangedAddonMobEffects.UNTRANSFUR.get())) return;
 
         new DelayedTask(5, () -> {

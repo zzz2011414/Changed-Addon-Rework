@@ -1,7 +1,6 @@
 package net.foxyas.changedaddon.procedures;
 
 import net.foxyas.changedaddon.network.ChangedAddonModVariables;
-import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
@@ -31,7 +30,7 @@ public class DescontrolSyringePlayerFinishesUsingItemProcedure {
     public static void execute(LevelAccessor world, double x, double y, double z, Entity entity) {
         if (entity == null)
             return;
-        if (entity instanceof  Player player && ProcessTransfur.isPlayerTransfurred(player)) {
+        if (entity instanceof Player player && ProcessTransfur.isPlayerTransfurred(player)) {
             if ((entity.getCapability(ChangedAddonModVariables.PLAYER_VARIABLES_CAPABILITY, null).orElse(new ChangedAddonModVariables.PlayerVariables())).resetTransfurAdvancements) {
                 {
                     Entity _ent = entity;

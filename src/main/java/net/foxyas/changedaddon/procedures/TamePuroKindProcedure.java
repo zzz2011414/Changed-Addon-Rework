@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.entity.simple.PuroKindMaleEntity;
 import net.foxyas.changedaddon.entity.simple.PuroKindFemaleEntity;
+import net.foxyas.changedaddon.entity.simple.PuroKindMaleEntity;
 import net.foxyas.changedaddon.entity.simple.WolfyEntity;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.ltxprogrammer.changed.entity.beast.AbstractDarkLatexWolf;

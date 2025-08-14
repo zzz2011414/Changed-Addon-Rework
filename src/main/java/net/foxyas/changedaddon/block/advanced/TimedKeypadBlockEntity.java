@@ -42,12 +42,12 @@ public class TimedKeypadBlockEntity extends KeypadBlockEntity {
         this.timer = Math.max(0, Math.min(this.timer + timer, 1000));
     }
 
-    public void setTimer(int timer) {
-        this.timer = Math.max(0, Math.min(timer, 1000));
-    }
-
     public int getTimer() {
         return timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = Math.max(0, Math.min(timer, 1000));
     }
 
     @Override

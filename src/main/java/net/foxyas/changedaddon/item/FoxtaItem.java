@@ -1,40 +1,39 @@
-
 package net.foxyas.changedaddon.item;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.init.ChangedAddonTabs;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurContext;
+import net.ltxprogrammer.changed.item.SpecializedItemRendering;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.world.level.Level;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-
-import net.ltxprogrammer.changed.item.SpecializedItemRendering;
-
-import net.foxyas.changedaddon.init.ChangedAddonTabs;
-
-import java.util.function.Consumer;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 public class FoxtaItem extends Item implements SpecializedItemRendering {
+
+    private static final ModelResourceLocation GUIMODEL =
+            new ModelResourceLocation(ChangedAddonMod.resourceLoc("foxta_gui"), "inventory");
+    private static final ModelResourceLocation HANDMODEL =
+            new ModelResourceLocation(ChangedAddonMod.resourceLoc("foxta_hand"), "inventory");
+    private static final ModelResourceLocation GROUNDMODEL =
+            new ModelResourceLocation(ChangedAddonMod.resourceLoc("foxta_ground"), "inventory");
 
     public FoxtaItem() {
         super(new Item.Properties()
@@ -45,8 +44,8 @@ public class FoxtaItem extends Item implements SpecializedItemRendering {
                         .nutrition(9)
                         .saturationMod(1f)
                         .alwaysEat()
-						.effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 15, 2), 0.25F)
-						.effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 20 * 15, 1), 0.25F)
+                        .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 15, 2), 0.25F)
+                        .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 20 * 15, 1), 0.25F)
                         .build()));
     }
 
@@ -88,15 +87,6 @@ public class FoxtaItem extends Item implements SpecializedItemRendering {
         }
         return retval;
     }
-
-
-    private static final ModelResourceLocation GUIMODEL =
-            new ModelResourceLocation(ChangedAddonMod.resourceLoc("foxta_gui"), "inventory");
-    private static final ModelResourceLocation HANDMODEL =
-            new ModelResourceLocation(ChangedAddonMod.resourceLoc("foxta_hand"), "inventory");
-    private static final ModelResourceLocation GROUNDMODEL =
-            new ModelResourceLocation(ChangedAddonMod.resourceLoc("foxta_ground"), "inventory");
-
 
     @Override
     public ModelResourceLocation getModelLocation(ItemStack itemStack, ItemTransforms.TransformType transformType) {

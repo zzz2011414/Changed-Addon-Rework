@@ -34,13 +34,13 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
                         .noCollission().dynamicShape().instabreak().sound(SoundType.GRASS));
     }
 
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.LUMINARA_BLOOM.get(), renderType -> renderType == RenderType.cutout());
+    }
+
     @Override
     public @NotNull MobEffect getSuspiciousStewEffect() {
         return super.getSuspiciousStewEffect();
-    }
-
-    public static void registerRenderLayer() {
-        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.LUMINARA_BLOOM.get(), renderType -> renderType == RenderType.cutout());
     }
 
     @SuppressWarnings("deprecation")
@@ -86,7 +86,7 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
 
     @Override
     public boolean isValidBonemealTarget(@NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull BlockState blockState, boolean pIsClient) {
-        return BlockPos.betweenClosedStream(new AABB(blockPos,blockPos).inflate(3, 1, 3))
+        return BlockPos.betweenClosedStream(new AABB(blockPos, blockPos).inflate(3, 1, 3))
                 .anyMatch(pos -> {
                     BlockState normal = blockGetter.getBlockState(pos);
                     BlockState below = blockGetter.getBlockState(pos.below());

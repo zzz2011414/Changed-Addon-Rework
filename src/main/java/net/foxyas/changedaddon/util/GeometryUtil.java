@@ -11,9 +11,9 @@ public class GeometryUtil {
     /**
      * Checks if a point is inside an ellipsoid (or a sphere if all radii are equal).
      *
-     * @param dx Offset along the X axis from the center
-     * @param dy Offset along the Y axis from the center
-     * @param dz Offset along the Z axis from the center
+     * @param dx      Offset along the X axis from the center
+     * @param dy      Offset along the Y axis from the center
+     * @param dz      Offset along the Z axis from the center
      * @param radiusX Radius along the X axis
      * @param radiusY Radius along the Y axis
      * @param radiusZ Radius along the Z axis
@@ -28,17 +28,16 @@ public class GeometryUtil {
     }
 
     /**
-     *
-     * @param dx Offset along the X axis from the center
-     * @param dy Offset along the Y axis from the center
-     * @param dz Offset along the Z axis from the center
+     * @param dx      Offset along the X axis from the center
+     * @param dy      Offset along the Y axis from the center
+     * @param dz      Offset along the Z axis from the center
      * @param radiusX Radius along the X axis
      * @param radiusY Radius along the Y axis
      * @param radiusZ Radius along the Z axis
      * @return value of the Ellipsoid
      */
     public static double getEllipsoidValue(double dx, double dy, double dz,
-                                            double radiusX, double radiusY, double radiusZ) {
+                                           double radiusX, double radiusY, double radiusZ) {
         double nx = (dx * dx) / (radiusX * radiusX);
         double ny = (dy * dy) / (radiusY * radiusY);
         double nz = (dz * dz) / (radiusZ * radiusZ);
@@ -48,9 +47,9 @@ public class GeometryUtil {
     /**
      * Checks if a point is inside a sphere.
      *
-     * @param dx Offset along the X axis from the center
-     * @param dy Offset along the Y axis from the center
-     * @param dz Offset along the Z axis from the center
+     * @param dx     Offset along the X axis from the center
+     * @param dy     Offset along the Y axis from the center
+     * @param dz     Offset along the Z axis from the center
      * @param radius Radius of the sphere
      * @return true if the point is inside or on the surface of the sphere
      */

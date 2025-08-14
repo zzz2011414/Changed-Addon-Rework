@@ -13,13 +13,13 @@ public class TransfurVariantUtils {
 
     private static final Cacheable<AttributeMap> BASE_ATTRIBUTES = Cacheable.of(() -> new AttributeMap(Player.createAttributes().build()));
 
-    private static ChangedEntity entity(TransfurVariant<?> variant, Level level){
+    private static ChangedEntity entity(TransfurVariant<?> variant, Level level) {
         return variant == null ? null : variant.getEntityType().create(level);
     }
 
     public static float GetLandSpeed(TransfurVariant<?> variant, Player player) {
         ChangedEntity entity = entity(variant, player.level);
-        if(entity == null) return 0;
+        if (entity == null) return 0;
 
         entity.setUnderlyingPlayer(player);
         return (float) (entity.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) * 0.1F / BASE_ATTRIBUTES.get().getBaseValue(Attributes.MOVEMENT_SPEED));
@@ -27,7 +27,7 @@ public class TransfurVariantUtils {
 
     public static float GetSwimSpeed(TransfurVariant<?> variant, Player player) {
         ChangedEntity entity = entity(variant, player.level);
-        if(entity == null) return 0;
+        if (entity == null) return 0;
 
         entity.setUnderlyingPlayer(player);
         return (float) (entity.getAttributeBaseValue(ForgeMod.SWIM_SPEED.get()) / BASE_ATTRIBUTES.get().getBaseValue(ForgeMod.SWIM_SPEED.get()));
@@ -35,7 +35,7 @@ public class TransfurVariantUtils {
 
     public static float GetExtraHp(TransfurVariant<?> variant, Player player) {
         ChangedEntity entity = entity(variant, player.level);
-        if(entity == null) return 0;
+        if (entity == null) return 0;
 
         entity.setUnderlyingPlayer(player);
         return entity.getMaxHealth() - Player.MAX_HEALTH;

@@ -25,20 +25,83 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
         super(ThunderPathAbility.Instance::new);
     }
 
+    public static boolean Spectator(Entity entity) {
+        if (entity instanceof Player player1) {
+            return player1.isSpectator();
+        }
+        return true;
+    }
+
+    private static boolean isHandEmpty(Entity entity, InteractionHand hand) {
+        return entity instanceof LivingEntity livingEntity && livingEntity.getItemInHand(hand).getItem() == Blocks.AIR.asItem();
+    }
+
+    private static InteractionHand getSwingHand(Entity entity) {
+        return isHandEmpty(entity, InteractionHand.MAIN_HAND) ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+    }
+
+    @Override
+    public TranslatableComponent getAbilityName(IAbstractChangedEntity entity) {
+        return new TranslatableComponent("changed_addon.ability.thunder_path");
+    }
+
+    public ResourceLocation getTexture(IAbstractChangedEntity entity) {
+        return new ResourceLocation("changed_addon:textures/screens/thunderbolt.png");
+    }
+
+    public UseType getUseType(IAbstractChangedEntity entity) {
+        return UseType.HOLD;
+    }
+
+    @Override
+    public int getChargeTime(IAbstractChangedEntity entity) {
+        TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
+        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
+            return 15;
+        }
+        return 20;
+    }
+
+    @Override
+    public int getCoolDown(IAbstractChangedEntity entity) {
+        TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
+        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
+            return 30;
+        }
+        return 45;
+    }
+
+    public float ReachAmount(IAbstractChangedEntity entity) {
+        TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
+        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
+            return 8;
+        }
+        return 5;
+    }
+
+    @Override
+    public void startUsing(IAbstractChangedEntity entity) {
+        super.startUsing(entity);
+    }
+
     public static class Instance extends AbstractAbilityInstance {
 
         private final IAbstractChangedEntity owner;
+        public int MaxThunderIndex = 10;
+        public Vec3 startPos = Vec3.ZERO;
+        private int thunderIndex = 1;
 
         public Instance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
             super(ability, entity);
             owner = entity;
         }
 
-        private int thunderIndex = 1;
-
-        public int MaxThunderIndex = 10;
-
-        public Vec3 startPos = Vec3.ZERO;
+        public static boolean Spectator(Entity entity) {
+            if (entity instanceof Player player1) {
+                return player1.isSpectator();
+            }
+            return true;
+        }
 
         @Override
         public void saveData(CompoundTag tag) {
@@ -64,13 +127,6 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
             Player player = (Player) entity.getEntity();
             TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
             return player.getFoodData().getFoodLevel() >= 10 && (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009.get() || Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) && !Spectator(entity.getEntity());
-        }
-
-        public static boolean Spectator(Entity entity) {
-            if (entity instanceof Player player1) {
-                return player1.isSpectator();
-            }
-            return true;
         }
 
         public UseType getUseType() {
@@ -102,7 +158,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
 
         @Override
         public void startUsing() {
-        	startPos = owner.getEntity().position();
+            startPos = owner.getEntity().position();
         }
 
         @Override
@@ -141,7 +197,7 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
         @Override
         public void stopUsing() {
 
-			if (thunderIndex > 0) {
+            if (thunderIndex > 0) {
                 thunderIndex = 0;
                 this.getController().applyCoolDown();
             }
@@ -154,67 +210,5 @@ public class ThunderPathAbility extends AbstractAbility<ThunderPathAbility.Insta
                 thunderIndex = 0;
             }
         }
-    }
-
-    @Override
-    public TranslatableComponent getAbilityName(IAbstractChangedEntity entity) {
-        return new TranslatableComponent("changed_addon.ability.thunder_path");
-    }
-
-    public ResourceLocation getTexture(IAbstractChangedEntity entity) {
-        return new ResourceLocation("changed_addon:textures/screens/thunderbolt.png");
-    }
-
-    public static boolean Spectator(Entity entity) {
-        if (entity instanceof Player player1) {
-            return player1.isSpectator();
-        }
-        return true;
-    }
-
-    public UseType getUseType(IAbstractChangedEntity entity) {
-        return UseType.HOLD;
-    }
-
-    @Override
-    public int getChargeTime(IAbstractChangedEntity entity) {
-        TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
-            return 15;
-        }
-        return 20;
-    }
-
-    @Override
-    public int getCoolDown(IAbstractChangedEntity entity) {
-        TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
-            return 30;
-        }
-        return 45;
-    }
-
-
-    public float ReachAmount(IAbstractChangedEntity entity) {
-        TransfurVariant<?> Variant = entity.getChangedEntity().getSelfVariant();
-        if (Variant == ChangedAddonTransfurVariants.EXPERIMENT_009_BOSS.get()) {
-            return 8;
-        }
-        return 5;
-    }
-
-
-    @Override
-    public void startUsing(IAbstractChangedEntity entity) {
-        super.startUsing(entity);
-    }
-
-
-    private static boolean isHandEmpty(Entity entity, InteractionHand hand) {
-        return entity instanceof LivingEntity livingEntity && livingEntity.getItemInHand(hand).getItem() == Blocks.AIR.asItem();
-    }
-
-    private static InteractionHand getSwingHand(Entity entity) {
-        return isHandEmpty(entity, InteractionHand.MAIN_HAND) ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
     }
 }

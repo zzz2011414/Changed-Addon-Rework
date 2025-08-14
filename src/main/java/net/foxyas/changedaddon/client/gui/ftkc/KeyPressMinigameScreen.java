@@ -52,6 +52,18 @@ public class KeyPressMinigameScreen extends Screen {
         );
     }
 
+    /* ----------------------------- STATIC METHODS ----------------------------- */
+    public static String getProgressText(@NotNull Player entity) {
+        return ChangedAddonModVariables.PlayerVariables.ofOrDefault(entity)
+                .consciousnessFightProgress + "/" + STRUGGLE_NEED;
+    }
+
+    public static String getTimeRemaining(@NotNull Player player) {
+        TransfurVariantInstance<?> transfurInstance = ProcessTransfur.getPlayerTransfurVariant(player);
+
+        return transfurInstance == null ? "" : Integer.toString(STRUGGLE_TIME - transfurInstance.ageAsVariant);
+    }
+
     @Override
     public boolean isPauseScreen() {
         return false;
@@ -90,7 +102,7 @@ public class KeyPressMinigameScreen extends Screen {
     public void renderBackground(@NotNull PoseStack poseStack, float partialTick) {
         TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
 
-        if(tf != null) {
+        if (tf != null) {
             float fightProgress = ChangedAddonModVariables.PlayerVariables.nonNullOf(player).consciousnessFightProgress / FightToKeepConsciousness.STRUGGLE_NEED;
             float loseProgress = Mth.lerp(partialTick, Math.max(0, tf.ageAsVariant - 1), tf.ageAsVariant) / FightToKeepConsciousness.STRUGGLE_TIME;
 
@@ -111,20 +123,8 @@ public class KeyPressMinigameScreen extends Screen {
 
     @Override
     public void tick() {
-        if(ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).FTKCminigameType == null){
+        if (ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).FTKCminigameType == null) {
             minecraft.setScreen(null);
         }
-    }
-
-    /* ----------------------------- STATIC METHODS ----------------------------- */
-    public static String getProgressText(@NotNull Player entity) {
-        return ChangedAddonModVariables.PlayerVariables.ofOrDefault(entity)
-                .consciousnessFightProgress + "/" + STRUGGLE_NEED;
-    }
-
-    public static String getTimeRemaining(@NotNull Player player) {
-        TransfurVariantInstance<?> transfurInstance = ProcessTransfur.getPlayerTransfurVariant(player);
-
-        return transfurInstance == null ? "" : Integer.toString(STRUGGLE_TIME - transfurInstance.ageAsVariant);
     }
 }

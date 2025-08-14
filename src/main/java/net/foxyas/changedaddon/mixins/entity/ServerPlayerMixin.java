@@ -44,7 +44,7 @@ public class ServerPlayerMixin implements SyncTrackMotion {
     }
 
     @Inject(method = "tick", at = @At("TAIL"), cancellable = true)
-    private void cleanKnownMotion(CallbackInfo ci){
+    private void cleanKnownMotion(CallbackInfo ci) {
         if (getSelf().tickCount % 40 == 0) {
             if (getLastKnownMotion() != null) {
                 setLastKnownMotion(null);

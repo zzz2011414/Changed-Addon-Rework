@@ -7,6 +7,7 @@ import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.init.ChangedTags;
 import net.ltxprogrammer.changed.item.SpecializedAnimations;
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -38,58 +39,12 @@ import java.util.stream.Collectors;
 
 import static net.foxyas.changedaddon.util.FoxyasUtils.manualRaycastIgnoringBlocks;
 
-import net.minecraft.core.BlockPos;
-
 public class LaserPointer extends Item implements SpecializedAnimations {
 
     public static final float MAX_LASER_REACH = 32;
 
-    public static enum DefaultColors {
-        RED(new Color(255, 0, 0)),
-        GREEN(new Color(0, 255, 0)),
-        BLUE(new Color(0, 0, 255)),
-        YELLOW(new Color(255, 255, 0)),
-        CYAN(new Color(0, 255, 255)),
-        MAGENTA(new Color(255, 0, 255)),
-        ORANGE(new Color(255, 165, 0)),
-        PINK(new Color(255, 105, 180)),
-        PURPLE(new Color(128, 0, 128)),
-        WHITE(new Color(255, 255, 255)),
-        GRAY(new Color(128, 128, 128)),
-        LIGHT_GRAY(new Color(211, 211, 211)),
-        LIME(new Color(50, 205, 50)),
-        BROWN(new Color(139, 69, 19)),
-        NAVY(new Color(0, 0, 128));
-
-        public final Color color;
-
-        DefaultColors(Color color) {
-            this.color = color;
-        }
-
-        // Construtor sem argumentos, caso queira usar valores padrão depois
-        DefaultColors() {
-            this.color = new Color(255, 255, 255); // fallback: branco
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public int getColorToInt() {
-            return color.getRGB();
-        }
-    }
-
     public LaserPointer() {
         super(new Properties().stacksTo(1).tab(ChangedAddonTabs.TAB_CHANGED_ADDON));
-    }
-
-    @Override
-    public @NotNull ItemStack getDefaultInstance() {
-        ItemStack stack = super.getDefaultInstance();
-        stack.getOrCreateTag().putInt("Color", DefaultColors.RED.getColorToInt()); // Cor padrão vermelha
-        return stack;
     }
 
     public static int getColor(ItemStack stack) {
@@ -135,6 +90,17 @@ public class LaserPointer extends Item implements SpecializedAnimations {
         return Color3.fromInt(DefaultColors.RED.getColorToInt()); // Cor padrão se não tiver NBT
     }
 
+    public static String getHex(Color color) {
+        return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    @Override
+    public @NotNull ItemStack getDefaultInstance() {
+        ItemStack stack = super.getDefaultInstance();
+        stack.getOrCreateTag().putInt("Color", DefaultColors.RED.getColorToInt()); // Cor padrão vermelha
+        return stack;
+    }
+
     @Override
     public int getUseDuration(ItemStack stack) {
         return 720000;
@@ -170,11 +136,6 @@ public class LaserPointer extends Item implements SpecializedAnimations {
         }
 
     }
-
-    public static String getHex(Color color) {
-        return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
-    }
-
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -231,7 +192,6 @@ public class LaserPointer extends Item implements SpecializedAnimations {
         player.awardStat(Stats.ITEM_USED.get(this));
         return InteractionResultHolder.pass(stack);
     }
-
 
     @Override
     public void releaseUsing(ItemStack itemstack, Level world, LivingEntity entity, int time) {
@@ -313,12 +273,48 @@ public class LaserPointer extends Item implements SpecializedAnimations {
         );
     }
 
-
-
     @Nullable
     @Override
     public AnimationHandler getAnimationHandler() {
         return ANIMATION_CACHE.computeIfAbsent(this, LaserPointer.Animator::new);
+    }
+
+
+    public enum DefaultColors {
+        RED(new Color(255, 0, 0)),
+        GREEN(new Color(0, 255, 0)),
+        BLUE(new Color(0, 0, 255)),
+        YELLOW(new Color(255, 255, 0)),
+        CYAN(new Color(0, 255, 255)),
+        MAGENTA(new Color(255, 0, 255)),
+        ORANGE(new Color(255, 165, 0)),
+        PINK(new Color(255, 105, 180)),
+        PURPLE(new Color(128, 0, 128)),
+        WHITE(new Color(255, 255, 255)),
+        GRAY(new Color(128, 128, 128)),
+        LIGHT_GRAY(new Color(211, 211, 211)),
+        LIME(new Color(50, 205, 50)),
+        BROWN(new Color(139, 69, 19)),
+        NAVY(new Color(0, 0, 128));
+
+        public final Color color;
+
+        DefaultColors(Color color) {
+            this.color = color;
+        }
+
+        // Construtor sem argumentos, caso queira usar valores padrão depois
+        DefaultColors() {
+            this.color = new Color(255, 255, 255); // fallback: branco
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public int getColorToInt() {
+            return color.getRGB();
+        }
     }
 
     public static class Animator extends AnimationHandler {

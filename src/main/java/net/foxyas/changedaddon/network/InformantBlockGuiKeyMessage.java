@@ -35,13 +35,13 @@ public record InformantBlockGuiKeyMessage(String text, TransfurVariant<?> select
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             Player player = context.getSender();
-            if(player == null) return;
+            if (player == null) return;
 
             Level level = player.getLevel();
-            if(!level.isLoaded(pos)) return;
+            if (!level.isLoaded(pos)) return;
 
             BlockState state = level.getBlockState(pos);
-            if(!state.is(ChangedAddonBlocks.INFORMANT_BLOCK.get())
+            if (!state.is(ChangedAddonBlocks.INFORMANT_BLOCK.get())
                     || !(level.getBlockEntity(pos) instanceof InformantBlockEntity blockEntity)) return;
 
             blockEntity.updateInternal(text, selectedTf);

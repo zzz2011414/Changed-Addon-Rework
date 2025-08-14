@@ -3,8 +3,8 @@ package net.foxyas.changedaddon.abilities;
 import net.foxyas.changedaddon.entity.defaults.AbstractExp2SnepChangedEntity;
 import net.foxyas.changedaddon.entity.defaults.AbstractTamableLatexEntity;
 import net.foxyas.changedaddon.entity.interfaces.ICoatLikeEntity;
-import net.foxyas.changedaddon.util.PlayerUtil;
 import net.foxyas.changedaddon.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.ability.AbstractAbilityInstance;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.ability.SimpleAbility;
@@ -31,18 +31,6 @@ import java.util.Optional;
 
 public class UnfuseAbility extends SimpleAbility {
 
-    public ResourceLocation getTexture(IAbstractChangedEntity entity) {
-        return new ResourceLocation("changed_addon:textures/screens/claw.png");
-    }
-
-    @Override
-    public Collection<Component> getAbilityDescription(IAbstractChangedEntity entity) {
-        List<Component> descriptions = new ArrayList<>(super.getAbilityDescription(entity));
-        descriptions.add(new TranslatableComponent("changed_addon.ability.unfuse.description.line1"));
-        descriptions.add(new TranslatableComponent("changed_addon.ability.unfuse.description.line2"));
-        return descriptions;
-    }
-
     public static Optional<Integer> getColor(AbstractAbilityInstance abilityInstance, int layer) {
         AbstractRadialScreen.ColorScheme scheme = AbilityColors.getAbilityColors(abilityInstance);
         if (abilityInstance instanceof SimpleAbilityInstance Instance) {
@@ -58,6 +46,18 @@ public class UnfuseAbility extends SimpleAbility {
             }
         }
         return Optional.empty();
+    }
+
+    public ResourceLocation getTexture(IAbstractChangedEntity entity) {
+        return new ResourceLocation("changed_addon:textures/screens/claw.png");
+    }
+
+    @Override
+    public Collection<Component> getAbilityDescription(IAbstractChangedEntity entity) {
+        List<Component> descriptions = new ArrayList<>(super.getAbilityDescription(entity));
+        descriptions.add(new TranslatableComponent("changed_addon.ability.unfuse.description.line1"));
+        descriptions.add(new TranslatableComponent("changed_addon.ability.unfuse.description.line2"));
+        return descriptions;
     }
 
     @Override

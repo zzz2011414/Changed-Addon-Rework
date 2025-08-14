@@ -2,10 +2,10 @@ package net.foxyas.changedaddon.mixins.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
-import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.abilities.CarryAbility;
 import net.foxyas.changedaddon.configuration.ChangedAddonClientConfiguration;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.ltxprogrammer.changed.client.FormRenderHandler;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.model.AdvancedHumanoidModel;
@@ -58,7 +58,7 @@ public class renderHandMixin {
         }
 
         AdvancedHumanoidModel model = advRenderer.getModel(changedEntity);
-        AdvancedHumanoidModelInterface modelInterface = (AdvancedHumanoidModelInterface<?,?>) model;
+        AdvancedHumanoidModelInterface modelInterface = (AdvancedHumanoidModelInterface<?, ?>) model;
 
         ModelPart handPart = model.getArm(arm.getOpposite());
         model.setupAnim(changedEntity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
@@ -85,7 +85,7 @@ public class renderHandMixin {
             return false;
         }
 
-        if (!ChangedAddonClientConfiguration.SHOW_EXTRA_HAND.get()){
+        if (!ChangedAddonClientConfiguration.SHOW_EXTRA_HAND.get()) {
             return false;
         }
 

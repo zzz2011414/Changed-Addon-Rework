@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class InfinityEnchantmentMixin {
 
 
-    @Inject(method = "canEnchant",at = @At("TAIL"),cancellable = true)
-    public void InfinityMixin_2(ItemStack itemStack, CallbackInfoReturnable<Boolean> cir){
-        if ((Enchantment) (Object) this instanceof ArrowInfiniteEnchantment){
+    @Inject(method = "canEnchant", at = @At("TAIL"), cancellable = true)
+    public void InfinityMixin_2(ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {
+        if ((Enchantment) (Object) this instanceof ArrowInfiniteEnchantment) {
             if (itemStack.getItem() instanceof DarkLatexSprayItem
                     || itemStack.getItem() instanceof WhiteLatexSprayItem
                     || itemStack.getItem() instanceof LitixCamoniaSprayItem) {

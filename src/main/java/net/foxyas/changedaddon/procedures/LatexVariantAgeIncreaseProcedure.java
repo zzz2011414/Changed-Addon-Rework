@@ -36,7 +36,7 @@ public class LatexVariantAgeIncreaseProcedure {
                 || !(entity instanceof Player player)) return;
 
         TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
-        if(tf == null) return;
+        if (tf == null) return;
 
         if (tf.getFormId().toString().equals("changed:form_dark_latex_pup")) {
 

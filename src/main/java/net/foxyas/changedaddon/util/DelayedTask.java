@@ -12,6 +12,10 @@ public class DelayedTask {
     private static final Int2ObjectOpenHashMap<DelayedTask> activeTasks = new Int2ObjectOpenHashMap<>();
     private static int nextId = 0;
 
+    static {
+        MinecraftForge.EVENT_BUS.register(DelayedTask.class);
+    }
+
     private final int id;
     private final int delayTicks;
     private final Runnable task;
@@ -19,8 +23,12 @@ public class DelayedTask {
     private boolean paused = false;
     private boolean cancelled = false;
 
-    static {
-        MinecraftForge.EVENT_BUS.register(DelayedTask.class);
+    public DelayedTask(int delayTicks, Runnable task) {
+        this.delayTicks = delayTicks;
+        this.task = task;
+
+        this.id = nextId++;
+        activeTasks.put(id, this);
     }
 
     @SubscribeEvent
@@ -30,17 +38,40 @@ public class DelayedTask {
         }
     }
 
-    public DelayedTask(int delayTicks, Runnable task){
-        this.delayTicks = delayTicks;
-        this.task = task;
+    // Métodos estáticos para acessar as tarefas
+    public static DelayedTask getTask(int id) {
+        return activeTasks.get(id);
+    }
 
-        this.id = nextId++;
-        activeTasks.put(id, this);
+    public static void cancelTask(int id) {
+        DelayedTask task = activeTasks.get(id);
+        if (task != null) {
+            task.cancel();
+        }
+    }
+
+    public static void pauseTask(int id) {
+        DelayedTask task = activeTasks.get(id);
+        if (task != null) {
+            task.pause();
+        }
+    }
+
+    public static void resumeTask(int id) {
+        DelayedTask task = activeTasks.get(id);
+        if (task != null) {
+            task.resume();
+        }
+    }
+
+    public static boolean isTaskPaused(int id) {
+        DelayedTask task = activeTasks.get(id);
+        return task != null && task.isPaused();
     }
 
     public void tick() {
         if (paused) return;
-        if(isCancelled()) {// Ensure the instance is removed correctly
+        if (isCancelled()) {// Ensure the instance is removed correctly
             destroy();
             return;
         }
@@ -73,8 +104,8 @@ public class DelayedTask {
     }
 
     /**
-    * This is to pause the execution of the task
-    */
+     * This is to pause the execution of the task
+     */
     public void pause() {
         this.paused = true;
         ChangedAddonMod.LOGGER.info("DelayedTask with ID: {} was paused by an external code", id);
@@ -98,36 +129,5 @@ public class DelayedTask {
 
     public int getId() {
         return id;
-    }
-
-    // Métodos estáticos para acessar as tarefas
-    public static DelayedTask getTask(int id) {
-        return activeTasks.get(id);
-    }
-
-    public static void cancelTask(int id) {
-        DelayedTask task = activeTasks.get(id);
-        if (task != null) {
-            task.cancel();
-        }
-    }
-
-    public static void pauseTask(int id) {
-        DelayedTask task = activeTasks.get(id);
-        if (task != null) {
-            task.pause();
-        }
-    }
-
-    public static void resumeTask(int id) {
-        DelayedTask task = activeTasks.get(id);
-        if (task != null) {
-            task.resume();
-        }
-    }
-
-    public static boolean isTaskPaused(int id) {
-        DelayedTask task = activeTasks.get(id);
-        return task != null && task.isPaused();
     }
 }

@@ -10,7 +10,7 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 public class GatherData {
 
     @SubscribeEvent
-    public static void onGatherData(GatherDataEvent event){
+    public static void onGatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper helper = event.getExistingFileHelper();
 

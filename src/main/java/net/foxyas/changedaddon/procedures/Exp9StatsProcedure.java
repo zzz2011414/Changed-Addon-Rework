@@ -1,6 +1,5 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;

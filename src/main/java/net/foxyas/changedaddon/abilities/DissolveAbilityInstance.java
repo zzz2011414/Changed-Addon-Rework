@@ -22,6 +22,14 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
     private boolean isSet = false;
     private ResourceLocation dimensionName = null;
 
+    public DissolveAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
+        super(ability, entity);
+    }
+
+    static double Distance(Vec3 pos1, Vec3 pos2) {
+        return pos1.distanceTo(pos2);
+    }
+
     public boolean isSet() {
         if (this.LocationX == 0 && this.LocationY == 0 && this.LocationZ == 0 && this.isSet && dimensionName != null) {
             return true;
@@ -39,10 +47,6 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
 
     public double getLocationZ() {
         return LocationZ;
-    }
-
-    public DissolveAbilityInstance(AbstractAbility<?> ability, IAbstractChangedEntity entity) {
-        super(ability, entity);
     }
 
     @Override
@@ -156,9 +160,5 @@ public class DissolveAbilityInstance extends AbstractAbilityInstance {
         } else if (Distance(player.position(), new Vec3(this.LocationX, this.LocationY, this.LocationZ)) > 1000) {
             player.displayClientMessage(new TranslatableComponent("changed_addon.ability.dissolve.warn.too_far"), true);
         }
-    }
-
-    static double Distance(Vec3 pos1, Vec3 pos2) {
-        return pos1.distanceTo(pos2);
     }
 }

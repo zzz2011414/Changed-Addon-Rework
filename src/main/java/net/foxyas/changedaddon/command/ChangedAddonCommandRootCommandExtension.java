@@ -47,7 +47,8 @@ public class ChangedAddonCommandRootCommandExtension {
                                                             if (color3 == null) {
                                                                 try {
                                                                     color3 = Color3.fromInt(Integer.parseInt(StringColor));
-                                                                } catch (NumberFormatException ignored) {}
+                                                                } catch (NumberFormatException ignored) {
+                                                                }
 
                                                                 if (color3 == null) {
                                                                     context.getSource().sendFailure(new TextComponent("Failed to parse color. Are you sure you are using the correct code?"));

@@ -409,7 +409,7 @@ public class ChangedAddonAnimationsDefinitions {
                     new Keyframe(1.0F, KeyframeAnimations.scaleVec(1.0F, 1.0F, 1.0F), AnimationChannel.Interpolation.LINEAR)
             ))*/
             .build();
-        
+
     public static final AnimationDefinition DODGE_DOWN_RIGHT = AnimationDefinition.Builder.withLength(1.125F).withTransition(0)
             .addAnimation(Limb.LEFT_LEG, new AnimationChannel(AnimationChannel.Target.ROTATION,
                     new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolation.LINEAR),

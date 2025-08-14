@@ -121,10 +121,10 @@ public class AbstractWolfCrystalExtender {
         public AbstractWolfCrystalBlock() {
             super(
                     BlockBehaviour.Properties.of(Material.ICE_SOLID, MaterialColor.COLOR_RED)
-                    .friction(0.98F)
-                    .sound(SoundType.AMETHYST)
-                    .strength(2.0F, 2.0F)
-                 );
+                            .friction(0.98F)
+                            .sound(SoundType.AMETHYST)
+                            .strength(2.0F, 2.0F)
+            );
         }
 
 
@@ -132,10 +132,7 @@ public class AbstractWolfCrystalExtender {
         public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
 
             BlockState plant = plantable.getPlant(world, pos.relative(facing));
-            if (plant.getBlock() instanceof WolfCrystal)
-                return true;
-            else
-                return false;
+            return plant.getBlock() instanceof WolfCrystal;
         }
 
         @Override
@@ -163,6 +160,7 @@ public class AbstractWolfCrystalExtender {
             }
         }
     }
+
     public static abstract class AbstractWolfCrystalSmall extends TransfurCrystalBlock {
 
         public AbstractWolfCrystalSmall(Supplier<? extends Item> fragment) {

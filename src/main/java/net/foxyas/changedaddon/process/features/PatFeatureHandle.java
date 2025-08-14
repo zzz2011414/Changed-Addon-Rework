@@ -1,14 +1,14 @@
 package net.foxyas.changedaddon.process.features;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
-import net.foxyas.changedaddon.entity.bosses.Experiment10Entity;
 import net.foxyas.changedaddon.entity.bosses.Experiment009BossEntity;
 import net.foxyas.changedaddon.entity.bosses.Experiment009Entity;
-import net.foxyas.changedaddon.init.ChangedAddonTags;
+import net.foxyas.changedaddon.entity.bosses.Experiment10BossEntity;
+import net.foxyas.changedaddon.entity.bosses.Experiment10Entity;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonCriteriaTriggers;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.ltxprogrammer.changed.ability.GrabEntityAbility;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.Emote;
@@ -150,7 +150,7 @@ public class PatFeatureHandle {
 
             if (target instanceof LivingEntity targetLiving) {
                 ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, _player, targetLiving, entityHitResult.getLocation());
-                if (ChangedAddonMod.postEvent(globalPatReactionEvent)){
+                if (ChangedAddonMod.postEvent(globalPatReactionEvent)) {
                     return;
                 }
             }
@@ -219,7 +219,6 @@ public class PatFeatureHandle {
                     //p.displayClientMessage(new TextComponent("pat_message:" + target.getDisplayName().getString()), false);
                 }
             }
-
 
 
             ProcessPatFeature.GlobalPatReaction globalPatReactionEvent = new ProcessPatFeature.GlobalPatReaction(world, player, target, entityHitResult.getLocation());

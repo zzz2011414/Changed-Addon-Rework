@@ -47,10 +47,10 @@ public class ClientEvent {
                 || itemstack.is(ChangedItems.LATEX_TIPPED_ARROW.get()))) return;
 
         ResourceLocation loc = ResourceLocation.tryParse(itemstack.getOrCreateTag().getString("form"));
-        if(loc == null) return;
+        if (loc == null) return;
 
         TransfurVariant<?> tf = ChangedRegistry.TRANSFUR_VARIANT.get().getValue(loc);
-        if(tf == null) return;
+        if (tf == null) return;
 
         //boolean hasInformantBlock = entity.getInventory().contains(new ItemStack(ChangedAddonModBlocks.INFORMANTBLOCK.get()));
 

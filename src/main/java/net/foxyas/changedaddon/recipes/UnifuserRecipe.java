@@ -30,7 +30,7 @@ public class UnifuserRecipe implements Recipe<SimpleContainer> {
         this.ProgressSpeed = ProgressSpeed;
     }
 
-    public CompoundTag getTagOfIngredient(Ingredient ingredient){
+    public CompoundTag getTagOfIngredient(Ingredient ingredient) {
         return Arrays.stream(ingredient.getItems()).findAny().orElse(ItemStack.EMPTY).getOrCreateTag();
     }
 
@@ -94,11 +94,10 @@ public class UnifuserRecipe implements Recipe<SimpleContainer> {
     }
 
     public static class Type implements RecipeType<UnifuserRecipe> {
-        private Type() {
-        }
-
         public static final Type INSTANCE = new Type();
         public static final String ID = "unifuser";
+        private Type() {
+        }
     }
 
     public static class Serializer implements RecipeSerializer<UnifuserRecipe>, IForgeRegistryEntry<RecipeSerializer<?>> {

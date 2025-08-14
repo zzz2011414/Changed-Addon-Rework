@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.block;
 
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
@@ -14,27 +13,27 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Random;
 
 public class YellowWolfCrystalBlockBlock extends AbstractWolfCrystalExtender.AbstractWolfCrystalBlock {
-	public YellowWolfCrystalBlockBlock() {
-		super();
-	}
+    public YellowWolfCrystalBlockBlock() {
+        super();
+    }
 
-	@Override
-	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
+    @Override
+    public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
 
-		BlockState plant = plantable.getPlant(world, pos.relative(facing));
-		if (plant.getBlock() instanceof YellowWolfCrystalSmallBlock)
-			return true;
-		else
-			return super.canSustainPlant(state, world, pos, facing, plantable);
-	}
+        BlockState plant = plantable.getPlant(world, pos.relative(facing));
+        if (plant.getBlock() instanceof YellowWolfCrystalSmallBlock)
+            return true;
+        else
+            return super.canSustainPlant(state, world, pos, facing, plantable);
+    }
 
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-		super.tick(state, level, pos, random);
-		BlockPos above = pos.above();
-		if (level.getBlockState(above).is(Blocks.AIR)) {
-			level.setBlock(above, ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_SMALL.get().defaultBlockState(), 3);
-			level.playSound(null, pos, ChangedSounds.ICE2, SoundSource.BLOCKS, 1.0f, 1.0f);
-		}
-	}
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        super.tick(state, level, pos, random);
+        BlockPos above = pos.above();
+        if (level.getBlockState(above).is(Blocks.AIR)) {
+            level.setBlock(above, ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_SMALL.get().defaultBlockState(), 3);
+            level.playSound(null, pos, ChangedSounds.ICE2, SoundSource.BLOCKS, 1.0f, 1.0f);
+        }
+    }
 
 }

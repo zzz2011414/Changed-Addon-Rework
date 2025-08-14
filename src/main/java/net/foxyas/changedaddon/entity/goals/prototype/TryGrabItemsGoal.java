@@ -2,14 +2,11 @@ package net.foxyas.changedaddon.entity.goals.prototype;
 
 import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
-import net.ltxprogrammer.changed.entity.Emote;
-import net.ltxprogrammer.changed.init.ChangedParticles;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -76,7 +73,7 @@ public class TryGrabItemsGoal extends Goal {
         if (closestItem != null) {
             prototype.getLevel().playSound(null, prototype.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
             prototype.getNavigation().moveTo(closestItem, 0.25f);
-            prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 1, 0));
+            prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 3, 0));
             ticksTrying++;
         }
     }
@@ -99,7 +96,7 @@ public class TryGrabItemsGoal extends Goal {
         if (closestItem != null) {
             if (closestItem.distanceTo(prototype) >= 0.25f) {
                 prototype.getNavigation().moveTo(closestItem, 0.25f);
-                prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 1, 0));
+                prototype.lookAt(EntityAnchorArgument.Anchor.FEET, closestItem.position().subtract(0, 3, 0));
                 ticksTrying++;
             }
         }

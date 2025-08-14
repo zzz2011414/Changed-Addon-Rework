@@ -3,7 +3,6 @@ package net.foxyas.changedaddon.item.armor;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.ltxprogrammer.changed.util.Color3;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,6 +19,58 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 
 public class TShirtClothing extends DyeableClothingItem {
+
+    public TShirtClothing() {
+        super();
+    }
+
+    /*public enum ShirtType {
+        TYPE1("type1"),
+        TYPE2("type2");
+
+        private final String id;
+
+        ShirtType(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public static ShirtType fromString(String name) {
+            for (ShirtType type : values()) {
+                if (type.id.equalsIgnoreCase(name)) return type;
+            }
+            return TYPE1; // default
+        }
+    }*/
+
+    @Override
+    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
+        return super.canEquip(stack, armorType, entity);
+    }
+
+    public SoundEvent getEquipSound() {
+        return ChangedSounds.EQUIP3;
+    }
+
+    @Override
+    public @NotNull ItemStack getDefaultInstance() {
+        ItemStack stack = super.getDefaultInstance();
+        this.setColor(stack, Color3.WHITE.toInt());
+        return stack;
+    }
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
+        return super.getArmorTexture(stack, entity, slot, type);
+    }
 
     public enum DefaultColors {
         RED(new Color(255, 0, 0)),
@@ -52,65 +103,13 @@ public class TShirtClothing extends DyeableClothingItem {
         }
     }
 
-    /*public enum ShirtType {
-        TYPE1("type1"),
-        TYPE2("type2");
-
-        private final String id;
-
-        ShirtType(String id) {
-            this.id = id;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public static ShirtType fromString(String name) {
-            for (ShirtType type : values()) {
-                if (type.id.equalsIgnoreCase(name)) return type;
-            }
-            return TYPE1; // default
-        }
-    }*/
-
-    public TShirtClothing() {
-        super();
-    }
-
-    @Override
-    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
-        return super.canEquip(stack, armorType, entity);
-    }
-
-    public SoundEvent getEquipSound() {
-        return ChangedSounds.EQUIP3;
-    }
-
-    @Override
-    public @NotNull ItemStack getDefaultInstance() {
-        ItemStack stack = super.getDefaultInstance();
-        this.setColor(stack, Color3.WHITE.toInt());
-        return stack;
-    }
-
-    @Override
-    public boolean isDamageable(ItemStack stack) {
-        return false;
-    }
-
-    @Override
-    public @Nullable String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return super.getArmorTexture(stack, entity, slot, type);
-    }
-
     @OnlyIn(Dist.CLIENT)
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientInitializer {
         @SubscribeEvent
         public static void onItemColorsInit(ColorHandlerEvent.Item event) {
             event.getItemColors().register(
-                    (stack, layer) -> ((DyeableLeatherItem)stack.getItem()).getColor(stack),
+                    (stack, layer) -> ((DyeableLeatherItem) stack.getItem()).getColor(stack),
                     ChangedAddonItems.DYEABLE_SHIRT.get());
         }
     }

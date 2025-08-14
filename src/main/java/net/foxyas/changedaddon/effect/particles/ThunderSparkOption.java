@@ -7,7 +7,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
 public class ThunderSparkOption implements ParticleOptions {
@@ -32,19 +31,18 @@ public class ThunderSparkOption implements ParticleOptions {
             }
         }
     };
+    private final int EnergyCharge;
+    private final ParticleType<ThunderSparkOption> Type;
+    public ThunderSparkOption(ParticleType<ThunderSparkOption> type, int energyCharge) {
+        super();
+        this.Type = type;
+        this.EnergyCharge = energyCharge; //Mth.clamp(energyCharge, 1, 80); // Garante que está entre 0 e 2
+    }
 
     public static Codec<ThunderSparkOption> codec(ParticleType<ThunderSparkOption> type) {
         return RecordCodecBuilder.create(builder -> builder.group(
                 Codec.INT.fieldOf("energy").forGetter(option -> option.EnergyCharge)
         ).apply(builder, (energy) -> new ThunderSparkOption(type, energy)));
-    }
-
-    private final int EnergyCharge;
-    private ParticleType<ThunderSparkOption> Type;
-    public ThunderSparkOption(ParticleType<ThunderSparkOption> type, int energyCharge) {
-        super();
-        this.Type = type;
-        this.EnergyCharge = energyCharge; //Mth.clamp(energyCharge, 1, 80); // Garante que está entre 0 e 2
     }
 
     public int getEnergyCharge() {

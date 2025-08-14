@@ -11,15 +11,15 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber
 public class FightToKeepConsciousnessClient {
 
-    static Supplier<Screen> MOUSE_PULL(){
+    static Supplier<Screen> MOUSE_PULL() {
         return MousePullMinigameScreen::new;
     }
 
-    static Supplier<Screen> MOUSE_CIRCLE_PULL(){
+    static Supplier<Screen> MOUSE_CIRCLE_PULL() {
         return MouseCirclePullMinigameScreen::new;
     }
 
-    static Supplier<Screen> KEY_PRESS(){
+    static Supplier<Screen> KEY_PRESS() {
         return KeyPressMinigameScreen::new;
     }
 }

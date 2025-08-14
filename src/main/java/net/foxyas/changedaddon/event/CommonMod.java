@@ -62,7 +62,6 @@ public class CommonMod {
                 InformantBlockGuiKeyMessage::handle);
 
 
-
         ChangedAddonMod.addNetworkMessage(ServerboundProgressFTKCPacket.class,
                 ServerboundProgressFTKCPacket::encode,
                 ServerboundProgressFTKCPacket::new,
@@ -72,7 +71,7 @@ public class CommonMod {
         ChangedAddonMod.addNetworkMessage(ClientboundOpenFTKCScreenPacket.class,
                 ClientboundOpenFTKCScreenPacket::encode,
                 ClientboundOpenFTKCScreenPacket::new,
-                (packet, contextSupplier) ->  ClientPacketHandler.handleOpenFTKCScreenPacket(packet, contextSupplier),
+                (packet, contextSupplier) -> ClientPacketHandler.handleOpenFTKCScreenPacket(packet, contextSupplier),
                 NetworkDirection.PLAY_TO_CLIENT);
     }
 }

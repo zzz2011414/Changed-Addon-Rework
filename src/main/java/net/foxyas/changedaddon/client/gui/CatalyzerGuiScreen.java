@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -16,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class CatalyzerGuiScreen extends AbstractContainerScreen<CatalyzerGuiMenu> {
+    private static final ResourceLocation texture = new ResourceLocation("changed_addon:textures/screens/catalyzer_gui_new.png");
     private final Level world;
     private final int x, y, z;
     private final Player entity;
@@ -30,8 +30,6 @@ public class CatalyzerGuiScreen extends AbstractContainerScreen<CatalyzerGuiMenu
         this.imageWidth = 200;
         this.imageHeight = 170;
     }
-
-    private static final ResourceLocation texture = new ResourceLocation("changed_addon:textures/screens/catalyzer_gui_new.png");
 
     @Override
     public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {

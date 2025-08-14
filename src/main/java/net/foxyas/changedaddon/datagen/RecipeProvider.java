@@ -105,7 +105,7 @@ public class RecipeProvider extends net.minecraft.data.recipes.RecipeProvider {
                 .save(recipeConsumer);
     }
 
-    private ShapedRecipeBuilder reinforce(ItemLike result, ItemLike input, String criterionName, CriterionTriggerInstance criterion){
+    private ShapedRecipeBuilder reinforce(ItemLike result, ItemLike input, String criterionName, CriterionTriggerInstance criterion) {
         return ShapedRecipeBuilder.shaped(result)
                 .pattern("IW")
                 .define('I', ItemTagsProvider.forgeIngotsIridium)

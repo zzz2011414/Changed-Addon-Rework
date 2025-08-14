@@ -13,41 +13,42 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = ChangedEntity.class,remap = false)
+@Mixin(value = ChangedEntity.class, remap = false)
 public class ChangedEntityTargetSelectorMixin {
 
+    @Unique
+    private static boolean isDarkLatexCoat(ItemStack itemStack) {
+        return itemStack != null
+                && !itemStack.isEmpty()
+                && itemStack.getItem() instanceof DarkLatexCoatItem;
+    }
+
     @Inject(method = "targetSelectorTest", at = @At("HEAD"), cancellable = true)
-    private void CancelTarget(LivingEntity livingEntity, CallbackInfoReturnable<Boolean> cir){
+    private void CancelTarget(LivingEntity livingEntity, CallbackInfoReturnable<Boolean> cir) {
         ItemStack Head = livingEntity.getItemBySlot(EquipmentSlot.HEAD);
         ItemStack Chest = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
         if (ChangedAddonServerConfiguration.DL_COAT_AFFECT_ALL.get()) {
-            if (isDarkLatexCoat(Head) && isDarkLatexCoat(Chest)){
+            if (isDarkLatexCoat(Head) && isDarkLatexCoat(Chest)) {
                 //ChangedAddonMod.LOGGER.info("Evento cancelado: capacete e peitoral detectados");
                 cir.setReturnValue(false);
             } else if (isDarkLatexCoat(Head) ^ isDarkLatexCoat(Chest)) {
-                if (livingEntity.distanceTo((ChangedEntity) (Object) this) >= 4){
+                if (livingEntity.distanceTo((ChangedEntity) (Object) this) >= 4) {
                     //ChangedAddonMod.LOGGER.info("Evento cancelado: item parcial detectado, distância > 4");
                     cir.setReturnValue(false);
                 }
             }
         } else {
-            if ((ChangedEntity) (Object) this instanceof AbstractDarkLatexWolf){
-                if (isDarkLatexCoat(Head) && isDarkLatexCoat(Chest)){
+            if ((ChangedEntity) (Object) this instanceof AbstractDarkLatexWolf) {
+                if (isDarkLatexCoat(Head) && isDarkLatexCoat(Chest)) {
                     //ChangedAddonMod.LOGGER.info("Evento cancelado: capacete e peitoral detectados");
                     cir.setReturnValue(false);
                 } else if (isDarkLatexCoat(Head) ^ isDarkLatexCoat(Chest)) {
-                    if (livingEntity.distanceTo((ChangedEntity) (Object) this) >= 4){
+                    if (livingEntity.distanceTo((ChangedEntity) (Object) this) >= 4) {
                         //ChangedAddonMod.LOGGER.info("Evento cancelado: item parcial detectado, distância > 4");
                         cir.setReturnValue(false);
                     }
                 }
             }
         }
-    }
-    @Unique
-    private static boolean isDarkLatexCoat(ItemStack itemStack) {
-        return itemStack != null 
-                && !itemStack.isEmpty() 
-                && itemStack.getItem() instanceof DarkLatexCoatItem;
     }
 }

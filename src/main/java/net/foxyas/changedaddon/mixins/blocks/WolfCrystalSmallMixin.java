@@ -14,24 +14,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-@Mixin(value = SmallWolfCrystal.class,remap = true)
+@Mixin(value = SmallWolfCrystal.class, remap = true)
 public class WolfCrystalSmallMixin {
 
-    @Inject(method = "mayPlaceOn",at = @At("HEAD"),cancellable = true)
-    private void SurviveMixin(BlockState blockState, BlockGetter p_51043_, BlockPos p_51044_, CallbackInfoReturnable<Boolean> cir){
+    @Inject(method = "mayPlaceOn", at = @At("HEAD"), cancellable = true)
+    private void SurviveMixin(BlockState blockState, BlockGetter p_51043_, BlockPos p_51044_, CallbackInfoReturnable<Boolean> cir) {
         List<Block> blockList = List.of(
                 ChangedAddonBlocks.WHITE_WOLF_CRYSTAL_BLOCK.get(),
                 ChangedAddonBlocks.BLUE_WOLF_CRYSTAL_BLOCK.get(),
                 ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_BLOCK.get(),
                 ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_BLOCK.get()
         );
-        if (blockList.contains(blockState.getBlock())){
+        if (blockList.contains(blockState.getBlock())) {
             cir.setReturnValue(true);
         }
     }
 
-    @Inject(method = "canSurvive",at = @At("HEAD"),cancellable = true)
-    private void CanSurviveMixin(BlockState blockState, LevelReader level, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir){
+    @Inject(method = "canSurvive", at = @At("HEAD"), cancellable = true)
+    private void CanSurviveMixin(BlockState blockState, LevelReader level, BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
         BlockState blockStateOn = level.getBlockState(blockPos.below());
         List<Block> blockList = List.of(
                 ChangedAddonBlocks.WHITE_WOLF_CRYSTAL_BLOCK.get(),
@@ -39,7 +39,7 @@ public class WolfCrystalSmallMixin {
                 ChangedAddonBlocks.ORANGE_WOLF_CRYSTAL_BLOCK.get(),
                 ChangedAddonBlocks.YELLOW_WOLF_CRYSTAL_BLOCK.get()
         );
-        if (blockList.contains(blockStateOn.getBlock())){
+        if (blockList.contains(blockStateOn.getBlock())) {
             cir.setReturnValue(true);
         }
     }

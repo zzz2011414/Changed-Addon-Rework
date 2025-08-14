@@ -16,7 +16,7 @@ import static net.foxyas.changedaddon.network.packets.utils.PacketsUtils.sendToP
 public class TransfurVisionSync {
     public static void syncTo(ServerPlayer player) {
         List<TransfurVariantVision> all = new ArrayList<>(TransfurVisionRegistry.getAll());
-        sendToPlayer(ChangedAddonMod.PACKET_HANDLER,new SyncTransfurVisionsPacket(all), player);
+        sendToPlayer(ChangedAddonMod.PACKET_HANDLER, new SyncTransfurVisionsPacket(all), player);
     }
 
     @SubscribeEvent

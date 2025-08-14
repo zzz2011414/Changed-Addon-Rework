@@ -25,7 +25,7 @@ public class TurnFeralSnepAbility extends AbstractAbility<TurnFeralSnepAbilityIn
     @Nullable
     @Override
     public Component getSelectedDisplayText(IAbstractChangedEntity entity) {
-        if (entity.getChangedEntity() instanceof LatexSnepEntity){
+        if (entity.getChangedEntity() instanceof LatexSnepEntity) {
             return new TranslatableComponent("changed_addon.ability.turn_feral.can");
         }
         return super.getSelectedDisplayText(entity);

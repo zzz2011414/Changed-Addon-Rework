@@ -1,7 +1,6 @@
 package net.foxyas.changedaddon.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import net.foxyas.changedaddon.client.model.VoidFoxModel;
 import net.foxyas.changedaddon.client.renderer.layers.ModelFlickerLayer;
 import net.foxyas.changedaddon.client.renderer.layers.ParticlesTrailsLayer;

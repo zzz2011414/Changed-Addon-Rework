@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.abilities;
 
-import net.ltxprogrammer.changed.ability.*;
+import net.ltxprogrammer.changed.ability.AbstractAbility;
+import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 

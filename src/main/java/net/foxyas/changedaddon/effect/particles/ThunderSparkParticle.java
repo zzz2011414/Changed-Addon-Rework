@@ -1,9 +1,7 @@
 package net.foxyas.changedaddon.effect.particles;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.network.chat.TextComponent;
 
 import javax.annotation.Nullable;
 
@@ -17,7 +15,7 @@ public class ThunderSparkParticle extends TextureSheetParticle {
 
         this.setSize(0.3f, 0.3f);
 
-        this.lifetime = (int) Math.max(1, (15 * sparkData.getEnergyCharge()) + (this.random.nextInt(6) - 3));
+        this.lifetime = Math.max(1, (15 * sparkData.getEnergyCharge()) + (this.random.nextInt(6) - 3));
         /*
          * assert Minecraft.getInstance().player != null;
          * Minecraft.getInstance().player.displayClientMessage(new TextComponent("data = " + sparkData.getEnergyCharge()), true);

@@ -40,19 +40,22 @@ public class CommonEvent {
     @SubscribeEvent
     public static void onPlayerLoggedInSyncPlayerVariables(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getPlayer();
-        if (!player.level.isClientSide()) ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).syncPlayerVariables(player);
+        if (!player.level.isClientSide())
+            ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).syncPlayerVariables(player);
     }
 
     @SubscribeEvent
     public static void onPlayerRespawnedSyncPlayerVariables(PlayerEvent.PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        if (!player.level.isClientSide()) ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).syncPlayerVariables(player);
+        if (!player.level.isClientSide())
+            ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).syncPlayerVariables(player);
     }
 
     @SubscribeEvent
     public static void onPlayerChangedDimensionSyncPlayerVariables(PlayerEvent.PlayerChangedDimensionEvent event) {
         Player player = event.getPlayer();
-        if (!player.level.isClientSide()) ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).syncPlayerVariables(player);
+        if (!player.level.isClientSide())
+            ChangedAddonModVariables.PlayerVariables.ofOrDefault(player).syncPlayerVariables(player);
     }
 
     @SubscribeEvent
@@ -69,10 +72,10 @@ public class CommonEvent {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if(event.phase != TickEvent.Phase.END) return;
+        if (event.phase != TickEvent.Phase.END) return;
 
         Player player = event.player;
-        if(!player.isAlive()) return;
+        if (!player.isAlive()) return;
 
         maskTransfur(player, player.level);
 
@@ -83,12 +86,12 @@ public class CommonEvent {
         triggerSwimRegret(player);
     }
 
-    private static void maskTransfur(Player player, Level level){
+    private static void maskTransfur(Player player, Level level) {
         int doTransfur = level.getLevelData().getGameRules().getInt(ChangedAddonGameRules.DO_DARK_LATEX_MASK_TRANSFUR);
-        if(doTransfur <= 0) return;
+        if (doTransfur <= 0) return;
 
         int maskHeldTimer = player.getPersistentData().getInt("HoldingDarkLatexMask");
-        if(ProcessTransfur.isPlayerTransfurred(player)){
+        if (ProcessTransfur.isPlayerTransfurred(player)) {
             if (maskHeldTimer > 0) {
                 player.getPersistentData().putInt("HoldingDarkLatexMask", maskHeldTimer - 1);
             }
@@ -96,10 +99,11 @@ public class CommonEvent {
         }
 
         InteractionHand maskHand = null;
-        if(player.getMainHandItem().is(ChangedItems.DARK_LATEX_MASK.get())) maskHand = InteractionHand.MAIN_HAND;
-        if(maskHand == null && player.getOffhandItem().is(ChangedItems.DARK_LATEX_MASK.get())) maskHand = InteractionHand.OFF_HAND;
+        if (player.getMainHandItem().is(ChangedItems.DARK_LATEX_MASK.get())) maskHand = InteractionHand.MAIN_HAND;
+        if (maskHand == null && player.getOffhandItem().is(ChangedItems.DARK_LATEX_MASK.get()))
+            maskHand = InteractionHand.OFF_HAND;
 
-        if(maskHand == null) {
+        if (maskHand == null) {
             if (maskHeldTimer > 0) {
                 player.getPersistentData().putDouble("HoldingDarkLatexMask", maskHeldTimer - 1);
             }
@@ -123,16 +127,16 @@ public class CommonEvent {
         player.getPersistentData().putInt("HoldingDarkLatexMask", 0);
     }
 
-    private static void tickInfectionAndRes(Player player){
-        if(ProcessTransfur.isPlayerTransfurred(player)) return;
+    private static void tickInfectionAndRes(Player player) {
+        if (ProcessTransfur.isPlayerTransfurred(player)) return;
 
         float progress = ProcessTransfur.getPlayerTransfurProgress(player);
         float newProgress = progress;
 
         float latexRes = (float) player.getAttributeValue(ChangedAddonAttributes.LATEX_RESISTANCE.get());
-        if(latexRes > 0) newProgress -= .5f * latexRes;
+        if (latexRes > 0) newProgress -= .5f * latexRes;
 
-        if(!player.isCreative() && !player.isSpectator()) {
+        if (!player.isCreative() && !player.isSpectator()) {
             float TransfurInfectionAttribute = (float) player.getAttributeValue(ChangedAddonAttributes.LATEX_INFECTION.get());
             if (TransfurInfectionAttribute > 0) {
                 newProgress += progress * TransfurInfectionAttribute / 100;
@@ -140,16 +144,16 @@ public class CommonEvent {
             }
         }
 
-        if(progress != newProgress) {
+        if (progress != newProgress) {
             ProcessTransfur.setPlayerTransfurProgress(player, newProgress);
         }
     }
 
     private static void tickUntransfur(Player player) {
         ChangedAddonModVariables.PlayerVariables vars = ChangedAddonModVariables.PlayerVariables.of(player);
-        if(vars == null) return;
+        if (vars == null) return;
 
-        if(!player.hasEffect(ChangedAddonMobEffects.UNTRANSFUR.get())){
+        if (!player.hasEffect(ChangedAddonMobEffects.UNTRANSFUR.get())) {
             if (vars.untransfurProgress > 0) {
                 vars.untransfurProgress -= .1f;
                 vars.syncPlayerVariables(player);
@@ -157,7 +161,7 @@ public class CommonEvent {
             return;
         }
 
-        if(!ProcessTransfur.isPlayerTransfurred(player)) return;
+        if (!ProcessTransfur.isPlayerTransfurred(player)) return;
 
         if (vars.untransfurProgress < 0) {
             vars.untransfurProgress = 0;
@@ -170,7 +174,7 @@ public class CommonEvent {
     }
 
     private static void triggerSwimRegret(Player player) {
-        if(player.level.isClientSide || !ProcessTransfur.isPlayerTransfurred(player)) return;
+        if (player.level.isClientSide || !ProcessTransfur.isPlayerTransfurred(player)) return;
         CompoundTag playerData = player.getPersistentData();
         if (playerData.contains("TransfurData")) {
             int ticks = playerData.getCompound("TransfurData").getInt("SlowSwimInWaterTicks");
@@ -181,9 +185,9 @@ public class CommonEvent {
                 return;
             }
 
-            if(ticks == -1) return;
+            if (ticks == -1) return;
 
-            if(player.isSwimming() && player.isInWaterOrBubble()) {
+            if (player.isSwimming() && player.isInWaterOrBubble()) {
                 ticks++;
             }
 

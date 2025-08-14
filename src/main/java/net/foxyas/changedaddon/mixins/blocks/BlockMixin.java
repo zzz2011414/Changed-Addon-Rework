@@ -50,7 +50,7 @@ public abstract class BlockMixin {
                                 if (player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                                         && player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()
                                         && player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()
-                                        && player.getItemBySlot(EquipmentSlot.FEET).isEmpty()){
+                                        && player.getItemBySlot(EquipmentSlot.FEET).isEmpty()) {
                                     if (Instance.isActivate()) {
                                         // Se for um jogador Latex, permite que ele atravesse a barra de ferro (forma vazia)
                                         cir.setReturnValue(Shapes.empty()); // Colisão desativada para jogadores Latex

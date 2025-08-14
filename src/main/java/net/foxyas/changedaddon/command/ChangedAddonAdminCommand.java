@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.command;
 
 import com.mojang.brigadier.Command;
@@ -236,66 +235,66 @@ public class ChangedAddonAdminCommand {
         return 1;
     }
 
-	private static int setUltraInstinctDodge(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-		CommandSourceStack source = context.getSource();
-		var entitiesList = EntityArgument.getEntities(context, "targets");
-		boolean value = BoolArgumentType.getBool(context, "value");
+    private static int setUltraInstinctDodge(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        CommandSourceStack source = context.getSource();
+        var entitiesList = EntityArgument.getEntities(context, "targets");
+        boolean value = BoolArgumentType.getBool(context, "value");
 
-		List<Component> successMessages = new ArrayList<>();
-		List<Component> failureMessages = new ArrayList<>();
+        List<Component> successMessages = new ArrayList<>();
+        List<Component> failureMessages = new ArrayList<>();
 
-		for (Entity entity : entitiesList) {
-			DodgeAbilityInstance dodgeAbilityInstance = null;
+        for (Entity entity : entitiesList) {
+            DodgeAbilityInstance dodgeAbilityInstance = null;
 
-			if (entity instanceof ChangedEntity changedEntity) {
-				dodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
-			} else if (entity instanceof Player player) {
-				var transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(player);
-				if (transfurVariantInstance != null) {
-					dodgeAbilityInstance = transfurVariantInstance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
-				}
-			}
+            if (entity instanceof ChangedEntity changedEntity) {
+                dodgeAbilityInstance = changedEntity.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+            } else if (entity instanceof Player player) {
+                var transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(player);
+                if (transfurVariantInstance != null) {
+                    dodgeAbilityInstance = transfurVariantInstance.getAbilityInstance(ChangedAddonAbilities.DODGE.get());
+                }
+            }
 
-			if (dodgeAbilityInstance != null) {
-				dodgeAbilityInstance.setUltraInstinct(value);
-				if (value) {
-					successMessages.add(new TranslatableComponent("changed_addon.command.ultra_instinct.enabled", entity.getName()));
-				} else {
-					successMessages.add(new TranslatableComponent("changed_addon.command.ultra_instinct.disabled", entity.getName()));
-				}
-			} else {
-				failureMessages.add(new TranslatableComponent("changed_addon.command.ultra_instinct.fail", entity.getName()));
-			}
-		}
+            if (dodgeAbilityInstance != null) {
+                dodgeAbilityInstance.setUltraInstinct(value);
+                if (value) {
+                    successMessages.add(new TranslatableComponent("changed_addon.command.ultra_instinct.enabled", entity.getName()));
+                } else {
+                    successMessages.add(new TranslatableComponent("changed_addon.command.ultra_instinct.disabled", entity.getName()));
+                }
+            } else {
+                failureMessages.add(new TranslatableComponent("changed_addon.command.ultra_instinct.fail", entity.getName()));
+            }
+        }
 
-		sendCondensedMessage(source, successMessages, true);
-		sendCondensedMessage(source, failureMessages, false);
+        sendCondensedMessage(source, successMessages, true);
+        sendCondensedMessage(source, failureMessages, false);
 
-		return 1;
-	}
+        return 1;
+    }
 
-	private static void sendCondensedMessage(CommandSourceStack source, List<Component> messages, boolean success) {
-		int maxLines = 6;
+    private static void sendCondensedMessage(CommandSourceStack source, List<Component> messages, boolean success) {
+        int maxLines = 6;
 
-		if (messages.isEmpty())
-			return;
+        if (messages.isEmpty())
+            return;
 
-		if (messages.size() <= maxLines) {
-			Component full = ComponentUtils.formatList(messages, new TextComponent("\n"));
-			if (success)
-				source.sendSuccess(full, true);
-			else
-				source.sendFailure(full);
-		} else {
-			List<Component> trimmed = messages.subList(0, maxLines);
-			int remaining = messages.size() - maxLines;
-			trimmed.add(new TranslatableComponent("changed_addon.command.ultra_instinct.more", remaining));
-			Component full = ComponentUtils.formatList(trimmed, new TextComponent("\n"));
-			if (success)
-				source.sendSuccess(full, true);
-			else
-				source.sendFailure(full);
-		}
-	}
+        if (messages.size() <= maxLines) {
+            Component full = ComponentUtils.formatList(messages, new TextComponent("\n"));
+            if (success)
+                source.sendSuccess(full, true);
+            else
+                source.sendFailure(full);
+        } else {
+            List<Component> trimmed = messages.subList(0, maxLines);
+            int remaining = messages.size() - maxLines;
+            trimmed.add(new TranslatableComponent("changed_addon.command.ultra_instinct.more", remaining));
+            Component full = ComponentUtils.formatList(trimmed, new TextComponent("\n"));
+            if (success)
+                source.sendSuccess(full, true);
+            else
+                source.sendFailure(full);
+        }
+    }
 
 }

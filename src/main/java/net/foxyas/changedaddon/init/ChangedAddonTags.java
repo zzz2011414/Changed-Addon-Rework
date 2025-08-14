@@ -18,7 +18,7 @@ public final class ChangedAddonTags {
         public static final TagKey<Block> LAB_DOORS = key("lab_doors");
         public static final TagKey<Block> PASSABLE_BLOCKS = key("passable_blocks");
 
-        private static TagKey<Block> key(String path){
+        private static TagKey<Block> key(String path) {
             return TagKey.create(Registry.BLOCK_REGISTRY, ChangedAddonMod.resourceLoc(path));
         }
     }
@@ -43,7 +43,7 @@ public final class ChangedAddonTags {
         public static final TagKey<Item> SWEET_DIET = key("sweet_tooth_list");
         public static final TagKey<Item> WOLF_DIET = key("wolf_diet_list");
 
-        private static TagKey<Item> key(String path){
+        private static TagKey<Item> key(String path) {
             return TagKey.create(Registry.ITEM_REGISTRY, ChangedAddonMod.resourceLoc(path));
         }
     }
@@ -54,7 +54,7 @@ public final class ChangedAddonTags {
         public static final TagKey<EntityType<?>> PATABLE = key("patable");
         public static final TagKey<EntityType<?>> DRAGON_ENTITIES = key("dragon_entities");
 
-        private static TagKey<EntityType<?>> key(String path){
+        private static TagKey<EntityType<?>> key(String path) {
             return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, ChangedAddonMod.resourceLoc(path));
         }
     }
@@ -87,7 +87,7 @@ public final class ChangedAddonTags {
         public static final TagKey<TransfurVariant<?>> WOLF_DIET = key("wolf_diet");
         public static final TagKey<TransfurVariant<?>> NO_DIET = key("no_diet");
 
-        private static TagKey<TransfurVariant<?>> key(String path){
+        private static TagKey<TransfurVariant<?>> key(String path) {
             return TagKey.create(ChangedRegistry.TRANSFUR_VARIANT.get().getRegistryKey(), ChangedAddonMod.resourceLoc(path));
         }
     }

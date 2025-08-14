@@ -1,15 +1,5 @@
 package net.foxyas.changedaddon.process;
 
-import net.foxyas.changedaddon.item.HazmatSuitItem;
-import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
-import net.ltxprogrammer.changed.process.ProcessTransfur;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
@@ -45,5 +35,6 @@ public class ItemSlotEventHandle {
                 event.setCanceled(true);
             }
         }
-    }*/
+    }
+*/
 }

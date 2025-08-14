@@ -1,117 +1,113 @@
-
 package net.foxyas.changedaddon.item;
 
+import net.foxyas.changedaddon.init.ChangedAddonFluids;
+import net.foxyas.changedaddon.init.ChangedAddonTabs;
+import net.foxyas.changedaddon.util.ChangedAddonLaethinminatorUtil;
+import net.ltxprogrammer.changed.item.SpecializedAnimations;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.core.BlockPos;
-
-import net.ltxprogrammer.changed.item.SpecializedAnimations;
-
-import net.foxyas.changedaddon.util.ChangedAddonLaethinminatorUtil;
-import net.foxyas.changedaddon.init.ChangedAddonTabs;
-import net.foxyas.changedaddon.init.ChangedAddonFluids;
-
 import javax.annotation.Nullable;
-import net.minecraft.sounds.SoundEvents;
 
 public class LaethinminatorItem extends Item implements SpecializedAnimations {
-	public LaethinminatorItem() {
-		super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).durability(320).rarity(Rarity.UNCOMMON));
-	}
+    public LaethinminatorItem() {
+        super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).durability(320).rarity(Rarity.UNCOMMON));
+    }
 
-	public int getUseDuration(ItemStack stack) {
-		return 72000;
-	}
+    public int getUseDuration(ItemStack stack) {
+        return 72000;
+    }
 
-	@Override
-	public @NotNull InteractionResult useOn(UseOnContext context) {
-		if (context.getPlayer() != null && context.getPlayer().isUsingItem())
-			return InteractionResult.PASS;
-		return super.useOn(context);
-	}
+    @Override
+    public @NotNull InteractionResult useOn(UseOnContext context) {
+        if (context.getPlayer() != null && context.getPlayer().isUsingItem())
+            return InteractionResult.PASS;
+        return super.useOn(context);
+    }
 
-	@Override
-	public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
-		ItemStack itemstack = player.getItemInHand(hand);
-		player.startUsingItem(hand);
-		return InteractionResultHolder.pass(itemstack);
-	}
+    @Override
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        player.startUsingItem(hand);
+        return InteractionResultHolder.pass(itemstack);
+    }
 
-	@Override
-	public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int ticks) {
-		super.onUseTick(level, entity, stack, ticks);
-		if (!(entity instanceof Player player)) {
-			return;
-		}
-		
-		if (stack.getDamageValue() >= stack.getMaxDamage() - 1 || entity.isShiftKeyDown()) {
-			BlockHitResult hitResult = level.clip(new ClipContext(player.getEyePosition(1.0F), // Posição inicial (olhos do jogador)
-					player.getEyePosition(1.0F).add(player.getLookAngle().scale(5.0)), // Posição final (olhando 5 blocos à frente)
-					ClipContext.Block.OUTLINE, // Modo de colisão com blocos
-					ClipContext.Fluid.ANY, // Considera apenas fontes de fluido
-					player // Entidade que está fazendo o ray trace
-			));
-			if (hitResult.getType() == HitResult.Type.BLOCK) {
-				BlockPos pos = hitResult.getBlockPos();
-				BlockState state = level.getBlockState(pos);
-				if (state.getFluidState().is(ChangedAddonFluids.LITIX_CAMONIA_FLUID.get()) || state.getFluidState().is(ChangedAddonFluids.FLOWING_LITIX_CAMONIA_FLUID.get())) {
-					stack.setDamageValue(0);
-					entity.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
-				}
-			}
-			entity.stopUsingItem(); // Stop before breaking
-			return;
-		}
-		
-		if (level.isClientSide)
-			return;
-			
-		stack.hurtAndBreak(1, entity, (livingEntity) -> {
-			livingEntity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-		});
-		
-		ChangedAddonLaethinminatorUtil.shootDynamicLaser(player.getLevel(), player, 16, 5, 5);
-	}
+    @Override
+    public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int ticks) {
+        super.onUseTick(level, entity, stack, ticks);
+        if (!(entity instanceof Player player)) {
+            return;
+        }
 
-	@Nullable
-	@Override
-	public AnimationHandler getAnimationHandler() {
-		return ANIMATION_CACHE.computeIfAbsent(this, Animator::new);
-	}
+        if (stack.getDamageValue() >= stack.getMaxDamage() - 1 || entity.isShiftKeyDown()) {
+            BlockHitResult hitResult = level.clip(new ClipContext(player.getEyePosition(1.0F), // Posição inicial (olhos do jogador)
+                    player.getEyePosition(1.0F).add(player.getLookAngle().scale(5.0)), // Posição final (olhando 5 blocos à frente)
+                    ClipContext.Block.OUTLINE, // Modo de colisão com blocos
+                    ClipContext.Fluid.ANY, // Considera apenas fontes de fluido
+                    player // Entidade que está fazendo o ray trace
+            ));
+            if (hitResult.getType() == HitResult.Type.BLOCK) {
+                BlockPos pos = hitResult.getBlockPos();
+                BlockState state = level.getBlockState(pos);
+                if (state.getFluidState().is(ChangedAddonFluids.LITIX_CAMONIA_FLUID.get()) || state.getFluidState().is(ChangedAddonFluids.FLOWING_LITIX_CAMONIA_FLUID.get())) {
+                    stack.setDamageValue(0);
+                    entity.playSound(SoundEvents.BUCKET_FILL, 1f, 1f);
+                }
+            }
+            entity.stopUsingItem(); // Stop before breaking
+            return;
+        }
 
-	public static class Animator extends AnimationHandler {
-		public Animator(Item item) {
-			super(item);
-		}
+        if (level.isClientSide)
+            return;
 
-		@Override
-		public void setupUsingAnimation(ItemStack itemStack, EntityStateContext entity, UpperModelContext model, HumanoidArm arm, float progress) {
-			super.setupUsingAnimation(itemStack, entity, model, arm, progress);
+        stack.hurtAndBreak(1, entity, (livingEntity) -> {
+            livingEntity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
+        });
 
-			// Sets the correct arm depending on the hand used
-			// HumanoidArm ContextArm = entity.livingEntity.getUsedItemHand() == InteractionHand.MAIN_HAND ? arm : arm.getOpposite();
+        ChangedAddonLaethinminatorUtil.shootDynamicLaser(player.getLevel(), player, 16, 5, 5);
+    }
 
-			// Sets the arm rotation based on the player's head
-			model.getArm(arm).xRot = model.head.xRot - 1.570796f - (entity.livingEntity.isCrouching() ? 0.2617994F : 0.0F);
-			model.getArm(arm).yRot = model.head.yRot;
+    @Nullable
+    @Override
+    public AnimationHandler getAnimationHandler() {
+        return ANIMATION_CACHE.computeIfAbsent(this, Animator::new);
+    }
 
-			// Silly animation [Intentionally not smooth due to lack of partial ticks and design]
-		}
-	}
+    public static class Animator extends AnimationHandler {
+        public Animator(Item item) {
+            super(item);
+        }
+
+        @Override
+        public void setupUsingAnimation(ItemStack itemStack, EntityStateContext entity, UpperModelContext model, HumanoidArm arm, float progress) {
+            super.setupUsingAnimation(itemStack, entity, model, arm, progress);
+
+            // Sets the correct arm depending on the hand used
+            // HumanoidArm ContextArm = entity.livingEntity.getUsedItemHand() == InteractionHand.MAIN_HAND ? arm : arm.getOpposite();
+
+            // Sets the arm rotation based on the player's head
+            model.getArm(arm).xRot = model.head.xRot - 1.570796f - (entity.livingEntity.isCrouching() ? 0.2617994F : 0.0F);
+            model.getArm(arm).yRot = model.head.yRot;
+
+            // Silly animation [Intentionally not smooth due to lack of partial ticks and design]
+        }
+    }
 }

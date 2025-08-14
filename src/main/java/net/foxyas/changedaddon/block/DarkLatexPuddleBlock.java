@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.block;
 
 import net.foxyas.changedaddon.block.entity.DarkLatexPuddleBlockEntity;
@@ -51,114 +50,17 @@ public class DarkLatexPuddleBlock extends Block implements EntityBlock, NonLatex
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-	public DarkLatexPuddleBlock() {
-		super(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.SLIME_BLOCK).strength(1f, 10f).speedFactor(0.8f).noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
-	}
-
-	@Override
-	public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
-		return true;
-	}
-
-	@Override
-	public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
-		return 0;
-	}
-
-	@Override
-	public @NotNull VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return Shapes.empty();
-	}
-
-	@Override
-	public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		return switch (state.getValue(FACING)) {
-            case NORTH -> Shapes.or(box(6, 0.25, 1.5, 14.5, 1.5, 10), box(5.5, 0, 1, 15, 1, 10.5), box(0.75, 0, 10, 5.75, 1, 15), box(1.25, 0.25, 10.5, 5.25, 1.5, 14.5));
-			case EAST -> Shapes.or(box(6, 0.25, 6, 14.5, 1.5, 14.5), box(5.5, 0, 5.5, 15, 1, 15), box(1, 0, 0.75, 6, 1, 5.75), box(1.5, 0.25, 1.25, 5.5, 1.5, 5.25));
-			case WEST -> Shapes.or(box(1.5, 0.25, 1.5, 10, 1.5, 10), box(1, 0, 1, 10.5, 1, 10.5), box(10, 0, 10.25, 15, 1, 15.25), box(10.5, 0.25, 10.75, 14.5, 1.5, 14.75));
-            default -> Shapes.or(box(1.5, 0.25, 6, 10, 1.5, 14.5), box(1, 0, 5.5, 10.5, 1, 15), box(10.25, 0, 1, 15.25, 1, 6), box(10.75, 0.25, 1.5, 14.75, 1.5, 5.5));
-        };
-	}
-
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
-	}
-
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
-	}
-
-	public @NotNull BlockState rotate(BlockState state, Rotation rot) {
-		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-	}
-
-	public @NotNull BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
-	}
-
-	@Override
-	public @NotNull PushReaction getPistonPushReaction(BlockState state) {
-		return PushReaction.DESTROY;
-	}
-
-	@Override
-	public @NotNull List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-		List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-		if (!dropsOriginal.isEmpty())
-			return dropsOriginal;
-		return Collections.singletonList(new ItemStack(this, 1));
-	}
-
-	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moving) {
-        if(level.isClientSide()) return;
-
-        level.scheduleTick(pos, this, 1);
-
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity != null)
-            blockEntity.getTileData().putByte("cooldown", (byte) 0);
+    public DarkLatexPuddleBlock() {
+        super(BlockBehaviour.Properties.of(Material.STONE).sound(SoundType.SLIME_BLOCK).strength(1f, 10f).speedFactor(0.8f).noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
-	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if(blockEntity == null) return;
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.DARK_LATEX_PUDDLE.get(), renderType -> renderType == RenderType.cutout());
+    }
 
-        byte cooldown = blockEntity.getTileData().getByte("cooldown");
-        if(cooldown > 0){
-            blockEntity.getTileData().putByte("cooldown", (byte) Math.max(0, cooldown - 1));
-            blockEntity.setChanged();
-        }
-
-		level.scheduleTick(pos, this, 1);
-	}
-
-	@Override
-	public void attack(BlockState blockstate, Level world, BlockPos pos, Player entity) {
-		alertNearbyDL(world, pos.getX(), pos.getY(), pos.getZ(), entity);
-	}
-
-	@Override
-	public void entityInside(BlockState blockstate, Level world, BlockPos pos, Entity entity) {
-		if(!(entity instanceof LivingEntity living)) return;
-        alertNearbyDL(world, pos.getX(), pos.getY(), pos.getZ(), living);
-	}
-
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new DarkLatexPuddleBlockEntity(pos, state);
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static void registerRenderLayer() {
-		ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.DARK_LATEX_PUDDLE.get(), renderType -> renderType == RenderType.cutout());
-	}
-
-    private static boolean isPlayerDLOrPuro(Player player){
+    private static boolean isPlayerDLOrPuro(Player player) {
         return ProcessTransfur.getPlayerTransfurVariantSafe(player).map(tf ->
                 tf.getLatexType() == LatexType.DARK_LATEX || tf.getFormId().toString().contains("puro_kind")).orElse(false);
     }
@@ -170,18 +72,18 @@ public class DarkLatexPuddleBlock extends Block implements EntityBlock, NonLatex
 
         BlockPos pos = new BlockPos(x, y, z);
         BlockEntity be = level.getBlockEntity(pos);
-        if(be == null) return;
+        if (be == null) return;
 
         Vec3 center = new Vec3(x, y, z);
 
-        if(be.getTileData().getByte("cooldown") > 0) return;
+        if (be.getTileData().getByte("cooldown") > 0) return;
 
         // Reproduz som para dark latex próximos
         PacketUtil.playSound(sLevel, DarkLatexPuddleBlock::isPlayerDLOrPuro,
                 x, y, z, ChangedAddonSounds.WARN, SoundSource.BLOCKS, 1, 1);
 
         // Aplica cooldown no bloco
-        be.getTileData().putByte("cooldown",  (byte) 30);
+        be.getTileData().putByte("cooldown", (byte) 30);
         be.setChanged();
 
         // Atração de dark latex
@@ -189,5 +91,106 @@ public class DarkLatexPuddleBlock extends Block implements EntityBlock, NonLatex
         level.getEntitiesOfClass(ChangedEntity.class, area, e ->
                         e != entity && e.getTransfurVariant().getLatexType() == LatexType.DARK_LATEX && !e.getTransfurVariant().getFormId().toString().contains("puro_kind"))
                 .forEach(nearby -> nearby.getNavigation().moveTo(x, y, z, 0.3));
+    }
+
+    @Override
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
+        return true;
+    }
+
+    @Override
+    public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+        return 0;
+    }
+
+    @Override
+    public @NotNull VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
+    }
+
+    @Override
+    public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(FACING)) {
+            case NORTH ->
+                    Shapes.or(box(6, 0.25, 1.5, 14.5, 1.5, 10), box(5.5, 0, 1, 15, 1, 10.5), box(0.75, 0, 10, 5.75, 1, 15), box(1.25, 0.25, 10.5, 5.25, 1.5, 14.5));
+            case EAST ->
+                    Shapes.or(box(6, 0.25, 6, 14.5, 1.5, 14.5), box(5.5, 0, 5.5, 15, 1, 15), box(1, 0, 0.75, 6, 1, 5.75), box(1.5, 0.25, 1.25, 5.5, 1.5, 5.25));
+            case WEST ->
+                    Shapes.or(box(1.5, 0.25, 1.5, 10, 1.5, 10), box(1, 0, 1, 10.5, 1, 10.5), box(10, 0, 10.25, 15, 1, 15.25), box(10.5, 0.25, 10.75, 14.5, 1.5, 14.75));
+            default ->
+                    Shapes.or(box(1.5, 0.25, 6, 10, 1.5, 14.5), box(1, 0, 5.5, 10.5, 1, 15), box(10.25, 0, 1, 15.25, 1, 6), box(10.75, 0.25, 1.5, 14.75, 1.5, 5.5));
+        };
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    public @NotNull BlockState rotate(BlockState state, Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
+
+    public @NotNull BlockState mirror(BlockState state, Mirror mirrorIn) {
+        return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    public @NotNull PushReaction getPistonPushReaction(BlockState state) {
+        return PushReaction.DESTROY;
+    }
+
+    @Override
+    public @NotNull List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
+        if (!dropsOriginal.isEmpty())
+            return dropsOriginal;
+        return Collections.singletonList(new ItemStack(this, 1));
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moving) {
+        if (level.isClientSide()) return;
+
+        level.scheduleTick(pos, this, 1);
+
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity != null)
+            blockEntity.getTileData().putByte("cooldown", (byte) 0);
+    }
+
+    @Override
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity == null) return;
+
+        byte cooldown = blockEntity.getTileData().getByte("cooldown");
+        if (cooldown > 0) {
+            blockEntity.getTileData().putByte("cooldown", (byte) Math.max(0, cooldown - 1));
+            blockEntity.setChanged();
+        }
+
+        level.scheduleTick(pos, this, 1);
+    }
+
+    @Override
+    public void attack(BlockState blockstate, Level world, BlockPos pos, Player entity) {
+        alertNearbyDL(world, pos.getX(), pos.getY(), pos.getZ(), entity);
+    }
+
+    @Override
+    public void entityInside(BlockState blockstate, Level world, BlockPos pos, Entity entity) {
+        if (!(entity instanceof LivingEntity living)) return;
+        alertNearbyDL(world, pos.getX(), pos.getY(), pos.getZ(), living);
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new DarkLatexPuddleBlockEntity(pos, state);
     }
 }

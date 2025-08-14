@@ -19,21 +19,21 @@ public class RenderUtil {
 
     private static final int FULL_LIGHT = LightTexture.FULL_BRIGHT; // Lightmap value for full brightness
 
-    public static void drawCentered(Font font, PoseStack stack, Component comp, float x, float y, int color){
+    public static void drawCentered(Font font, PoseStack stack, Component comp, float x, float y, int color) {
         int width = font.width(comp);
         font.draw(stack, comp, x - width / 2f, y - 4, color);
     }
 
-    public static void drawCentered(Font font, PoseStack stack, String str, float x, float y, int color){
+    public static void drawCentered(Font font, PoseStack stack, String str, float x, float y, int color) {
         int width = font.width(str);
         font.draw(stack, str, x - width / 2f, y - 4, color);
     }
 
-    public static void fill(PoseStack stack, float minX, float minY, float maxX, float maxY, int color){
+    public static void fill(PoseStack stack, float minX, float minY, float maxX, float maxY, int color) {
         fill(stack.last().pose(), minX, minY, maxX, maxY, color);
     }
 
-    public static void fill(Matrix4f pMatrix, float minX, float minY, float maxX, float maxY, int color){
+    public static void fill(Matrix4f pMatrix, float minX, float minY, float maxX, float maxY, int color) {
         if (minX < maxX) {
             float i = minX;
             minX = maxX;

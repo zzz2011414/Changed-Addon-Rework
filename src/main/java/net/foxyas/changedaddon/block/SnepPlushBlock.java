@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.block;
 
 import net.foxyas.changedaddon.block.entity.SnepPlushBlockEntity;
@@ -47,181 +46,181 @@ import java.util.Random;
 
 public class SnepPlushBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
-	public enum CansEnum implements StringRepresentable {
-		NONE("none"),
-		RIGHT("right"),
-		LEFT("left"),
-		HUG("hug"),
-		BOTH("both");
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    public static final EnumProperty<CansEnum> CANS = EnumProperty.create("cans", CansEnum.class);
 
-		private final String name;
+    public SnepPlushBlock() {
+        super(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.WOOL).strength(0.5f, 5f).noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(CANS, CansEnum.NONE));
+    }
 
-		CansEnum(String name) {
-			this.name = name;
-		}
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.SNEP_PLUSH.get(), renderType -> renderType == RenderType.cutoutMipped());
+    }
 
-		@Override
-		public @NotNull String getSerializedName() {
-			return this.name;
-		}
-	}
-	public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    @Override
+    public boolean propagatesSkylightDown(BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos) {
+        return state.getFluidState().isEmpty();
+    }
 
-	public static final EnumProperty<CansEnum> CANS = EnumProperty.create("cans", CansEnum.class);
+    @Override
+    public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
+        return 0;
+    }
 
-	public SnepPlushBlock() {
-		super(BlockBehaviour.Properties.of(Material.WOOL).sound(SoundType.WOOL).strength(0.5f, 5f).noOcclusion().isRedstoneConductor((bs, br, bp) -> false));
-		this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(CANS, CansEnum.NONE));
-	}
+    @Override
+    public @NotNull VoxelShape getVisualShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        return Shapes.empty();
+    }
 
-	@Override
-	public boolean propagatesSkylightDown(BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos) {
-		return state.getFluidState().isEmpty();
-	}
+    @Override
+    public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, Mob entity) {
+        return BlockPathTypes.BLOCKED;
+    }
 
-	@Override
-	public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
-		return 0;
-	}
+    @Override
+    public VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(FACING)) {
+            case NORTH -> box(4, 0, 3.5, 12, 18, 12);
+            case EAST -> box(4, 0, 4, 12.5, 18, 12);
+            case WEST -> box(3.5, 0, 4, 12, 18, 12);
+            default -> box(4, 0, 4, 12, 18, 12.5);
+        };
+    }
 
-	@Override
-	public @NotNull VoxelShape getVisualShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
-		return Shapes.empty();
-	}
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, WATERLOGGED, CANS);
+    }
 
-	@Override
-	public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, Mob entity) {
-		return BlockPathTypes.BLOCKED;
-	}
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
+        return this.defaultBlockState()
+                .setValue(FACING, context.getHorizontalDirection().getOpposite())
+                .setValue(WATERLOGGED, flag)
+                .setValue(CANS, CansEnum.NONE); // NONE by Default
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, CollisionContext context) {
-		return switch (state.getValue(FACING)) {
-			default -> box(4, 0, 4, 12, 18, 12.5);
-			case NORTH -> box(4, 0, 3.5, 12, 18, 12);
-			case EAST -> box(4, 0, 4, 12.5, 18, 12);
-			case WEST -> box(3.5, 0, 4, 12, 18, 12);
-		};
-	}
+    public @NotNull BlockState rotate(BlockState state, Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
 
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING, WATERLOGGED, CANS);
-	}
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+        return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
+    }
 
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		boolean flag = context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER;
-		return this.defaultBlockState()
-				.setValue(FACING, context.getHorizontalDirection().getOpposite())
-				.setValue(WATERLOGGED, flag)
-				.setValue(CANS, CansEnum.NONE); // NONE by Default
-	}
+    @Override
+    public FluidState getFluidState(BlockState state) {
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
+    }
 
-	public @NotNull BlockState rotate(BlockState state, Rotation rot) {
-		return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-	}
+    @Override
+    public BlockState updateShape(BlockState state, Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor world, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        if (state.getValue(WATERLOGGED)) {
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+        }
+        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+    }
 
-	public BlockState mirror(BlockState state, Mirror mirrorIn) {
-		return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
-	}
+    @Override
+    public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+        if (state.getValue(WATERLOGGED)) {
+            return 0;
+        }
+        return 20;
+    }
 
-	@Override
-	public FluidState getFluidState(BlockState state) {
-		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-	}
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
+        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
+        if (!dropsOriginal.isEmpty())
+            return dropsOriginal;
+        return Collections.singletonList(new ItemStack(this, 1));
+    }
 
-	@Override
-	public BlockState updateShape(BlockState state, Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor world, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
-		if (state.getValue(WATERLOGGED)) {
-			world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-		}
-		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
-	}
+    @Override
+    public InteractionResult use(@NotNull BlockState blockstate, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player entity, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        super.use(blockstate, world, pos, entity, hand, hit);
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+        double hitX = hit.getLocation().x;
+        double hitY = hit.getLocation().y;
+        double hitZ = hit.getLocation().z;
+        Direction direction = hit.getDirection();
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        if (blockEntity instanceof SnepPlushBlockEntity PlusheBlockEntity) {
+            if (!PlusheBlockEntity.isSqueezed()) {
+                InteractPlushesProcedure.execute(world, x, y, z);
+                PlusheBlockEntity.squeezedTicks = 4;
+            }
+        }
+        return InteractionResult.SUCCESS;
+    }
 
-	@Override
-	public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (state.getValue(WATERLOGGED)) {
-			return 0;
-		}
-		return 20;
-	}
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new SnepPlushBlockEntity(pos, state);
+    }
 
-	@Override
-	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-		List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-		if (!dropsOriginal.isEmpty())
-			return dropsOriginal;
-		return Collections.singletonList(new ItemStack(this, 1));
-	}
+    @Override
+    public void onPlace(BlockState blockstate, Level world, BlockPos pos, BlockState oldState, boolean moving) {
+        super.onPlace(blockstate, world, pos, oldState, moving);
 
-	@Override
-	public InteractionResult use(@NotNull BlockState blockstate, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player entity, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-		super.use(blockstate, world, pos, entity, hand, hit);
-		int x = pos.getX();
-		int y = pos.getY();
-		int z = pos.getZ();
-		double hitX = hit.getLocation().x;
-		double hitY = hit.getLocation().y;
-		double hitZ = hit.getLocation().z;
-		Direction direction = hit.getDirection();
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof SnepPlushBlockEntity PlusheBlockEntity){
-			if (!PlusheBlockEntity.isSqueezed()){
-				InteractPlushesProcedure.execute(world, x, y, z);
-				PlusheBlockEntity.squeezedTicks = 4;
-			}
-		}
-		return InteractionResult.SUCCESS;
-	}
+        // Chance muito pequena (ex: 45 em 100)
+        Random random = new Random();
+        if (random.nextInt(100) <= 25) {  // 25% de chance
+            // Gerar um valor aleatório para CANS, ignorando NONE
+            CansEnum[] possibleValues = {CansEnum.RIGHT, CansEnum.LEFT, CansEnum.HUG, CansEnum.BOTH};
+            CansEnum randomCans = possibleValues[random.nextInt(possibleValues.length)];
 
-	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new SnepPlushBlockEntity(pos, state);
-	}
+            // Criar um novo estado de bloco com o valor alterado de CANS
+            BlockState newBlockState = blockstate.setValue(CANS, randomCans);
 
-	@Override
-	public void onPlace(BlockState blockstate, Level world, BlockPos pos, BlockState oldState, boolean moving) {
-		super.onPlace(blockstate, world, pos, oldState, moving);
+            // Atualizar o estado do bloco no mundo
+            world.setBlock(pos, newBlockState, 3);  // Muda o estado do bloco
+        }
 
-		// Chance muito pequena (ex: 45 em 100)
-		Random random = new Random();
-		if (random.nextInt(100) <= 25) {  // 25% de chance
-			// Gerar um valor aleatório para CANS, ignorando NONE
-			CansEnum[] possibleValues = {CansEnum.RIGHT, CansEnum.LEFT, CansEnum.HUG, CansEnum.BOTH};
-			CansEnum randomCans = possibleValues[random.nextInt(possibleValues.length)];
-
-			// Criar um novo estado de bloco com o valor alterado de CANS
-			BlockState newBlockState = blockstate.setValue(CANS, randomCans);
-
-			// Atualizar o estado do bloco no mundo
-			world.setBlock(pos, newBlockState, 3);  // Muda o estado do bloco
-		}
-
-		world.scheduleTick(pos, this, 10);  // Continua o tick
-	}
+        world.scheduleTick(pos, this, 10);  // Continua o tick
+    }
 
 
-	@Override
-	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random p_60465_) {
-		super.tick(state, serverLevel, pos, p_60465_);
-		BlockEntity blockEntity = serverLevel.getBlockEntity(pos);
-		if (blockEntity instanceof SnepPlushBlockEntity snepPlushBlockEntity && snepPlushBlockEntity.isSqueezed()){
-			snepPlushBlockEntity.subSqueezedTicks(1);
-		}
-		serverLevel.scheduleTick(pos, this, 10);
-	}
+    @Override
+    public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, Random p_60465_) {
+        super.tick(state, serverLevel, pos, p_60465_);
+        BlockEntity blockEntity = serverLevel.getBlockEntity(pos);
+        if (blockEntity instanceof SnepPlushBlockEntity snepPlushBlockEntity && snepPlushBlockEntity.isSqueezed()) {
+            snepPlushBlockEntity.subSqueezedTicks(1);
+        }
+        serverLevel.scheduleTick(pos, this, 10);
+    }
 
-	@Override
-	public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int eventID, int eventParam) {
-		super.triggerEvent(state, world, pos, eventID, eventParam);
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity != null && blockEntity.triggerEvent(eventID, eventParam);
-	}
+    @Override
+    public boolean triggerEvent(BlockState state, Level world, BlockPos pos, int eventID, int eventParam) {
+        super.triggerEvent(state, world, pos, eventID, eventParam);
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        return blockEntity != null && blockEntity.triggerEvent(eventID, eventParam);
+    }
 
-	@OnlyIn(Dist.CLIENT)
-	public static void registerRenderLayer() {
-		ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.SNEP_PLUSH.get(), renderType -> renderType == RenderType.cutoutMipped());
-	}
+    public enum CansEnum implements StringRepresentable {
+        NONE("none"),
+        RIGHT("right"),
+        LEFT("left"),
+        HUG("hug"),
+        BOTH("both");
+
+        private final String name;
+
+        CansEnum(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return this.name;
+        }
+    }
 }

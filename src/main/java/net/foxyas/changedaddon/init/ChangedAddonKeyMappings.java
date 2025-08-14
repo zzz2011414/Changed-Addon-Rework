@@ -5,7 +5,10 @@
 package net.foxyas.changedaddon.init;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.network.*;
+import net.foxyas.changedaddon.network.LeapKeyMessage;
+import net.foxyas.changedaddon.network.OpenExtraDetailsMessage;
+import net.foxyas.changedaddon.network.PatKeyMessage;
+import net.foxyas.changedaddon.network.TurnOffTransfurMessage;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;

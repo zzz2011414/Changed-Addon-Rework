@@ -74,7 +74,7 @@ public class PlantSeedsGoal extends Goal {
     public void tick() {
         if (targetPos == null) return;
 
-        if (entity.blockPosition().closerThan(targetPos, 1)) {
+        if (entity.blockPosition().closerThan(targetPos, 4)) {
             plantSeedAt(targetPos);
             targetPos = null; // reset target after planting
             return;

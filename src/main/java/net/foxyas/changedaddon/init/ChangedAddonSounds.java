@@ -31,14 +31,14 @@ public class ChangedAddonSounds {
     public static final SoundEvent PROTOTYPE_IDEA = registerSimple("entity.prototype.idea_sfx");
 
 
-    private static SoundEvent registerSimple(String path){
+    private static SoundEvent registerSimple(String path) {
         ResourceLocation loc = ChangedAddonMod.resourceLoc(path);
         SoundEvent sound = new SoundEvent(loc);
         REGISTRY.put(loc, sound);
         return sound;
     }
 
-    private static SoundEvent register(String path, SoundEvent sound){
+    private static SoundEvent register(String path, SoundEvent sound) {
         REGISTRY.put(ChangedAddonMod.resourceLoc(path), sound);
         return sound;
     }

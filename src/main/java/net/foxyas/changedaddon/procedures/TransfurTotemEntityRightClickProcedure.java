@@ -2,7 +2,6 @@ package net.foxyas.changedaddon.procedures;
 
 import net.foxyas.changedaddon.configuration.ChangedAddonServerConfiguration;
 import net.foxyas.changedaddon.init.ChangedAddonItems;
-import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -51,7 +50,7 @@ public class TransfurTotemEntityRightClickProcedure {
                     if (entity instanceof Player player) {
                         boolean transfur = ProcessTransfur.isPlayerTransfurred(player);
                         if (transfur) {
-                        String transfurId = ProcessTransfur.getPlayerTransfurVariant(player).getFormId().toString();
+                            String transfurId = ProcessTransfur.getPlayerTransfurVariant(player).getFormId().toString();
                             if (a.getItem() == ChangedAddonItems.TRANSFUR_TOTEM.get() && (a.getOrCreateTag().getString("form")).isEmpty()) {
                                 if (ChangedAddonServerConfiguration.ACCEPT_ALL_VARIANTS.get() == false) {
                                     if (transfurId.startsWith("changed:form")) {

@@ -16,7 +16,8 @@ import java.util.List;
 
 @Mixin(value = RandomVariantFunction.Builder.class, remap = false)
 public class RandomVariantFunctionMixin {
-    @Shadow private List<ResourceLocation> variants;
+    @Shadow
+    private List<ResourceLocation> variants;
 
     @Inject(method = "withAllVariants", at = @At(value = "INVOKE", target = "Ljava/util/List;addAll(Ljava/util/Collection;)Z", remap = true), cancellable = true)
     private void RemoveVariant(CallbackInfoReturnable<Boolean> cir) {

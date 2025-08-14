@@ -15,10 +15,10 @@ public class FadingBossMusicSound extends AbstractTickableSoundInstance {
     private static final float MAX_VOLUME = 1.0f;
     private static final int DEFAULT_FADE_TICKS = 40;
     private final LivingEntity trackedEntity;
+    public SoundEvent currentSound;
     private int fadeInTicks;
     private int fadeOutTicks = -1;
     private boolean stopped = false;
-    public SoundEvent currentSound;
 
     public FadingBossMusicSound(SoundEvent soundEvent, LivingEntity entity) {
         super(soundEvent, SoundSource.MASTER);

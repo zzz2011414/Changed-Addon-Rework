@@ -84,8 +84,8 @@ public class DyeableShortsColoringRecipe extends CustomRecipe {
                 result = new ItemStack(ChangedAddonItems.DYEABLE_SHORTS.get(), backUp.getCount());
                 result.setTag(backUp.getTag());
                 if (result.getItem() instanceof DyeableLeatherItem dyeableLeatherItem) {
-                	dyeableLeatherItem.setColor(result, finalColor);
-            	}
+                    dyeableLeatherItem.setColor(result, finalColor);
+                }
             }
             return result;
         }

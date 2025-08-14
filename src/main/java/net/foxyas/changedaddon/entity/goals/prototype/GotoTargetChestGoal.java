@@ -64,7 +64,7 @@ public class GotoTargetChestGoal extends Goal {
     @Override
     public void tick() {
         BlockPos targetChestPos = entity.getTargetChestPos();
-        
+
         if (targetChestPos != null &&
                 (!(entity.getLevel().getBlockState(targetChestPos).getBlock() instanceof ChestBlock) ||
                         !(entity.getLevel().getBlockEntity(targetChestPos) instanceof ChestBlockEntity))) {
@@ -81,7 +81,7 @@ public class GotoTargetChestGoal extends Goal {
 
         if (targetChestPos != null && !entity.blockPosition().closerThan(targetChestPos, 2.0)) {
             navigation.moveTo(targetChestPos.getX() + 0.5, targetChestPos.getY(), targetChestPos.getZ() + 0.5, 0.25f);
-            entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(targetChestPos).subtract(0, 1,0));
+            entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(targetChestPos).subtract(0, 3, 0));
             ticks++;
         }
 

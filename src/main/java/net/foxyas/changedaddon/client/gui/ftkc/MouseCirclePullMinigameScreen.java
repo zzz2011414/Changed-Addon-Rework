@@ -20,8 +20,8 @@ public class MouseCirclePullMinigameScreen extends CircleMinigameScreen {
     @Override
     protected void init() {
         super.init();
-        if(circle.x == 0 && circle.y == 0) randomizeCirclePos(width / 3f, height / 3f);
-        if(cursor.x == 0 && cursor.y == 0) randomizeCursorPos(width / 3f, height / 3f);
+        if (circle.x == 0 && circle.y == 0) randomizeCirclePos(width / 3f, height / 3f);
+        if (cursor.x == 0 && cursor.y == 0) randomizeCursorPos(width / 3f, height / 3f);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class MouseCirclePullMinigameScreen extends CircleMinigameScreen {
     protected void increaseStruggle() {
         struggleProgressO = struggleProgress;
         struggleProgress += 0.25f;
-        if(struggleProgress < 1) return;
+        if (struggleProgress < 1) return;
 
         struggleProgressO = 0;
         struggleProgress = 0;

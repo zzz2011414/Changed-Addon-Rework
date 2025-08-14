@@ -1,7 +1,6 @@
 package net.foxyas.changedaddon.process.variantsExtraStats;
 
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;

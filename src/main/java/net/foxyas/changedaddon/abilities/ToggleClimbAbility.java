@@ -2,8 +2,6 @@ package net.foxyas.changedaddon.abilities;
 
 import net.ltxprogrammer.changed.ability.AbstractAbility;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.ability.SimpleAbility;
-import net.minecraft.nbt.CompoundTag;
 
 public class ToggleClimbAbility extends AbstractAbility<ToggleClimbAbilityInstance> {
     public ToggleClimbAbility() {

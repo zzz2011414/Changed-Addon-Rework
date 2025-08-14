@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.client.gui;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -40,7 +39,16 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
     private static final ResourceLocation texture = ChangedAddonMod.textureLoc("textures/screens/informant_gui");
 
     private final Player player;
+    private final List<String> allSuggestions = TransfurVariant.getPublicTransfurVariants()
+            .map(v -> v.getEntityType().getDescription().getString())
+            .toList();
+    private final Map<String, List<TransfurVariant<?>>> nameToVariants = TransfurVariant.getPublicTransfurVariants()
+            .collect(Collectors.groupingBy(
+                    v -> v.getEntityType().getDescription().getString()
+            ));
+    private final List<String> filteredSuggestions = new ArrayList<>();
     public EditBox form;
+    private int suggestionIndex = -1;
 
     public InformantGuiScreen(InformantGuiMenu container, Inventory inventory, Component title) {
         super(container, inventory, title);
@@ -58,7 +66,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
         form.setResponder(text -> {
             InformantBlockEntity blockEntity = menu.blockEntity;
 
-            if(blockEntity.getText().equals(form.getValue())) return;
+            if (blockEntity.getText().equals(form.getValue())) return;
 
             updateSuggestions(text);
 
@@ -128,7 +136,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
 
         ChangedEntity entity = InformantBlockEntityRenderer.getDisplayEntity(tf);
 
-        if(entity != null){
+        if (entity != null) {
             entity.tickCount = Minecraft.getInstance().player.tickCount;
 
             int centerX = leftPos + imageWidth / 2;
@@ -296,7 +304,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
         form.tick();
 
         InformantBlockEntity blockEntity = menu.blockEntity;
-        if(!blockEntity.getText().equals(form.getValue())) form.setValue(blockEntity.getText());
+        if (!blockEntity.getText().equals(form.getValue())) form.setValue(blockEntity.getText());
     }
 
     @Override
@@ -398,18 +406,6 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
         Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
     }
 
-    private final List<String> allSuggestions = TransfurVariant.getPublicTransfurVariants()
-            .map(v -> v.getEntityType().getDescription().getString())
-            .toList();
-
-    private final Map<String, List<TransfurVariant<?>>> nameToVariants = TransfurVariant.getPublicTransfurVariants()
-            .collect(Collectors.groupingBy(
-                    v -> v.getEntityType().getDescription().getString()
-            ));
-
-    private final List<String> filteredSuggestions = new ArrayList<>();
-    private int suggestionIndex = -1;
-
     @Override
     public void init() {
         super.init();
@@ -424,7 +420,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
     public void updateSuggestions(String input) {
         filteredSuggestions.clear();
 
-        if(input.isEmpty()){
+        if (input.isEmpty()) {
             suggestionIndex = -1;
             form.setSuggestion(new TranslatableComponent("gui.changed_addon.informant_gui.form").getString());
             return;
@@ -435,7 +431,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
                 .distinct()
                 .limit(6).forEach(filteredSuggestions::add);
 
-        if(filteredSuggestions.isEmpty()){
+        if (filteredSuggestions.isEmpty()) {
             suggestionIndex = -1;
             form.setSuggestion(null);
             return;

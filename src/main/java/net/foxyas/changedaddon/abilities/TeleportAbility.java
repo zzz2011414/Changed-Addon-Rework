@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.abilities;
 
-import net.foxyas.changedaddon.util.PlayerUtil;
 import net.foxyas.changedaddon.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.ability.SimpleAbility;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -21,6 +21,10 @@ import java.util.Random;
 public class TeleportAbility extends SimpleAbility {
     public TeleportAbility() {
         super();
+    }
+
+    public static boolean Spectator(Entity entity) {
+        return entity instanceof Player player && player.isSpectator();
     }
 
     @Override
@@ -67,7 +71,7 @@ public class TeleportAbility extends SimpleAbility {
             player.teleportToWithTicket(location.x, location.y, location.z);
             Random random = entity.getLevel().getRandom();
             float pitch = random.nextFloat() + 1;
-			float volume = 0.5f;
+            float volume = 0.5f;
             player.getLevel().playSound(null, player, SoundEvents.FOX_TELEPORT, SoundSource.MASTER, volume, pitch);
             player.causeFoodExhaustion(4f);
         }
@@ -76,9 +80,5 @@ public class TeleportAbility extends SimpleAbility {
     @Override
     public void onRemove(IAbstractChangedEntity entity) {
         super.onRemove(entity);
-    }
-
-    public static boolean Spectator(Entity entity) {
-        return entity instanceof Player player && player.isSpectator();
     }
 }

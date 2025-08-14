@@ -27,20 +27,8 @@ import static net.ltxprogrammer.changed.client.renderer.animate.AnimatorPresets.
 
 public class WolfyModel extends AdvancedHumanoidModel<WolfyEntity> implements AdvancedHumanoidModelInterface<WolfyEntity, WolfyModel> {
 
-    public static class WolfyModelAnimation {
-        public WolfyModelAnimation() {
-        }
-
-        public static <T extends ChangedEntity, M extends AdvancedHumanoidModel<T>> Consumer<HumanoidAnimator<T, M>> PuroLike(ModelPart head, ModelPart leftEar, ModelPart rightEar, ModelPart torso, ModelPart leftArm, ModelPart rightArm, ModelPart tail, List<ModelPart> tailJoints, ModelPart leftLeg, ModelPart leftLegLower, ModelPart leftFoot, ModelPart leftPad, ModelPart rightLeg, ModelPart rightLegLower, ModelPart rightFoot, ModelPart rightPad) {
-            return (animator) -> {
-                animator.addPreset(wolfBipedal(leftLeg, leftLegLower, leftFoot, leftPad, rightLeg, rightLegLower, rightFoot, rightPad)).addPreset(wolfUpperBody(head, torso, leftArm, rightArm)).addPreset(catTail(tail, tailJoints)).addPreset(wolfEars(leftEar, rightEar)).addAnimator(new WolfHeadInitAnimator(head)).addAnimator(new ArmSwimAnimator(leftArm, rightArm)).addAnimator(new ArmBobAnimator(leftArm, rightArm)).addAnimator(new ArmRideAnimator(leftArm, rightArm));
-            };
-        }
-    }
-
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ChangedAddonMod.resourceLoc("wolfy_model"), "main");
-
     private final ModelPart RightLeg;
     private final ModelPart LeftLeg;
     private final ModelPart RightArm;
@@ -48,9 +36,7 @@ public class WolfyModel extends AdvancedHumanoidModel<WolfyEntity> implements Ad
     private final ModelPart Head;
     private final ModelPart Torso;
     private final ModelPart Tail;
-
     private final ModelPart Mask;
-
     private final HumanoidAnimator<WolfyEntity, WolfyModel> animator;
 
     public WolfyModel(ModelPart root) {
@@ -381,7 +367,6 @@ public class WolfyModel extends AdvancedHumanoidModel<WolfyEntity> implements Ad
         animator.setupHand();
     }
 
-
     @Override
     public void setupAnim(@NotNull WolfyEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         animator.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
@@ -404,7 +389,6 @@ public class WolfyModel extends AdvancedHumanoidModel<WolfyEntity> implements Ad
         return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg;
     }
 
-
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         RightLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
@@ -418,5 +402,16 @@ public class WolfyModel extends AdvancedHumanoidModel<WolfyEntity> implements Ad
     @Override
     public HumanoidAnimator<WolfyEntity, WolfyModel> getAnimator(WolfyEntity entity) {
         return animator;
+    }
+
+    public static class WolfyModelAnimation {
+        public WolfyModelAnimation() {
+        }
+
+        public static <T extends ChangedEntity, M extends AdvancedHumanoidModel<T>> Consumer<HumanoidAnimator<T, M>> PuroLike(ModelPart head, ModelPart leftEar, ModelPart rightEar, ModelPart torso, ModelPart leftArm, ModelPart rightArm, ModelPart tail, List<ModelPart> tailJoints, ModelPart leftLeg, ModelPart leftLegLower, ModelPart leftFoot, ModelPart leftPad, ModelPart rightLeg, ModelPart rightLegLower, ModelPart rightFoot, ModelPart rightPad) {
+            return (animator) -> {
+                animator.addPreset(wolfBipedal(leftLeg, leftLegLower, leftFoot, leftPad, rightLeg, rightLegLower, rightFoot, rightPad)).addPreset(wolfUpperBody(head, torso, leftArm, rightArm)).addPreset(catTail(tail, tailJoints)).addPreset(wolfEars(leftEar, rightEar)).addAnimator(new WolfHeadInitAnimator(head)).addAnimator(new ArmSwimAnimator(leftArm, rightArm)).addAnimator(new ArmBobAnimator(leftArm, rightArm)).addAnimator(new ArmRideAnimator(leftArm, rightArm));
+            };
+        }
     }
 }

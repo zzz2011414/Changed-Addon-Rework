@@ -2,8 +2,6 @@ package net.foxyas.changedaddon.abilities;
 
 import net.ltxprogrammer.changed.ability.AbstractAbility;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.ability.SimpleAbility;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -14,7 +12,7 @@ import java.util.function.Consumer;
 public class PassiveAbility extends AbstractAbility<PassiveAbilityInstance> {
     public final Consumer<IAbstractChangedEntity> passiveAction;
 
-    public PassiveAbility(Consumer<IAbstractChangedEntity> passiveAction){
+    public PassiveAbility(Consumer<IAbstractChangedEntity> passiveAction) {
         super(PassiveAbilityInstance::new);
         this.passiveAction = passiveAction;
     }

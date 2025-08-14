@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.block;
 
 import net.foxyas.changedaddon.block.entity.ContainmentContainerBlockEntity;
@@ -62,6 +61,11 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
     public ContainmentContainerBlock() {
         super(BlockBehaviour.Properties.of(Material.METAL).sound(SoundType.GLASS).strength(3f, 5f).noOcclusion().isRedstoneConductor((bs, br, bp) -> false).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.CONTAINMENT_CONTAINER.get(), renderType -> renderType == RenderType.cutout());
     }
 
     @Override
@@ -322,11 +326,6 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
             });
             level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public static void registerRenderLayer() {
-        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.CONTAINMENT_CONTAINER.get(), renderType -> renderType == RenderType.cutout());
     }
 
     @Override

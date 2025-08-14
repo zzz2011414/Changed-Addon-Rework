@@ -21,16 +21,20 @@ import javax.annotation.Nullable;
 @Mixin(AvoidEntityGoal.class)
 public class AvoidEntityGoalMixin {
 
-    @Shadow @Nullable protected LivingEntity toAvoid;
+    @Shadow
+    @Nullable
+    protected LivingEntity toAvoid;
 
-    @Shadow @Final protected PathfinderMob mob;
+    @Shadow
+    @Final
+    protected PathfinderMob mob;
 
     @Inject(method = "canUse", at = @At("TAIL"), cancellable = true)
     public void preventAvoidLatexSnep(CallbackInfoReturnable<Boolean> cir) {
-        if (this.mob instanceof Ocelot || this.mob instanceof Cat){
-            if (toAvoid != null && toAvoid instanceof Player player){
+        if (this.mob instanceof Ocelot || this.mob instanceof Cat) {
+            if (toAvoid != null && toAvoid instanceof Player player) {
                 if (ProcessTransfur.getPlayerTransfurVariant(player) != null) {
-                    if (ProcessTransfur.getPlayerTransfurVariant(player).is(ChangedAddonTransfurVariants.LATEX_SNEP.get())){
+                    if (ProcessTransfur.getPlayerTransfurVariant(player).is(ChangedAddonTransfurVariants.LATEX_SNEP.get())) {
                         // Cancela a IA de evitar o jogador
                         cir.setReturnValue(false);
                     } else if (ProcessTransfur.getPlayerTransfurVariant(player).getParent().is(ChangedAddonTags.TransfurTypes.CAT_LIKE)

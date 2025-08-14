@@ -7,7 +7,10 @@ import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.foxyas.changedaddon.util.MathUtils;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.ChangedEntity;
+import net.ltxprogrammer.changed.entity.EyeStyle;
+import net.ltxprogrammer.changed.entity.TransfurCause;
+import net.ltxprogrammer.changed.entity.TransfurMode;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
@@ -64,59 +67,6 @@ import java.util.function.Predicate;
 public class PrototypeEntity extends AbstractCanTameChangedEntity implements InventoryCarrier, MenuProvider {
     // Constants
     public static final int MAX_HARVEST_TIMES = 32;
-
-    // Enums
-    public enum DepositeType {
-        SEEDS(Tags.Items.SEEDS),
-        CROPS(Tags.Items.CROPS),
-        BOTH(Tags.Items.CROPS, Tags.Items.SEEDS);
-
-        final List<TagKey<Item>> tagKeys;
-
-        DepositeType(TagKey<Item> crops, TagKey<Item> seeds) {
-            this.tagKeys = List.of(crops, seeds);
-        }
-
-        DepositeType(TagKey<Item> typeTag) {
-            this.tagKeys = List.of(typeTag);
-        }
-
-        public List<TagKey<Item>> getTagKeys() {
-            return tagKeys;
-        }
-
-        public String getFormatedName() {
-            return name().substring(0, 1).toUpperCase() + name().substring(1);
-        }
-
-
-        public boolean isRightType(ItemStack stack) {
-            return this.tagKeys.stream().anyMatch(stack::is);
-        }
-
-        public DepositeType switchDepositeType() {
-            int next = (this.ordinal() + 1) % DepositeType.values().length;
-            return DepositeType.values()[next];
-        }
-    }
-
-    @Mod.EventBusSubscriber
-    public static class EventHandle {
-
-        @SubscribeEvent
-        public static void onFarmlandTrample(BlockEvent.FarmlandTrampleEvent event) {
-            if (event.getEntity() instanceof PrototypeEntity) {
-                event.setCanceled(true);
-            } else if (event.getEntity() instanceof Player player) {
-                TransfurVariantInstance<?> transfurVariant = ProcessTransfur.getPlayerTransfurVariant(player);
-                if (transfurVariant != null && transfurVariant.is(ChangedAddonTransfurVariants.PROTOTYPE)) {
-                    event.setCanceled(true);
-                }
-            }
-        }
-
-    }
-
     // Fields
     private final SimpleContainer inventory = new SimpleContainer(9);
     private final MenuProvider menuProvider = new MenuProvider() {
@@ -130,17 +80,14 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
             return PrototypeEntity.this.createMenu(i, inventory, player);
         }
     };
-
     private int harvestsTimes = 0;
     private DepositeType depositeType = DepositeType.BOTH;
     @Nullable
     private BlockPos targetChestPos = null;
-
     // Constructors
     public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
     }
-
     public PrototypeEntity(EntityType<PrototypeEntity> type, Level world) {
         super(type, world);
         xpReward = 0;
@@ -284,7 +231,6 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
         return ret;
     }
-
 
     @Override
     public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
@@ -448,10 +394,7 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
         if (this.getMainHandItem().isEmpty()) {
             return false;
-        } else if (this.getOffhandItem().isEmpty()) {
-            return false;
-        }
-        return true;
+        } else return !this.getOffhandItem().isEmpty();
     }
 
     public boolean isInventoryFull(Predicate<NonNullList<ItemStack>> listPredicate) {
@@ -617,7 +560,6 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         return null;
     }
 
-
     public void harvestCrop(ServerLevel level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
@@ -728,5 +670,57 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
     public boolean willDepositSeeds() {
         return this.depositeType == DepositeType.SEEDS || this.depositeType == DepositeType.BOTH;
+    }
+
+    // Enums
+    public enum DepositeType {
+        SEEDS(Tags.Items.SEEDS),
+        CROPS(Tags.Items.CROPS),
+        BOTH(Tags.Items.CROPS, Tags.Items.SEEDS);
+
+        final List<TagKey<Item>> tagKeys;
+
+        DepositeType(TagKey<Item> crops, TagKey<Item> seeds) {
+            this.tagKeys = List.of(crops, seeds);
+        }
+
+        DepositeType(TagKey<Item> typeTag) {
+            this.tagKeys = List.of(typeTag);
+        }
+
+        public List<TagKey<Item>> getTagKeys() {
+            return tagKeys;
+        }
+
+        public String getFormatedName() {
+            return name().substring(0, 1).toUpperCase() + name().substring(1);
+        }
+
+
+        public boolean isRightType(ItemStack stack) {
+            return this.tagKeys.stream().anyMatch(stack::is);
+        }
+
+        public DepositeType switchDepositeType() {
+            int next = (this.ordinal() + 1) % DepositeType.values().length;
+            return DepositeType.values()[next];
+        }
+    }
+
+    @Mod.EventBusSubscriber
+    public static class EventHandle {
+
+        @SubscribeEvent
+        public static void onFarmlandTrample(BlockEvent.FarmlandTrampleEvent event) {
+            if (event.getEntity() instanceof PrototypeEntity) {
+                event.setCanceled(true);
+            } else if (event.getEntity() instanceof Player player) {
+                TransfurVariantInstance<?> transfurVariant = ProcessTransfur.getPlayerTransfurVariant(player);
+                if (transfurVariant != null && transfurVariant.is(ChangedAddonTransfurVariants.PROTOTYPE)) {
+                    event.setCanceled(true);
+                }
+            }
+        }
+
     }
 }

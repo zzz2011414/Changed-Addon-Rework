@@ -51,31 +51,40 @@ import java.util.function.Function;
 public class PawsScanner extends Block {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty POWERED = LeverBlock.POWERED;
-
-
-    public enum LockType implements StringRepresentable {
-        HUMAN(),
-        TRANSFURRED();
-
-        @Override
-        public @NotNull String getSerializedName() {
-            return this.name().toLowerCase();
-        }
-    }
+    // Shapes por direção
+    protected static final VoxelShape SHAPE_NORTH = Shapes.or(
+            Block.box(1, 0, 3, 15, 0.75, 14),
+            Block.box(2.5, 0.75, 7.7, 13.5, 1, 12.95)
+    );
+    protected static final VoxelShape SHAPE_SOUTH = Shapes.or(
+            Block.box(1, 0, 2, 15, 0.75, 13),
+            Block.box(2.5, 0.75, 3.05, 13.5, 1, 8.3)
+    );
+    protected static final VoxelShape SHAPE_EAST = Shapes.or(
+            Block.box(2, 0, 1, 13, 0.75, 15),
+            Block.box(3.05, 0.75, 2.5, 8.3, 1, 13.5)
+    );
+    protected static final VoxelShape SHAPE_WEST = Shapes.or(
+            Block.box(3, 0, 1, 14, 0.75, 15),
+            Block.box(7.7, 0.75, 2.5, 12.95, 1, 13.5)
+    );
+    // Shapes por direção
+    protected static final VoxelShape PAWS_SCANNER_SHAPE_NORTH = Shapes.or(
+            Block.box(2.5, 0.75, 7.7, 13.5, 1, 12.95)
+    );
+    protected static final VoxelShape PAWS_SCANNER_SHAPE_SOUTH = Shapes.or(
+            Block.box(2.5, 0.75, 3.05, 13.5, 1, 8.3)
+    );
+    protected static final VoxelShape PAWS_SCANNER_SHAPE_EAST = Shapes.or(
+            Block.box(3.05, 0.75, 2.5, 8.3, 1, 13.5)
+    );
+    protected static final VoxelShape PAWS_SCANNER_SHAPE_WEST = Shapes.or(
+            Block.box(7.7, 0.75, 2.5, 12.95, 1, 13.5)
+    );
 
     public PawsScanner() {
         super(Properties.of(Material.METAL, MaterialColor.COLOR_BLACK).sound(SoundType.METAL).strength(3.0F, 3.0F).dynamicShape());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(POWERED, Boolean.FALSE));
-    }
-
-    @Override
-    protected @NotNull ImmutableMap<BlockState, VoxelShape> getShapeForEachState(@NotNull Function<BlockState, VoxelShape> p_152459_) {
-        return super.getShapeForEachState(p_152459_);
-    }
-
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
-        builder.add(POWERED, FACING);
     }
 
     protected static VoxelShape rotateShape(VoxelShape shape, Direction direction) {
@@ -99,28 +108,20 @@ public class PawsScanner extends Block {
         return buffer[0];
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderLayer() {
+        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.HAND_SCANNER.get(), renderType -> renderType == RenderType.cutout());
+    }
 
-    // Shapes por direção
-    protected static final VoxelShape SHAPE_NORTH = Shapes.or(
-            Block.box(1, 0, 3, 15, 0.75, 14),
-            Block.box(2.5, 0.75, 7.7, 13.5, 1, 12.95)
-    );
+    @Override
+    protected @NotNull ImmutableMap<BlockState, VoxelShape> getShapeForEachState(@NotNull Function<BlockState, VoxelShape> p_152459_) {
+        return super.getShapeForEachState(p_152459_);
+    }
 
-    protected static final VoxelShape SHAPE_SOUTH = Shapes.or(
-            Block.box(1, 0, 2, 15, 0.75, 13),
-            Block.box(2.5, 0.75, 3.05, 13.5, 1, 8.3)
-    );
-
-    protected static final VoxelShape SHAPE_EAST = Shapes.or(
-            Block.box(2, 0, 1, 13, 0.75, 15),
-            Block.box(3.05, 0.75, 2.5, 8.3, 1, 13.5)
-    );
-
-    protected static final VoxelShape SHAPE_WEST = Shapes.or(
-            Block.box(3, 0, 1, 14, 0.75, 15),
-            Block.box(7.7, 0.75, 2.5, 12.95, 1, 13.5)
-    );
-
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+        super.createBlockStateDefinition(builder);
+        builder.add(POWERED, FACING);
+    }
 
     @Override
     public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
@@ -131,24 +132,6 @@ public class PawsScanner extends Block {
             default -> SHAPE_NORTH;
         };
     }
-
-    // Shapes por direção
-    protected static final VoxelShape PAWS_SCANNER_SHAPE_NORTH = Shapes.or(
-            Block.box(2.5, 0.75, 7.7, 13.5, 1, 12.95)
-    );
-
-    protected static final VoxelShape PAWS_SCANNER_SHAPE_SOUTH = Shapes.or(
-            Block.box(2.5, 0.75, 3.05, 13.5, 1, 8.3)
-    );
-
-    protected static final VoxelShape PAWS_SCANNER_SHAPE_EAST = Shapes.or(
-            Block.box(3.05, 0.75, 2.5, 8.3, 1, 13.5)
-    );
-
-    protected static final VoxelShape PAWS_SCANNER_SHAPE_WEST = Shapes.or(
-            Block.box(7.7, 0.75, 2.5, 12.95, 1, 13.5)
-    );
-
 
     public @NotNull VoxelShape getShapeOfPawsScanner(BlockState state, @NotNull BlockGetter blockGetter, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return switch (state.getValue(FACING)) {
@@ -306,8 +289,13 @@ public class PawsScanner extends Block {
                 .setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void registerRenderLayer() {
-        ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.HAND_SCANNER.get(), renderType -> renderType == RenderType.cutout());
+    public enum LockType implements StringRepresentable {
+        HUMAN(),
+        TRANSFURRED();
+
+        @Override
+        public @NotNull String getSerializedName() {
+            return this.name().toLowerCase();
+        }
     }
 }

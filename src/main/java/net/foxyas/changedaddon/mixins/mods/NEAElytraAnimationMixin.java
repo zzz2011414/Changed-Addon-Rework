@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @RequiredMods("notenoughanimations")
 public class NEAElytraAnimationMixin {
     @Inject(method = "apply", at = @At("HEAD"), cancellable = true)
-    private void injectAvaliAnimation(AbstractClientPlayer entity, PlayerData data, PlayerModel<AbstractClientPlayer> model, BodyPart part, float delta, float tickCounter, CallbackInfo ci){
+    private void injectAvaliAnimation(AbstractClientPlayer entity, PlayerData data, PlayerModel<AbstractClientPlayer> model, BodyPart part, float delta, float tickCounter, CallbackInfo ci) {
         var tf = ProcessTransfur.getPlayerTransfurVariant(entity);
         if (tf != null && tf.is(ChangedAddonTransfurVariants.AVALI)) {
             float ticks = tickCounter;

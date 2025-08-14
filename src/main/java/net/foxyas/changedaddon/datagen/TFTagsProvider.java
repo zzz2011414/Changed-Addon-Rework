@@ -198,7 +198,6 @@ public class TFTagsProvider extends TagsProvider<TransfurVariant<?>> {
         }).add(ChangedTransfurVariants.LATEX_PURPLE_FOX.get(), LATEX_SQUID_TIGER_SHARK.get());
 
 
-
         tag(ChangedAddonTags.TransfurTypes.AQUATIC_DIET)
                 .addTag(ChangedAddonTags.TransfurTypes.AQUATIC_LIKE);
 
@@ -226,9 +225,9 @@ public class TFTagsProvider extends TagsProvider<TransfurVariant<?>> {
         tag(ChangedAddonTags.TransfurTypes.NO_DIET).add(REYN.get());
     }
 
-    protected TagAppender<TransfurVariant<?>> addAllMatching(TagAppender<TransfurVariant<?>> tag, Predicate<TransfurVariant<?>> predicate){
-        for(TransfurVariant<?> var : ChangedRegistry.TRANSFUR_VARIANT.get().getValues()){
-            if(predicate.test(var)) tag.add(var);
+    protected TagAppender<TransfurVariant<?>> addAllMatching(TagAppender<TransfurVariant<?>> tag, Predicate<TransfurVariant<?>> predicate) {
+        for (TransfurVariant<?> var : ChangedRegistry.TRANSFUR_VARIANT.get().getValues()) {
+            if (predicate.test(var)) tag.add(var);
         }
 
         return tag;

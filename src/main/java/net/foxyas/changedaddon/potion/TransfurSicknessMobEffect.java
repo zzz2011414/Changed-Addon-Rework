@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.potion;
 
 import net.ltxprogrammer.changed.init.ChangedAttributes;
@@ -10,13 +9,13 @@ import org.jetbrains.annotations.NotNull;
 
 public class TransfurSicknessMobEffect extends MobEffect {
 
-	public TransfurSicknessMobEffect() {
-		super(MobEffectCategory.HARMFUL, Color3.BLACK.toInt());
-		addAttributeModifier(ChangedAttributes.TRANSFUR_DAMAGE.get(),"d9eff2a7-bdff-4df7-b5dd-9a66e6133b1e",-0.4,AttributeModifier.Operation.ADDITION);
-	}
+    public TransfurSicknessMobEffect() {
+        super(MobEffectCategory.HARMFUL, Color3.BLACK.toInt());
+        addAttributeModifier(ChangedAttributes.TRANSFUR_DAMAGE.get(), "d9eff2a7-bdff-4df7-b5dd-9a66e6133b1e", -0.4, AttributeModifier.Operation.ADDITION);
+    }
 
-	@Override
-	public @NotNull String getDescriptionId() {
-		return "effect.changed_addon.transfur_sickness";
-	}
+    @Override
+    public @NotNull String getDescriptionId() {
+        return "effect.changed_addon.transfur_sickness";
+    }
 }

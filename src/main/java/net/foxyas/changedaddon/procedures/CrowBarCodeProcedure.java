@@ -74,7 +74,7 @@ public class CrowBarCodeProcedure {
         double sz;
         ItemStack CrowBar;
         CrowBar = new ItemStack(ChangedAddonItems.CROWBAR.get());
-        if (entity instanceof LivingEntity _livEnt  && _livEnt.getMainHandItem().getItem() == CrowBar.getItem()) {
+        if (entity instanceof LivingEntity _livEnt && _livEnt.getMainHandItem().getItem() == CrowBar.getItem()) {
             if (blockstate.is(BlockTags.create(new ResourceLocation("changed_addon:lab_doors")))) {
                 if (!(blockstate.getBlock().getStateDefinition().getProperty("open") instanceof BooleanProperty _getbp5 && blockstate.getValue(_getbp5))) {
                     sx = -2;

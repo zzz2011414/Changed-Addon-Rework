@@ -9,6 +9,6 @@ import net.minecraft.world.level.block.state.BlockState;
 public class DarkLatexPuddleBlockEntity extends BlockEntity implements NonLatexCoverableBlock {
 
     public DarkLatexPuddleBlockEntity(BlockPos position, BlockState state) {
-		super(ChangedAddonBlockEntities.DARK_LATEX_PUDDLE.get(), position, state);
-	}
+        super(ChangedAddonBlockEntities.DARK_LATEX_PUDDLE.get(), position, state);
+    }
 }

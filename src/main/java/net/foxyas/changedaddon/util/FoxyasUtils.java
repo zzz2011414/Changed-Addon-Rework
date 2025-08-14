@@ -23,7 +23,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.*;
@@ -43,7 +46,7 @@ public class FoxyasUtils {
     public static Stream<BlockPos> getBlockPositionsInSphere(BlockPos center, int radius) {
         return BlockPos.betweenClosedStream(
                 center.offset(-radius, -radius, -radius),
-                center.offset( radius,  radius,  radius)
+                center.offset(radius, radius, radius)
         ).filter(pos -> pos.distSqr(center) <= radius * radius);
     }
 
@@ -87,9 +90,10 @@ public class FoxyasUtils {
 
     /**
      * Checks if one entity (eyeEntity) can see another (targetToSee), using raycasting and FOV.
-     * @param eyeEntity The entity doing the looking.
+     *
+     * @param eyeEntity   The entity doing the looking.
      * @param targetToSee The target entity being looked at.
-     * @param fovDegrees Field of view angle in degrees (e.g., 90 means 45 degrees to each side).
+     * @param fovDegrees  Field of view angle in degrees (e.g., 90 means 45 degrees to each side).
      * @return true if visible and within FOV, false otherwise.
      */
     public static boolean canEntitySeeOther(LivingEntity eyeEntity, LivingEntity targetToSee, double fovDegrees) {
@@ -120,7 +124,8 @@ public class FoxyasUtils {
 
     /**
      * Verifica se eyeEntity consegue ver targetToSee com base na linha de visão.
-     * @param eyeEntity A entidade que está observando.
+     *
+     * @param eyeEntity   A entidade que está observando.
      * @param targetToSee A entidade que deve ser visível.
      * @return true se for visível, false se houver obstrução.
      */
@@ -286,7 +291,6 @@ public class FoxyasUtils {
             }
         }
     }
-
 
 
     public static void repairArmor(LivingEntity entity, int amountPerPiece) {
@@ -546,7 +550,7 @@ public class FoxyasUtils {
         float ageSin = Mth.sin(ageAdjusted * 3.1415927F * 0.5F);
         float ageCos = Mth.cos(ageAdjusted * 3.1415927F * 0.5F);
         float bpiSize = (self.getBasicPlayerInfo().getSize() - 1.0F) * 2.0F;
-        return (double) (Mth.lerp(Mth.lerp(1.0F - Mth.abs(Mth.positiveModulo(ageAdjusted, 2.0F) - 1.0F), ageSin * ageSin * ageSin * ageSin, 1.0F - ageCos * ageCos * ageCos * ageCos), 0.95F, 0.87F) + bpiSize);
+        return Mth.lerp(Mth.lerp(1.0F - Mth.abs(Mth.positiveModulo(ageAdjusted, 2.0F) - 1.0F), ageSin * ageSin * ageSin * ageSin, 1.0F - ageCos * ageCos * ageCos * ageCos), 0.95F, 0.87F) + bpiSize;
     }
 
     public static double getTorsoYOffset(ChangedEntity self, float scale) {

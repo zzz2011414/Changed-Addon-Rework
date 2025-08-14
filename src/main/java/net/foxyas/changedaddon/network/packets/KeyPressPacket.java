@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.network.packets;
 
-import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.abilities.PsychicGrab;
+import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,7 +26,7 @@ public record KeyPressPacket(int keyCode) {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
-            if(player == null) return;
+            if (player == null) return;
 
             int key = msg.keyCode;
             ProcessTransfur.getPlayerTransfurVariantSafe(player).ifPresent((variantInstance -> {

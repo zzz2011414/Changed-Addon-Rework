@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.item;
 
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
@@ -17,42 +16,42 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 
 public class SyringeWithLitixCammoniaItem extends Item implements SpecializedAnimations {
-	public SyringeWithLitixCammoniaItem() {
-		super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).durability(2)
-				.rarity(Rarity.UNCOMMON)
-		);
-	}
+    public SyringeWithLitixCammoniaItem() {
+        super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).durability(2)
+                .rarity(Rarity.UNCOMMON)
+        );
+    }
 
-	@Override
-	public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
-		return UseAnim.NONE;
-	}
+    @Override
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
+        return UseAnim.NONE;
+    }
 
-	@Override
-	public int getUseDuration(@NotNull ItemStack itemstack) {
-		return 20;
-	}
+    @Override
+    public int getUseDuration(@NotNull ItemStack itemstack) {
+        return 20;
+    }
 
-	@Override
-	public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
-		ItemStack retval = super.finishUsingItem(itemstack, world, entity);
-		double x = entity.getX();
-		double y = entity.getY();
-		double z = entity.getZ();
+    @Override
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
+        ItemStack retval = super.finishUsingItem(itemstack, world, entity);
+        double x = entity.getX();
+        double y = entity.getY();
+        double z = entity.getZ();
 
-		SyringewithlitixcammoniaPlayerFinishesUsingItemProcedure.execute(world, x, y, z, entity);
-		return retval;
-	}
+        SyringewithlitixcammoniaPlayerFinishesUsingItemProcedure.execute(world, x, y, z, entity);
+        return retval;
+    }
 
-	@Override
-	public boolean hurtEnemy(@NotNull ItemStack itemstack, @NotNull LivingEntity entity, @NotNull LivingEntity sourceentity) {
-		boolean retval = super.hurtEnemy(itemstack, entity, sourceentity);
-		SyringeWithLitixCammoniaLivingEntityIsHitWithItemProcedure.execute(entity, sourceentity, itemstack);
-		return retval;
-	}
+    @Override
+    public boolean hurtEnemy(@NotNull ItemStack itemstack, @NotNull LivingEntity entity, @NotNull LivingEntity sourceentity) {
+        boolean retval = super.hurtEnemy(itemstack, entity, sourceentity);
+        SyringeWithLitixCammoniaLivingEntityIsHitWithItemProcedure.execute(entity, sourceentity, itemstack);
+        return retval;
+    }
 
-	@Nullable
-	public SpecializedAnimations.AnimationHandler getAnimationHandler() {
-		return new Syringe.SyringeAnimation(this);
-	}
+    @Nullable
+    public SpecializedAnimations.AnimationHandler getAnimationHandler() {
+        return new Syringe.SyringeAnimation(this);
+    }
 }

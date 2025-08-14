@@ -28,153 +28,152 @@ import net.minecraft.world.entity.player.Player;
 import java.util.Optional;
 
 public class CarryAbility extends SimpleAbility {
-	public CarryAbility() {
-		super();
-	}
+    public CarryAbility() {
+        super();
+    }
 
-	@Override
-	public TranslatableComponent getAbilityName(IAbstractChangedEntity entity) {
-		return new TranslatableComponent("changed_addon.ability.carry");
-	}
+    public static boolean Spectator(Entity entity) {
+        return entity instanceof Player player && player.isSpectator();
+    }
 
-	public ResourceLocation getTexture(IAbstractChangedEntity entity) {
-		return new ResourceLocation("changed_addon:textures/screens/carry_ability.png");
-	}
+    public static void SoundPlay(Player player) {
+        player.level.playSound(null, player.blockPosition(), ChangedSounds.BOW2, SoundSource.PLAYERS, 2.5f, 1.0f);
+    }
 
-	@Override
-	public UseType getUseType(IAbstractChangedEntity entity) {
-		return UseType.INSTANT;
-	}
+    private static void syncMount(Player player) {
+        if (!player.level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.send(new ClientboundSetPassengersPacket(player));
+            serverPlayer.setDeltaMovement(serverPlayer.getLookAngle().scale(1.05));
+            SoundPlay(serverPlayer);
+        }
+    }
 
-	@Override
-	public int getCoolDown(IAbstractChangedEntity entity) {
-		return 5;
-	}
+    private static void syncMount(Player player, Player player2) {
+        if (!player.level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.send(new ClientboundSetPassengersPacket(player));
+            serverPlayer.setDeltaMovement(player2.getLookAngle().scale(1.05));
+            SoundPlay(serverPlayer);
+        }
+    }
 
-	@Override
-	public boolean canUse(IAbstractChangedEntity entity) {
-		if (Spectator(entity.getEntity()))
-			return false;
-		Optional<TransfurVariant<?>> variant = Optional.ofNullable(entity.getTransfurVariantInstance()).map(TransfurVariantInstance::getParent);
-		return variant.filter(
-				v -> v.is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant()) || v.is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant()) || v.is(ChangedAddonTransfurVariants.Gendered.ORGANIC_SNOW_LEOPARD.getFemaleVariant())
-						|| v.is(ChangedAddonTransfurVariants.Gendered.ORGANIC_SNOW_LEOPARD.getMaleVariant()) || v.is(ChangedAddonTransfurVariants.Gendered.PURO_KIND.getFemaleVariant())
-						|| v.is(ChangedAddonTransfurVariants.Gendered.PURO_KIND.getMaleVariant()) || v.is(ChangedAddonTags.TransfurTypes.ABLE_TO_CARRY))
-				.isPresent();
-	}
+    private static void syncMountNoMotion(Player player) {
+        if (!player.level.isClientSide && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.connection.send(new ClientboundSetPassengersPacket(player));
+            SoundPlay(serverPlayer);
+        }
+    }
 
-	@Override
-	public void startUsing(IAbstractChangedEntity entity) {
-		super.startUsing(entity);
-		Run(entity.getEntity());
-	}
+    public static void SafeRemove(Entity mainEntity) {
+        if (mainEntity.getFirstPassenger() != null) {
+            mainEntity.getFirstPassenger().stopRiding();
+        }
+    }
 
-	@Override
-	public void onRemove(IAbstractChangedEntity entity) {
-		super.onRemove(entity);
-		SafeRemove(entity.getEntity());
-	}
+    @Override
+    public TranslatableComponent getAbilityName(IAbstractChangedEntity entity) {
+        return new TranslatableComponent("changed_addon.ability.carry");
+    }
 
-	public static boolean Spectator(Entity entity) {
-		return entity instanceof Player player && player.isSpectator();
-	}
+    public ResourceLocation getTexture(IAbstractChangedEntity entity) {
+        return new ResourceLocation("changed_addon:textures/screens/carry_ability.png");
+    }
 
-	public Entity CarryTarget(Player player) {
-		return PlayerUtil.getEntityPlayerLookingAt(player, 4);
-	}
+    @Override
+    public UseType getUseType(IAbstractChangedEntity entity) {
+        return UseType.INSTANT;
+    }
 
-	public boolean isPossibleToCarry(LivingEntity entity) {
-		if (entity instanceof Player player){
-			var variant = ProcessTransfur.getPlayerTransfurVariant(player);
-			if (variant != null) {
-				var ability = variant.getAbilityInstance(ChangedAbilities.GRAB_ENTITY_ABILITY.get());
-				if (ability != null
-						&& ability.suited
-						&& ability.grabbedHasControl) {
-					return false;
-				}
-			}
-		}
-		return GrabEntityAbility.getGrabber(entity) == null;
-	}
+    @Override
+    public int getCoolDown(IAbstractChangedEntity entity) {
+        return 5;
+    }
 
-	private void Run(Entity mainEntity) {
-		if (!(mainEntity instanceof Player player))
-			return;
-		Entity carriedEntity = player.getFirstPassenger();
-		if (carriedEntity != null) {
-			boolean isShifting = player.isShiftKeyDown();
-			carriedEntity.stopRiding();
-			syncMount(player);
-			if (carriedEntity instanceof Player) {
-				if (isShifting) {
-					syncMountNoMotion((Player) carriedEntity);
-				} else {
-					syncMount((Player) carriedEntity, player);
-				}
-			}
-			if (!isShifting) {
-				carriedEntity.setDeltaMovement(player.getLookAngle().scale(1.05));
-				carriedEntity.hasImpulse = true;
-				if (!player.level.isClientSide()) {
-					((ServerLevel) player.level).getChunkSource().broadcast(carriedEntity, new ClientboundSetEntityMotionPacket(carriedEntity));
-				}
-			}
-			return;
-		}
-		if (player.isSpectator())
-			return;
-		Entity carryTarget = this.CarryTarget(player);
-		if (carryTarget == null)
-			return;
-		if (carryTarget instanceof LivingEntity p && !(this.isPossibleToCarry(p))) return;
+    @Override
+    public boolean canUse(IAbstractChangedEntity entity) {
+        if (Spectator(entity.getEntity()))
+            return false;
+        Optional<TransfurVariant<?>> variant = Optional.ofNullable(entity.getTransfurVariantInstance()).map(TransfurVariantInstance::getParent);
+        return variant.filter(
+                        v -> v.is(ChangedAddonTransfurVariants.Gendered.EXP2.getFemaleVariant()) || v.is(ChangedAddonTransfurVariants.Gendered.EXP2.getMaleVariant()) || v.is(ChangedAddonTransfurVariants.Gendered.ORGANIC_SNOW_LEOPARD.getFemaleVariant())
+                                || v.is(ChangedAddonTransfurVariants.Gendered.ORGANIC_SNOW_LEOPARD.getMaleVariant()) || v.is(ChangedAddonTransfurVariants.Gendered.PURO_KIND.getFemaleVariant())
+                                || v.is(ChangedAddonTransfurVariants.Gendered.PURO_KIND.getMaleVariant()) || v.is(ChangedAddonTags.TransfurTypes.ABLE_TO_CARRY))
+                .isPresent();
+    }
 
-		if (carryTarget instanceof WhiteLatexCentaur || (carryTarget instanceof Player p && ProcessTransfur.getPlayerTransfurVariant(p) != null && ProcessTransfur.getPlayerTransfurVariant(p).is(ChangedTransfurVariants.WHITE_LATEX_CENTAUR.get()))) {
-			player.displayClientMessage(new TranslatableComponent("changedaddon.warn.cant_carry", carryTarget.getDisplayName()), true);
-			return;
-		}
-		if (carryTarget instanceof Player carryPlayer && carryPlayer.isCreative() && !player.isCreative())
-			return;
-		if (carryTarget.getType().is(ChangedTags.EntityTypes.HUMANOIDS) || carryTarget.getType().is(ChangedAddonTags.EntityTypes.CAN_CARRY)) {
-			if (carryTarget.startRiding(player, true)) {
-				syncMount(player);
-				if (carryTarget instanceof Player)
-					syncMount((Player) carryTarget);
-			}
-		}
-	}
+    @Override
+    public void startUsing(IAbstractChangedEntity entity) {
+        super.startUsing(entity);
+        Run(entity.getEntity());
+    }
 
-	public static void SoundPlay(Player player) {
-		player.level.playSound(null, player.blockPosition(), ChangedSounds.BOW2, SoundSource.PLAYERS, 2.5f, 1.0f);
-	}
+    @Override
+    public void onRemove(IAbstractChangedEntity entity) {
+        super.onRemove(entity);
+        SafeRemove(entity.getEntity());
+    }
 
-	private static void syncMount(Player player) {
-		if (!player.level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-			serverPlayer.connection.send(new ClientboundSetPassengersPacket(player));
-			serverPlayer.setDeltaMovement(serverPlayer.getLookAngle().scale(1.05));
-			SoundPlay(serverPlayer);
-		}
-	}
+    public Entity CarryTarget(Player player) {
+        return PlayerUtil.getEntityPlayerLookingAt(player, 4);
+    }
 
-	private static void syncMount(Player player, Player player2) {
-		if (!player.level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-			serverPlayer.connection.send(new ClientboundSetPassengersPacket(player));
-			serverPlayer.setDeltaMovement(player2.getLookAngle().scale(1.05));
-			SoundPlay(serverPlayer);
-		}
-	}
+    public boolean isPossibleToCarry(LivingEntity entity) {
+        if (entity instanceof Player player) {
+            var variant = ProcessTransfur.getPlayerTransfurVariant(player);
+            if (variant != null) {
+                var ability = variant.getAbilityInstance(ChangedAbilities.GRAB_ENTITY_ABILITY.get());
+                if (ability != null
+                        && ability.suited
+                        && ability.grabbedHasControl) {
+                    return false;
+                }
+            }
+        }
+        return GrabEntityAbility.getGrabber(entity) == null;
+    }
 
+    private void Run(Entity mainEntity) {
+        if (!(mainEntity instanceof Player player))
+            return;
+        Entity carriedEntity = player.getFirstPassenger();
+        if (carriedEntity != null) {
+            boolean isShifting = player.isShiftKeyDown();
+            carriedEntity.stopRiding();
+            syncMount(player);
+            if (carriedEntity instanceof Player) {
+                if (isShifting) {
+                    syncMountNoMotion((Player) carriedEntity);
+                } else {
+                    syncMount((Player) carriedEntity, player);
+                }
+            }
+            if (!isShifting) {
+                carriedEntity.setDeltaMovement(player.getLookAngle().scale(1.05));
+                carriedEntity.hasImpulse = true;
+                if (!player.level.isClientSide()) {
+                    ((ServerLevel) player.level).getChunkSource().broadcast(carriedEntity, new ClientboundSetEntityMotionPacket(carriedEntity));
+                }
+            }
+            return;
+        }
+        if (player.isSpectator())
+            return;
+        Entity carryTarget = this.CarryTarget(player);
+        if (carryTarget == null)
+            return;
+        if (carryTarget instanceof LivingEntity p && !(this.isPossibleToCarry(p))) return;
 
-	private static void syncMountNoMotion(Player player) {
-		if (!player.level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-			serverPlayer.connection.send(new ClientboundSetPassengersPacket(player));
-			SoundPlay(serverPlayer);
-		}
-	}
-
-	public static void SafeRemove(Entity mainEntity) {
-		if (mainEntity.getFirstPassenger() != null) {
-			mainEntity.getFirstPassenger().stopRiding();
-		}
-	}
+        if (carryTarget instanceof WhiteLatexCentaur || (carryTarget instanceof Player p && ProcessTransfur.getPlayerTransfurVariant(p) != null && ProcessTransfur.getPlayerTransfurVariant(p).is(ChangedTransfurVariants.WHITE_LATEX_CENTAUR.get()))) {
+            player.displayClientMessage(new TranslatableComponent("changedaddon.warn.cant_carry", carryTarget.getDisplayName()), true);
+            return;
+        }
+        if (carryTarget instanceof Player carryPlayer && carryPlayer.isCreative() && !player.isCreative())
+            return;
+        if (carryTarget.getType().is(ChangedTags.EntityTypes.HUMANOIDS) || carryTarget.getType().is(ChangedAddonTags.EntityTypes.CAN_CARRY)) {
+            if (carryTarget.startRiding(player, true)) {
+                syncMount(player);
+                if (carryTarget instanceof Player)
+                    syncMount((Player) carryTarget);
+            }
+        }
+    }
 }

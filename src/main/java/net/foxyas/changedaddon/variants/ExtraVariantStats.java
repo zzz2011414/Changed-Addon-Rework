@@ -1,15 +1,5 @@
 package net.foxyas.changedaddon.variants;
 
-import net.ltxprogrammer.changed.entity.ChangedEntity;
-import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
-import net.ltxprogrammer.changed.process.ProcessTransfur;
-import net.ltxprogrammer.changed.util.Color3;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.Set;
-
 public interface ExtraVariantStats {
 
     // Variable Set By Entity

@@ -4,9 +4,12 @@ import net.minecraft.network.FriendlyByteBuf;
 
 public class ServerboundProgressFTKCPacket {
 
-    public ServerboundProgressFTKCPacket(){}
+    public ServerboundProgressFTKCPacket() {
+    }
 
-    public ServerboundProgressFTKCPacket(FriendlyByteBuf buf){}
+    public ServerboundProgressFTKCPacket(FriendlyByteBuf buf) {
+    }
 
-    public void encode(FriendlyByteBuf buf){}
+    public void encode(FriendlyByteBuf buf) {
+    }
 }

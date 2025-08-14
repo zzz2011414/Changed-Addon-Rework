@@ -29,8 +29,10 @@ public class AccessoryEntityProvider implements DataProvider {
 
     private static final Logger LOGGER = LogUtils.getLogger();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private final DataGenerator generator;
+    // The Changed Mod Objects are registered too late soo is need to make static lists a method
+    private static AccessorySlotType[] humanoidSlots;
     protected final String modId;
+    private final DataGenerator generator;
     private final Map<String, Appender> appenders = new HashMap<>();
 
     public AccessoryEntityProvider(DataGenerator generator) {
@@ -40,6 +42,11 @@ public class AccessoryEntityProvider implements DataProvider {
     public AccessoryEntityProvider(DataGenerator generator, String modId) {
         this.generator = generator;
         this.modId = modId;
+    }
+
+    public static AccessorySlotType[] getHumanoidSlots() {
+        if (humanoidSlots == null) humanoidSlots = new AccessorySlotType[]{BODY.get(), FULL_BODY.get(), LEGS.get()};
+        return humanoidSlots;
     }
 
     @Override
@@ -74,14 +81,6 @@ public class AccessoryEntityProvider implements DataProvider {
                 .entities(ChangedAddonEntities.getAddonHumanoidChangedEntities().toArray(new EntityType[0]))
                 .slots(getHumanoidSlots());
     }
-
-    // The Changed Mod Objects are registered too late soo is need to make static lists a method
-    private static AccessorySlotType[] humanoidSlots;
-    public static AccessorySlotType[] getHumanoidSlots() {
-        if(humanoidSlots == null) humanoidSlots = new AccessorySlotType[]{BODY.get(), FULL_BODY.get(), LEGS.get()};
-        return humanoidSlots;
-    }
-
 
     private Path createPath(Path base, String fileName) {
         return base.resolve("data/" + modId + "/accessories/entities/" + fileName + ".json");

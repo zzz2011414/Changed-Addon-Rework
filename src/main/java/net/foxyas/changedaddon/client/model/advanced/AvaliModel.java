@@ -37,6 +37,7 @@ public class AvaliModel extends AdvancedHumanoidModel<AvaliEntity> implements Ad
     private final ModelPart RightLeg;
     private final ModelPart LeftLeg;
     private final HumanoidAnimator<AvaliEntity, AvaliModel> animator;
+
     public AvaliModel(ModelPart root) {
         super(root);
         this.Head = root.getChild("Head");

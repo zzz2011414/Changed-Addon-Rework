@@ -84,9 +84,9 @@ public class AdvancedHearingAbility extends SimpleAbility {
                 living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 20 * 10), User);
                 if (living instanceof MobAccessor mobAccessor) {
                     if (User instanceof Player player) {
-                    	if (mobAccessor.callGetAmbientSound() != null) {
-							living.getLevel().playSound(player, living, mobAccessor.callGetAmbientSound(), SoundSource.AMBIENT, 2f, 1f);
-                    	}
+                        if (mobAccessor.callGetAmbientSound() != null) {
+                            living.getLevel().playSound(player, living, mobAccessor.callGetAmbientSound(), SoundSource.AMBIENT, 2f, 1f);
+                        }
                     }
                 }
             }

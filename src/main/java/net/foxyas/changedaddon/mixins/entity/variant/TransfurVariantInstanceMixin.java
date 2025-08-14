@@ -24,21 +24,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class TransfurVariantInstanceMixin {
 
     @Shadow
+    @Final
+    protected TransfurVariant<ChangedEntity> parent;
+    @Shadow
+    @Final
+    private Player host;
+
+    @Shadow
     public abstract TransfurVariant<?> getParent();
 
     @Shadow
     public abstract boolean shouldApplyAbilities();
 
     @Shadow
-    @Final
-    protected TransfurVariant<ChangedEntity> parent;
-
-    @Shadow
     public abstract ChangedEntity getChangedEntity();
-
-    @Shadow
-    @Final
-    private Player host;
 
     @Inject(method = "canWear", at = @At("HEAD"), cancellable = true)
     private void negateArmor(Player player, ItemStack itemStack, EquipmentSlot slot, CallbackInfoReturnable<Boolean> cir) {
@@ -96,7 +95,7 @@ public abstract class TransfurVariantInstanceMixin {
 
 
     @Unique
-    private void loadTransfurColorData(CompoundTag tag){
+    private void loadTransfurColorData(CompoundTag tag) {
         if (this.getChangedEntity() instanceof AvaliEntity avaliEntity) {
             avaliEntity.readColors(tag);
         }

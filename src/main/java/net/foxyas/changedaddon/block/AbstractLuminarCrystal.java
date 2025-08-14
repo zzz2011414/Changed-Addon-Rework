@@ -343,11 +343,7 @@ public class AbstractLuminarCrystal {
         @Override
         public boolean canBeReplaced(@NotNull BlockState thisState, @NotNull Fluid fluid) {
             if (fluid instanceof LavaFluid || (fluid instanceof WaterFluid)) {
-                if (thisState.getValue(HEARTED)) {
-                    return false;
-                } else {
-                    return true;
-                }
+                return !thisState.getValue(HEARTED);
             }
             return super.canBeReplaced(thisState, fluid);
         }

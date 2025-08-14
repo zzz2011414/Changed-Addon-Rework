@@ -83,7 +83,7 @@ public class ApplyBonemealGoal extends Goal {
     public void tick() {
         if (targetPos == null) return;
         navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
-        if (entity.blockPosition().closerThan(targetPos, 1)) {
+        if (entity.blockPosition().closerThan(targetPos, 4)) {
             applyBoneMeal(targetPos);
             targetPos = null; // reset target after applying
         }
@@ -142,7 +142,7 @@ public class ApplyBonemealGoal extends Goal {
         if (!(block instanceof BonemealableBlock fertilizable)
                 || !fertilizable.isValidBonemealTarget(level, pos, state, false)) return;
 
-        this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(pos).subtract(0,1,0));
+        this.entity.lookAt(EntityAnchorArgument.Anchor.FEET, Vec3.atCenterOf(pos).subtract(0, 1, 0));
         entity.swing(entity.isLeftHanded() ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
         fertilizable.performBonemeal(serverLevel, level.getRandom(), pos, state);
         serverLevel.levelEvent(1505, targetPos, 1); // Bone meal particles

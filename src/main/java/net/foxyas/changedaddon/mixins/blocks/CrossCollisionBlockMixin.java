@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CrossCollisionBlock.class)
-public abstract class CrossCollisionBlockMixin{
+public abstract class CrossCollisionBlockMixin {
 
     @Inject(method = "getCollisionShape", at = @At("HEAD"), cancellable = true)
     private void getCollisionModShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
@@ -49,7 +49,7 @@ public abstract class CrossCollisionBlockMixin{
                                 if (player.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
                                         && player.getItemBySlot(EquipmentSlot.CHEST).isEmpty()
                                         && player.getItemBySlot(EquipmentSlot.LEGS).isEmpty()
-                                        && player.getItemBySlot(EquipmentSlot.FEET).isEmpty()){
+                                        && player.getItemBySlot(EquipmentSlot.FEET).isEmpty()) {
                                     if (Instance.isActivate()) {
                                         // Se for um jogador Latex, permite que ele atravesse a barra de ferro (forma vazia)
                                         cir.setReturnValue(Shapes.empty()); // Colisão desativada para jogadores Latex

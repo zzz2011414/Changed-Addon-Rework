@@ -14,11 +14,11 @@ public class ServerTransfurVariantInstanceMixin {
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/ai/navigation/PathNavigation;moveTo(Lnet/minecraft/world/level/pathfinder/Path;D)Z",
-                    shift = At.Shift.BY , remap = true),
+                    shift = At.Shift.BY, remap = true),
             cancellable = true)
     private void tickInjector(CallbackInfo ci) {
         ServerTransfurVariantInstance<?> self = (ServerTransfurVariantInstance<?>) (Object) this;
-        if (self.getHost().hasEffect(MobEffects.HERO_OF_THE_VILLAGE)){
+        if (self.getHost().hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) {
             ci.cancel();
         }
     }
@@ -31,7 +31,7 @@ public class ServerTransfurVariantInstanceMixin {
             cancellable = true)
     private void tickInjectorSpeedModifier(CallbackInfo ci) {
         ServerTransfurVariantInstance<?> self = (ServerTransfurVariantInstance<?>) (Object) this;
-        if (self.getHost().hasEffect(MobEffects.HERO_OF_THE_VILLAGE)){
+        if (self.getHost().hasEffect(MobEffects.HERO_OF_THE_VILLAGE)) {
             ci.cancel();
         }
     }

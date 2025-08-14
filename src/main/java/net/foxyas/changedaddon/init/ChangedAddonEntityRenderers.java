@@ -5,7 +5,6 @@ import net.foxyas.changedaddon.client.renderer.advanced.*;
 import net.foxyas.changedaddon.client.renderer.basic.*;
 import net.foxyas.changedaddon.client.renderer.mobs.ErikRenderer;
 import net.foxyas.changedaddon.client.renderer.mobs.FoxyasRenderer;
-import net.foxyas.changedaddon.client.renderer.advanced.PrototypeRenderer;
 import net.ltxprogrammer.changed.client.RegisterComplexRenderersEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;

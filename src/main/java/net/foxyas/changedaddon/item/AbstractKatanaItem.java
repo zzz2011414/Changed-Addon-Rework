@@ -1,29 +1,20 @@
 package net.foxyas.changedaddon.item;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.ltxprogrammer.changed.init.ChangedEffects;
 import net.ltxprogrammer.changed.init.ChangedParticles;
 import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.ltxprogrammer.changed.item.SpecializedItemRendering;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
-import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractKatanaItem extends SwordItem implements SpecializedItemRendering {
@@ -37,6 +28,15 @@ public abstract class AbstractKatanaItem extends SwordItem implements Specialize
         return ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
     }*/
 
+    public static void applyShockEffect(Entity entity, Entity sourceentity) {
+        if (entity == null) {
+            return;
+        }
+        LivingEntity enemy = (LivingEntity) entity;
+        ChangedSounds.broadcastSound(enemy, ChangedSounds.PARALYZE1, 1.0F, 1.0F);
+        enemy.addEffect(new MobEffectInstance(ChangedEffects.SHOCK, 6, 0, false, false, true));
+    }
+
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
         if (entity instanceof Player player) {
@@ -48,7 +48,6 @@ public abstract class AbstractKatanaItem extends SwordItem implements Specialize
 
         return super.canEquip(stack, armorType, entity);
     }
-
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack itemstack, @NotNull LivingEntity entity, @NotNull LivingEntity sourceentity) {
@@ -72,15 +71,6 @@ public abstract class AbstractKatanaItem extends SwordItem implements Specialize
     @Override
     public @NotNull AABB getSweepHitBox(@NotNull ItemStack stack, @NotNull Player player, @NotNull Entity target) {
         return super.getSweepHitBox(stack, player, target);
-    }
-
-    public static void applyShockEffect(Entity entity, Entity sourceentity) {
-        if (entity == null) {
-            return;
-        }
-        LivingEntity enemy = (LivingEntity) entity;
-        ChangedSounds.broadcastSound(enemy, ChangedSounds.PARALYZE1, 1.0F, 1.0F);
-        enemy.addEffect(new MobEffectInstance(ChangedEffects.SHOCK, 6, 0, false, false, true));
     }
 
     public void spawnElectricSwingParticle(LivingEntity source, float attackRange) {

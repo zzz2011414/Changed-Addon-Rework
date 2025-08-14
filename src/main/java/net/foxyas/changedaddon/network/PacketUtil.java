@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 @ParametersAreNonnullByDefault
 public class PacketUtil {
 
-    public static void playSound(ServerLevel level, Predicate<ServerPlayer> send, double x, double y, double z, SoundEvent sound, SoundSource soundSource, float volume, float pitch){
+    public static void playSound(ServerLevel level, Predicate<ServerPlayer> send, double x, double y, double z, SoundEvent sound, SoundSource soundSource, float volume, float pitch) {
         PlaySoundAtEntityEvent event = ForgeEventFactory.onPlaySoundAtEntity(null, sound, soundSource, volume, pitch);
         if (event.isCanceled() || event.getSound() == null) return;
 
@@ -29,7 +29,7 @@ public class PacketUtil {
         broadcast(level, send.and(distance(x, y, z, volume > 1 ? volume * 16 : 16)), level.dimension(), new ClientboundSoundPacket(sound, soundSource, x, y, z, volume, pitch));
     }
 
-    public static Predicate<ServerPlayer> distance(double x, double y, double z, double distance){
+    public static Predicate<ServerPlayer> distance(double x, double y, double z, double distance) {
         return player -> {
             double dX = x - player.getX();
             double dY = y - player.getY();
@@ -38,13 +38,13 @@ public class PacketUtil {
         };
     }
 
-    public static void broadcast(ServerLevel level, Predicate<ServerPlayer> send, ResourceKey<Level> pDimension, Packet<?> packet){
+    public static void broadcast(ServerLevel level, Predicate<ServerPlayer> send, ResourceKey<Level> pDimension, Packet<?> packet) {
         List<ServerPlayer> players = level.getServer().getPlayerList().getPlayers();
 
         for (ServerPlayer serverplayer : players) {
-            if(serverplayer.level.dimension() != pDimension) continue;
+            if (serverplayer.level.dimension() != pDimension) continue;
 
-            if(send.test(serverplayer)) serverplayer.connection.send(packet);
+            if (send.test(serverplayer)) serverplayer.connection.send(packet);
         }
     }
 }

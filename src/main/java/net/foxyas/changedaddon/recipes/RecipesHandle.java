@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.recipes;
 
-import net.foxyas.changedaddon.block.AdvancedUnifuserBlock;
 import net.foxyas.changedaddon.block.AdvancedCatalyzerBlock;
+import net.foxyas.changedaddon.block.AdvancedUnifuserBlock;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.SimpleContainer;

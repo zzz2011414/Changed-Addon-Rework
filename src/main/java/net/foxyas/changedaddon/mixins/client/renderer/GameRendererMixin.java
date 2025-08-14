@@ -29,12 +29,10 @@ public abstract class GameRendererMixin {
     private Minecraft minecraft;
     @Unique
     private TransfurVariantVision changed_Addon_Rework$transfurVariantVision;
-
-    @Shadow
-    public abstract void render(float p_109094_, long p_109095_, boolean p_109096_);
-
     @Unique
     private PostChain changed_Addon_Rework$colorblindChain;
+    @Unique
+    private int changed_Addon_Rework$prevWidth = -1, changed_Addon_Rework$prevHeight = -1;
 
     //@Unique
     //private PostChain changed_Addon_Rework$lightBloomEffectChain;
@@ -42,9 +40,8 @@ public abstract class GameRendererMixin {
     //@Unique
     //private PostChain changed_Addon_Rework$MotionBlurEffectChain;
 
-    @Unique
-    private int changed_Addon_Rework$prevWidth = -1, changed_Addon_Rework$prevHeight = -1;
-
+    @Shadow
+    public abstract void render(float p_109094_, long p_109095_, boolean p_109096_);
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V", shift = At.Shift.AFTER))
     private void verdant$addColorblindFilter(float partialTicks, long nanoTime, boolean renderLevel, CallbackInfo ci) {

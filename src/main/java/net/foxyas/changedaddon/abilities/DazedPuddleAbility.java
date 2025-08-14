@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class DazedPuddleAbility extends SimpleAbility {
 
-    public final AttributeModifier PuddleReachAttributeMod = new AttributeModifier(UUID.fromString("393f142c-fcec-4a4f-a233-6c86b64f6468"),"ReachPuddleMod", -0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    public final AttributeModifier PuddleReachAttributeMod = new AttributeModifier(UUID.fromString("393f142c-fcec-4a4f-a233-6c86b64f6468"), "ReachPuddleMod", -0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     @Override
     public TranslatableComponent getAbilityName(IAbstractChangedEntity entity) {
@@ -34,6 +34,7 @@ public class DazedPuddleAbility extends SimpleAbility {
     public ResourceLocation getTexture(IAbstractChangedEntity entity) {
         return new ResourceLocation("changed:textures/abilities/puddle.png");
     }
+
     @Override
     public void startUsing(IAbstractChangedEntity entity) {
         if (entity.getChangedEntity() instanceof DazedLatexEntity dazedLatexEntity) {
@@ -45,14 +46,14 @@ public class DazedPuddleAbility extends SimpleAbility {
     @Override
     public void tick(IAbstractChangedEntity entity) {
         entity.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 2, false, false, false));
-        entity.getEntity().addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN,5,1,false,false,false));
-        if (entity.getEntity() instanceof Player player){
+        entity.getEntity().addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 5, 1, false, false, false));
+        if (entity.getEntity() instanceof Player player) {
             if (player.getAttribute(ForgeMod.REACH_DISTANCE.get()) != null
-                    && !player.getAttribute(ForgeMod.REACH_DISTANCE.get()).hasModifier(PuddleReachAttributeMod)){
+                    && !player.getAttribute(ForgeMod.REACH_DISTANCE.get()).hasModifier(PuddleReachAttributeMod)) {
                 player.getAttribute(ForgeMod.REACH_DISTANCE.get()).addTransientModifier(PuddleReachAttributeMod);
-            } 
+            }
             if (player.getAttribute(ForgeMod.ATTACK_RANGE.get()) != null
-                    && !player.getAttribute(ForgeMod.ATTACK_RANGE.get()).hasModifier(PuddleReachAttributeMod)){
+                    && !player.getAttribute(ForgeMod.ATTACK_RANGE.get()).hasModifier(PuddleReachAttributeMod)) {
                 player.getAttribute(ForgeMod.ATTACK_RANGE.get()).addTransientModifier(PuddleReachAttributeMod);
             }
         }
@@ -78,13 +79,13 @@ public class DazedPuddleAbility extends SimpleAbility {
         if (entity.getChangedEntity() instanceof DazedLatexEntity dazedLatexEntity) {
             dazedLatexEntity.setMorphed(false);
         }
-        if (entity.getEntity() instanceof Player player){
+        if (entity.getEntity() instanceof Player player) {
             if (player.getAttribute(ForgeMod.REACH_DISTANCE.get()) != null
-                    && player.getAttribute(ForgeMod.REACH_DISTANCE.get()).hasModifier(PuddleReachAttributeMod)){
+                    && player.getAttribute(ForgeMod.REACH_DISTANCE.get()).hasModifier(PuddleReachAttributeMod)) {
                 player.getAttribute(ForgeMod.REACH_DISTANCE.get()).removeModifier(PuddleReachAttributeMod);
-            } 
+            }
             if (player.getAttribute(ForgeMod.ATTACK_RANGE.get()) != null
-                    && player.getAttribute(ForgeMod.ATTACK_RANGE.get()).hasModifier(PuddleReachAttributeMod)){
+                    && player.getAttribute(ForgeMod.ATTACK_RANGE.get()).hasModifier(PuddleReachAttributeMod)) {
                 player.getAttribute(ForgeMod.ATTACK_RANGE.get()).removeModifier(PuddleReachAttributeMod);
             }
         }

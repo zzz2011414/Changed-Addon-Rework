@@ -5,7 +5,6 @@ import net.foxyas.changedaddon.recipes.special.DyeableShortsColoringRecipe;
 import net.foxyas.changedaddon.recipes.special.HaydenTransfurRecipe;
 import net.foxyas.changedaddon.recipes.special.LaserPointerColoringRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;

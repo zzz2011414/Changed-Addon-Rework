@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.network;
 
 import net.foxyas.changedaddon.procedures.IfCatLatexProcedure;
@@ -24,6 +23,16 @@ import java.util.function.Supplier;
 
 public record TransfurSoundsGuiButtonMessage(int buttonId) {
 
+    private static final List<Triple<ResourceLocation, Predicate<Entity>, Integer>> sounds = List.of(
+            Triple.of(new ResourceLocation("entity.cat.purr"), IfCatLatexProcedure::execute, 60),
+            Triple.of(new ResourceLocation("entity.cat.ambient"), IfCatLatexProcedure::execute, 10),
+            Triple.of(new ResourceLocation("entity.wolf.growl"), IfDogLatexProcedure::execute, 60),
+            Triple.of(new ResourceLocation("entity.wolf.ambient"), IfDogLatexProcedure::execute, 10),
+            Triple.of(new ResourceLocation("entity.wolf.howl"), IfDogLatexProcedure::execute, 80),
+            Triple.of(new ResourceLocation("entity.cat.hiss"), IfCatLatexProcedure::execute, 40),
+            Triple.of(new ResourceLocation("entity.cat.purreow"), IfCatLatexProcedure::execute, 20)
+    );
+
     public TransfurSoundsGuiButtonMessage(FriendlyByteBuf buf) {
         this(buf.readVarInt());
     }
@@ -38,18 +47,8 @@ public record TransfurSoundsGuiButtonMessage(int buttonId) {
         context.setPacketHandled(true);
     }
 
-    private static final List<Triple<ResourceLocation, Predicate<Entity>, Integer>> sounds = List.of(
-            Triple.of(new ResourceLocation("entity.cat.purr"), IfCatLatexProcedure::execute, 60),
-            Triple.of(new ResourceLocation("entity.cat.ambient"), IfCatLatexProcedure::execute, 10),
-            Triple.of(new ResourceLocation("entity.wolf.growl"), IfDogLatexProcedure::execute, 60),
-            Triple.of(new ResourceLocation("entity.wolf.ambient"), IfDogLatexProcedure::execute, 10),
-            Triple.of(new ResourceLocation("entity.wolf.howl"), IfDogLatexProcedure::execute, 80),
-            Triple.of(new ResourceLocation("entity.cat.hiss"), IfCatLatexProcedure::execute, 40),
-            Triple.of(new ResourceLocation("entity.cat.purreow"), IfCatLatexProcedure::execute, 20)
-    );
-
     public static void handleButtonAction(Player player, int buttonID) {
-        if(player == null) return;
+        if (player == null) return;
 
         if (!ProcessTransfur.isPlayerTransfurred(player)) return;
 

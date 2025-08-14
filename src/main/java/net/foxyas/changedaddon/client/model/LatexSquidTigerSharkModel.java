@@ -41,6 +41,7 @@ public class LatexSquidTigerSharkModel extends AdvancedHumanoidModel<LatexSquidT
     private final ModelPart RightLeg;
     private final ModelPart Tail;
     private final HumanoidAnimator<LatexSquidTigerSharkEntity, LatexSquidTigerSharkModel> animator;
+
     public LatexSquidTigerSharkModel(ModelPart root) {
         super(root);
         this.RightLeg = root.getChild("RightLeg");

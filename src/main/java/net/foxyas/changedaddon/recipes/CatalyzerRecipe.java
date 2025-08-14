@@ -94,11 +94,10 @@ public class CatalyzerRecipe implements Recipe<SimpleContainer> {
     }
 
     public static class Type implements RecipeType<CatalyzerRecipe> {
-        private Type() {
-        }
-
         public static final Type INSTANCE = new Type();
         public static final String ID = "catalyzer";
+        private Type() {
+        }
     }
 
     public static class Serializer implements RecipeSerializer<CatalyzerRecipe>, IForgeRegistryEntry<RecipeSerializer<?>> {
@@ -111,8 +110,8 @@ public class CatalyzerRecipe implements Recipe<SimpleContainer> {
             JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
             NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
             inputs.set(0, Ingredient.fromJson(ingredients.get(0)));
-            float ProgressSpeed  = GsonHelper.getAsFloat(pSerializedRecipe, "ProgressSpeed", 1.0f);
-            float NitrogenUsage  = GsonHelper.getAsFloat(pSerializedRecipe, "NitrogenUsage", 0.0f);
+            float ProgressSpeed = GsonHelper.getAsFloat(pSerializedRecipe, "ProgressSpeed", 1.0f);
+            float NitrogenUsage = GsonHelper.getAsFloat(pSerializedRecipe, "NitrogenUsage", 0.0f);
 
             return new CatalyzerRecipe(pRecipeId, output, inputs, ProgressSpeed, NitrogenUsage);
         }

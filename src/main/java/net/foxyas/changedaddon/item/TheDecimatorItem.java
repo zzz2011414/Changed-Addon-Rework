@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.item;
 
 import com.google.common.collect.ImmutableMultimap;
@@ -38,18 +37,18 @@ import java.util.List;
 import java.util.UUID;
 
 public class TheDecimatorItem extends Item {
+    private static final UUID BASE_ATTACK_REACH_UUID = UUID.fromString("fa02d244-9771-415c-8789-fd03b5252c8c");
+
+    public TheDecimatorItem() {
+        super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON_COMBAT_OPTIONAL).durability(1025));
+    }
+
     private float AttackDamage() {
         return -2f + 15f;
     }
 
     private float AttackSpeed() {
         return -4f + 0.8f;
-    }
-
-    private static final UUID BASE_ATTACK_REACH_UUID = UUID.fromString("fa02d244-9771-415c-8789-fd03b5252c8c");
-
-    public TheDecimatorItem() {
-        super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON_COMBAT_OPTIONAL).durability(1025));
     }
 
     @Override

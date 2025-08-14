@@ -1,8 +1,8 @@
 package net.foxyas.changedaddon.procedures;
 
-import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.configuration.ChangedAddonServerConfiguration;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.process.variantsExtraStats.FormDietEvent;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.beast.AbstractLatexWolf;
@@ -38,7 +38,7 @@ public class CreatureDietsHandleProcedure {
 
         LivingEntity livingEntity = event.getEntityLiving();
         ItemStack item = event.getItem();
-        if(!item.isEdible()) return;
+        if (!item.isEdible()) return;
 
         if (!(livingEntity instanceof Player player)) {
             return;
@@ -53,7 +53,7 @@ public class CreatureDietsHandleProcedure {
             return;
         }
 
-        if(!world.getGameRules().getBoolean(ChangedAddonGameRules.CHANGED_ADDON_CREATURE_DIETS)) return;
+        if (!world.getGameRules().getBoolean(ChangedAddonGameRules.CHANGED_ADDON_CREATURE_DIETS)) return;
 
         ChangedEntity ChangedEntity = latexInstance.getChangedEntity();
         TransfurVariant<?> variant = ChangedEntity.getSelfVariant();
@@ -68,7 +68,7 @@ public class CreatureDietsHandleProcedure {
             return;
         }
 
-        if(!ChangedAddonServerConfiguration.DEBUFFS.get()
+        if (!ChangedAddonServerConfiguration.DEBUFFS.get()
                 || item.is(ChangedAddonTags.Items.NOT_FOOD)
                 || latexInstance.ageAsVariant >= ChangedAddonServerConfiguration.AGE_NEED.get()) return;
 
@@ -106,11 +106,11 @@ public class CreatureDietsHandleProcedure {
     }
 
     private static List<DietType> determineDietTypes(ChangedEntity ChangedEntity, TransfurVariant<?> variant) {
-        if(variant.is(ChangedAddonTags.TransfurTypes.NO_DIET)) return List.of();
+        if (variant.is(ChangedAddonTags.TransfurTypes.NO_DIET)) return List.of();
 
         List<DietType> dietTypes = new ArrayList<>();
-        for(DietType diet : DietType.values()){
-            if(diet.hasDiet(ChangedEntity, variant)) dietTypes.add(diet);
+        for (DietType diet : DietType.values()) {
+            if (diet.hasDiet(ChangedEntity, variant)) dietTypes.add(diet);
         }
 
         return dietTypes;
@@ -134,9 +134,9 @@ public class CreatureDietsHandleProcedure {
             this.dietTag = dietTag;
         }
 
-        public boolean hasDiet(ChangedEntity entity, TransfurVariant<?> tf){
-            if(this == AQUATIC && entity instanceof AquaticEntity && !SHARK.hasDiet(entity, tf)) return true;
-            if(this == WOLF && entity instanceof AbstractLatexWolf) return true;
+        public boolean hasDiet(ChangedEntity entity, TransfurVariant<?> tf) {
+            if (this == AQUATIC && entity instanceof AquaticEntity && !SHARK.hasDiet(entity, tf)) return true;
+            if (this == WOLF && entity instanceof AbstractLatexWolf) return true;
 
             return tf.is(tfTag);
         }

@@ -1,4 +1,3 @@
-
 package net.foxyas.changedaddon.item;
 
 import net.foxyas.changedaddon.configuration.ChangedAddonServerConfiguration;
@@ -31,13 +30,71 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 public class TransfurTotemItem extends Item {
 
     public TransfurTotemItem() {
         super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).stacksTo(1).fireResistant().rarity(Rarity.RARE));
+    }
+
+    private static void tryLinkForm(Level level, Player player, ItemStack itemstack) {
+        TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
+        ResourceLocation latexFormRes = tf == null ? null : tf.getFormId();
+        if (latexFormRes == null) return;
+
+        String latexForm = latexFormRes.toString();
+
+        if (ChangedAddonServerConfiguration.ACCEPT_ALL_VARIANTS.get() || latexForm.startsWith("changed:form")) {
+            linkForm(level, player, itemstack, tf, latexForm);
+        } else if (latexForm.startsWith("changed_addon:form")) {
+            cooldown(player, itemstack, 50);
+            visualActivate(level, player, SoundEvents.ZOMBIE_ATTACK_IRON_DOOR);
+            player.displayClientMessage(new TranslatableComponent("changed_addon.latex_totem.notvalid"), true);
+        } else if (latexForm.startsWith("changed:special")) {
+            linkForm(level, player, itemstack, tf, "changed:form_light_latex_wolf");
+        }
+    }
+
+    private static void linkForm(Level level, Player player, ItemStack stack, TransfurVariantInstance<?> tf, String form) {
+        stack.getOrCreateTag().putString("form", form);
+        stack.getOrCreateTag().put("TransfurVariantData", tf.save());
+        activateVisuals(level, player, stack, null, 100, SoundEvents.BEACON_ACTIVATE);
+    }
+
+    private static void cooldown(Player entity, ItemStack itemstack, int ticks) {
+        if (!entity.getAbilities().instabuild) {
+            entity.getCooldowns().addCooldown(itemstack.getItem(), ticks);
+        }
+    }
+
+    private static void activateVisuals(Level level, Player entity, ItemStack itemstack, String advancement, int cooldown, SoundEvent soundEvent) {
+        if (level.isClientSide())
+            Minecraft.getInstance().gameRenderer.displayItemActivation(itemstack);
+
+        cooldown(entity, itemstack, cooldown);
+        if (soundEvent != null) visualActivate(level, entity, soundEvent);
+
+        if (advancement != null)
+            grantAdvancement(entity, advancement);
+    }
+
+    private static void visualActivate(Level level, Player player, SoundEvent sound) {
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), sound, SoundSource.NEUTRAL, 1, 1);
+    }
+
+    private static void grantAdvancement(Entity entity, String id) {
+        if (!(entity instanceof ServerPlayer player)) return;
+
+        Advancement adv = player.server.getAdvancements().getAdvancement(new ResourceLocation(id));
+        if (adv == null) return;
+
+        AdvancementProgress progress = player.getAdvancements().getOrStartProgress(adv);
+        if (!progress.isDone()) {
+            for (String criterion : progress.getRemainingCriteria()) {
+                player.getAdvancements().award(adv, criterion);
+            }
+        }
     }
 
     @Override
@@ -167,65 +224,6 @@ public class TransfurTotemItem extends Item {
             AdvancementProgress _ap = _player.getAdvancements().getOrStartProgress(_adv);
             if (!_ap.isDone()) {
                 for (String s : _ap.getRemainingCriteria()) _player.getAdvancements().award(_adv, s);
-            }
-        }
-    }
-
-    private static void tryLinkForm(Level level, Player player, ItemStack itemstack) {
-        TransfurVariantInstance<?> tf = ProcessTransfur.getPlayerTransfurVariant(player);
-        ResourceLocation latexFormRes = tf == null ? null : tf.getFormId();
-        if (latexFormRes == null) return;
-
-        String latexForm = latexFormRes.toString();
-
-        if (ChangedAddonServerConfiguration.ACCEPT_ALL_VARIANTS.get() || latexForm.startsWith("changed:form")) {
-            linkForm(level, player, itemstack, tf, latexForm);
-        } else if (latexForm.startsWith("changed_addon:form")) {
-            cooldown(player, itemstack, 50);
-            visualActivate(level, player, SoundEvents.ZOMBIE_ATTACK_IRON_DOOR);
-            player.displayClientMessage(new TranslatableComponent("changed_addon.latex_totem.notvalid"), true);
-        } else if (latexForm.startsWith("changed:special")) {
-            linkForm(level, player, itemstack, tf, "changed:form_light_latex_wolf");
-        }
-    }
-
-    private static void linkForm(Level level, Player player, ItemStack stack, TransfurVariantInstance<?> tf, String form) {
-        stack.getOrCreateTag().putString("form", form);
-        stack.getOrCreateTag().put("TransfurVariantData", tf.save());
-        activateVisuals(level, player, stack, null, 100, SoundEvents.BEACON_ACTIVATE);
-    }
-
-    private static void cooldown(Player entity, ItemStack itemstack, int ticks) {
-        if (!entity.getAbilities().instabuild) {
-            entity.getCooldowns().addCooldown(itemstack.getItem(), ticks);
-        }
-    }
-
-    private static void activateVisuals(Level level, Player entity, ItemStack itemstack, String advancement, int cooldown, SoundEvent soundEvent) {
-        if (level.isClientSide())
-            Minecraft.getInstance().gameRenderer.displayItemActivation(itemstack);
-
-        cooldown(entity, itemstack, cooldown);
-        if (soundEvent != null) visualActivate(level, entity, soundEvent);
-
-        if (advancement != null)
-            grantAdvancement(entity, advancement);
-    }
-
-    private static void visualActivate(Level level, Player player, SoundEvent sound) {
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), sound, SoundSource.NEUTRAL, 1, 1);
-    }
-
-    private static void grantAdvancement(Entity entity, String id) {
-        if (!(entity instanceof ServerPlayer player)) return;
-
-        Advancement adv = player.server.getAdvancements().getAdvancement(new ResourceLocation(id));
-        if (adv == null) return;
-
-        AdvancementProgress progress = player.getAdvancements().getOrStartProgress(adv);
-        if (!progress.isDone()) {
-            for (String criterion : progress.getRemainingCriteria()) {
-                player.getAdvancements().award(adv, criterion);
             }
         }
     }
