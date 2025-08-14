@@ -64,7 +64,7 @@ public final class ChangedAddonTags {
         // Transfur Details
         public static final TagKey<TransfurVariant<?>> ABLE_TO_CARRY = key("able_to_carry");
         public static final TagKey<TransfurVariant<?>> CAUSE_FREEZING = key("cause_freeze_dmg");
-        public static final TagKey<TransfurVariant<?>> GLOWING = key("glow_variants");
+        public static final TagKey<TransfurVariant<?>> GLOWING_VARIANTS = key("glow_variants");
         public static final TagKey<TransfurVariant<?>> HAS_CLAWS = key("has_claws");
 
         // Transfur "Kind"

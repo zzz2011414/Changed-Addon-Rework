@@ -1,14 +1,13 @@
 package net.foxyas.changedaddon.entity.advanced;
 
-import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
+import net.foxyas.changedaddon.entity.defaults.AbstractCanTameChangedEntity;
 import net.foxyas.changedaddon.entity.goals.prototype.*;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.FoxyasUtils;
+import net.foxyas.changedaddon.util.MathUtils;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
-import net.ltxprogrammer.changed.entity.ChangedEntity;
-import net.ltxprogrammer.changed.entity.EyeStyle;
-import net.ltxprogrammer.changed.entity.TransfurCause;
-import net.ltxprogrammer.changed.entity.TransfurMode;
+import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
@@ -62,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class PrototypeEntity extends AbstractBasicChangedEntity implements InventoryCarrier, MenuProvider {
+public class PrototypeEntity extends AbstractCanTameChangedEntity implements InventoryCarrier, MenuProvider {
     // Constants
     public static final int MAX_HARVEST_TIMES = 32;
 
@@ -85,6 +84,11 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
         public List<TagKey<Item>> getTagKeys() {
             return tagKeys;
         }
+
+        public String getFormatedName() {
+            return name().substring(0, 1).toUpperCase() + name().substring(1);
+        }
+
 
         public boolean isRightType(ItemStack stack) {
             return this.tagKeys.stream().anyMatch(stack::is);
@@ -256,11 +260,30 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     @Override
     public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         SpawnGroupData ret = super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
+
         this.getBasicPlayerInfo().setEyeStyle(EyeStyle.TALL);
         this.getBasicPlayerInfo().setRightIrisColor(Color3.parseHex("#59c5ff"));
         this.getBasicPlayerInfo().setLeftIrisColor(Color3.parseHex("#59c5ff"));
+
+        if (!this.isTame()) {
+            // Find the closest player who is looking at this entity
+            Player closestLookingPlayer = pLevel.getEntitiesOfClass(
+                            Player.class,
+                            this.getBoundingBox().inflate(16), // search radius
+                            player -> MathUtils.dotEntityLookingToEntity(player, this) > 0.7
+                    ).stream()
+                    .min(Comparator.comparingDouble(player -> player.distanceToSqr(this)))
+                    .orElse(null);
+
+            // If found, tame this entity to that player
+            if (closestLookingPlayer != null) {
+                this.tame(closestLookingPlayer);
+            }
+        }
+
         return ret;
     }
+
 
     @Override
     public @NotNull InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 vec, @NotNull InteractionHand hand) {
@@ -268,7 +291,7 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
             if (!getLevel().isClientSide) {
                 this.depositeType = depositeType.switchDepositeType();
             }
-            player.displayClientMessage(new TranslatableComponent("entity.changed_addon.prototype.deposite_type.switch", depositeType.name().toLowerCase(Locale.ROOT)), true);
+            player.displayClientMessage(new TranslatableComponent("entity.changed_addon.prototype.deposite_type.switch", depositeType.getFormatedName()), true);
         } else {
             if (!getLevel().isClientSide) {
                 player.openMenu(getMenuProvider());
@@ -284,11 +307,6 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
 
     @Override
     protected @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand pHand) {
-        if (!player.getLevel().isClientSide()) {
-
-        }
-
-
         return super.mobInteract(player, pHand);
     }
 
@@ -311,6 +329,11 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     @Override
     public void die(@NotNull DamageSource pDamageSource) {
         super.die(pDamageSource);
+    }
+
+    @Override
+    public boolean isTameItem(ItemStack stack) {
+        return stack.is(Tags.Items.INGOTS_IRON);
     }
 
     @Override
@@ -531,18 +554,42 @@ public class PrototypeEntity extends AbstractBasicChangedEntity implements Inven
     }
 
     public BlockPos findNearbyCrop(Level level, BlockPos center, int range) {
-        for (BlockPos pos : BlockPos.betweenClosed(
-                center.offset(-range, -range, -range),
-                center.offset(range, range, range))) {
+        BlockPos closestCrop = null;
+        double closestDist = Double.MAX_VALUE;
+
+        for (BlockPos pos : FoxyasUtils.betweenClosedStreamSphere(center, range, range).toList()) {
             BlockState state = level.getBlockState(pos);
-            if (state.getBlock() instanceof CropBlock crop) {
-                if (crop.isMaxAge(state)) {
-                    return pos.immutable();
+            if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
+                double dist = pos.distSqr(center);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestCrop = pos.immutable();
                 }
             }
         }
-        return null;
+        return closestCrop;
     }
+
+    public BlockPos findNearbyCropCube(Level level, BlockPos center, int range) {
+        BlockPos closestCrop = null;
+        double closestDist = Double.MAX_VALUE;
+
+        for (BlockPos pos : BlockPos.betweenClosed(
+                center.offset(-range, -range, -range),
+                center.offset(range, range, range))) {
+
+            BlockState state = level.getBlockState(pos);
+            if (state.getBlock() instanceof CropBlock crop && crop.isMaxAge(state)) {
+                double dist = pos.distSqr(center);
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closestCrop = pos.immutable();
+                }
+            }
+        }
+        return closestCrop;
+    }
+
 
     public void harvestCrop(ServerLevel level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);

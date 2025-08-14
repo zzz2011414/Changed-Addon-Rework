@@ -19,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -37,7 +38,7 @@ public class ChangedAddonItems {
     public static final DeferredRegister<Item> REGISTRY = DeferredRegister.create(ForgeRegistries.ITEMS, ChangedAddonMod.MODID);
 
     public static final RegistryObject<Item> CHANGED_BOOK = REGISTRY.register("changedbook", ChangedBookItem::new);
-    public static final RegistryObject<Item> LUMINARA_BLOOM = block(ChangedAddonBlocks.LUMINARA_BLOOM, ChangedAddonTabs.TAB_CHANGED_ADDON);
+    public static final RegistryObject<Item> LUMINARA_BLOOM = block(ChangedAddonBlocks.LUMINARA_BLOOM, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).rarity(Rarity.RARE));
     public static final RegistryObject<Item> LUMINARA_BLOOM_PETALS = REGISTRY.register("luminara_bloom_petals", LuminaraBloomPetalsItem::new);
     public static final RegistryObject<Item> BIOMASS = REGISTRY.register("biomass", BiomassItem::new);
     public static final RegistryObject<Item> ANTI_LATEX_BASE = REGISTRY.register("anti_latex_base", UnlatexbaseItem::new);
@@ -168,13 +169,13 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> HAZARD_SUIT_LEGGINGS = REGISTRY.register("hazard_suit_leggings", HazardSuitItem.Leggings::new);
     public static final RegistryObject<Item> HAZARD_SUIT_BOOTS = REGISTRY.register("hazard_suit_boots", HazardSuitItem.Boots::new);
 
-    public static final RegistryObject<Item> GENERATOR = block(ChangedAddonBlocks.GENERATOR, null);
+    public static final RegistryObject<Item> GENERATOR = blockNoTab(ChangedAddonBlocks.GENERATOR, null);
 
     public static final RegistryObject<Item> CATALYZER_BLOCK_ILLUSTRATIVE_ITEM = REGISTRY.register("catalyzer_block_illustrative_item", CatalyzerBlockIllustrativeItemItem::new);
     public static final RegistryObject<Item> UNIFUSER_BLOCK_ILLUSTRATIVE_ITEM = REGISTRY.register("unifuser_block_illustrative_item", UnifuserblockIllustrativeItemItem::new);
     public static final RegistryObject<Item> AMMONIA_PARTICLES_JEI_ILLUSTRATIVE = REGISTRY.register("ammonia_particles_jei_illustrative", AmmoniaParticlesJeiIllustrativeItem::new);
-    public static final RegistryObject<Item> FOXTA_CAN = block(ChangedAddonBlocks.FOXTA_CAN, null);
-    public static final RegistryObject<Item> SNEPSI_CAN = block(ChangedAddonBlocks.SNEPSI_CAN, null);
+    public static final RegistryObject<Item> FOXTA_CAN = blockNoTab(ChangedAddonBlocks.FOXTA_CAN, null);
+    public static final RegistryObject<Item> SNEPSI_CAN = blockNoTab(ChangedAddonBlocks.SNEPSI_CAN, null);
     public static final RegistryObject<Item> SNEP_ICON = REGISTRY.register("snep_icon", SnepIconItem::new);
     public static final RegistryObject<Item> FRIENDLY_GOEY_ICON = REGISTRY.register("friendly_goey_icon", FriendlyGoeyIconItem::new);
     public static final RegistryObject<Item> PAT_ICON = REGISTRY.register("pat_icon", PatIconItem::new);
@@ -272,12 +273,20 @@ public class ChangedAddonItems {
         return REGISTRY.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }
 
-    private static RegistryObject<Item> RegisterBlockItem(DeferredRegister<Item> REGISTRY, RegistryObject<Block> block, CreativeModeTab tab) {
+    private static RegistryObject<Item> blockNoTab(RegistryObject<Block> block, CreativeModeTab tab) {
         return REGISTRY.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }
 
-    private static RegistryObject<Item> RegisterBlockItem(DeferredRegister<Item> REGISTRY, String id, RegistryObject<Block> block, CreativeModeTab tab) {
-        return REGISTRY.register(id, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
+    private static RegistryObject<Item> block(RegistryObject<Block> block, Item.Properties properties) {
+        return REGISTRY.register(block.getId().getPath(), () -> new BlockItem(block.get(), properties));
+    }
+
+    private static RegistryObject<Item> RegisterBlockItem(DeferredRegister<Item> registry, RegistryObject<Block> block, CreativeModeTab tab) {
+        return registry.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
+    }
+
+    private static RegistryObject<Item> RegisterBlockItem(DeferredRegister<Item> registry, String id, RegistryObject<Block> block, CreativeModeTab tab) {
+        return registry.register(id, () -> new BlockItem(block.get(), new Item.Properties().tab(tab)));
     }
 
     private static RegistryObject<Item> RegisterBlockItem(RegistryObject<Block> block, CreativeModeTab tab) {

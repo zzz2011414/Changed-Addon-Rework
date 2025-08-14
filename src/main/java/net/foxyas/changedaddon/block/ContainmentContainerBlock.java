@@ -4,6 +4,7 @@ package net.foxyas.changedaddon.block;
 import net.foxyas.changedaddon.block.entity.ContainmentContainerBlockEntity;
 import net.foxyas.changedaddon.init.ChangedAddonBlockEntities;
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.ltxprogrammer.changed.Changed;
 import net.ltxprogrammer.changed.block.CustomFallable;
 import net.ltxprogrammer.changed.block.NonLatexCoverableBlock;
@@ -70,6 +71,12 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
 
     @Override
     public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
+        ContainmentContainerBlockEntity blockEntity = this.getBlockEntity(state, worldIn, pos);
+        if (blockEntity != null && blockEntity.getTransfurVariant() != null) {
+            if (blockEntity.getTransfurVariant().is(ChangedAddonTags.TransfurTypes.GLOWING_VARIANTS)) {
+                return 8;
+            }
+        }
         return 0;
     }
 
@@ -142,7 +149,7 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
     public boolean triggerEvent(@NotNull BlockState state, @NotNull Level world, @NotNull BlockPos pos, int eventID, int eventParam) {
         super.triggerEvent(state, world, pos, eventID, eventParam);
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        return blockEntity == null ? false : blockEntity.triggerEvent(eventID, eventParam);
+        return blockEntity != null && blockEntity.triggerEvent(eventID, eventParam);
     }
 
     protected int getDelayAfterPlace() {
@@ -240,20 +247,22 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
                 level.updateNeighborsAt(pos, this);
                 ItemStack normalSyringe = new ItemStack(ChangedItems.SYRINGE.get());
                 ItemStack glassFlask = new ItemStack(ChangedItems.getBlockItem(ChangedBlocks.ERLENMEYER_FLASK.get()));
-                if (!player.isCreative()) {
-                    if (selectedItem.getItem() instanceof LatexSyringe) {
+                if (selectedItem.getItem() instanceof LatexSyringe) {
+                    if (!player.isCreative()) {
                         selectedItem.shrink(1);
-                        if (!player.addItem(normalSyringe)) {
-                            player.drop(normalSyringe, false);
-                        }
-                    } else if (selectedItem.getItem() instanceof LatexFlask) {
+                    }
+                    if (!player.addItem(normalSyringe)) {
+                        player.drop(normalSyringe, false);
+                    }
+                } else if (selectedItem.getItem() instanceof LatexFlask) {
+                    if (!player.isCreative()) {
                         selectedItem.shrink(1);
-                        if (!player.addItem(glassFlask)) {
-                            player.drop(glassFlask, false);
-                        }
+                    }
+                    if (!player.addItem(glassFlask)) {
+                        player.drop(glassFlask, false);
                     }
                 }
-				return InteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         } else if (selectedItem.getItem() instanceof Syringe
                 && blockEntity.getTransfurVariant() != null) {
@@ -266,11 +275,11 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
             level.updateNeighborsAt(pos, this);
             if (!player.isCreative()) {
                 selectedItem.shrink(1);
-                if (!player.addItem(latexSyringe)) {
-                    player.drop(latexSyringe, false);
-                }
             }
-			return InteractionResult.SUCCESS;
+            if (!player.addItem(latexSyringe)) {
+                player.drop(latexSyringe, false);
+            }
+            return InteractionResult.SUCCESS;
         }
 
         return super.use(state, level, pos, player, interactionHand, blockHitResult);
