@@ -24,16 +24,17 @@ public class ChangedAddonFacilityPieces {
     }
 
     public static void registerAddonRooms(FacilityPieceCollectionBuilder builder) {
-        builder.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON,
+        //Fixme remove the * 10 when tests are done
+        builder.register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON * 10,
                 new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/exp009room"),
                         new ResourceLocation("changed_addon:chests/experiment_009_loot_dna")))
-                .register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON,
+                .register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON * 10,
                 new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/exp10room"),
                         new ResourceLocation("changed_addon:chests/experiment_10_loot_op")))
-                .register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON,
+                .register(FacilityPieceCollectionBuilder.WEIGHT_UNCOMMON * 10,
                         new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/luminar_crystal_room"),
                                 new ResourceLocation("changed:chests/high_tier_lab")))
-                .register(FacilityPieceCollectionBuilder.WEIGHT_COMMON,
+                .register(FacilityPieceCollectionBuilder.WEIGHT_COMMON * 10,
                         new FacilityRoomPiece(new ResourceLocation("changed_addon:facility_rooms/closed_meteor"),
                                 new ResourceLocation("changed:chests/high_tier_lab")));
     }
