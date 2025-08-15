@@ -30,7 +30,7 @@ import java.util.Objects;
 
 public class PuroKindMaleEntity extends AbstractDarkLatexWolf {
     public PuroKindMaleEntity(PlayMessages.SpawnEntity packet, Level world) {
-        this(ChangedAddonEntities.PURO_KIND.get(), world);
+        this(ChangedAddonEntities.PURO_KIND_MALE.get(), world);
     }
 
     public PuroKindMaleEntity(EntityType<PuroKindMaleEntity> type, Level world) {

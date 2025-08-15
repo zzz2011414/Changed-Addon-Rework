@@ -61,7 +61,7 @@ public class ChangedAddonEntities {
         ADDON_CHANGED_ENTITIES.add(LATEX_SNOW_FOX_FEMALE.get());
         ADDON_CHANGED_ENTITIES.add(REYN.get());
         ADDON_CHANGED_ENTITIES.add(DAZED_LATEX.get());
-        ADDON_CHANGED_ENTITIES.add(PURO_KIND.get());
+        ADDON_CHANGED_ENTITIES.add(PURO_KIND_MALE.get());
         ADDON_CHANGED_ENTITIES.add(PURO_KIND_FEMALE.get());
         ADDON_CHANGED_ENTITIES.add(BUNY.get());
         ADDON_CHANGED_ENTITIES.add(SNOW_LEOPARD_FEMALE_ORGANIC.get());
@@ -136,7 +136,7 @@ public class ChangedAddonEntities {
         event.put(LATEX_SNOW_FOX_MALE.get(), LatexSnowFoxMaleEntity.createAttributes().build());
         event.put(LATEX_SNOW_FOX_FEMALE.get(), LatexSnowFoxFemaleEntity.createAttributes().build());
         event.put(DAZED_LATEX.get(), DazedLatexEntity.createAttributes().build());
-        event.put(PURO_KIND.get(), PuroKindMaleEntity.createAttributes().build());
+        event.put(PURO_KIND_MALE.get(), PuroKindMaleEntity.createAttributes().build());
         event.put(PURO_KIND_FEMALE.get(), PuroKindFemaleEntity.createAttributes().build());
         event.put(BUNY.get(), BunyEntity.createAttributes().build());
         event.put(SNOW_LEOPARD_FEMALE_ORGANIC.get(), SnowLeopardFemaleOrganicEntity.createAttributes().build());
@@ -238,7 +238,7 @@ public class ChangedAddonEntities {
             BorealisMaleEntity.init();
             BorealisFemaleEntity.init();
         });
-    }    public static final RegistryObject<EntityType<PuroKindMaleEntity>> PURO_KIND = registerChangedEntity("puro_kind_male",
+    }    public static final RegistryObject<EntityType<PuroKindMaleEntity>> PURO_KIND_MALE = registerChangedEntity("puro_kind_male",
             EntityType.Builder.<PuroKindMaleEntity>of(PuroKindMaleEntity::new, MobCategory.MONSTER)
                     .setShouldReceiveVelocityUpdates(true)
                     .setTrackingRange(64)

@@ -27,7 +27,7 @@ public class EntityTypeTagsProvider extends net.minecraft.data.tags.EntityTypeTa
 
         tag(ChangedTags.EntityTypes.LATEX).add(
                 DAZED_LATEX.get(),
-                PURO_KIND.get(),
+                PURO_KIND_MALE.get(),
                 PURO_KIND_FEMALE.get(),
                 EXPERIMENT_009.get(),
                 EXPERIMENT_10.get(),

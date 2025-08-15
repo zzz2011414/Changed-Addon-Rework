@@ -20,7 +20,7 @@ public class ChangedAddonEntityRenderers {
         event.registerEntityRenderer(ChangedAddonEntities.LATEX_SNOW_FOX_FEMALE.get(), LatexSnowFoxFemaleRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.LUMINAR_CRYSTAL_SPEAR.get(), LuminarCrystalSpearRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.DAZED_LATEX.get(), DazedRenderer::new);
-        event.registerEntityRenderer(ChangedAddonEntities.PURO_KIND.get(), PuroKindRenderer::new);
+        event.registerEntityRenderer(ChangedAddonEntities.PURO_KIND_MALE.get(), PuroKindRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.PURO_KIND_FEMALE.get(), PuroKindFemaleRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.BUNY.get(), BunyRenderer::new);
         event.registerEntityRenderer(ChangedAddonEntities.SNOW_LEOPARD_FEMALE_ORGANIC.get(), SnowLeopardFemaleOrganicRenderer::new);
