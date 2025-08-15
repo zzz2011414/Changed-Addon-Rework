@@ -18,8 +18,9 @@ import java.util.Random;
 
 public class DormantWhiteLatexBlock extends AbstractLatexBlock implements WhiteLatexTransportInterface {
     public DormantWhiteLatexBlock() {
-        super(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.QUARTZ).sound(SoundType.SLIME_BLOCK).strength(1.0F, 4.0F).noOcclusion().isViewBlocking(ChangedBlocks::never).isSuffocating(ChangedBlocks::never), LatexType.WHITE_LATEX,
-                ChangedItems.WHITE_LATEX_GOO);
+        super(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.QUARTZ).sound(SoundType.SLIME_BLOCK)
+                        .strength(1.0F, 4.0F).noOcclusion()
+                        .isViewBlocking(ChangedBlocks::never).isSuffocating(ChangedBlocks::never).noDrops(), LatexType.WHITE_LATEX, ChangedItems.WHITE_LATEX_GOO);
     }
 
     @Override

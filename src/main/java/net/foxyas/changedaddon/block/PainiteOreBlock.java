@@ -7,17 +7,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.OreBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.TierSortingRegistry;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class PainiteOreBlock extends OreBlock {
 
     public PainiteOreBlock() {
@@ -43,16 +43,5 @@ public class PainiteOreBlock extends OreBlock {
             return TierSortingRegistry.isCorrectTierForDrops(Tiers.NETHERITE, state) || tieredItem.getTier().getLevel() >= 4;
         }
         return false;
-    }
-
-    @Override
-    public boolean onDestroyedByPlayer(BlockState blockstate, Level world, BlockPos pos, Player entity, boolean willHarvest, FluidState fluid) {
-        boolean retval = super.onDestroyedByPlayer(blockstate, world, pos, entity, willHarvest, fluid);
-        return retval;
-    }
-
-    @Override
-    public void wasExploded(Level world, BlockPos pos, Explosion e) {
-        super.wasExploded(world, pos, e);
     }
 }

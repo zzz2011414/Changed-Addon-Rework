@@ -123,7 +123,7 @@ public class AbstractWolfCrystalExtender {
                     BlockBehaviour.Properties.of(Material.ICE_SOLID, MaterialColor.COLOR_RED)
                             .friction(0.98F)
                             .sound(SoundType.AMETHYST)
-                            .strength(2.0F, 2.0F)
+                            .strength(2.0F, 2.0F).noDrops()
             );
         }
 
@@ -170,7 +170,7 @@ public class AbstractWolfCrystalExtender {
                             .sound(SoundType.AMETHYST_CLUSTER)
                             .noOcclusion()
                             .dynamicShape()
-                            .strength(1.7F, 0.2F)
+                            .strength(1.7F, 0.2F).noDrops()
             );
         }
 
@@ -182,7 +182,7 @@ public class AbstractWolfCrystalExtender {
                             .sound(SoundType.AMETHYST_CLUSTER)
                             .noOcclusion()
                             .dynamicShape()
-                            .strength(1.7F, 0.2F)
+                            .strength(1.7F, 0.2F).noDrops()
             );
         }
 

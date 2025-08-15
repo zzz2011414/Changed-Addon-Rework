@@ -26,7 +26,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -34,9 +33,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.Collections;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
 public class FoxtaCanBlock extends Block implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -52,7 +53,7 @@ public class FoxtaCanBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemstack, BlockGetter world, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(ItemStack itemstack, @Nullable BlockGetter world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemstack, world, list, flag);
         list.add(new TextComponent("Now made with 200% more oranages! Only $2.99! Tastes like Heaven!"));
     }
@@ -122,13 +123,5 @@ public class FoxtaCanBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return new ItemStack(ChangedAddonItems.FOXTA.get());
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(ChangedAddonItems.FOXTA.get()));
     }
 }

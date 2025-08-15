@@ -167,14 +167,7 @@ public class AbstractLuminarCrystal {
         }
 
         @Override
-        public void onPlace(@NotNull BlockState blockstate, @NotNull Level world, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean moving) {
-            super.onPlace(blockstate, world, pos, oldState, moving);
-        }
-
-        @Override
         public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull Random random) {
-            super.tick(state, level, pos, random);
-
             if (state.getValue(DEFROST)) {
                 if (state.getValue(AGE) < MAX_AGE) {
                     level.setBlockAndUpdate(pos, state.setValue(AGE, state.getValue(AGE) + 1));

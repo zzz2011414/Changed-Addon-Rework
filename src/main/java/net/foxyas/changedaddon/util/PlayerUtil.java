@@ -51,14 +51,6 @@ public class PlayerUtil {
         ProcessTransfur.transfur(livingEntity, entity.getLevel(), latexVariant, true);
     }
 
-    public static void TransfurPlayer(Player player, String id) {
-        ResourceLocation form = ResourceLocation.tryParse(id);
-        TransfurVariant<?> latexVariant = form == null ? null : ChangedRegistry.TRANSFUR_VARIANT.get().getValue(form);
-        if (latexVariant == null) return;
-
-        ProcessTransfur.transfur(player, player.getLevel(), latexVariant, true, TransfurContext.hazard(TransfurCause.GRAB_REPLICATE));
-    }
-
     public static void TransfurPlayer(Player player, String id, float progress) {
         ResourceLocation form = ResourceLocation.tryParse(id);
         TransfurVariant<?> latexVariant = form == null ? null : ChangedRegistry.TRANSFUR_VARIANT.get().getValue(form);

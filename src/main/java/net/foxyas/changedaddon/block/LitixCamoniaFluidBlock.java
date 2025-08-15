@@ -15,12 +15,14 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@ParametersAreNonnullByDefault
 public class LitixCamoniaFluidBlock extends LiquidBlock {
     public LitixCamoniaFluidBlock() {
-        super(() -> (FlowingFluid) ChangedAddonFluids.LITIX_CAMONIA_FLUID.get(), BlockBehaviour.Properties.of(Material.WATER, MaterialColor.SNOW).strength(100f)
-
+        super(() -> (FlowingFluid) ChangedAddonFluids.LITIX_CAMONIA_FLUID.get(),
+                BlockBehaviour.Properties.of(Material.WATER, MaterialColor.SNOW).strength(100f)
         );
     }
 
@@ -37,14 +39,12 @@ public class LitixCamoniaFluidBlock extends LiquidBlock {
 
     @Override
     public void tick(BlockState blockstate, ServerLevel world, BlockPos pos, Random random) {
-        super.tick(blockstate, world, pos, random);
         LitixCamoniaFluidUpdateTickProcedure.execute(world, pos.getX(), pos.getY(), pos.getZ());
         world.scheduleTick(pos, this, 10);
     }
 
     @Override
     public void entityInside(BlockState blockstate, Level world, BlockPos pos, Entity entity) {
-        super.entityInside(blockstate, world, pos, entity);
         LitixCamoniaFluidMobplayerCollidesBlockProcedure.execute(entity);
     }
 }

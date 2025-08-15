@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -38,11 +37,6 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
         ItemBlockRenderTypes.setRenderLayer(ChangedAddonBlocks.LUMINARA_BLOOM.get(), renderType -> renderType == RenderType.cutout());
     }
 
-    @Override
-    public @NotNull MobEffect getSuspiciousStewEffect() {
-        return super.getSuspiciousStewEffect();
-    }
-
     @SuppressWarnings("deprecation")
     @Override
     public int getLightBlock(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
@@ -59,7 +53,7 @@ public class LuminaraBloomBlock extends FlowerBlock implements BonemealableBlock
     }
 
     @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, Random random) {
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, BlockPos pos, Random random) {
         double x = pos.getX() + 0.5D;
         double y = pos.getY() + 1.0D;
         double z = pos.getZ() + 0.5D;

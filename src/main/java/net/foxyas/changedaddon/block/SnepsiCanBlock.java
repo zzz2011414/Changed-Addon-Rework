@@ -26,7 +26,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -34,7 +33,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SnepsiCanBlock extends Block implements SimpleWaterloggedBlock {
@@ -54,7 +52,7 @@ public class SnepsiCanBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public void appendHoverText(ItemStack itemstack, BlockGetter world, List<Component> list, TooltipFlag flag) {
         super.appendHoverText(itemstack, world, list, flag);
-        list.add(new TextComponent("Cat-ion? Isnt it spelled caution? Says do NOT drink. Contains goo?"));
+        list.add(new TextComponent("Cat-ion? Isn't it spelled caution? Says do NOT drink. Contains goo?"));
     }
 
     @Override
@@ -122,13 +120,5 @@ public class SnepsiCanBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return new ItemStack(ChangedAddonItems.SNEPSI.get());
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(ChangedAddonItems.SNEPSI.get()));
     }
 }

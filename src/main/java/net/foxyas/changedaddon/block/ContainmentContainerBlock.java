@@ -39,7 +39,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -48,8 +47,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -127,14 +124,6 @@ public class ContainmentContainerBlock extends Block implements SimpleWaterlogge
     @Override
     public boolean canSurvive(@NotNull BlockState blockState, LevelReader level, BlockPos pos) {
         return level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP);
-    }
-
-    @Override
-    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, LootContext.@NotNull Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
     }
 
     @Override

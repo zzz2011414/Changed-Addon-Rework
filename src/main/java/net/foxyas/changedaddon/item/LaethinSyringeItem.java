@@ -1,10 +1,27 @@
 package net.foxyas.changedaddon.item;
 
+import net.foxyas.changedaddon.init.ChangedAddonMobEffects;
+import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
-import net.foxyas.changedaddon.procedures.LaethinSyringePlayerFinishesUsingItemProcedure;
+import net.foxyas.changedaddon.network.ChangedAddonModVariables;
+import net.foxyas.changedaddon.procedures.SummonDripParticlesProcedure;
+import net.foxyas.changedaddon.util.DelayedTask;
+import net.foxyas.changedaddon.util.PlayerUtil;
+import net.ltxprogrammer.changed.init.ChangedItems;
 import net.ltxprogrammer.changed.item.SpecializedAnimations;
 import net.ltxprogrammer.changed.item.Syringe;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -14,7 +31,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class LaethinSyringeItem extends Item implements SpecializedAnimations {
+public class LaethinSyringeItem extends AbstractSyringeItem implements SpecializedAnimations {
+
     public LaethinSyringeItem() {
         super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).stacksTo(64)
                 .rarity(Rarity.RARE)
@@ -33,17 +51,72 @@ public class LaethinSyringeItem extends Item implements SpecializedAnimations {
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
-        ItemStack retval = super.finishUsingItem(itemstack, world, entity);
-        double x = entity.getX();
-        double y = entity.getY();
-        double z = entity.getZ();
-
-        LaethinSyringePlayerFinishesUsingItemProcedure.execute(world, x, y, z, entity);
-        return retval;
+        applyEffects(world, entity);
+        return onUse(itemstack, ChangedItems.SYRINGE.get().getDefaultInstance(), entity);
     }
 
     @Nullable
     public SpecializedAnimations.AnimationHandler getAnimationHandler() {
         return new Syringe.SyringeAnimation(this);
+    }
+
+    protected void applyEffects(Level level, LivingEntity entity) {
+        if (!(entity instanceof Player player)) return;
+
+        var playerVars = ChangedAddonModVariables.PlayerVariables.ofOrDefault(player);
+
+        if (!ProcessTransfur.isPlayerTransfurred(player)) {
+            if (playerVars.showWarns && !player.level.isClientSide())
+                player.displayClientMessage(new TranslatableComponent("changedaddon.untransfur.no_effect"), true);
+            return;
+        }
+
+        if (ProcessTransfur.isPlayerNotLatex(player)) {
+            applyMobEffect(player, ChangedAddonMobEffects.UNTRANSFUR.get(), 1000);
+            if (playerVars.showWarns && !player.level.isClientSide())
+                player.displayClientMessage(new TranslatableComponent("changedaddon.untransfur.sloweffect"), true);
+            return;
+        }
+
+        // Visual feedback
+        SummonDripParticlesProcedure.execute(player);
+        PlayerUtil.UnTransfurPlayer(player);
+
+        // Optional: Reset advancement
+        if (playerVars.resetTransfurAdvancements && !player.level.isClientSide() && player.getServer() != null) {
+            DelayedTask.schedule(10, () ->
+                    player.getServer().getCommands().performCommand(player.createCommandSourceStack().withSuppressedOutput().withPermission(4),
+                            "advancement revoke @s from minecraft:changed/transfur"));
+        }
+
+        // Apply blindness/confusion if in survival or adventure
+        if (!level.isClientSide && !player.isCreative()) {
+            applyMobEffect(player, MobEffects.BLINDNESS, 40);
+            applyMobEffect(player, MobEffects.CONFUSION, 60);
+        }
+
+        // Grant untransfur advancement if not already
+        if (player instanceof ServerPlayer serverPlayer) {
+            grantAdvancementIfNotDone(serverPlayer, "changed_addon:untransfuradvancement_2");
+        }
+
+        // Play sound
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), ChangedAddonSounds.UNTRANSFUR, SoundSource.NEUTRAL, 1, 1);
+    }
+
+    protected void applyMobEffect(Player entity, MobEffect effect, int duration) {
+        entity.addEffect(new MobEffectInstance(effect, duration, 0, false, false));
+    }
+
+    protected void grantAdvancementIfNotDone(ServerPlayer player, String advancementId) {
+        Advancement advancement = player.server.getAdvancements().getAdvancement(new ResourceLocation(advancementId));
+        if (advancement == null) return;
+
+        AdvancementProgress progress = player.getAdvancements().getOrStartProgress(advancement);
+        if (!progress.isDone()) {
+            for (String criterion : progress.getRemainingCriteria()) {
+                player.getAdvancements().award(advancement, criterion);
+            }
+        }
     }
 }

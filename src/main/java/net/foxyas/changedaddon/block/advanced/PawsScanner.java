@@ -290,8 +290,8 @@ public class PawsScanner extends Block {
     }
 
     public enum LockType implements StringRepresentable {
-        HUMAN(),
-        TRANSFURRED();
+        HUMAN,
+        TRANSFURRED;
 
         @Override
         public @NotNull String getSerializedName() {

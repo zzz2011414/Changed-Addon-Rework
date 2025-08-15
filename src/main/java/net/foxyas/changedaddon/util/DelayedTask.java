@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.util;
 
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,6 +30,11 @@ public class DelayedTask {
 
         this.id = nextId++;
         activeTasks.put(id, this);
+    }
+
+    @CanIgnoreReturnValue
+    public static DelayedTask schedule(int delayTicks, Runnable task){
+        return new DelayedTask(delayTicks, task);
     }
 
     @SubscribeEvent

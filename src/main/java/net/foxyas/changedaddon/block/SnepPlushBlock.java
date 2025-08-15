@@ -13,7 +13,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -31,7 +30,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -40,10 +38,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@ParametersAreNonnullByDefault
 public class SnepPlushBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -61,17 +59,17 @@ public class SnepPlushBlock extends Block implements SimpleWaterloggedBlock, Ent
     }
 
     @Override
-    public boolean propagatesSkylightDown(BlockState state, @NotNull BlockGetter reader, @NotNull BlockPos pos) {
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter reader, BlockPos pos) {
         return state.getFluidState().isEmpty();
     }
 
     @Override
-    public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
+    public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 0;
     }
 
     @Override
-    public @NotNull VoxelShape getVisualShape(@NotNull BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return Shapes.empty();
     }
 
@@ -81,7 +79,7 @@ public class SnepPlushBlock extends Block implements SimpleWaterloggedBlock, Ent
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, @NotNull BlockGetter world, @NotNull BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return switch (state.getValue(FACING)) {
             case NORTH -> box(4, 0, 3.5, 12, 18, 12);
             case EAST -> box(4, 0, 4, 12.5, 18, 12);
@@ -118,7 +116,7 @@ public class SnepPlushBlock extends Block implements SimpleWaterloggedBlock, Ent
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, @NotNull BlockState facingState, @NotNull LevelAccessor world, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
             world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
@@ -134,23 +132,11 @@ public class SnepPlushBlock extends Block implements SimpleWaterloggedBlock, Ent
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
-    }
-
-    @Override
-    public InteractionResult use(@NotNull BlockState blockstate, @NotNull Level world, @NotNull BlockPos pos, @NotNull Player entity, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+    public InteractionResult use(BlockState blockstate, Level world, BlockPos pos, Player entity, InteractionHand hand, BlockHitResult hit) {
         super.use(blockstate, world, pos, entity, hand, hit);
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        double hitX = hit.getLocation().x;
-        double hitY = hit.getLocation().y;
-        double hitZ = hit.getLocation().z;
-        Direction direction = hit.getDirection();
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof SnepPlushBlockEntity PlusheBlockEntity) {
             if (!PlusheBlockEntity.isSqueezed()) {

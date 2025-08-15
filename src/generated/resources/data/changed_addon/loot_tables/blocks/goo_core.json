@@ -2,26 +2,28 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "changed_addon:goo_core_fragment",
-          "weight": 1,
           "functions": [
             {
-              "function": "set_count",
+              "function": "minecraft:set_count",
               "count": {
-                "min": 1,
-                "max": 4
-              }
+                "type": "minecraft:uniform",
+                "min": 1.0,
+                "max": 4.0
+              },
+              "add": false
             },
             {
               "function": "minecraft:apply_bonus",
               "enchantment": "minecraft:fortune",
               "formula": "minecraft:ore_drops"
             }
-          ]
+          ],
+          "name": "changed_addon:goo_core_fragment"
         }
       ]
     }

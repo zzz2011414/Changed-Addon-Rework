@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -28,10 +26,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
+@ParametersAreNonnullByDefault
 public class SignalBlockBlock extends Block implements EntityBlock {
     public static final EnumProperty<SignalVariant> VARIANT = EnumProperty.create("variant", SignalVariant.class);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
@@ -82,14 +81,14 @@ public class SignalBlockBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public boolean canSurvive(@NotNull BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         BlockPos belowPos = pos.below();
         BlockState below = level.getBlockState(belowPos);
         return below.isFaceSturdy(level, belowPos, Direction.UP);
     }
 
     @Override
-    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Block block, @NotNull BlockPos fromPos, boolean moving) {
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean moving) {
         if (!canSurvive(state, level, pos)) {
             level.destroyBlock(pos, true); // dropa o item ao quebrar
         }
@@ -131,15 +130,6 @@ public class SignalBlockBlock extends Block implements EntityBlock {
     public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
         return 0;
     }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
-    }
-
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

@@ -13,7 +13,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -24,13 +23,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Collections;
-import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@ParametersAreNonnullByDefault
 public class CatalyzerBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
@@ -63,14 +61,6 @@ public class CatalyzerBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
-    }
-
-    @Override
     public void onPlace(BlockState blockstate, Level world, BlockPos pos, BlockState oldState, boolean moving) {
         super.onPlace(blockstate, world, pos, oldState, moving);
         world.scheduleTick(pos, this, 5);
@@ -93,10 +83,6 @@ public class CatalyzerBlock extends Block implements EntityBlock {
         int x = pos.getX();
         int y = pos.getY();
         int z = pos.getZ();
-        double hitX = hit.getLocation().x;
-        double hitY = hit.getLocation().y;
-        double hitZ = hit.getLocation().z;
-        Direction direction = hit.getDirection();
         CatalyzerOnBlockRightClickedProcedure.execute(world, x, y, z, blockstate, entity);
         return InteractionResult.SUCCESS;
     }

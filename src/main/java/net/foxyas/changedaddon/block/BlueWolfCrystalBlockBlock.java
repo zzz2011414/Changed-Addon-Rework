@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 
@@ -26,7 +27,7 @@ public class BlueWolfCrystalBlockBlock extends AbstractWolfCrystalExtender.Abstr
             return super.canSustainPlant(state, world, pos, facing, plantable);
     }
 
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random) {
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull Random random) {
         super.tick(state, level, pos, random);
         BlockPos above = pos.above();
         if (level.getBlockState(above).is(Blocks.AIR)) {

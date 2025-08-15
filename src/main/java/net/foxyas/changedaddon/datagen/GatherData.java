@@ -25,7 +25,7 @@ public class GatherData {
 
         generator.addProvider(new RecipeProvider(generator));
 
-        //generator.addProvider(new LootTableProvider(generator));
+        generator.addProvider(new LootTableProvider(generator));
 
         //generator.addProvider(new AdvancementProvider(generator, helper));
     }

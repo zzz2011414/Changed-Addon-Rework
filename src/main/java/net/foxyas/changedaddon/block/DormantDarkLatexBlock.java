@@ -16,7 +16,8 @@ import java.util.Random;
 
 public class DormantDarkLatexBlock extends AbstractLatexBlock {
     public DormantDarkLatexBlock() {
-        super(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.COLOR_GRAY).sound(SoundType.SLIME_BLOCK).strength(1.0F, 4.0F), LatexType.DARK_LATEX, ChangedItems.DARK_LATEX_GOO);
+        super(BlockBehaviour.Properties.of(Material.CLAY, MaterialColor.COLOR_GRAY).sound(SoundType.SLIME_BLOCK).noDrops()
+                .strength(1.0F, 4.0F), LatexType.DARK_LATEX, ChangedItems.DARK_LATEX_GOO);
     }
 
     @Override

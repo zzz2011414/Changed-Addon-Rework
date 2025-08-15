@@ -122,12 +122,8 @@ public class TimedKeypadBlockEntity extends KeypadBlockEntity {
         if (ticks % 10 == 0) {
             if (timer > 0) {
                 timer--;
-            } else if (timer < 0) {
-                timer = 0;
-                lockKeypad(level, pos, getBlockState());
-                this.playLock();
-                canTick = false;
             } else {
+                timer = 0;
                 lockKeypad(level, pos, getBlockState());
                 this.playLock();
                 canTick = false;

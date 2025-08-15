@@ -13,12 +13,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraftforge.common.TierSortingRegistry;
 
-import java.util.Collections;
-import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 
+@ParametersAreNonnullByDefault
 public class IridiumBlockBlock extends Block implements NonLatexCoverableBlock {
     public IridiumBlockBlock() {
         super(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.SNOW).sound(SoundType.NETHERITE_BLOCK).strength(30f, 50f).requiresCorrectToolForDrops());
@@ -36,13 +35,5 @@ public class IridiumBlockBlock extends Block implements NonLatexCoverableBlock {
             return TierSortingRegistry.isCorrectTierForDrops(Tiers.NETHERITE, state) || tieredItem.getTier().getLevel() >= 4;
         }
         return false;
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
     }
 }

@@ -2,7 +2,6 @@ package net.foxyas.changedaddon.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -11,10 +10,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.storage.loot.LootContext;
-
-import java.util.Collections;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public class WallWhiteCrackedBlock extends Block {
     public WallWhiteCrackedBlock() {
@@ -22,7 +18,7 @@ public class WallWhiteCrackedBlock extends Block {
     }
 
     @Override
-    public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+    public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
         return 15;
     }
 
@@ -31,13 +27,5 @@ public class WallWhiteCrackedBlock extends Block {
         if (player.getInventory().getSelected().getItem() instanceof PickaxeItem tieredItem)
             return tieredItem.getTier().getLevel() >= 0;
         return false;
-    }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
     }
 }

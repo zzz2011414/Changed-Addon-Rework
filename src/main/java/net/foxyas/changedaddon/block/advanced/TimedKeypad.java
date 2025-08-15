@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,6 +31,7 @@ import java.util.Random;
 public class TimedKeypad extends KeypadBlock {
     public TimedKeypad() {
         super();
+        drops = BuiltInLootTables.EMPTY;
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -3,6 +3,7 @@ package net.foxyas.changedaddon.item;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
 import net.foxyas.changedaddon.procedures.SummonEntityProcedure;
 import net.foxyas.changedaddon.util.PlayerUtil;
+import net.ltxprogrammer.changed.init.ChangedItems;
 import net.ltxprogrammer.changed.item.SpecializedAnimations;
 import net.ltxprogrammer.changed.item.Syringe;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -17,7 +18,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class DiffusionSyringeItem extends Item implements SpecializedAnimations {
+public class DiffusionSyringeItem extends AbstractSyringeItem implements SpecializedAnimations {
+
     public DiffusionSyringeItem() {
         super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).stacksTo(16)
                 .rarity(Rarity.EPIC)
@@ -35,7 +37,6 @@ public class DiffusionSyringeItem extends Item implements SpecializedAnimations 
 
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
-        ItemStack retval = super.finishUsingItem(itemstack, world, entity);
         //double x = entity.getX();
         //double y = entity.getY();
         //double z = entity.getZ();
@@ -47,7 +48,7 @@ public class DiffusionSyringeItem extends Item implements SpecializedAnimations 
             player.displayClientMessage(new TranslatableComponent("changedaddon.untransfur.diffusion"), true);
         }
 
-        return retval;
+        return onUse(itemstack, ChangedItems.SYRINGE.get().getDefaultInstance(), entity);
     }
 
     @Nullable
