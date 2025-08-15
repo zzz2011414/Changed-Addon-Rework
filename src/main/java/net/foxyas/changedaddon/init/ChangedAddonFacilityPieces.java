@@ -12,18 +12,13 @@ public class ChangedAddonFacilityPieces {
             case ROOM -> registerAddonRooms(event.getBuilder());
             case CORRIDOR -> registerAddonCorridors(event.getBuilder());
         }
-
-        if (event.getPieceType() == PieceType.CORRIDOR) {
-        }
-        if (event.getPieceType() == PieceType.ROOM) {
-        }
     }
 
     public static void registerAddonCorridors(FacilityPieceCollectionBuilder builder) {
-        builder.register(FacilityPieceCollectionBuilder.WEIGHT_COMMON * 2,
+        builder.register((int) (FacilityPieceCollectionBuilder.WEIGHT_COMMON * 1.5f),
                         new FacilityCorridorSection(new ResourceLocation("changed_addon:facility_hallways/specimen_containment_a"),
                                 LootTables.HIGH_TIER_LAB))
-                .register(FacilityPieceCollectionBuilder.WEIGHT_COMMON * 2,
+                .register((int) (FacilityPieceCollectionBuilder.WEIGHT_COMMON * 1.5f),
                         new FacilityCorridorSection(new ResourceLocation("changed_addon:facility_hallways/specimen_containment_b"),
                                 LootTables.HIGH_TIER_LAB));
     }
