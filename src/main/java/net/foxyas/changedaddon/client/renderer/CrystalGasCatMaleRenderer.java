@@ -7,6 +7,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.*;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleCatModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class CrystalGasCatMaleRenderer extends AdvancedHumanoidRenderer<CrystalGasCatMaleEntity, HimalayanCrystalGasCatModel, ArmorLatexMaleCatModel<CrystalGasCatMaleEntity>> {
     public CrystalGasCatMaleRenderer(EntityRendererProvider.Context context) {
@@ -20,7 +21,7 @@ public class CrystalGasCatMaleRenderer extends AdvancedHumanoidRenderer<CrystalG
     }
 
     @Override
-    public ResourceLocation getTextureLocation(CrystalGasCatMaleEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull CrystalGasCatMaleEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/himalayan_crystal_gas_cat.png");
     }
 }

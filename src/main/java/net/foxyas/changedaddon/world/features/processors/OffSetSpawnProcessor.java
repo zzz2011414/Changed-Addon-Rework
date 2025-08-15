@@ -38,10 +38,10 @@ public class OffSetSpawnProcessor extends StructureProcessor {
     @Nullable
     @Override
     public StructureTemplate.StructureBlockInfo process(
-            LevelReader world, BlockPos pos, BlockPos pivot,
-            StructureTemplate.StructureBlockInfo original,
+            @NotNull LevelReader world, @NotNull BlockPos pos, @NotNull BlockPos pivot,
+            StructureTemplate.@NotNull StructureBlockInfo original,
             StructureTemplate.StructureBlockInfo current,
-            StructurePlaceSettings settings
+            @NotNull StructurePlaceSettings settings
             , @Nullable StructureTemplate template) {
         // Aplica o offset aos blocos da estrutura
         BlockPos newPos = current.pos.offset(offsetX, offsetY, offsetZ);

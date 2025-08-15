@@ -52,7 +52,7 @@ public class SnepsiItem extends Item implements SpecializedItemRendering {
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack itemstack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
         return UseAnim.DRINK;
     }
 
@@ -62,13 +62,13 @@ public class SnepsiItem extends Item implements SpecializedItemRendering {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemstack, Level world, @NotNull List<Component> list, @NotNull TooltipFlag flag) {
         super.appendHoverText(itemstack, world, list, flag);
         list.add(new TranslatableComponent("item.changed_addon.snepsi.desc"));
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemstack, Level world, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
         ItemStack retval = super.finishUsingItem(itemstack, world, entity);
 
         if (!(entity instanceof ServerPlayer sPlayer)) return retval;

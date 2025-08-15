@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -36,14 +37,14 @@ public class TransfurTotemGuiScreen extends AbstractContainerScreen<TransfurTote
     }
 
     @Override
-    public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         super.render(ms, mouseX, mouseY, partialTicks);
         this.renderTooltip(ms, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack ms, float partialTicks, int gx, int gy) {
+    protected void renderBg(@NotNull PoseStack ms, float partialTicks, int gx, int gy) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -67,7 +68,7 @@ public class TransfurTotemGuiScreen extends AbstractContainerScreen<TransfurTote
     }
 
     @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
         this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.transfur_totem_gui.label_link_your_form"), 6, 6, -16777216);
         this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.transfur_totem_gui.label_press_the_totem_icon"), 0, 18, -16777216);
     }

@@ -42,10 +42,24 @@ public class ChangedAddonEntities {
      */
 
     //PlaceHolder
-    public static List<EntityType<?>> getAddonHumanoidChangedEntities() {
+    public static List<EntityType<?>> canUseAccessories() {
+        final List<EntityType<?>> ADDON_CHANGED_ENTITIES = getAddonHumanoidsChangedEntities();
+        ADDON_CHANGED_ENTITIES.remove(REYN.get());
+        ADDON_CHANGED_ENTITIES.remove(BUNY.get());
+        return ADDON_CHANGED_ENTITIES;
+    }
+
+    public static List<EntityType<?>> canUseExoskeleton() {
+        final List<EntityType<?>> ADDON_CHANGED_ENTITIES = getAddonHumanoidsChangedEntities();
+        ADDON_CHANGED_ENTITIES.remove(REYN.get());
+        return ADDON_CHANGED_ENTITIES;
+    }
+
+    public static List<EntityType<?>> getAddonHumanoidsChangedEntities() {
         final List<EntityType<?>> ADDON_CHANGED_ENTITIES = new ArrayList<>();
         ADDON_CHANGED_ENTITIES.add(LATEX_SNOW_FOX_MALE.get());
         ADDON_CHANGED_ENTITIES.add(LATEX_SNOW_FOX_FEMALE.get());
+        ADDON_CHANGED_ENTITIES.add(REYN.get());
         ADDON_CHANGED_ENTITIES.add(DAZED_LATEX.get());
         ADDON_CHANGED_ENTITIES.add(PURO_KIND.get());
         ADDON_CHANGED_ENTITIES.add(PURO_KIND_FEMALE.get());
@@ -59,7 +73,6 @@ public class ChangedAddonEntities {
         ADDON_CHANGED_ENTITIES.add(EXP_2_FEMALE.get());
         ADDON_CHANGED_ENTITIES.add(WOLFY.get());
         ADDON_CHANGED_ENTITIES.add(EXP_6.get());
-        ADDON_CHANGED_ENTITIES.add(REYN.get());
         ADDON_CHANGED_ENTITIES.add(EXPERIMENT_009_BOSS.get());
         ADDON_CHANGED_ENTITIES.add(EXPERIMENT_10_BOSS.get());
         ADDON_CHANGED_ENTITIES.add(EXP_1_MALE.get());

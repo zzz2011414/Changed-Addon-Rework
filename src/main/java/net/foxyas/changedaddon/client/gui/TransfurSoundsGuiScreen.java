@@ -15,6 +15,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -39,7 +40,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
     }
 
     @Override
-    public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         super.render(ms, mouseX, mouseY, partialTicks);
         if (FoxyasGuiEntityDisplayProcedure.execute(entity) instanceof LivingEntity livingEntity) {
@@ -49,7 +50,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
     }
 
     @Override
-    protected void renderBg(PoseStack ms, float partialTicks, int gx, int gy) {
+    protected void renderBg(@NotNull PoseStack ms, float partialTicks, int gx, int gy) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -71,7 +72,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
     }
 
     @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
         this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.transfur_sounds_gui.label_transfur_sounds"), 49, -24, -1);
         this.font.draw(poseStack,
 
@@ -96,7 +97,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfCatLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -110,7 +111,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfCatLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -124,7 +125,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfDogLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -138,7 +139,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfDogLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -152,7 +153,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfDogLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -166,7 +167,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfCatLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -180,7 +181,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfCatLatexProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -194,7 +195,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (CooldownResetProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -208,7 +209,7 @@ public class TransfurSoundsGuiScreen extends AbstractContainerScreen<TransfurSou
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (CanRoarProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }

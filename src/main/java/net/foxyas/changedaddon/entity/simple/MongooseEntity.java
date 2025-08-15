@@ -9,8 +9,11 @@ import net.ltxprogrammer.changed.entity.AttributePresets;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurMode;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAnimationEvents;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
@@ -35,7 +38,13 @@ public class MongooseEntity extends AbstractBasicChangedEntity implements Custom
 
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
-        return this.random.nextBoolean() ? Color3.parseHex("#d59871") : Color3.parseHex("#5c5c5c");
+        Color3 firstColor = Color3.parseHex("#d59871");
+        Color3 secondColor = Color3.parseHex("#5c5c5c");
+        if (firstColor != null && secondColor != null) {
+            return lerpColors(firstColor, secondColor);
+        }
+
+        return firstColor;
     }
 
     @Override

@@ -52,12 +52,12 @@ public class TheDecimatorItem extends Item {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack itemstack, BlockState blockstate) {
+    public float getDestroySpeed(@NotNull ItemStack itemstack, @NotNull BlockState blockstate) {
         return 1.5f;
     }
 
     @Override
-    public boolean mineBlock(ItemStack itemstack, Level world, BlockState blockstate, BlockPos pos, LivingEntity entity) {
+    public boolean mineBlock(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull BlockState blockstate, @NotNull BlockPos pos, @NotNull LivingEntity entity) {
         if (entity instanceof Player player && !player.getAbilities().instabuild) {
             itemstack.hurtAndBreak(1, entity, i -> i.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         }
@@ -65,7 +65,7 @@ public class TheDecimatorItem extends Item {
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack itemstack, LivingEntity target, LivingEntity attacker) {
+    public boolean hurtEnemy(@NotNull ItemStack itemstack, @NotNull LivingEntity target, @NotNull LivingEntity attacker) {
         Player player = (Player) attacker;
         if (!player.getAbilities().instabuild) {
             // Danifica o item na mão

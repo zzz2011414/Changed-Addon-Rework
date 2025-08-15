@@ -12,7 +12,7 @@
           {
             "processor_type": "minecraft:gravity",
             "heightmap": "WORLD_SURFACE_WG",
-            "offset": -10
+            "offset": -11
           }
         ]
       }
@@ -27,7 +27,7 @@
           {
             "processor_type": "minecraft:gravity",
             "heightmap": "WORLD_SURFACE_WG",
-            "offset": -10
+            "offset": -11
           }
         ]
       }
@@ -42,7 +42,7 @@
           {
             "processor_type": "minecraft:gravity",
             "heightmap": "WORLD_SURFACE_WG",
-            "offset": -10
+            "offset": -11
           }
         ]
       }

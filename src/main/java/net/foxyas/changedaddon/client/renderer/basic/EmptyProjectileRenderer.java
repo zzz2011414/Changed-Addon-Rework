@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import org.jetbrains.annotations.NotNull;
 
 public class EmptyProjectileRenderer<T extends AbstractArrow> extends EntityRenderer<T> {
 
@@ -18,7 +19,7 @@ public class EmptyProjectileRenderer<T extends AbstractArrow> extends EntityRend
     }
 
     @Override
-    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(@NotNull T entity, float entityYaw, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
         // Nenhuma renderização do modelo em si, mas pode usar efeito futuro
         // Pode adicionar partículas, brilho etc.
@@ -26,7 +27,7 @@ public class EmptyProjectileRenderer<T extends AbstractArrow> extends EntityRend
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull T entity) {
         return TEXTURE;
     }
 }

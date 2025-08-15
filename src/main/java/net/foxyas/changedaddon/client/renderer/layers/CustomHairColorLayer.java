@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
+import org.jetbrains.annotations.NotNull;
 
 public class CustomHairColorLayer<M extends AdvancedHumanoidModel<T>, T extends ChangedEntity> extends RenderLayer<T, M> implements FirstPersonLayer<T> {
     private final M model;
@@ -39,7 +40,7 @@ public class CustomHairColorLayer<M extends AdvancedHumanoidModel<T>, T extends 
         this.IsFemaleOrNot = Female; //Manual Select
     }
 
-    public void render(PoseStack pose, MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack pose, @NotNull MultiBufferSource bufferSource, int packedLight, @NotNull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!ChangedAddonClientConfiguration.FEMALE_SNEPS_HAIR.get() && IsFemaleOrNot) {
             return;
         } else if (!ChangedAddonClientConfiguration.MALE_SNEPS_HAIR.get() && !IsFemaleOrNot) {

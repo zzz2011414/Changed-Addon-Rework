@@ -26,7 +26,7 @@ public class LatexKitsuneFemaleRenderer extends AdvancedHumanoidRenderer<LatexKi
     }
 
     @Override
-    public ResourceLocation getTextureLocation(LatexKitsuneFemaleEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull LatexKitsuneFemaleEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/latex_kitsune_female/latex_kitsune_female.png");
     }
 }

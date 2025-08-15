@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class DyeableShortsColoringRecipe extends CustomRecipe {
     public DyeableShortsColoringRecipe(ResourceLocation id) {
@@ -22,7 +23,7 @@ public class DyeableShortsColoringRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer container, Level level) {
+    public boolean matches(CraftingContainer container, @NotNull Level level) {
         boolean hasShorts = false;
         boolean hasDye = false;
 
@@ -45,7 +46,7 @@ public class DyeableShortsColoringRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer container) {
+    public @NotNull ItemStack assemble(CraftingContainer container) {
         ItemStack pants = ItemStack.EMPTY;
 
         int totalR = 0;
@@ -99,7 +100,7 @@ public class DyeableShortsColoringRecipe extends CustomRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ChangedAddonModRecipeTypes.SHORTS_COLORING.get();
     }
 
@@ -108,19 +109,19 @@ public class DyeableShortsColoringRecipe extends CustomRecipe {
         public static final ResourceLocation ID = new ResourceLocation("changed_addon", "shorts_coloring");
 
         @Override
-        public DyeableShortsColoringRecipe fromJson(ResourceLocation id, JsonObject json) {
+        public @NotNull DyeableShortsColoringRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
             // Nenhum dado necessário no JSON
             return new DyeableShortsColoringRecipe(id);
         }
 
         @Override
-        public DyeableShortsColoringRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public DyeableShortsColoringRecipe fromNetwork(@NotNull ResourceLocation id, @NotNull FriendlyByteBuf buffer) {
             // Nenhum dado transmitido, então só retorna a instância
             return new DyeableShortsColoringRecipe(id);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, DyeableShortsColoringRecipe recipe) {
+        public void toNetwork(@NotNull FriendlyByteBuf buffer, @NotNull DyeableShortsColoringRecipe recipe) {
             // Nada para escrever
         }
 

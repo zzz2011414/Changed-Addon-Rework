@@ -208,7 +208,7 @@ public class HimalayanCrystalGasCatFemaleModel extends AdvancedHumanoidModel<Cry
         return super.getTransfurHelperModel(limb);
     }
 
-    public void prepareMobModel(CrystalGasCatFemaleEntity p_102861_, float p_102862_, float p_102863_, float p_102864_) {
+    public void prepareMobModel(@NotNull CrystalGasCatFemaleEntity p_102861_, float p_102862_, float p_102863_, float p_102864_) {
         this.prepareMobModel(this.animator, p_102861_, p_102862_, p_102863_, p_102864_);
     }
 
@@ -221,7 +221,7 @@ public class HimalayanCrystalGasCatFemaleModel extends AdvancedHumanoidModel<Cry
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
-    public ModelPart getArm(HumanoidArm p_102852_) {
+    public @NotNull ModelPart getArm(HumanoidArm p_102852_) {
         return p_102852_ == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
     }
 
@@ -229,7 +229,7 @@ public class HimalayanCrystalGasCatFemaleModel extends AdvancedHumanoidModel<Cry
         return p_102852_ == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg;
     }
 
-    public ModelPart getHead() {
+    public @NotNull ModelPart getHead() {
         return this.Head;
     }
 
@@ -237,7 +237,7 @@ public class HimalayanCrystalGasCatFemaleModel extends AdvancedHumanoidModel<Cry
         return this.Torso;
     }
 
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         this.RightLeg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.LeftLeg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.Head.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

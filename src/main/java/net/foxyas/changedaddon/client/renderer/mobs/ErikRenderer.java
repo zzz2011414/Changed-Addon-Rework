@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class ErikRenderer extends HumanoidMobRenderer<ErikEntity, HumanoidModel<ErikEntity>> {
     public ErikRenderer(EntityRendererProvider.Context context) {
@@ -15,7 +16,7 @@ public class ErikRenderer extends HumanoidMobRenderer<ErikEntity, HumanoidModel<
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ErikEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull ErikEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/erikskin.png");
     }
 }

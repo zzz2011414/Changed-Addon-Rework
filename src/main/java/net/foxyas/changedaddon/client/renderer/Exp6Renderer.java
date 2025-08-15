@@ -9,6 +9,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexFemaleCatModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class Exp6Renderer extends AdvancedHumanoidRenderer<Exp6Entity, GrapeSnowLeopardModel, ArmorLatexFemaleCatModel<Exp6Entity>> {
     public Exp6Renderer(EntityRendererProvider.Context context) {
@@ -22,7 +23,7 @@ public class Exp6Renderer extends AdvancedHumanoidRenderer<Exp6Entity, GrapeSnow
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Exp6Entity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Exp6Entity entity) {
         return new ResourceLocation("changed_addon:textures/entities/exp6_texture.png");
     }
 }

@@ -16,6 +16,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 @Deprecated
 public class UnifuserRecipeCategory implements IRecipeCategory<UnifuserRecipe> {
@@ -30,40 +31,40 @@ public class UnifuserRecipeCategory implements IRecipeCategory<UnifuserRecipe> {
     }
 
     @Override
-    public mezz.jei.api.recipe.RecipeType<UnifuserRecipe> getRecipeType() {
+    public mezz.jei.api.recipe.@NotNull RecipeType<UnifuserRecipe> getRecipeType() {
         return ChangedAddonJeiPlugin.JeiUnifuser_Type;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return new TextComponent((new TranslatableComponent("block.changed_addon.unifuser").getString()));
     }
 
     @Override
-    public IDrawable getBackground() {
+    public @NotNull IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon() {
+    public @NotNull IDrawable getIcon() {
         return this.icon;
     }
 
     @Deprecated
     @Override
     @SuppressWarnings("removal")
-    public Class<? extends UnifuserRecipe> getRecipeClass() {
+    public @NotNull Class<? extends UnifuserRecipe> getRecipeClass() {
         return UnifuserRecipe.class;
     }
 
     @Override
     @SuppressWarnings("removal")
-    public ResourceLocation getUid() {
+    public @NotNull ResourceLocation getUid() {
         return UID;
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, UnifuserRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, UnifuserRecipe recipe, @NotNull IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 1, 1).addIngredients(recipe.getIngredients().get(0));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 18).addItemStack(recipe.getResultItem());
         builder.addSlot(RecipeIngredientRole.INPUT, 37, 18).addIngredients(recipe.getIngredients().get(2));

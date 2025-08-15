@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class CrystalAddagerRedItem extends SwordItem {
     public CrystalAddagerRedItem() {
@@ -32,14 +33,14 @@ public class CrystalAddagerRedItem extends SwordItem {
                 return 20;
             }
 
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of();
             }
         }, 3, -2.4f, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON));
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
+    public boolean hurtEnemy(@NotNull ItemStack itemstack, @NotNull LivingEntity entity, @NotNull LivingEntity sourceentity) {
         boolean retval = super.hurtEnemy(itemstack, entity, sourceentity);
         AddTransfurProgressProcedure.addRed(entity, 3);
         return retval;

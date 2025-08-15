@@ -10,6 +10,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class TransfurVisionReloadListener extends SimpleJsonResourceReloadListen
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> entries, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, JsonElement> entries, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profiler) {
         TransfurVisionRegistry.clear();
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : entries.entrySet()) {

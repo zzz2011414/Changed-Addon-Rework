@@ -53,7 +53,7 @@ public class ParticlesTrailsLayer<M extends AdvancedHumanoidModel<T>, T extends 
     }
 
     @Override
-    public void render(@NotNull PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T entity,
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, T entity,
                        float limbSwing, float limbSwingAmount, float partialTicks,
                        float ageInTicks, float netHeadYaw, float headPitch) {
         AdvancedHumanoidModel<?> model = this.getParentModel();

@@ -52,7 +52,7 @@ public class HaydenTransfurRecipe extends CustomRecipe {
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv) {
+    public @NotNull ItemStack assemble(CraftingContainer inv) {
         ItemStack center = inv.getItem(4);
         if (center.is(ChangedItems.LATEX_SYRINGE.get())) {
             TransfurVariant<?> variant = Syringe.getVariant(center);
@@ -71,7 +71,7 @@ public class HaydenTransfurRecipe extends CustomRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<?> getSerializer() {
         return ChangedAddonModRecipeTypes.HAYDEN_SYRINGE_RECIPE.get(); // Veja abaixo
     }
 
@@ -80,19 +80,19 @@ public class HaydenTransfurRecipe extends CustomRecipe {
         public static final ResourceLocation ID = new ResourceLocation("changed_addon", "hayden_syringe_recipe");
 
         @Override
-        public HaydenTransfurRecipe fromJson(ResourceLocation id, JsonObject json) {
+        public @NotNull HaydenTransfurRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {
             // Nenhum dado necessário no JSON
             return new HaydenTransfurRecipe(id);
         }
 
         @Override
-        public HaydenTransfurRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public HaydenTransfurRecipe fromNetwork(@NotNull ResourceLocation id, @NotNull FriendlyByteBuf buffer) {
             // Nenhum dado transmitido, então só retorna a instância
             return new HaydenTransfurRecipe(id);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, HaydenTransfurRecipe recipe) {
+        public void toNetwork(@NotNull FriendlyByteBuf buffer, @NotNull HaydenTransfurRecipe recipe) {
             // Nada para escrever
         }
 

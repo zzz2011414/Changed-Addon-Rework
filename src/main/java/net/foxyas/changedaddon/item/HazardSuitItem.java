@@ -16,6 +16,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Map;
@@ -24,12 +25,12 @@ public abstract class HazardSuitItem extends ArmorItem {
     public HazardSuitItem(EquipmentSlot slot, Item.Properties properties) {
         super(new ArmorMaterial() {
             @Override
-            public int getDurabilityForSlot(EquipmentSlot slot) {
+            public int getDurabilityForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{13, 15, 16, 11}[slot.getIndex()] * 25;
             }
 
             @Override
-            public int getDefenseForSlot(EquipmentSlot slot) {
+            public int getDefenseForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{1, 4, 5, 1}[slot.getIndex()];
             }
 
@@ -39,17 +40,17 @@ public abstract class HazardSuitItem extends ArmorItem {
             }
 
             @Override
-            public SoundEvent getEquipSound() {
+            public @NotNull SoundEvent getEquipSound() {
                 return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("changed_addon:armor_equip"));
             }
 
             @Override
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of(new ItemStack(Items.LEATHER), new ItemStack(Items.IRON_INGOT));
             }
 
             @Override
-            public String getName() {
+            public @NotNull String getName() {
                 return "hazard_suit";
             }
 

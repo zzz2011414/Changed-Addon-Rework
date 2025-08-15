@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
 
 public class LuminarCrystalSpearRenderer extends EntityRenderer<LuminarCrystalSpearEntity> {
     private static final ResourceLocation texture = new ResourceLocation("changed_addon:textures/entities/luminar_crystal_spear.png");
@@ -23,7 +24,7 @@ public class LuminarCrystalSpearRenderer extends EntityRenderer<LuminarCrystalSp
     }
 
     @Override
-    public void render(LuminarCrystalSpearEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(LuminarCrystalSpearEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, @NotNull MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
         // Rotaciona igual ao tridente
@@ -42,7 +43,7 @@ public class LuminarCrystalSpearRenderer extends EntityRenderer<LuminarCrystalSp
 
 
     @Override
-    public ResourceLocation getTextureLocation(LuminarCrystalSpearEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull LuminarCrystalSpearEntity entity) {
         return texture;
     }
 }

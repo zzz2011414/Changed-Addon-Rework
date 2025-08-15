@@ -20,6 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Map;
@@ -28,12 +29,12 @@ public abstract class AccessoriesItem extends ArmorItem {
     public AccessoriesItem(EquipmentSlot slot, Item.Properties properties) {
         super(new ArmorMaterial() {
             @Override
-            public int getDurabilityForSlot(EquipmentSlot slot) {
+            public int getDurabilityForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{13, 15, 16, 11}[slot.getIndex()] * 45;
             }
 
             @Override
-            public int getDefenseForSlot(EquipmentSlot slot) {
+            public int getDefenseForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{0, 0, 2, 0}[slot.getIndex()];
             }
 
@@ -43,17 +44,17 @@ public abstract class AccessoriesItem extends ArmorItem {
             }
 
             @Override
-            public SoundEvent getEquipSound() {
+            public @NotNull SoundEvent getEquipSound() {
                 return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("changed_addon:armor_equip"));
             }
 
             @Override
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of(new ItemStack(ChangedAddonItems.PAINITE.get()));
             }
 
             @Override
-            public String getName() {
+            public @NotNull String getName() {
                 return "accessories";
             }
 

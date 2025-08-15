@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+import org.jetbrains.annotations.NotNull;
 
 public class SnepsiLeopardEntity extends LatexSnowLeopardMale {
     public SnepsiLeopardEntity(PlayMessages.SpawnEntity packet, Level world) {
@@ -52,7 +53,7 @@ public class SnepsiLeopardEntity extends LatexSnowLeopardMale {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -62,7 +63,7 @@ public class SnepsiLeopardEntity extends LatexSnowLeopardMale {
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 

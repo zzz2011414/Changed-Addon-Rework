@@ -82,7 +82,7 @@ public class DyeableShorts extends ClothingItem implements DyeableLeatherItem {
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
+    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> items) {
         if (this.allowdedIn(tab)) {
             for (DefaultColors color : DefaultColors.values()) {
                 ItemStack stack = new ItemStack(this);
@@ -93,7 +93,7 @@ public class DyeableShorts extends ClothingItem implements DyeableLeatherItem {
     }
 
     @Override
-    protected boolean allowdedIn(CreativeModeTab tab) {
+    protected boolean allowdedIn(@NotNull CreativeModeTab tab) {
         if (tab == ChangedTabs.TAB_CHANGED_ITEMS) {
             return false;
         } else if (tab == ChangedAddonTabs.TAB_CHANGED_ADDON) {

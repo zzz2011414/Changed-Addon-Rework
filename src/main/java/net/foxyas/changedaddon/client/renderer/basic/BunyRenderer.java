@@ -7,6 +7,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.CustomEyesLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class BunyRenderer extends AdvancedHumanoidRenderer<BunyEntity, BunyModel, ArmorLatexMaleWolfModel<BunyEntity>> {
     public BunyRenderer(EntityRendererProvider.Context context) {
@@ -17,7 +18,7 @@ public class BunyRenderer extends AdvancedHumanoidRenderer<BunyEntity, BunyModel
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BunyEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull BunyEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/buny.png");
     }
 }

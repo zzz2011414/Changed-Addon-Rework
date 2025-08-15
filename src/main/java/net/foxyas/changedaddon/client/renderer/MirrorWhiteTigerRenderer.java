@@ -9,6 +9,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexFemaleCatModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class MirrorWhiteTigerRenderer extends AdvancedHumanoidRenderer<MirrorWhiteTigerEntity, ModelMirrorWhiteTiger, ArmorLatexFemaleCatModel<MirrorWhiteTigerEntity>> {
     public MirrorWhiteTigerRenderer(EntityRendererProvider.Context context) {
@@ -21,7 +22,7 @@ public class MirrorWhiteTigerRenderer extends AdvancedHumanoidRenderer<MirrorWhi
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MirrorWhiteTigerEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull MirrorWhiteTigerEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/mirror_white_tiger_female.png");
     }
 }

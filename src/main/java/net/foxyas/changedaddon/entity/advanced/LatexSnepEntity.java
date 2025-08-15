@@ -125,7 +125,7 @@ public class LatexSnepEntity extends AbstractCanTameSnepChangedEntity {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -136,7 +136,7 @@ public class LatexSnepEntity extends AbstractCanTameSnepChangedEntity {
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -146,17 +146,17 @@ public class LatexSnepEntity extends AbstractCanTameSnepChangedEntity {
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return SoundEvents.OCELOT_HURT; //ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return SoundEvents.OCELOT_DEATH; //ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurt(@NotNull DamageSource source, float amount) {
         if (source == DamageSource.FALL)
             return false;
         if (source == DamageSource.FREEZE)
@@ -228,7 +228,7 @@ public class LatexSnepEntity extends AbstractCanTameSnepChangedEntity {
     }
 
     @Override
-    public boolean canBeLeashed(Player p_21418_) {
+    public boolean canBeLeashed(@NotNull Player p_21418_) {
         return !this.isLeashed();
     }
 

@@ -21,7 +21,7 @@ public class PatEntityTrigger extends SimpleCriterionTrigger<PatEntityTrigger.Tr
     }
 
     @Override
-    protected @NotNull TriggerInstance createInstance(JsonObject jsonObject, EntityPredicate.Composite p_66249_, DeserializationContext p_66250_) {
+    protected @NotNull TriggerInstance createInstance(JsonObject jsonObject, EntityPredicate.@NotNull Composite p_66249_, @NotNull DeserializationContext p_66250_) {
         // Verificação de presença de cada slot de armadura e desserialização dos predicados
         ItemPredicate headSlot = jsonObject.has("head") ? ItemPredicate.fromJson(jsonObject.get("head")) : ItemPredicate.ANY;
         ItemPredicate chestSlot = jsonObject.has("chest") ? ItemPredicate.fromJson(jsonObject.get("chest")) : ItemPredicate.ANY;

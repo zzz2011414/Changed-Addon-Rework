@@ -11,6 +11,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class SnowLeopardPartialRenderer extends AdvancedHumanoidRenderer<SnowLeopardPartialEntity, SnowLeopardPartialModel, ArmorLatexMaleCatModel<SnowLeopardPartialEntity>> {
 
@@ -43,12 +44,12 @@ public class SnowLeopardPartialRenderer extends AdvancedHumanoidRenderer<SnowLeo
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SnowLeopardPartialEntity partial) {
+    public @NotNull ResourceLocation getTextureLocation(SnowLeopardPartialEntity partial) {
         return partial.getSkinTextureLocation();
     }
 
     @Override
-    public void render(SnowLeopardPartialEntity latex, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(SnowLeopardPartialEntity latex, float yRot, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
         if (latex.getUnderlyingPlayer() instanceof AbstractClientPlayer clientPlayer) {
             this.model.setModelProperties(clientPlayer);
         } else {
@@ -58,7 +59,7 @@ public class SnowLeopardPartialRenderer extends AdvancedHumanoidRenderer<SnowLeo
     }
 
     @Override
-    protected void scale(SnowLeopardPartialEntity entity, PoseStack pose, float partialTick) {
+    protected void scale(@NotNull SnowLeopardPartialEntity entity, PoseStack pose, float partialTick) {
         float scale = 0.9375F;
         pose.scale(scale, scale, scale);
     }

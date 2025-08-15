@@ -131,7 +131,7 @@ public class TFTagsProvider extends TagsProvider<TransfurVariant<?>> {
             }
 
             @Override
-            public Stream<Pair<TagKey<TransfurVariant<?>>, HolderSet.Named<TransfurVariant<?>>>> getTags() {
+            public @NotNull Stream<Pair<TagKey<TransfurVariant<?>>, HolderSet.Named<TransfurVariant<?>>>> getTags() {
                 return Stream.empty();
             }
 
@@ -151,7 +151,7 @@ public class TFTagsProvider extends TagsProvider<TransfurVariant<?>> {
             }
 
             @Override
-            public void bindTags(Map<TagKey<TransfurVariant<?>>, List<Holder<TransfurVariant<?>>>> p_205997_) {
+            public void bindTags(@NotNull Map<TagKey<TransfurVariant<?>>, List<Holder<TransfurVariant<?>>>> p_205997_) {
 
             }
 

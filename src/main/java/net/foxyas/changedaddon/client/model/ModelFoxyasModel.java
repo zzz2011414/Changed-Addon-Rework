@@ -10,6 +10,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 // Made with Blockbench 4.6.5
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -109,7 +110,7 @@ public class ModelFoxyasModel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         Torso.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         RightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
@@ -118,7 +119,7 @@ public class ModelFoxyasModel<T extends Entity> extends EntityModel<T> {
         LeftLeg.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
     }
 
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.RightArm.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
         this.LeftLeg.xRot = Mth.cos(limbSwing) * -1.0F * limbSwingAmount;
         this.Head.yRot = netHeadYaw / (180F / (float) Math.PI);

@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class PainiteAxeItem extends AxeItem {
     public PainiteAxeItem() {
@@ -31,7 +32,7 @@ public class PainiteAxeItem extends AxeItem {
                 return 30;
             }
 
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of(new ItemStack(ChangedAddonItems.PAINITE.get()));
             }
         }, 1, -2.8f, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON_COMBAT_OPTIONAL).fireResistant());

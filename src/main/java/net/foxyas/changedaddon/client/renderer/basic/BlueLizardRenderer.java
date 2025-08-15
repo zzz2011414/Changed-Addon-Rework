@@ -9,6 +9,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleDragonModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class BlueLizardRenderer extends AdvancedHumanoidRenderer<BlueLizard, BlueLizardModel, ArmorLatexMaleDragonModel<BlueLizard>> {
     public BlueLizardRenderer(EntityRendererProvider.Context context) {
@@ -19,7 +20,7 @@ public class BlueLizardRenderer extends AdvancedHumanoidRenderer<BlueLizard, Blu
         this.addLayer(GasMaskLayer.forSnouted(this, context.getModelSet()));
     }
 
-    public ResourceLocation getTextureLocation(BlueLizard p_114482_) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull BlueLizard p_114482_) {
         return new ResourceLocation(ChangedAddonMod.MODID, "textures/entities/blue_lizard.png");
     }
 }

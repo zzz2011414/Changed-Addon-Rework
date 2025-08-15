@@ -11,6 +11,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleCatModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class SnowLeopardMaleOrganicRenderer extends AdvancedHumanoidRenderer<SnowLeopardMaleOrganicEntity, BioSynthSnowLeopardMaleModel, ArmorLatexMaleCatModel<SnowLeopardMaleOrganicEntity>> {
     public SnowLeopardMaleOrganicRenderer(EntityRendererProvider.Context context) {
@@ -24,7 +25,7 @@ public class SnowLeopardMaleOrganicRenderer extends AdvancedHumanoidRenderer<Sno
     }
 
     @Override
-    public ResourceLocation getTextureLocation(SnowLeopardMaleOrganicEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull SnowLeopardMaleOrganicEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/biosynthsnowleopardmale.png");
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import org.jetbrains.annotations.NotNull;
 
 public class WhiteWolfCrystalFragmentItem extends Item {
     public WhiteWolfCrystalFragmentItem() {
@@ -13,7 +14,7 @@ public class WhiteWolfCrystalFragmentItem extends Item {
     }
 
     @Override
-    public boolean hurtEnemy(ItemStack itemstack, LivingEntity entity, LivingEntity sourceentity) {
+    public boolean hurtEnemy(@NotNull ItemStack itemstack, @NotNull LivingEntity entity, @NotNull LivingEntity sourceentity) {
         boolean retval = super.hurtEnemy(itemstack, entity, sourceentity);
         AddTransfurProgressProcedure.addRed(entity, 5);
         return retval;

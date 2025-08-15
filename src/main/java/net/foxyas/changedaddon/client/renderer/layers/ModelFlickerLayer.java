@@ -19,7 +19,7 @@ public class ModelFlickerLayer<M extends AdvancedHumanoidModel<T>, T extends Cha
     }
 
     @Override
-    public void render(@NotNull PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         float healthRatio = entity.computeHealthRatio();
         if (healthRatio >= 0.5f) return;
 

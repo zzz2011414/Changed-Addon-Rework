@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -81,7 +82,7 @@ public class MirrorWhiteTigerEntity extends ChangedEntity implements PowderSnowW
         //attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    public boolean causeFallDamage(float p_148859_, float p_148860_, DamageSource p_148861_) {
+    public boolean causeFallDamage(float p_148859_, float p_148860_, @NotNull DamageSource p_148861_) {
         return false;
     }
 
@@ -123,7 +124,7 @@ public class MirrorWhiteTigerEntity extends ChangedEntity implements PowderSnowW
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -134,7 +135,7 @@ public class MirrorWhiteTigerEntity extends ChangedEntity implements PowderSnowW
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -144,12 +145,12 @@ public class MirrorWhiteTigerEntity extends ChangedEntity implements PowderSnowW
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 

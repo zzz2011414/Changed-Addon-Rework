@@ -31,7 +31,7 @@ public class LaethinminatorItem extends Item implements SpecializedAnimations {
         super(new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON).durability(320).rarity(Rarity.UNCOMMON));
     }
 
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(@NotNull ItemStack stack) {
         return 72000;
     }
 
@@ -50,7 +50,7 @@ public class LaethinminatorItem extends Item implements SpecializedAnimations {
     }
 
     @Override
-    public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int ticks) {
+    public void onUseTick(@NotNull Level level, @NotNull LivingEntity entity, @NotNull ItemStack stack, int ticks) {
         super.onUseTick(level, entity, stack, ticks);
         if (!(entity instanceof Player player)) {
             return;

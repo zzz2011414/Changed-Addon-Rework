@@ -289,7 +289,7 @@ public class VoidFoxModel extends AdvancedHumanoidModel<VoidFoxEntity> implement
 
     }*/
 
-    public ModelPart getArm(HumanoidArm p_102852_) {
+    public @NotNull ModelPart getArm(HumanoidArm p_102852_) {
         return p_102852_ == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
     }
 
@@ -305,7 +305,7 @@ public class VoidFoxModel extends AdvancedHumanoidModel<VoidFoxEntity> implement
         return this.Torso;
     }
 
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         this.RightLeg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.LeftLeg.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         this.Head.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);

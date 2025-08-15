@@ -31,22 +31,22 @@ public class CatalyzerRecipeCategory implements IRecipeCategory<CatalyzerRecipe>
     }
 
     @Override
-    public mezz.jei.api.recipe.RecipeType<CatalyzerRecipe> getRecipeType() {
+    public mezz.jei.api.recipe.@NotNull RecipeType<CatalyzerRecipe> getRecipeType() {
         return ChangedAddonJeiPlugin.JeiCatalyzer_Type;
     }
 
     @Override
-    public Component getTitle() {
+    public @NotNull Component getTitle() {
         return new TextComponent((new TranslatableComponent("block.changed_addon.catalyzer").getString()));
     }
 
     @Override
-    public IDrawable getBackground() {
+    public @NotNull IDrawable getBackground() {
         return this.background;
     }
 
     @Override
-    public IDrawable getIcon() {
+    public @NotNull IDrawable getIcon() {
         return this.icon;
     }
 
@@ -64,7 +64,7 @@ public class CatalyzerRecipeCategory implements IRecipeCategory<CatalyzerRecipe>
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, CatalyzerRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, CatalyzerRecipe recipe, @NotNull IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 12, 18).addIngredients(recipe.getIngredients().get(0));
         builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 18).addItemStack(recipe.getResultItem());
 

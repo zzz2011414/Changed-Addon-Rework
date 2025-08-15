@@ -8,11 +8,13 @@ import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.init.ChangedTagsExtension;
 import net.ltxprogrammer.changed.data.AccessorySlotType;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -78,7 +80,8 @@ public class AccessoryEntityProvider implements DataProvider {
 
     protected void registerEntityAccessories() {
         this.add(ChangedTagsExtension.AccessoryEntityTags.HUMANOIDS)
-                .entities(ChangedAddonEntities.getAddonHumanoidChangedEntities().toArray(new EntityType[0]))
+                //.entities(ChangedAddonEntities.accessoriesCompatibleAddonChangedEntities().toArray(new EntityType[0]))
+                .entityTypesTag(ChangedAddonTags.EntityTypes.CAN_USE_ACCESSORIES)
                 .slots(getHumanoidSlots());
     }
 
@@ -95,6 +98,7 @@ public class AccessoryEntityProvider implements DataProvider {
     public static class Appender {
 
         private final Set<EntityType<?>> entities = new HashSet<>();
+        private final Set<TagKey<EntityType<?>>> entityTypesTags = new HashSet<>();
         private final Set<AccessorySlotType> slots = new ObjectArraySet<>();
 
         private Appender() {
@@ -110,6 +114,16 @@ public class AccessoryEntityProvider implements DataProvider {
             return this;
         }
 
+        public Appender entityTypesTag(TagKey<EntityType<?>> entityTypeTagKey) {
+            this.entityTypesTags.add(entityTypeTagKey);
+            return this;
+        }
+
+        public Appender entityTypesTags(TagKey<EntityType<?>>... entityTypeTagKey) {
+            Collections.addAll(this.entityTypesTags, entityTypeTagKey);
+            return this;
+        }
+
         public Appender slot(AccessorySlotType slot) {
             slots.add(slot);
             return this;
@@ -121,7 +135,7 @@ public class AccessoryEntityProvider implements DataProvider {
         }
 
         private boolean isInvalid() {
-            return entities.isEmpty() || slots.isEmpty();
+            return (entities.isEmpty() && entityTypesTags.isEmpty()) || slots.isEmpty();
         }
 
         private JsonObject toJson() {
@@ -133,6 +147,10 @@ public class AccessoryEntityProvider implements DataProvider {
 
             for (EntityType<?> type : entities) {
                 entityAr.add(type.getRegistryName().toString());
+            }
+
+            for (TagKey<EntityType<?>> typeTagKey : entityTypesTags){
+                entityAr.add("#" + typeTagKey.location());
             }
 
             for (AccessorySlotType slot : slots) {

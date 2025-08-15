@@ -10,6 +10,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class Exp1MaleRenderer extends AdvancedHumanoidRenderer<Exp1MaleEntity, MaleExp1Model, ArmorLatexMaleWolfModel<Exp1MaleEntity>> {
     public Exp1MaleRenderer(EntityRendererProvider.Context context) {
@@ -21,7 +22,7 @@ public class Exp1MaleRenderer extends AdvancedHumanoidRenderer<Exp1MaleEntity, M
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Exp1MaleEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Exp1MaleEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/latex_snowfox_male_new.png");
     }
 }

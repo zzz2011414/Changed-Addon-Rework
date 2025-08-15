@@ -43,7 +43,7 @@ public class HaydenFennecFoxEntity extends AbstractBasicOrganicChangedEntity {
     }
 
     @Override
-    public boolean causeFallDamage(float p_148859_, float p_148860_, DamageSource p_148861_) {
+    public boolean causeFallDamage(float p_148859_, float p_148860_, @NotNull DamageSource p_148861_) {
         return false;
     }
 

@@ -228,8 +228,15 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
-        return super.getTransfurColor(cause);
+        Color3 firstColor = Color3.parseHex("#AEBBF7FF");
+        Color3 secondColor = Color3.parseHex("#71FFFFFF");
+        if (firstColor != null && secondColor != null) {
+            return lerpColors(firstColor, secondColor);
+        }
+
+        return firstColor;
     }
+
 
     @Override
     public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
@@ -729,7 +736,9 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         }
 
         public String getFormatedName() {
-            return name().substring(0, 1).toUpperCase() + name().substring(1);
+            String normalName = name();
+            String lowerCaseName = name().substring(1).toLowerCase();
+            return normalName.toUpperCase() + lowerCaseName;
         }
 
 

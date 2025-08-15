@@ -97,12 +97,12 @@ public class SignalBlockBlock extends Block implements EntityBlock {
 
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return Shapes.empty();
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return switch (state.getValue(FACING)) {
             case NORTH -> box(3, 0, 3, 13, 3.5, 13);
             case EAST -> box(3, 0, 3, 13, 3.5, 13);
@@ -169,7 +169,7 @@ public class SignalBlockBlock extends Block implements EntityBlock {
         }
 
         @Override
-        public String getSerializedName() {
+        public @NotNull String getSerializedName() {
             return name;
         }
     }

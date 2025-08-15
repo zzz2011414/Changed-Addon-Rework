@@ -234,7 +234,7 @@ public class Experiment009BossModel extends AdvancedHumanoidModel<Experiment009B
     }
 
     @Override
-    public void prepareMobModel(Experiment009BossEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(@NotNull Experiment009BossEntity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -256,7 +256,7 @@ public class Experiment009BossModel extends AdvancedHumanoidModel<Experiment009B
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
-    public ModelPart getArm(HumanoidArm p_102852) {
+    public @NotNull ModelPart getArm(HumanoidArm p_102852) {
         return p_102852 == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
     }
 
@@ -264,7 +264,7 @@ public class Experiment009BossModel extends AdvancedHumanoidModel<Experiment009B
         return humanoidArm == HumanoidArm.LEFT ? this.LeftLeg : this.RightLeg;
     }
 
-    public ModelPart getHead() {
+    public @NotNull ModelPart getHead() {
         return this.Head;
     }
 
@@ -274,7 +274,7 @@ public class Experiment009BossModel extends AdvancedHumanoidModel<Experiment009B
 
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         Torso.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         RightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

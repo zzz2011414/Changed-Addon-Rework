@@ -26,7 +26,7 @@ public abstract class DyeableClothingItem extends ClothingItem implements Dyeabl
     }
 
     @Override
-    protected boolean allowdedIn(CreativeModeTab tab) {
+    protected boolean allowdedIn(@NotNull CreativeModeTab tab) {
         if (tab == ChangedTabs.TAB_CHANGED_ITEMS) {
             return false;
         } else if (tab == ChangedAddonTabs.TAB_CHANGED_ADDON) {

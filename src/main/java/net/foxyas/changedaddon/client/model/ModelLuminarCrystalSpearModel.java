@@ -9,6 +9,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 // Made with Blockbench 4.12.3
 // Exported for Minecraft version 1.17 or later with Mojang mappings
@@ -104,11 +105,11 @@ public class ModelLuminarCrystalSpearModel<T extends Entity> extends EntityModel
     }
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         IceSpikeBottom.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         Ice_Spike2.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         Ice_Spike3.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

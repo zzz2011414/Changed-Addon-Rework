@@ -2,6 +2,7 @@ package net.foxyas.changedaddon.datagen;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
+import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.ltxprogrammer.changed.init.ChangedEntities;
 import net.ltxprogrammer.changed.init.ChangedTags;
@@ -85,5 +86,11 @@ public class EntityTypeTagsProvider extends net.minecraft.data.tags.EntityTypeTa
 
         tag(EntityTypeTags.IMPACT_PROJECTILES).add(
                 PARTICLE_PROJECTILE.get());
+
+        tag(ChangedAddonTags.EntityTypes.CAN_USE_ACCESSORIES).add(
+                ChangedAddonEntities.canUseAccessories().toArray(new EntityType[0])
+        );
+
+        tag(ChangedTags.EntityTypes.CAN_WEAR_EXOSKELETON).add(canUseExoskeleton().toArray(new EntityType[0]));
     }
 }

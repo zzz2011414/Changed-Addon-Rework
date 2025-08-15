@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class WolfPlushBlockEntity extends BlockEntity {
     private static final String SQUEEZED_TAG = "squeezedTicks";
@@ -16,7 +17,7 @@ public class WolfPlushBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag compound) {
+    public void load(@NotNull CompoundTag compound) {
         super.load(compound);
         if (compound.contains(SQUEEZED_TAG)) {
             this.squeezedTicks = compound.getInt(SQUEEZED_TAG);
@@ -24,7 +25,7 @@ public class WolfPlushBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag compound) {
+    public void saveAdditional(@NotNull CompoundTag compound) {
         super.saveAdditional(compound);
         compound.putInt(SQUEEZED_TAG, this.squeezedTicks);
     }
@@ -35,7 +36,7 @@ public class WolfPlushBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         return this.saveWithFullMetadata();
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class AmmoniaItem extends Item {
     public AmmoniaItem() {
@@ -14,7 +15,7 @@ public class AmmoniaItem extends Item {
     }
 
     @Override
-    public void onCraftedBy(ItemStack itemstack, Level world, Player entity) {
+    public void onCraftedBy(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull Player entity) {
         super.onCraftedBy(itemstack, world, entity);
         AmmoniaItemIsCraftedsmeltedProcedure.execute(entity);
     }

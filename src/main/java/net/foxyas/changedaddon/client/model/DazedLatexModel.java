@@ -225,7 +225,7 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedLatexEntity> imp
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
-    public ModelPart getArm(HumanoidArm p_102852) {
+    public @NotNull ModelPart getArm(HumanoidArm p_102852) {
         return p_102852 == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
     }
 
@@ -242,7 +242,7 @@ public class DazedLatexModel extends AdvancedHumanoidModel<DazedLatexEntity> imp
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         Torso.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         RightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

@@ -125,6 +125,7 @@ public class SnowLeopardMaleOrganicEntity extends AbstractCanTameSnepChangedEnti
         return Gender.MALE;
     }
 
+    @Override
     public Color3 getTransfurColor(TransfurCause cause) {
         return Color3.GRAY;
     }
@@ -144,7 +145,7 @@ public class SnowLeopardMaleOrganicEntity extends AbstractCanTameSnepChangedEnti
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -160,7 +161,7 @@ public class SnowLeopardMaleOrganicEntity extends AbstractCanTameSnepChangedEnti
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -196,12 +197,12 @@ public class SnowLeopardMaleOrganicEntity extends AbstractCanTameSnepChangedEnti
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 

@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -19,13 +20,13 @@ public class LitixCamoniaItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemstack, Level world, List<Component> list, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack itemstack, Level world, @NotNull List<Component> list, @NotNull TooltipFlag flag) {
         super.appendHoverText(itemstack, world, list, flag);
         list.add(new TextComponent("Made From Ammonia"));
     }
 
     @Override
-    public void onCraftedBy(ItemStack itemstack, Level world, Player entity) {
+    public void onCraftedBy(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull Player entity) {
         super.onCraftedBy(itemstack, world, entity);
         LitixCamoniaItemIsCraftedsmeltedProcedure.execute(entity);
     }

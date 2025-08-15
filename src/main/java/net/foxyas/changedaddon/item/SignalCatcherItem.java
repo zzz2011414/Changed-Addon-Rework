@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class SignalCatcherItem extends Item {
     public SignalCatcherItem() {
@@ -18,12 +19,12 @@ public class SignalCatcherItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack itemstack) {
+    public int getUseDuration(@NotNull ItemStack itemstack) {
         return 15;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player entity, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player entity, @NotNull InteractionHand hand) {
         InteractionResultHolder<ItemStack> ar = super.use(world, entity, hand);
         ItemStack itemstack = ar.getObject();
         double x = entity.getX();
@@ -34,7 +35,7 @@ public class SignalCatcherItem extends Item {
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemstack, Level world, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
         ItemStack retval = super.finishUsingItem(itemstack, world, entity);
         double x = entity.getX();
         double y = entity.getY();
@@ -45,7 +46,7 @@ public class SignalCatcherItem extends Item {
     }
 
     @Override
-    public void releaseUsing(ItemStack itemstack, Level world, LivingEntity entity, int time) {
+    public void releaseUsing(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity, int time) {
         SignalCatcherOnPlayerStoppedUsingProcedure.execute(entity, itemstack);
     }
 }

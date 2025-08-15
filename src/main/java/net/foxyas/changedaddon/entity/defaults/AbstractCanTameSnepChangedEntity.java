@@ -76,7 +76,7 @@ public abstract class AbstractCanTameSnepChangedEntity extends AbstractSnowLeopa
     }
 
     @Override
-    public void startSleeping(BlockPos blockPos) {
+    public void startSleeping(@NotNull BlockPos blockPos) {
         super.startSleeping(blockPos);
         //this.setPose(Pose.SLEEPING);
     }
@@ -190,7 +190,7 @@ public abstract class AbstractCanTameSnepChangedEntity extends AbstractSnowLeopa
     }
 
     @Override
-    protected @NotNull InteractionResult mobInteract(Player player, InteractionHand hand) {
+    protected @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
         if (this.level.isClientSide) {
@@ -270,7 +270,7 @@ public abstract class AbstractCanTameSnepChangedEntity extends AbstractSnowLeopa
         return entity == this.getOwner();
     }
 
-    public boolean canAttack(LivingEntity entity) {
+    public boolean canAttack(@NotNull LivingEntity entity) {
         return !this.isOwnedBy(entity) && super.canAttack(entity);
     }
 
@@ -285,7 +285,7 @@ public abstract class AbstractCanTameSnepChangedEntity extends AbstractSnowLeopa
         return super.getTeam();
     }
 
-    public boolean isAlliedTo(Entity entity) {
+    public boolean isAlliedTo(@NotNull Entity entity) {
         if (this.isTame()) {
             LivingEntity livingentity = this.getOwner();
             if (entity == livingentity) {
@@ -300,7 +300,7 @@ public abstract class AbstractCanTameSnepChangedEntity extends AbstractSnowLeopa
         return super.isAlliedTo(entity);
     }
 
-    public void die(DamageSource source) {
+    public void die(@NotNull DamageSource source) {
         // FORGE: Super moved to top so that death message would be cancelled properly
         net.minecraft.network.chat.Component deathMessage = this.getCombatTracker().getDeathMessage();
         super.die(source);

@@ -26,7 +26,7 @@ public class TimedKeypadBlockEntity extends KeypadBlockEntity {
     }
 
     @Override
-    public BlockEntityType<?> getType() {
+    public @NotNull BlockEntityType<?> getType() {
         return ChangedAddonBlockEntities.TIMED_KEYPAD_BLOCK_ENTITY.get();
     }
 
@@ -88,7 +88,7 @@ public class TimedKeypadBlockEntity extends KeypadBlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public @NotNull CompoundTag getUpdateTag() {
         return saveWithoutMetadata();
     }
 

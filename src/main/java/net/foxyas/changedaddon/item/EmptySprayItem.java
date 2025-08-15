@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class EmptySprayItem extends Item {
     public EmptySprayItem() {
@@ -17,12 +18,12 @@ public class EmptySprayItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack itemstack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
         return UseAnim.BLOCK;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player entity, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, @NotNull Player entity, @NotNull InteractionHand hand) {
         InteractionResultHolder<ItemStack> ar = super.use(world, entity, hand);
         ItemStack itemstack = ar.getObject();
         double x = entity.getX();

@@ -59,7 +59,7 @@ public class DazedRenderer extends AdvancedHumanoidRenderer<DazedLatexEntity, Da
         }
 
         @Override
-        public void render(PoseStack pose, MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        public void render(@NotNull PoseStack pose, @NotNull MultiBufferSource bufferSource, int packedLight, @NotNull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             if (entity instanceof DazedLatexEntity dazedLatexEntity
                     && !dazedLatexEntity.isMorphed()) {
                 customEyesLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);
@@ -86,7 +86,7 @@ public class DazedRenderer extends AdvancedHumanoidRenderer<DazedLatexEntity, Da
         }
 
         @Override
-        public void render(PoseStack pose, MultiBufferSource bufferSource, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        public void render(@NotNull PoseStack pose, @NotNull MultiBufferSource bufferSource, int packedLight, @NotNull T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             if (entity instanceof DazedLatexEntity dazedLatexEntity
                     && !dazedLatexEntity.isMorphed()) {
                 transfurCapeLayer.render(pose, bufferSource, packedLight, entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch);

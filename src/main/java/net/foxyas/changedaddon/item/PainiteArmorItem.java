@@ -9,17 +9,18 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class PainiteArmorItem extends ArmorItem {
     public PainiteArmorItem(EquipmentSlot slot, Item.Properties properties) {
         super(new ArmorMaterial() {
             @Override
-            public int getDurabilityForSlot(EquipmentSlot slot) {
+            public int getDurabilityForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{13, 15, 16, 11}[slot.getIndex()] * 40;
             }
 
             @Override
-            public int getDefenseForSlot(EquipmentSlot slot) {
+            public int getDefenseForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{3, 6, 8, 3}[slot.getIndex()];
             }
 
@@ -29,17 +30,17 @@ public abstract class PainiteArmorItem extends ArmorItem {
             }
 
             @Override
-            public SoundEvent getEquipSound() {
+            public @NotNull SoundEvent getEquipSound() {
                 return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("item.armor.equip_netherite"));
             }
 
             @Override
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of(new ItemStack(ChangedAddonItems.PAINITE.get()), new ItemStack(Items.NETHERITE_INGOT));
             }
 
             @Override
-            public String getName() {
+            public @NotNull String getName() {
                 return "painite_armor";
             }
 

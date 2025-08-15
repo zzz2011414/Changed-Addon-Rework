@@ -18,6 +18,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 public class LatexDragonSnowLeopardSharkEntity extends AbstractLatexShark {
     public LatexDragonSnowLeopardSharkEntity(PlayMessages.SpawnEntity packet, Level world) {
@@ -45,7 +46,7 @@ public class LatexDragonSnowLeopardSharkEntity extends AbstractLatexShark {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -64,7 +65,7 @@ public class LatexDragonSnowLeopardSharkEntity extends AbstractLatexShark {
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -79,12 +80,12 @@ public class LatexDragonSnowLeopardSharkEntity extends AbstractLatexShark {
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 }

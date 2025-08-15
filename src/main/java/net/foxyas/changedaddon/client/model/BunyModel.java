@@ -122,7 +122,7 @@ public class BunyModel extends AdvancedHumanoidModel<BunyEntity> implements Adva
     }
 
     @Override
-    public void prepareMobModel(BunyEntity p_162861, float p_102862, float p_102863, float p_102864_) {
+    public void prepareMobModel(@NotNull BunyEntity p_162861, float p_102862, float p_102863, float p_102864_) {
         this.prepareMobModel(animator, p_162861, p_102862, p_102863, p_102864_);
     }
 
@@ -145,11 +145,11 @@ public class BunyModel extends AdvancedHumanoidModel<BunyEntity> implements Adva
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
-    public ModelPart getArm(HumanoidArm p_102852) {
+    public @NotNull ModelPart getArm(HumanoidArm p_102852) {
         return p_102852 == HumanoidArm.LEFT ? this.LeftArm : this.RightArm;
     }
 
-    public ModelPart getHead() {
+    public @NotNull ModelPart getHead() {
         return this.Head;
     }
 
@@ -162,7 +162,7 @@ public class BunyModel extends AdvancedHumanoidModel<BunyEntity> implements Adva
     }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         Torso.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         RightArm.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);

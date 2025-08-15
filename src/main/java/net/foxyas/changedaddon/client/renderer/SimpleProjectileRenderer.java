@@ -16,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -31,7 +32,7 @@ public class SimpleProjectileRenderer<T extends AbstractArrow, M extends EntityM
     }
 
     @Override
-    protected int getBlockLightLevel(T p_114496_, BlockPos p_114497_) {
+    protected int getBlockLightLevel(@NotNull T p_114496_, @NotNull BlockPos p_114497_) {
         return super.getBlockLightLevel(p_114496_, p_114497_);
     }
 
@@ -65,7 +66,7 @@ public class SimpleProjectileRenderer<T extends AbstractArrow, M extends EntityM
 
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull T entity) {
         return TEXTURE;
     }
 }

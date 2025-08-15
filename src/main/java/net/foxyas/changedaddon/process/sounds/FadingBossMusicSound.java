@@ -91,7 +91,7 @@ public class FadingBossMusicSound extends AbstractTickableSoundInstance {
     }
 
     @Override
-    public @NotNull WeighedSoundEvents resolve(SoundManager p_119591_) {
+    public @NotNull WeighedSoundEvents resolve(@NotNull SoundManager p_119591_) {
         return super.resolve(p_119591_);
     }
 }

@@ -20,6 +20,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Map;
@@ -28,12 +29,12 @@ public abstract class LunarroseItem extends ArmorItem {
     public LunarroseItem(EquipmentSlot slot, Item.Properties properties) {
         super(new ArmorMaterial() {
             @Override
-            public int getDurabilityForSlot(EquipmentSlot slot) {
+            public int getDurabilityForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{13, 15, 16, 11}[slot.getIndex()] * 100;
             }
 
             @Override
-            public int getDefenseForSlot(EquipmentSlot slot) {
+            public int getDefenseForSlot(@NotNull EquipmentSlot slot) {
                 return new int[]{0, 0, 0, 0}[slot.getIndex()];
             }
 
@@ -43,17 +44,17 @@ public abstract class LunarroseItem extends ArmorItem {
             }
 
             @Override
-            public SoundEvent getEquipSound() {
+            public @NotNull SoundEvent getEquipSound() {
                 return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(""));
             }
 
             @Override
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of();
             }
 
             @Override
-            public String getName() {
+            public @NotNull String getName() {
                 return "lunarrose";
             }
 

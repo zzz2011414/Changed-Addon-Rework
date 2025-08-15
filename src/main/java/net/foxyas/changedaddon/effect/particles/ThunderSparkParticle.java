@@ -2,6 +2,7 @@ package net.foxyas.changedaddon.effect.particles;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -62,7 +63,7 @@ public class ThunderSparkParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
+    public @NotNull ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_LIT;
     }
 
@@ -75,7 +76,7 @@ public class ThunderSparkParticle extends TextureSheetParticle {
 
         @Nullable
         @Override
-        public Particle createParticle(ThunderSparkOption type, ClientLevel level, double x, double y, double z,
+        public Particle createParticle(@NotNull ThunderSparkOption type, @NotNull ClientLevel level, double x, double y, double z,
                                        double xSpeed, double ySpeed, double zSpeed) {
             return new ThunderSparkParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type, sprite);
         }

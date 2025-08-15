@@ -28,6 +28,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public class LuminarCrystalSpearItem extends Item implements Vanishable {
 
@@ -44,20 +45,20 @@ public class LuminarCrystalSpearItem extends Item implements Vanishable {
         this.defaultModifiers = builder.build();
     }
 
-    public boolean canAttackBlock(BlockState p_43409_, Level p_43410_, BlockPos p_43411_, Player p_43412_) {
+    public boolean canAttackBlock(@NotNull BlockState p_43409_, @NotNull Level p_43410_, @NotNull BlockPos p_43411_, Player p_43412_) {
         return !p_43412_.isCreative();
     }
 
-    public UseAnim getUseAnimation(ItemStack itemStack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemStack) {
         return UseAnim.SPEAR;
     }
 
-    public int getUseDuration(ItemStack itemStack) {
+    public int getUseDuration(@NotNull ItemStack itemStack) {
         return 72000;
     }
 
     @Override
-    public boolean isEnchantable(ItemStack stack) {
+    public boolean isEnchantable(@NotNull ItemStack stack) {
         return true;
     }
 
@@ -82,7 +83,7 @@ public class LuminarCrystalSpearItem extends Item implements Vanishable {
         return Items.TRIDENT.getEnchantmentValue(); // você pode usar 1 (tridente usa esse valor) ou ajustar para mais
     }
 
-    public void releaseUsing(ItemStack itemStack, Level world, LivingEntity livingEntity, int time) {
+    public void releaseUsing(@NotNull ItemStack itemStack, @NotNull Level world, @NotNull LivingEntity livingEntity, int time) {
         if (livingEntity instanceof Player player) {
             int i = this.getUseDuration(itemStack) - time;
             if (i >= 10) {
@@ -143,7 +144,7 @@ public class LuminarCrystalSpearItem extends Item implements Vanishable {
         }
     }
 
-    public InteractionResultHolder<ItemStack> use(Level world, Player p_43406_, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level world, Player p_43406_, @NotNull InteractionHand hand) {
         ItemStack itemstack = p_43406_.getItemInHand(hand);
         if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
             return InteractionResultHolder.fail(itemstack);
@@ -155,14 +156,14 @@ public class LuminarCrystalSpearItem extends Item implements Vanishable {
         }
     }
 
-    public boolean hurtEnemy(ItemStack itemStack, LivingEntity livingEntity, LivingEntity livingEntity2) {
+    public boolean hurtEnemy(ItemStack itemStack, @NotNull LivingEntity livingEntity, @NotNull LivingEntity livingEntity2) {
         itemStack.hurtAndBreak(1, livingEntity2, (item) -> {
             item.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
         return true;
     }
 
-    public boolean mineBlock(ItemStack itemStack, Level world, BlockState blockState, BlockPos pos, LivingEntity livingEntity) {
+    public boolean mineBlock(@NotNull ItemStack itemStack, @NotNull Level world, BlockState blockState, @NotNull BlockPos pos, @NotNull LivingEntity livingEntity) {
         if ((double) blockState.getDestroySpeed(world, pos) != 0.0D) {
             itemStack.hurtAndBreak(2, livingEntity, (item) -> {
                 item.broadcastBreakEvent(EquipmentSlot.MAINHAND);
@@ -172,7 +173,7 @@ public class LuminarCrystalSpearItem extends Item implements Vanishable {
         return true;
     }
 
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+    public @NotNull Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(@NotNull EquipmentSlot slot) {
         return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(slot);
     }
 }

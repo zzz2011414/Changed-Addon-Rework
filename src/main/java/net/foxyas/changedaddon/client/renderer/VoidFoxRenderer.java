@@ -17,6 +17,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class VoidFoxRenderer extends AdvancedHumanoidRenderer<VoidFoxEntity, Voi
     }
 
     @Override
-    public void render(VoidFoxEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(@NotNull VoidFoxEntity entity, float yRot, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
 //        float dodgeTicks = entity.getDodgingTicks();
 //        float dodgeProgress = Math.abs(dodgeTicks) / (float) VoidFoxEntity.getMaxDodgingTicks();
 //
@@ -111,7 +112,7 @@ public class VoidFoxRenderer extends AdvancedHumanoidRenderer<VoidFoxEntity, Voi
 
 
     @Override
-    public ResourceLocation getTextureLocation(VoidFoxEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull VoidFoxEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/void_fox_dark.png");
     }
 }

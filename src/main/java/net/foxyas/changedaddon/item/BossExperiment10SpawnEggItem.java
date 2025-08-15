@@ -10,6 +10,7 @@ import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 public class BossExperiment10SpawnEggItem extends Item {
     public BossExperiment10SpawnEggItem() {
@@ -17,18 +18,18 @@ public class BossExperiment10SpawnEggItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack itemstack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
         return UseAnim.BLOCK;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean isFoil(ItemStack itemstack) {
+    public boolean isFoil(@NotNull ItemStack itemstack) {
         return true;
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext context) {
         super.useOn(context);
         Experiment10SpawnEggRightclickedOnBlockProcedure.execute(context.getLevel(), context.getClickedPos().getX(), context.getClickedPos().getY(), context.getClickedPos().getZ(), context.getClickedFace(), context.getPlayer(),
                 context.getItemInHand());

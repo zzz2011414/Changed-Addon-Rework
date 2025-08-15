@@ -11,6 +11,7 @@ import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class LuminarcticLeopardMaleRenderer extends AdvancedHumanoidRenderer<LuminarcticLeopardMaleEntity, LuminarcticLeopardModel, ArmorLatexMaleCatModel<LuminarcticLeopardMaleEntity>> {
     public LuminarcticLeopardMaleRenderer(EntityRendererProvider.Context context) {
@@ -43,7 +44,7 @@ public class LuminarcticLeopardMaleRenderer extends AdvancedHumanoidRenderer<Lum
     }
 
     @Override
-    public void render(LuminarcticLeopardMaleEntity entity, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(@NotNull LuminarcticLeopardMaleEntity entity, float yRot, float partialTicks, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
         /*float dodgeTicks = entity.getDodgeAnimTicks();
         float dodgeProgress = Math.abs(dodgeTicks) / (float) entity.DodgeAnimMaxTicks;
 
@@ -73,7 +74,7 @@ public class LuminarcticLeopardMaleRenderer extends AdvancedHumanoidRenderer<Lum
 
 
     @Override
-    public ResourceLocation getTextureLocation(LuminarcticLeopardMaleEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(LuminarcticLeopardMaleEntity entity) {
         if (entity.getUnderlyingPlayer() != null) {
             return new ResourceLocation("changed_addon:textures/entities/luminarctic_leopards/male/luminarctic_leopard_no_eyes.png");
         }

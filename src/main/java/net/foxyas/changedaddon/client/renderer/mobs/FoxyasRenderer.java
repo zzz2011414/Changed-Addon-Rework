@@ -5,6 +5,7 @@ import net.foxyas.changedaddon.entity.mobs.FoxyasEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class FoxyasRenderer extends MobRenderer<FoxyasEntity, ModelFoxyasModel<FoxyasEntity>> {
     public FoxyasRenderer(EntityRendererProvider.Context context) {
@@ -12,7 +13,7 @@ public class FoxyasRenderer extends MobRenderer<FoxyasEntity, ModelFoxyasModel<F
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FoxyasEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull FoxyasEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/foxyas_texture.png");
     }
 }

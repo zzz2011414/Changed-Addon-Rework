@@ -129,7 +129,7 @@ public class AbstractWolfCrystalExtender {
 
 
         @Override
-        public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, net.minecraftforge.common.IPlantable plantable) {
+        public boolean canSustainPlant(@NotNull BlockState state, @NotNull BlockGetter world, BlockPos pos, @NotNull Direction facing, net.minecraftforge.common.IPlantable plantable) {
 
             BlockState plant = plantable.getPlant(world, pos.relative(facing));
             return plant.getBlock() instanceof WolfCrystal;
@@ -187,7 +187,7 @@ public class AbstractWolfCrystalExtender {
         }
 
         @Override
-        public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
             return Shapes.empty();
         }
 

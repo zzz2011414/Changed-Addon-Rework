@@ -213,7 +213,7 @@ public class AbstractLuminarCrystal {
         }
 
         @Override
-        public List<ItemStack> getDrops(BlockState blockState, LootContext.Builder lootBuilder) {
+        public @NotNull List<ItemStack> getDrops(BlockState blockState, LootContext.Builder lootBuilder) {
             ResourceLocation resourcelocation = this.getLootTable();
             if (resourcelocation == BuiltInLootTables.EMPTY) {
                 return Collections.emptyList();
@@ -304,7 +304,7 @@ public class AbstractLuminarCrystal {
         }
 
         @Override
-        public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        public @NotNull VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
             Direction direction = state.getValue(FACING);
             return switch (direction) {
                 case NORTH -> NORTH_AABB;
@@ -323,7 +323,7 @@ public class AbstractLuminarCrystal {
 
 
         @Override
-        public int getLightBlock(BlockState state, BlockGetter worldIn, BlockPos pos) {
+        public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
             return 0;
         }
 
@@ -409,7 +409,7 @@ public class AbstractLuminarCrystal {
         }
 
         @Override
-        public List<ItemStack> getDrops(BlockState blockState, LootContext.Builder lootBuilder) {
+        public @NotNull List<ItemStack> getDrops(BlockState blockState, LootContext.Builder lootBuilder) {
             ResourceLocation resourcelocation = this.getLootTable();
             if (resourcelocation == BuiltInLootTables.EMPTY) {
                 return Collections.emptyList();
@@ -467,7 +467,7 @@ public class AbstractLuminarCrystal {
         }
 
         @Override
-        public PushReaction getPistonPushReaction(BlockState p_60584_) {
+        public @NotNull PushReaction getPistonPushReaction(@NotNull BlockState p_60584_) {
             return super.getPistonPushReaction(p_60584_);
         }
 
@@ -477,12 +477,12 @@ public class AbstractLuminarCrystal {
         }
 
         @Override
-        public void destroy(LevelAccessor p_49860_, BlockPos p_49861_, BlockState p_49862_) {
+        public void destroy(@NotNull LevelAccessor p_49860_, @NotNull BlockPos p_49861_, @NotNull BlockState p_49862_) {
             super.destroy(p_49860_, p_49861_, p_49862_);
         }
 
         @Override
-        public void onRemove(BlockState oldState, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        public void onRemove(@NotNull BlockState oldState, Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
             if (!level.isClientSide && !oldState.is(newState.getBlock())) {
                 ServerLevel serverLevel = level instanceof ServerLevel ? (ServerLevel) level : null;
                 if (serverLevel == null) return;

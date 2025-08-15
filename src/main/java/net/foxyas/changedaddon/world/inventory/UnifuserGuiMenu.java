@@ -19,6 +19,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +81,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
             private final int slot = 0;
 
             @Override
-            public boolean mayPlace(ItemStack itemstack) {
+            public boolean mayPlace(@NotNull ItemStack itemstack) {
                 return !UnifuserguiDisableItemstackPlacementslot0Procedure.execute(itemstack);
             }
         }));
@@ -88,7 +89,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
             private final int slot = 3;
 
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean mayPlace(@NotNull ItemStack stack) {
                 return false;
             }
         }));
@@ -96,7 +97,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
             private final int slot = 2;
 
             @Override
-            public boolean mayPlace(ItemStack itemstack) {
+            public boolean mayPlace(@NotNull ItemStack itemstack) {
                 return !UnifuserguiDisableItemstackPlacementProcedure.execute(itemstack);
             }
         }));
@@ -111,7 +112,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         if (this.bound) {
             if (this.boundItemMatcher != null)
                 return this.boundItemMatcher.get();
@@ -124,7 +125,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
     }
 
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int index) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
@@ -161,7 +162,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
     }
 
     @Override
-    protected boolean moveItemStackTo(ItemStack p_38904_, int p_38905_, int p_38906_, boolean p_38907_) {
+    protected boolean moveItemStackTo(@NotNull ItemStack p_38904_, int p_38905_, int p_38906_, boolean p_38907_) {
         boolean flag = false;
         int i = p_38905_;
         if (p_38907_) {
@@ -237,7 +238,7 @@ public class UnifuserGuiMenu extends AbstractContainerMenu implements Supplier<M
     }
 
     @Override
-    public void removed(Player playerIn) {
+    public void removed(@NotNull Player playerIn) {
         super.removed(playerIn);
         if (!bound && playerIn instanceof ServerPlayer serverPlayer) {
             if (!serverPlayer.isAlive() || serverPlayer.hasDisconnected()) {

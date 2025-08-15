@@ -7,6 +7,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.*;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class BagelRenderer extends AdvancedHumanoidRenderer<BagelEntity, BagelModel, ArmorLatexMaleWolfModel<BagelEntity>> {
     public BagelRenderer(EntityRendererProvider.Context context) {
@@ -19,7 +20,7 @@ public class BagelRenderer extends AdvancedHumanoidRenderer<BagelEntity, BagelMo
     }
 
     @Override
-    public ResourceLocation getTextureLocation(BagelEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull BagelEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/bagel_transfur.png");
     }
 }

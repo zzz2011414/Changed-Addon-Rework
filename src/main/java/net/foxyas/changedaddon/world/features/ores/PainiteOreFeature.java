@@ -24,6 +24,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTestType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -76,11 +77,11 @@ public class PainiteOreFeature extends OreFeature {
             Registry.register(Registry.RULE_TEST, new ResourceLocation("changed_addon:painite_ore_match"), CUSTOM_MATCH);
         }
 
-        public boolean test(BlockState blockstate, Random random) {
+        public boolean test(BlockState blockstate, @NotNull Random random) {
             return Objects.equals(Blocks.DEEPSLATE, blockstate.getBlock());
         }
 
-        protected RuleTestType<?> getType() {
+        protected @NotNull RuleTestType<?> getType() {
             return CUSTOM_MATCH;
         }
     }

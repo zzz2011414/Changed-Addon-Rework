@@ -49,7 +49,7 @@ public class Experiment10BossRenderer extends AdvancedHumanoidRenderer<Experimen
         }
 
         @Override
-        public void render(@NotNull PoseStack poseStack, MultiBufferSource multiBufferSource, int i, @NotNull T t, float v, float v1, float v2, float v3, float v4, float v5) {
+        public void render(@NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, @NotNull T t, float v, float v1, float v2, float v3, float v4, float v5) {
             if (t instanceof Experiment10BossEntity experiment10BossEntity && experiment10BossEntity.isPhase2()) {
                 VertexConsumer vertexconsumer = multiBufferSource.getBuffer(this.renderType());
                 this.getParentModel().renderToBuffer(poseStack, vertexconsumer, 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

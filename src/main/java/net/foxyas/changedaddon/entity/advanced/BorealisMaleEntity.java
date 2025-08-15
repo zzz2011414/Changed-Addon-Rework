@@ -14,6 +14,7 @@ import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.network.PlayMessages;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BorealisMaleEntity extends AbstractBasicOrganicChangedEntity {
@@ -26,7 +27,7 @@ public class BorealisMaleEntity extends AbstractBasicOrganicChangedEntity {
     }
 
     @Override
-    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
+    public @Nullable SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor p_21434_, @NotNull DifficultyInstance p_21435_, @NotNull MobSpawnType p_21436_, @Nullable SpawnGroupData p_21437_, @Nullable CompoundTag p_21438_) {
         return super.finalizeSpawn(p_21434_, p_21435_, p_21436_, p_21437_, p_21438_);
     }
 
@@ -37,7 +38,13 @@ public class BorealisMaleEntity extends AbstractBasicOrganicChangedEntity {
 
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
-        return super.getTransfurColor(cause);
+        Color3 firstColor = Color3.parseHex("#6682C1FF");
+        Color3 secondColor = Color3.parseHex("1C2A4EFF");
+        if (firstColor != null && secondColor != null) {
+            return lerpColors(firstColor, secondColor);
+        }
+
+        return firstColor;
     }
 
     public Color3 getDripColor() {

@@ -11,6 +11,7 @@ import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexFemaleWol
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 
 public class PuroKindFemaleRenderer extends AdvancedHumanoidRenderer<PuroKindFemaleEntity, PuroKindFemaleModel, ArmorLatexFemaleWolfModel<PuroKindFemaleEntity>> {
@@ -24,7 +25,7 @@ public class PuroKindFemaleRenderer extends AdvancedHumanoidRenderer<PuroKindFem
 
 
     @Override
-    public ResourceLocation getTextureLocation(PuroKindFemaleEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull PuroKindFemaleEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/puro_kind_female_texture.png");
     }
 }

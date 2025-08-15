@@ -3,7 +3,9 @@ package net.foxyas.changedaddon.entity.bosses;
 import net.foxyas.changedaddon.entity.customHandle.AttributesHandle;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -140,12 +143,33 @@ public class Experiment009Entity extends ChangedEntity {
         return Color3.getColor("#E2E2E2");
     }
 
+    @Override
     public Color3 getTransfurColor(TransfurCause cause) {
-        return Color3.WHITE;
+        Color3 firstColor = Color3.WHITE;
+        Color3 secondColor = Color3.parseHex("#E9E9E9");
+        if (secondColor != null) {
+            return lerpColors(firstColor, secondColor);
+        }
+
+        return firstColor;
+    }
+
+    public Color3 lerpColors(Color3 start, Color3 end) {
+        int startColorInt = start.toInt();
+        int endColorInt = end.toInt();
+
+        if (this.getUnderlyingPlayer() != null) {
+            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
+            if (transfurVariantInstance != null) {
+                float lerpValue = Mth.lerp(transfurVariantInstance.getTransfurProgression(1), startColorInt, endColorInt);
+                return Color3.fromInt(((int) lerpValue));
+            }
+        }
+        return start;
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -155,7 +179,7 @@ public class Experiment009Entity extends ChangedEntity {
     }
 
     @Override
-    public MobType getMobType() {
+    public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
     }
 
@@ -170,12 +194,12 @@ public class Experiment009Entity extends ChangedEntity {
     }
 
     @Override
-    public SoundEvent getHurtSound(DamageSource ds) {
+    public @NotNull SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
     }
 
     @Override
-    public SoundEvent getDeathSound() {
+    public @NotNull SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 
@@ -219,7 +243,7 @@ public class Experiment009Entity extends ChangedEntity {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor world, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType reason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag tag) {
         SpawnGroupData retval = super.finalizeSpawn(world, difficulty, reason, livingdata, tag);
         this.getBasicPlayerInfo().setSize(1f);
         this.getBasicPlayerInfo().setEyeStyle(EyeStyle.TALL);
@@ -232,13 +256,13 @@ public class Experiment009Entity extends ChangedEntity {
     }
 
     @Override
-    public void startSeenByPlayer(ServerPlayer player) {
+    public void startSeenByPlayer(@NotNull ServerPlayer player) {
         super.startSeenByPlayer(player);
         //this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void stopSeenByPlayer(ServerPlayer player) {
+    public void stopSeenByPlayer(@NotNull ServerPlayer player) {
         super.stopSeenByPlayer(player);
         //this.bossInfo.removePlayer(player);
     }

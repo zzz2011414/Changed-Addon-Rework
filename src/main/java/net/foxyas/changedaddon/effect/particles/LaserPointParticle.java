@@ -60,7 +60,7 @@ public class LaserPointParticle extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer p_107678_, Camera p_107679_, float p_107680_) {
+    public void render(@NotNull VertexConsumer p_107678_, @NotNull Camera p_107679_, float p_107680_) {
         super.render(p_107678_, p_107679_, p_107680_);
     }
 
@@ -293,7 +293,7 @@ public class LaserPointParticle extends TextureSheetParticle {
 
         @Nullable
         @Override
-        public Particle createParticle(LaserPointParticle.Option type, ClientLevel level, double x, double y, double z,
+        public Particle createParticle(LaserPointParticle.@NotNull Option type, @NotNull ClientLevel level, double x, double y, double z,
                                        double xSpeed, double ySpeed, double zSpeed) {
             return new LaserPointParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, type, sprite);
         }

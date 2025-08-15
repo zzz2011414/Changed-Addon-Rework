@@ -489,9 +489,9 @@ public class PlayerUtil {
                 BlockPos blockpos = pPos.relative(direction);
                 if (!pLevel.getBlockState(blockpos).isSolidRender(pLevel, blockpos)) {
                     Direction.Axis direction$axis = direction.getAxis();
-                    double d1 = direction$axis == Direction.Axis.X ? (double) 0.5F + (double) 0.5625F * (double) direction.getStepX() : (double) random.nextFloat();
-                    double d2 = direction$axis == Direction.Axis.Y ? (double) 0.5F + (double) 0.5625F * (double) direction.getStepY() : (double) random.nextFloat();
-                    double d3 = direction$axis == Direction.Axis.Z ? (double) 0.5F + (double) 0.5625F * (double) direction.getStepZ() : (double) random.nextFloat();
+                    double d1 = direction$axis == Direction.Axis.X ? 0.5d + d0 * (double) direction.getStepX() : (double) random.nextFloat();
+                    double d2 = direction$axis == Direction.Axis.Y ? 0.5d + d0 * (double) direction.getStepY() : (double) random.nextFloat();
+                    double d3 = direction$axis == Direction.Axis.Z ? 0.5d + d0 * (double) direction.getStepZ() : (double) random.nextFloat();
                     pLevel.addParticle(particleOptions, (double) pPos.getX() + d1, (double) pPos.getY() + d2, (double) pPos.getZ() + d3, 0.0F, 0.0F, 0.0F);
                 }
             }

@@ -21,6 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class SnepPlushBlockEntityRenderer implements BlockEntityRenderer<SnepPlushBlockEntity> {
 
@@ -32,7 +33,7 @@ public class SnepPlushBlockEntityRenderer implements BlockEntityRenderer<SnepPlu
         this.snepPlushExtraModel = new SnepPlushExtraModel(context.bakeLayer(SnepPlushExtraModel.LAYER_LOCATION));
     }
 
-    public void render(SnepPlushBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay) {
+    public void render(SnepPlushBlockEntity blockEntity, float partialTick, PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int light, int overlay) {
         BlockPos pos = blockEntity.getBlockPos();
         BlockState state = blockEntity.getBlockState();
 
@@ -97,7 +98,7 @@ public class SnepPlushBlockEntityRenderer implements BlockEntityRenderer<SnepPlu
         }
 
         @Override
-        public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
             Head.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
         }
 

@@ -188,7 +188,7 @@ public class PawsScanner extends Block {
     }
 
     @Override
-    public void entityInside(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Entity entity) {
         if (entity instanceof ChangedEntity || entity instanceof Player) {
             if (!level.isClientSide && !state.getValue(POWERED)) {
                 if (shouldActivate(state, level, pos, entity)) {

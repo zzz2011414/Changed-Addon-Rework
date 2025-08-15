@@ -102,17 +102,17 @@ public class LaserPointer extends Item implements SpecializedAnimations {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(@NotNull ItemStack stack) {
         return 720000;
     }
 
     @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack stack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack stack) {
         return UseAnim.NONE;
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
+    public void fillItemCategory(@NotNull CreativeModeTab tab, @NotNull NonNullList<ItemStack> items) {
         if (this.allowdedIn(tab)) {
             for (DefaultColors color : DefaultColors.values()) {
                 ItemStack stack = new ItemStack(this);
@@ -123,7 +123,7 @@ public class LaserPointer extends Item implements SpecializedAnimations {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         if (flag.isAdvanced()) {
             // Suponha que você tenha salvo os valores RGB no NBT
@@ -138,7 +138,7 @@ public class LaserPointer extends Item implements SpecializedAnimations {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
@@ -194,7 +194,7 @@ public class LaserPointer extends Item implements SpecializedAnimations {
     }
 
     @Override
-    public void releaseUsing(ItemStack itemstack, Level world, LivingEntity entity, int time) {
+    public void releaseUsing(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity, int time) {
         super.releaseUsing(itemstack, world, entity, time);
     }
 

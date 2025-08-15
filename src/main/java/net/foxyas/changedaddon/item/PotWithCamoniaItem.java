@@ -7,6 +7,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 public class PotWithCamoniaItem extends Item {
     public PotWithCamoniaItem() {
@@ -16,12 +17,12 @@ public class PotWithCamoniaItem extends Item {
     }
 
     @Override
-    public UseAnim getUseAnimation(ItemStack itemstack) {
+    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
         return UseAnim.DRINK;
     }
 
     @Override
-    public ItemStack finishUsingItem(ItemStack itemstack, Level world, LivingEntity entity) {
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemstack, @NotNull Level world, @NotNull LivingEntity entity) {
         ItemStack retval = new ItemStack(Items.GLASS_BOTTLE);
         super.finishUsingItem(itemstack, world, entity);
         double x = entity.getX();

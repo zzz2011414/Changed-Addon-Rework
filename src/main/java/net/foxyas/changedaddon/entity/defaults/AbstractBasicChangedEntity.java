@@ -3,10 +3,13 @@ package net.foxyas.changedaddon.entity.defaults;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.HairStyle;
 import net.ltxprogrammer.changed.entity.LatexType;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobType;
@@ -98,5 +101,19 @@ public abstract class AbstractBasicChangedEntity extends ChangedEntity {
     @Override
     public @NotNull SoundEvent getDeathSound() {
         return SoundEvents.GENERIC_DEATH;
+    }
+
+    public Color3 lerpColors(Color3 start, Color3 end) {
+        int startColorInt = start.toInt();
+        int endColorInt = end.toInt();
+
+        if (this.getUnderlyingPlayer() != null) {
+            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
+            if (transfurVariantInstance != null) {
+                float lerpValue = Mth.lerp(transfurVariantInstance.getTransfurProgression(1), startColorInt, endColorInt);
+                return Color3.fromInt(((int) lerpValue));
+            }
+        }
+        return start;
     }
 }

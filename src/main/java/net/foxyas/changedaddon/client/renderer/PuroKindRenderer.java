@@ -11,6 +11,7 @@ import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfM
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 
 public class PuroKindRenderer extends AdvancedHumanoidRenderer<PuroKindMaleEntity, PuroKindModel, ArmorLatexMaleWolfModel<PuroKindMaleEntity>> {
@@ -24,7 +25,7 @@ public class PuroKindRenderer extends AdvancedHumanoidRenderer<PuroKindMaleEntit
 
 
     @Override
-    public ResourceLocation getTextureLocation(PuroKindMaleEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull PuroKindMaleEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/puro_kind_texture.png");
     }
 }

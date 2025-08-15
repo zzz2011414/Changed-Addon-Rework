@@ -8,6 +8,7 @@ import net.ltxprogrammer.changed.client.renderer.layers.TransfurCapeLayer;
 import net.ltxprogrammer.changed.client.renderer.model.armor.ArmorLatexMaleWolfModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class ReynRenderer extends AdvancedHumanoidRenderer<ReynEntity, ReynModel, ArmorLatexMaleWolfModel<ReynEntity>> {
     public ReynRenderer(EntityRendererProvider.Context context) {
@@ -17,7 +18,7 @@ public class ReynRenderer extends AdvancedHumanoidRenderer<ReynEntity, ReynModel
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ReynEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull ReynEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/reyn.png");
     }
 }

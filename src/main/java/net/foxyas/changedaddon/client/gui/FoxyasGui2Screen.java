@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 
@@ -42,14 +43,14 @@ public class FoxyasGui2Screen extends AbstractContainerScreen<FoxyasGui2Menu> {
     }
 
     @Override
-    public void render(PoseStack ms, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack ms, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(ms);
         super.render(ms, mouseX, mouseY, partialTicks);
         this.renderTooltip(ms, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(PoseStack ms, float partialTicks, int gx, int gy) {
+    protected void renderBg(@NotNull PoseStack ms, float partialTicks, int gx, int gy) {
         RenderSystem.setShaderColor(1, 1, 1, 1);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -73,7 +74,7 @@ public class FoxyasGui2Screen extends AbstractContainerScreen<FoxyasGui2Menu> {
     }
 
     @Override
-    protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+    protected void renderLabels(@NotNull PoseStack poseStack, int mouseX, int mouseY) {
         this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.foxyas_gui_2.label_oh_human_why_but_if_you_really"), 4, 5, -12829636);
         this.font.draw(poseStack, new TranslatableComponent("gui.changed_addon.foxyas_gui_2.label_it_i_can_do_it"), 5, 17, -12829636);
         if (IfplayerhaveDealTrueProcedure.execute(entity))
@@ -97,7 +98,7 @@ public class FoxyasGui2Screen extends AbstractContainerScreen<FoxyasGui2Menu> {
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfplayerHaveDealFalseProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -111,7 +112,7 @@ public class FoxyasGui2Screen extends AbstractContainerScreen<FoxyasGui2Menu> {
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfplayerhaveDealTrueProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }
@@ -125,7 +126,7 @@ public class FoxyasGui2Screen extends AbstractContainerScreen<FoxyasGui2Menu> {
             }
         }) {
             @Override
-            public void render(PoseStack ms, int gx, int gy, float ticks) {
+            public void render(@NotNull PoseStack ms, int gx, int gy, float ticks) {
                 if (IfplayerhaveDealTrueProcedure.execute(entity))
                     super.render(ms, gx, gy, ticks);
             }

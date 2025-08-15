@@ -13,6 +13,7 @@ import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import org.jetbrains.annotations.NotNull;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TransfurSicknessRecipeBrewingRecipe implements IBrewingRecipe {
@@ -28,12 +29,12 @@ public class TransfurSicknessRecipeBrewingRecipe implements IBrewingRecipe {
     }
 
     @Override
-    public boolean isIngredient(ItemStack ingredient) {
+    public boolean isIngredient(@NotNull ItemStack ingredient) {
         return Ingredient.of(new ItemStack(ChangedAddonItems.LAETHIN.get())).test(ingredient);
     }
 
     @Override
-    public ItemStack getOutput(ItemStack input, ItemStack ingredient) {
+    public @NotNull ItemStack getOutput(@NotNull ItemStack input, @NotNull ItemStack ingredient) {
         if (isInput(input) && isIngredient(ingredient)) {
             return PotionUtils.setPotion(new ItemStack(input.getItem()), ChangedAddonPotions.TRANSFUR_SICKNESS_POTION.get());
         }

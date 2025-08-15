@@ -8,6 +8,7 @@ import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
 import net.ltxprogrammer.changed.client.renderer.layers.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class LatexSquidTigerSharkRenderer extends AdvancedHumanoidRenderer<LatexSquidTigerSharkEntity, LatexSquidTigerSharkModel, ArmorLatexSquidTigerSharkModel<LatexSquidTigerSharkEntity>> {
     public LatexSquidTigerSharkRenderer(EntityRendererProvider.Context context) {
@@ -23,12 +24,12 @@ public class LatexSquidTigerSharkRenderer extends AdvancedHumanoidRenderer<Latex
     }
 
     @Override
-    public ResourceLocation getTextureLocation(LatexSquidTigerSharkEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull LatexSquidTigerSharkEntity entity) {
         return new ResourceLocation("changed_addon:textures/entities/latex_tiger_squid_shark.png");
     }
 
     @Override
-    protected void scale(LatexSquidTigerSharkEntity entity, PoseStack pose, float partialTick) {
+    protected void scale(@NotNull LatexSquidTigerSharkEntity entity, PoseStack pose, float partialTick) {
         float f = 1.0525F;
         pose.scale(1.0525F, 1.0525F, 1.0525F);
     }

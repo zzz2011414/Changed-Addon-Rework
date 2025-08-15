@@ -4,6 +4,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 public class ChangedAddonTabs {
     public static CreativeModeTab TAB_CHANGED_ADDON;
@@ -12,7 +13,7 @@ public class ChangedAddonTabs {
     public static void load() {
         TAB_CHANGED_ADDON = new CreativeModeTab("tab_changed_addon") {
             @Override
-            public ItemStack makeIcon() {
+            public @NotNull ItemStack makeIcon() {
                 return new ItemStack(ChangedAddonItems.CHANGED_BOOK.get());
             }
 
@@ -23,7 +24,7 @@ public class ChangedAddonTabs {
         };
         TAB_CHANGED_ADDON_COMBAT_OPTIONAL = new CreativeModeTab("tab_changed_addon_combat_optional") {
             @Override
-            public ItemStack makeIcon() {
+            public @NotNull ItemStack makeIcon() {
                 return new ItemStack(ChangedAddonItems.ELECTRIC_KATANA.get());
             }
 

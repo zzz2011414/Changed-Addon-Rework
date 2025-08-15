@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 public class CrowbarItem extends PickaxeItem {
     public CrowbarItem() {
@@ -30,7 +31,7 @@ public class CrowbarItem extends PickaxeItem {
                 return 40;
             }
 
-            public Ingredient getRepairIngredient() {
+            public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of();
             }
         }, 1, -2.6f, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON));
@@ -52,7 +53,7 @@ public class CrowbarItem extends PickaxeItem {
     }
 
     @Override
-    public boolean isRepairable(ItemStack itemstack) {
+    public boolean isRepairable(@NotNull ItemStack itemstack) {
         return false;
     }
 }

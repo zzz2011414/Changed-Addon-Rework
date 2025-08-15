@@ -5,17 +5,18 @@ import net.foxyas.changedaddon.ChangedAddonMod;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
 
 public class LavaSwimmingTrigger extends SimpleCriterionTrigger<LavaSwimmingTrigger.Instance> {
     private static final ResourceLocation ID = ChangedAddonMod.resourceLoc("lava_swimming");
 
     @Override
-    public ResourceLocation getId() {
+    public @NotNull ResourceLocation getId() {
         return ID;
     }
 
     @Override
-    protected Instance createInstance(JsonObject json, EntityPredicate.Composite playerPredicate, DeserializationContext context) {
+    protected @NotNull Instance createInstance(@NotNull JsonObject json, EntityPredicate.@NotNull Composite playerPredicate, @NotNull DeserializationContext context) {
         return new Instance(playerPredicate);
     }
 
@@ -29,7 +30,7 @@ public class LavaSwimmingTrigger extends SimpleCriterionTrigger<LavaSwimmingTrig
         }
 
         @Override
-        public JsonObject serializeToJson(SerializationContext context) {
+        public @NotNull JsonObject serializeToJson(@NotNull SerializationContext context) {
             return super.serializeToJson(context);
         }
     }
