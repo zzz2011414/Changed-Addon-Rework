@@ -82,7 +82,6 @@ public class Exp1MaleEntity extends ChangedEntity implements GenderedEntity, Pow
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#E5E5E5");
     }

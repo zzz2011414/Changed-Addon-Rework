@@ -11,7 +11,6 @@ import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobType;
@@ -60,7 +59,6 @@ public abstract class AbstractBasicOrganicChangedEntity extends ChangedEntity {
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#E5E5E5");
     }
@@ -121,11 +119,8 @@ public abstract class AbstractBasicOrganicChangedEntity extends ChangedEntity {
         if (this.getUnderlyingPlayer() != null) {
             TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
             if (transfurVariantInstance != null) {
-				float t = transfurVariantInstance.getTransfurProgression(1);
-				int r = (int) Mth.lerp(t, start.getRed(),   end.getRed());
-                int g = (int) Mth.lerp(t, start.getGreen(), end.getGreen());
-                int b = (int) Mth.lerp(t, start.getBlue(),  end.getBlue());
-                return new Color3(r,g,b);
+                float t = transfurVariantInstance.getTransfurProgression(1);
+                return start.lerp(t, end);
             }
         }
         return start;

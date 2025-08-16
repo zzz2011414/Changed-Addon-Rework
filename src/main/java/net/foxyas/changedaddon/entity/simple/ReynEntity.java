@@ -131,7 +131,6 @@ public class ReynEntity extends ChangedEntity {
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("##4c4c4c");
     }

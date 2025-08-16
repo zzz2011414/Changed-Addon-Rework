@@ -89,10 +89,12 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
     private DepositeType depositeType = DepositeType.BOTH;
     @Nullable
     private BlockPos targetChestPos = null;
+
     // Constructors
     public PrototypeEntity(PlayMessages.SpawnEntity ignoredPacket, Level world) {
         this(ChangedAddonEntities.PROTOTYPE.get(), world);
     }
+
     public PrototypeEntity(EntityType<PrototypeEntity> type, Level world) {
         super(type, world);
         xpReward = 0;
@@ -638,7 +640,7 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
                     if (!stack.isEmpty() && (this.depositeType.isRightType(stack))) {
                         // Make entity look at a target position
                         this.getLookControl().setLookAt(
-                                chestPos.getX(), chestPos.getY() , chestPos.getZ(),
+                                chestPos.getX(), chestPos.getY(), chestPos.getZ(),
                                 30.0F, // yaw change speed (degrees per tick)
                                 30.0F  // pitch change speed
                         );

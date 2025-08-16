@@ -217,7 +217,6 @@ public class DazedLatexEntity extends ChangedEntity {
         return super.getItemUseMode();
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#E5E5E5");
     }

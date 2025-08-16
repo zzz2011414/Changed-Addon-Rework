@@ -61,10 +61,16 @@ public class DarkLatexPuddleBlock extends Block implements EntityBlock, NonLatex
                 tf.getLatexType() == LatexType.DARK_LATEX || tf.getFormId().toString().contains("puro_kind")).orElse(false);
     }
 
-    private static void alertNearbyDL(Level level, double x, double y, double z, LivingEntity entity) {
-        if (!(level instanceof ServerLevel sLevel) || entity instanceof ArmorStand) return;
+    private static void alertNearbyDL(Level level, double x, double y, double z, Entity entity) {
+        // I Want to allow the players to be able to use the armor stand as a "bait" in farms
+        if (!(level instanceof ServerLevel sLevel)/* || entity instanceof ArmorStand */) return;
         if (entity instanceof ChangedEntity chEntity && chEntity.getLatexType() == LatexType.DARK_LATEX) return;
-        if (entity instanceof Player player && isPlayerDLOrPuro(player)) return;
+        if (entity instanceof Player player) {
+            if (isPlayerDLOrPuro(player)) return;
+            if (player.isSteppingCarefully()) return;
+            if (player.isSpectator()) return;
+        }
+
 
         BlockPos pos = new BlockPos(x, y, z);
         BlockEntity be = level.getBlockEntity(pos);
@@ -173,8 +179,7 @@ public class DarkLatexPuddleBlock extends Block implements EntityBlock, NonLatex
 
     @Override
     public void entityInside(BlockState blockstate, Level world, BlockPos pos, Entity entity) {
-        if (!(entity instanceof LivingEntity living)) return;
-        alertNearbyDL(world, pos.getX(), pos.getY(), pos.getZ(), living);
+        alertNearbyDL(world, pos.getX(), pos.getY(), pos.getZ(), entity);
     }
 
     @Override

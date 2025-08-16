@@ -30,7 +30,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -141,7 +140,6 @@ public class Experiment10BossEntity extends ChangedEntity implements GenderedEnt
         return super.getMeleeAttackRangeSqr(target);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#1f1f1f");
     }
@@ -202,11 +200,8 @@ public class Experiment10BossEntity extends ChangedEntity implements GenderedEnt
         if (this.getUnderlyingPlayer() != null) {
             TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
             if (transfurVariantInstance != null) {
-				float t = transfurVariantInstance.getTransfurProgression(1);
-				int r = (int) Mth.lerp(t, start.getRed(),   end.getRed());
-                int g = (int) Mth.lerp(t, start.getGreen(), end.getGreen());
-                int b = (int) Mth.lerp(t, start.getBlue(),  end.getBlue());
-                return new Color3(r,g,b);
+                float t = transfurVariantInstance.getTransfurProgression(1);
+                return start.lerp(t, end);
             }
         }
         return start;

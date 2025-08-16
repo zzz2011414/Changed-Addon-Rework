@@ -1,14 +1,12 @@
 package net.foxyas.changedaddon.entity.goals.prototype;
 
 import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -82,7 +80,7 @@ public class GotoTargetChestGoal extends Goal {
         if (targetChestPos != null && !entity.blockPosition().closerThan(targetChestPos, 2.0)) {
             navigation.moveTo(targetChestPos.getX() + 0.5, targetChestPos.getY(), targetChestPos.getZ() + 0.5, 0.25f);
             this.entity.getLookControl().setLookAt(
-                    targetChestPos.getX(), targetChestPos.getY() , targetChestPos.getZ(),
+                    targetChestPos.getX(), targetChestPos.getY(), targetChestPos.getZ(),
                     30.0F, // yaw change speed (degrees per tick)
                     30.0F  // pitch change speed
             );

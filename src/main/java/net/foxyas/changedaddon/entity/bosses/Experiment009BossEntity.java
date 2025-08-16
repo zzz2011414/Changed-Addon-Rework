@@ -34,7 +34,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -166,7 +165,6 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
         return super.getMeleeAttackRangeSqr(target);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#F1F1F1");
     }
@@ -220,11 +218,8 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
         if (this.getUnderlyingPlayer() != null) {
             TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
             if (transfurVariantInstance != null) {
-				float t = transfurVariantInstance.getTransfurProgression(1);
-				int r = (int) Mth.lerp(t, start.getRed(),   end.getRed());
-                int g = (int) Mth.lerp(t, start.getGreen(), end.getGreen());
-                int b = (int) Mth.lerp(t, start.getBlue(),  end.getBlue());
-                return new Color3(r,g,b);
+                float t = transfurVariantInstance.getTransfurProgression(1);
+                return start.lerp(t, end);
             }
         }
         return start;

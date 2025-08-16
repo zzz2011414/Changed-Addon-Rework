@@ -69,7 +69,6 @@ public class BunyEntity extends ChangedEntity {
     protected boolean targetSelectorTest(LivingEntity livingEntity) {
         return false;
     }*/ //Maybe later
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#9c8c73");
     }

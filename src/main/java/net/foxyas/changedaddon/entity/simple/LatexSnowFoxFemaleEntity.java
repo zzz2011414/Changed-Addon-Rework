@@ -80,7 +80,6 @@ public class LatexSnowFoxFemaleEntity extends ChangedEntity implements GenderedE
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#E5E5E5");
     }

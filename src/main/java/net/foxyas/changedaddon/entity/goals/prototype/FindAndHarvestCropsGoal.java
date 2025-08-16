@@ -4,7 +4,6 @@ import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.init.ChangedParticles;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -12,7 +11,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -87,7 +85,7 @@ public class FindAndHarvestCropsGoal extends Goal {
 
                 // Place the crop block at target position
                 this.entity.getLookControl().setLookAt(
-                        targetCropPos.getX(), targetCropPos.getY() , targetCropPos.getZ(),
+                        targetCropPos.getX(), targetCropPos.getY(), targetCropPos.getZ(),
                         30.0F, // yaw change speed (degrees per tick)
                         30.0F  // pitch change speed
                 );

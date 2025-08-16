@@ -4,7 +4,6 @@ import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.init.ChangedParticles;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -158,7 +156,7 @@ public class ApplyBonemealGoal extends Goal {
                 || !fertilizable.isValidBonemealTarget(level, pos, state, false)) return;
 
         this.entity.getLookControl().setLookAt(
-                pos.getX(), pos.getY() , pos.getZ(),
+                pos.getX(), pos.getY(), pos.getZ(),
                 30.0F, // yaw change speed (degrees per tick)
                 30.0F  // pitch change speed
         );

@@ -63,7 +63,6 @@ public class FengQIWolfEntity extends ChangedEntity implements GenderedEntity, P
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#eeeeee");
     }

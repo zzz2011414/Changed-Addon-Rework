@@ -4,7 +4,6 @@ import net.foxyas.changedaddon.entity.advanced.PrototypeEntity;
 import net.foxyas.changedaddon.init.ChangedAddonSounds;
 import net.ltxprogrammer.changed.entity.Emote;
 import net.ltxprogrammer.changed.init.ChangedParticles;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -87,7 +85,7 @@ public class PlantSeedsGoal extends Goal {
             navigation.moveTo(targetPos.getX() + 0.5, targetPos.getY(), targetPos.getZ() + 0.5, 0.25f);
             // Make entity look at a target position
             this.entity.getLookControl().setLookAt(
-                    targetPos.getX(), targetPos.getY() , targetPos.getZ(),
+                    targetPos.getX(), targetPos.getY(), targetPos.getZ(),
                     30.0F, // yaw change speed (degrees per tick)
                     30.0F  // pitch change speed
             );
@@ -154,7 +152,7 @@ public class PlantSeedsGoal extends Goal {
 
         // Place the crop block at target position
         this.entity.getLookControl().setLookAt(
-                pos.getX(), pos.getY() , pos.getZ(),
+                pos.getX(), pos.getY(), pos.getZ(),
                 30.0F, // yaw change speed (degrees per tick)
                 30.0F  // pitch change speed
         );

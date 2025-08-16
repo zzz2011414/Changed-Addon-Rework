@@ -63,7 +63,6 @@ public class FoxtaFoxyEntity extends ChangedEntity implements GenderedEntity, Po
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0);
     }
 
-    @Override
     public Color3 getHairColor(int i) {
         return Color3.getColor("#FFBC85");
     }
