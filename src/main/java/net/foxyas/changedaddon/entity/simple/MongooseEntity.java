@@ -5,6 +5,7 @@ import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonAnimationEvents;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.ltxprogrammer.changed.entity.AttributePresets;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.TransfurCause;
@@ -38,7 +39,7 @@ public class MongooseEntity extends AbstractBasicChangedEntity implements Custom
         Color3 firstColor = Color3.parseHex("#d59871");
         Color3 secondColor = Color3.parseHex("#5c5c5c");
         if (firstColor != null && secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, getUnderlyingPlayer());
         }
 
         return firstColor;

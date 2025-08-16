@@ -2,6 +2,7 @@ package net.foxyas.changedaddon.entity.simple;
 
 import net.foxyas.changedaddon.entity.defaults.AbstractBasicChangedEntity;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.ltxprogrammer.changed.entity.AttributePresets;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.TransfurCause;
@@ -26,7 +27,7 @@ public class LatexCalicoCatEntity extends AbstractBasicChangedEntity {
         Color3 firstColor = Color3.parseHex("#d67053");
         Color3 secondColor = Color3.parseHex("#67423f");
         if (firstColor != null && secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, getUnderlyingPlayer());
         }
 
         return firstColor;
