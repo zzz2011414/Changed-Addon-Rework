@@ -228,8 +228,8 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
 
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
-        Color3 firstColor = Color3.parseHex("#AEBBF7FF");
-        Color3 secondColor = Color3.parseHex("#71FFFFFF");
+        Color3 firstColor = Color3.parseHex("#AEBBF7");
+        Color3 secondColor = Color3.parseHex("#71FFFF");
         if (firstColor != null && secondColor != null) {
             return lerpColors(firstColor, secondColor);
         }
