@@ -63,6 +63,8 @@ public class DazedLatexEntity extends ChangedEntity {
     private static final Set<ResourceLocation> SPAWN_BIOMES = Set.of(new ResourceLocation("plains"));
     public static UseItemMode PuddleForm = UseItemMode.create("PuddleForm", false, false, false, true, false);
 
+    public boolean willTransfurTarget = false;
+
     public DazedLatexEntity(PlayMessages.SpawnEntity packet, Level world) {
         this(ChangedAddonEntities.DAZED_LATEX.get(), world);
     }
@@ -247,9 +249,8 @@ public class DazedLatexEntity extends ChangedEntity {
                 return;
             }
             if (source.getChangedEntity() instanceof DazedLatexEntity dazedLatexEntity) {
-                if (ProcessTransfur.willTransfur(target, (float) dazedLatexEntity.getAttributeValue(ChangedAttributes.TRANSFUR_DAMAGE.get()))) {
-                    dazedLatexEntity.subReplicationTimes(1);
-                }
+                dazedLatexEntity.willTransfurTarget = ProcessTransfur.willTransfur(target,
+                        (float) dazedLatexEntity.getAttributeValue(ChangedAttributes.TRANSFUR_DAMAGE.get()));
             }
 
         }
@@ -272,6 +273,9 @@ public class DazedLatexEntity extends ChangedEntity {
     @Override
     public TransfurMode getTransfurMode() {
         if (this.getReplicationTimes() > 0) {
+            if (willTransfurTarget){
+                subReplicationTimes(1);
+            }
             return TransfurMode.REPLICATION;
         }
         return TransfurMode.ABSORPTION;
