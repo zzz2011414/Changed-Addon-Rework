@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "changed:black_tshirt" }
+  ],
+  "result": {
+    "item": "changed_addon:dyeable_tshirt",
+    "nbt": "{display:{color:6316128}}",
+    "count": 1
+  }
+}

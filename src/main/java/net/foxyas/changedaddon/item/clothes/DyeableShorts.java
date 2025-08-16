@@ -12,6 +12,7 @@ import net.ltxprogrammer.changed.item.ClothingItem;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -40,18 +41,6 @@ public class DyeableShorts extends ClothingItem implements DyeableLeatherItem {
         super();
     }
 
-    public static void DynamicColor(RegistryObject<Item> item) {
-        Minecraft.getInstance().getItemColors().register(
-                (stack, tintIndex) -> {
-                    if (stack.getItem() instanceof DyeableShorts colorfulShorts) {
-                        return colorfulShorts.getColor(stack);
-                    }
-                    return -1; // Cor padrão (branco)
-                },
-                item.get()
-        );
-    }
-
     @Override
     public boolean allowedInSlot(ItemStack itemStack, LivingEntity wearer, AccessorySlotType slot) {
         return slot == ChangedAccessorySlots.LEGS.get() || slot == ChangedAccessorySlots.LOWER_BODY.get();
@@ -68,8 +57,14 @@ public class DyeableShorts extends ClothingItem implements DyeableLeatherItem {
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = super.getDefaultInstance();
-        this.setColor(stack, Color3.WHITE.toInt());
+        this.setColor(stack, 0xffffff);
         return stack;
+    }
+
+    @Override
+    public int getColor(ItemStack pStack) {
+        CompoundTag tag = pStack.getTagElement("display");
+        return tag != null && tag.contains("color", 99) ? tag.getInt("color") : 0xffffff;
     }
 
     @Override

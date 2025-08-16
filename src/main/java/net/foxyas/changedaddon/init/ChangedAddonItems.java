@@ -3,9 +3,10 @@ package net.foxyas.changedaddon.init;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.renderer.items.LaserItemDynamicRender;
 import net.foxyas.changedaddon.item.*;
-import net.foxyas.changedaddon.item.armor.*;
+import net.foxyas.changedaddon.item.armor.DarkLatexCoatItem;
+import net.foxyas.changedaddon.item.armor.HazardSuitItem;
+import net.foxyas.changedaddon.item.armor.HazmatSuitItem;
 import net.foxyas.changedaddon.item.clothes.DyeableShorts;
-import net.foxyas.changedaddon.item.clothes.DyeableSportsBra;
 import net.foxyas.changedaddon.item.clothes.TShirtClothing;
 import net.foxyas.changedaddon.procedures.DotValueOfViewProcedure;
 import net.foxyas.changedaddon.procedures.IsSignalCatcherCordsSetProcedure;
@@ -225,8 +226,8 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> DARK_LATEX_HEAD_CAP = REGISTRY.register("dark_latex_coat_cap",
             () -> new DarkLatexCoatItem.HeadPart(EquipmentSlot.HEAD, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> LASER_POINTER = REGISTRY.register("laser_pointer", LaserPointer::new);
-    public static final RegistryObject<Item> DYEABLE_SPORTS_BRA = REGISTRY.register("dyeable_sports_bra", DyeableSportsBra::new);
-    public static final RegistryObject<Item> DYEABLE_SHIRT = REGISTRY.register("dyeable_shirt", TShirtClothing::new);
+    //public static final RegistryObject<Item> DYEABLE_SPORTS_BRA = REGISTRY.register("dyeable_sports_bra", DyeableSportsBra::new);
+    public static final RegistryObject<Item> DYEABLE_TSHIRT = REGISTRY.register("dyeable_tshirt", TShirtClothing::new);
     public static final RegistryObject<Item> DYEABLE_SHORTS = REGISTRY.register("dyeable_shorts", DyeableShorts::new);
     public static final RegistryObject<Item> TIMED_KEYPAD = RegisterBlockItem(REGISTRY, ChangedAddonBlocks.TIMED_KEYPAD, ChangedAddonTabs.TAB_CHANGED_ADDON);
     public static final RegistryObject<Item> HAND_SCANNER = RegisterBlockItem(REGISTRY, ChangedAddonBlocks.HAND_SCANNER, ChangedAddonTabs.TAB_CHANGED_ADDON);

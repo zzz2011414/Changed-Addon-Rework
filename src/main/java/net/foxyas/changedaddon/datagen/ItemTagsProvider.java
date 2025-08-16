@@ -40,7 +40,7 @@ public class ItemTagsProvider extends net.minecraft.data.tags.ItemTagsProvider {
 
 
         tag(ChangedTagsExtension.AccessoryItemsTags.BODY).add(
-                DYEABLE_SHIRT.get(), DYEABLE_SPORTS_BRA.get());
+                DYEABLE_TSHIRT.get());
         tag(ChangedTagsExtension.AccessoryItemsTags.LEGS).add(
                 DYEABLE_SHORTS.get());
 

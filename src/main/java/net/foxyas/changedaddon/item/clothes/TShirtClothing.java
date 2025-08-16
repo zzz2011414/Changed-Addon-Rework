@@ -34,7 +34,7 @@ public class TShirtClothing extends DyeableClothingItem {
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = super.getDefaultInstance();
-        this.setColor(stack, Color3.WHITE.toInt());
+        this.setColor(stack, 0xffffff);
         return stack;
     }
 
@@ -55,7 +55,7 @@ public class TShirtClothing extends DyeableClothingItem {
         public static void onItemColorsInit(ColorHandlerEvent.Item event) {
             event.getItemColors().register(
                     (stack, layer) -> ((DyeableLeatherItem) stack.getItem()).getColor(stack),
-                    ChangedAddonItems.DYEABLE_SHIRT.get());
+                    ChangedAddonItems.DYEABLE_TSHIRT.get());
         }
     }
 

@@ -1,4 +1,6 @@
+/*
 package net.foxyas.changedaddon.item.clothes;
+
 
 import net.foxyas.changedaddon.init.ChangedAddonItems;
 import net.ltxprogrammer.changed.init.ChangedSounds;
@@ -15,6 +17,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
 
 public class DyeableSportsBra extends DyeableClothingItem {
 
@@ -34,7 +38,7 @@ public class DyeableSportsBra extends DyeableClothingItem {
     @Override
     public @NotNull ItemStack getDefaultInstance() {
         ItemStack stack = super.getDefaultInstance();
-        this.setColor(stack, Color3.WHITE.toInt());
+        this.setColor(stack, 0xffffff);
         return stack;
     }
 
@@ -60,3 +64,4 @@ public class DyeableSportsBra extends DyeableClothingItem {
     }
 
 }
+*/

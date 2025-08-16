@@ -3,7 +3,9 @@ package net.foxyas.changedaddon.item.clothes;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
 import net.ltxprogrammer.changed.init.ChangedTabs;
 import net.ltxprogrammer.changed.item.ClothingItem;
+import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
@@ -23,6 +25,12 @@ public abstract class DyeableClothingItem extends ClothingItem implements Dyeabl
                 items.add(stack);
             }
         }
+    }
+
+    @Override
+    public int getColor(ItemStack pStack) {
+        CompoundTag tag = pStack.getTagElement("display");
+        return tag != null && tag.contains("color", 99) ? tag.getInt("color") : 0xffffff;
     }
 
     @Override

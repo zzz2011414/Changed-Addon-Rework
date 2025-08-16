@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "changed:benign_shorts" }
+  ],
+  "result": {
+    "item": "changed_addon:dyeable_shorts",
+    "nbt": "{display:{color:6316128}}",
+    "count": 1
+  }
+}
