@@ -56,6 +56,9 @@ public class Exp9AttacksHandle {
         @Override
         public boolean canContinueToUse() {
             if (target instanceof Player player) {
+                if (player.isBlocking()) {
+                    return false;
+                }
                 if (player.isCreative() || player.isSpectator()) {
                     return false;
                 }
@@ -126,7 +129,7 @@ public class Exp9AttacksHandle {
             }
             target.teleportTo(newPos.x, newPos.y, newPos.z);
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 4);
+            target.hurt(boss.getThunderDmg(), 4);
 
             // Aplica Slow Falling no boss e no target por 4 segundos (80 ticks)
             MobEffectInstance slowFallingEffect = new MobEffectInstance(MobEffects.SLOW_FALLING, 40, 0, false, false);
@@ -162,7 +165,7 @@ public class Exp9AttacksHandle {
             target.setDeltaMovement(knockDir);
             this.boss.swing(InteractionHand.MAIN_HAND);
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 2);
+            target.hurt(boss.getThunderDmg(), 2);
             spawnParticles(target.position());
         }
 
@@ -174,7 +177,7 @@ public class Exp9AttacksHandle {
             target.setDeltaMovement(0, -3, 0);
             boss.swing(InteractionHand.MAIN_HAND);
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 4);
+            target.hurt(boss.getThunderDmg(), 4);
             boss.setAttackCoolDown(0);
 
             // Remove Slow Falling do boss e do target.
@@ -228,6 +231,9 @@ public class Exp9AttacksHandle {
         @Override
         public boolean canContinueToUse() {
             if (target instanceof Player player) {
+                if (player.isBlocking()) {
+                    return false;
+                }
                 if (player.isCreative() || player.isSpectator()) {
                     return false;
                 }
@@ -299,7 +305,7 @@ public class Exp9AttacksHandle {
                 target.knockback(4, knockDir.x, knockDir.z);
             }
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 4);
+            target.hurt(boss.getThunderDmg(), 4);
             spawnThunder(newPos);
         }
 
@@ -311,7 +317,7 @@ public class Exp9AttacksHandle {
             target.setDeltaMovement(knockDir);
             this.boss.swing(InteractionHand.MAIN_HAND);
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 2);
+            target.hurt(boss.getThunderDmg(), 2);
             spawnParticles(target.position());
         }
 
@@ -325,7 +331,7 @@ public class Exp9AttacksHandle {
             boss.teleportTo(target.getX(), target.getY(), target.getZ());
             boss.swing(InteractionHand.MAIN_HAND);
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 4);
+            target.hurt(boss.getThunderDmg(), 4);
             boss.setAttackCoolDown(0);
 
             // Aplica Slow Falling no boss e no target por 4 segundos (80 ticks)
@@ -346,7 +352,7 @@ public class Exp9AttacksHandle {
             boss.teleportTo(target.getX(), target.getY(), target.getZ());
             boss.swing(InteractionHand.MAIN_HAND);
             target.invulnerableTime = 0;
-            target.hurt(boss.ThunderDmg, 4);
+            target.hurt(boss.getThunderDmg(), 4);
             boss.setAttackCoolDown(0);
 
             // Remove Slow Falling do boss e do target.
@@ -480,7 +486,7 @@ public class Exp9AttacksHandle {
                 new DelayedTask(10, () -> {
                     if (boss.distanceTo(target) < 2.5) {
                         boss.SpawnThunderBolt(target.position());
-                        target.hurt(boss.ThunderDmg, 4);
+                        target.hurt(boss.getThunderDmg(), 4);
                         target.setDeltaMovement(target.getDeltaMovement().add(new Vec3(0, 1f, 0)));
                     }
                 });
@@ -568,7 +574,7 @@ public class Exp9AttacksHandle {
                     Entity hitEntity = hitResult.getEntity();
                     // Se a entidade atingida for o alvo
                     if (hitEntity instanceof LivingEntity livingEntity && this.boss.canAttack(livingEntity)) {
-                        livingEntity.hurt(this.boss.ThunderDmg, 4); // Causa dano a outra entidade
+                        livingEntity.hurt(this.boss.getThunderDmg(), 4); // Causa dano a outra entidade
                         this.boss.swing(InteractionHand.MAIN_HAND);
                     }
                 }
@@ -713,7 +719,7 @@ public class Exp9AttacksHandle {
             }
             Vec3 targetPos = target.position().add(0, target.getEyeHeight() * 0.5, 0);
             boss.teleportTo(targetPos.x, targetPos.y, targetPos.z);
-            target.hurt(boss.ThunderDmg, 2);
+            target.hurt(boss.getThunderDmg(), 2);
             boss.setAttackCoolDown(0);
         }
 
@@ -734,7 +740,7 @@ public class Exp9AttacksHandle {
             }
             Vec3 targetPos = target.position().add(0, target.getEyeHeight() * 0.5, 0);
             boss.teleportTo(targetPos.x, targetPos.y, targetPos.z);
-            target.hurt(boss.ThunderDmg, 2);
+            target.hurt(boss.getThunderDmg(), 2);
             boss.setAttackCoolDown(0);
         }
     }
@@ -752,7 +758,7 @@ public class Exp9AttacksHandle {
             }
             Vec3 targetPos = target.position().add(0, target.getEyeHeight() * 0.5, 0);
             boss.teleportTo(targetPos.x, targetPos.y, targetPos.z);
-            target.hurt(boss.ThunderDmg, 2);
+            target.hurt(boss.getThunderDmg(), 2);
         }
 
         @Override
@@ -772,7 +778,7 @@ public class Exp9AttacksHandle {
             }
             Vec3 targetPos = target.position().add(0, target.getEyeHeight() * 0.5, 0);
             boss.teleportTo(targetPos.x, targetPos.y, targetPos.z);
-            target.hurt(boss.ThunderDmg, 2);
+            target.hurt(boss.getThunderDmg(), 2);
         }
     }
 
@@ -869,7 +875,7 @@ public class Exp9AttacksHandle {
                 for (LivingEntity e : nearby) {
                     e.setDeltaMovement(e.getDeltaMovement().x, 0.5f, e.getDeltaMovement().z);
                     e.hurtMarked = true;
-                    e.hurt(boss.ThunderDmg, 2.5f);
+                    e.hurt(boss.getThunderDmg(), 2.5f);
                 }
 
                 thunderIndex++;

@@ -1,14 +1,17 @@
 package net.foxyas.changedaddon.entity.bosses;
 
 import com.mojang.math.Vector3f;
+import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.abilities.DodgeAbilityInstance;
 import net.foxyas.changedaddon.effect.particles.ChangedAddonParticles;
 import net.foxyas.changedaddon.entity.customHandle.BossMusicTheme;
 import net.foxyas.changedaddon.entity.customHandle.Exp9AttacksHandle;
+import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.util.ColorUtil;
 import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.entity.*;
@@ -52,6 +55,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -72,7 +78,6 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
             SynchedEntityData.defineId(Experiment009BossEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> PHASE3 =
             SynchedEntityData.defineId(Experiment009BossEntity.class, EntityDataSerializers.BOOLEAN);
-    public final EntityDamageSource ThunderDmg = new EntityDamageSource(DamageSource.LIGHTNING_BOLT.getMsgId(), this);
     private final ServerBossEvent bossInfo = new ServerBossEvent(this.getDisplayName(), ServerBossEvent.BossBarColor.BLUE, ServerBossEvent.BossBarOverlay.NOTCHED_6);
     private int AttackCoolDown;
     private boolean shouldBleed;
@@ -105,6 +110,10 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
         return builder;
     }
 
+    public EntityDamageSource getThunderDmg() {
+        return new EntityDamageSource(DamageSource.LIGHTNING_BOLT.getMsgId(), this);
+    }
+
     @NotNull
     private static ParticleOptions getParticleOptions(Color StartColor, Color EndColor) {
         Vector3f startColor = new Vector3f((float) StartColor.getRed() / 255, (float) StartColor.getGreen() / 255, (float) StartColor.getBlue() / 255);
@@ -133,7 +142,7 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
         attributes.getInstance(Attributes.FOLLOW_RANGE).setBaseValue(64.0);
         attributes.getInstance(Attributes.MOVEMENT_SPEED).setBaseValue(1.15);
         attributes.getInstance(ForgeMod.SWIM_SPEED.get()).setBaseValue((1.1));
-        attributes.getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(12.5);
+        attributes.getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(8);
         attributes.getInstance(Attributes.ARMOR).setBaseValue(12.5);
         attributes.getInstance(Attributes.ARMOR_TOUGHNESS).setBaseValue(6);
         attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0.25);
@@ -223,18 +232,18 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(9, new Exp9AttacksHandle.ThunderPathway(this));
-        this.goalSelector.addGoal(8, new Exp9AttacksHandle.ThunderShock(this));
-        this.goalSelector.addGoal(5, new Exp9AttacksHandle.ThunderSpeed(this));
-        this.goalSelector.addGoal(5, new Exp9AttacksHandle.ThunderWave(this));
-        this.goalSelector.addGoal(10, new Exp9AttacksHandle.ThunderStorm(this));
-        this.goalSelector.addGoal(5, new Exp9AttacksHandle.TeleportAttack(this));
-        this.goalSelector.addGoal(20, new Exp9AttacksHandle.RandomTeleportAttack(this));
-        this.goalSelector.addGoal(4, new Exp9AttacksHandle.TeleportComboGoal(this));
-        this.goalSelector.addGoal(4, new Exp9AttacksHandle.TeleportAirComboGoal(this));
+        this.targetSelector.addGoal(9, new Exp9AttacksHandle.ThunderPathway(this));
+        this.targetSelector.addGoal(8, new Exp9AttacksHandle.ThunderShock(this));
+        this.targetSelector.addGoal(5, new Exp9AttacksHandle.ThunderSpeed(this));
+        this.targetSelector.addGoal(5, new Exp9AttacksHandle.ThunderWave(this));
+        this.targetSelector.addGoal(10, new Exp9AttacksHandle.ThunderStorm(this));
+        this.targetSelector.addGoal(5, new Exp9AttacksHandle.TeleportAttack(this));
+        this.targetSelector.addGoal(20, new Exp9AttacksHandle.RandomTeleportAttack(this));
+        this.targetSelector.addGoal(4, new Exp9AttacksHandle.TeleportComboGoal(this));
+        this.targetSelector.addGoal(4, new Exp9AttacksHandle.TeleportAirComboGoal(this));
         this.goalSelector.addGoal(6, new Exp9AttacksHandle.BurstAttack(this));
-        this.goalSelector.addGoal(8, new Exp9AttacksHandle.ThunderBoltImpactAttack(this));
-        this.goalSelector.addGoal(7, new Exp9AttacksHandle.ThunderBoltAreaAttack(this));
+        this.targetSelector.addGoal(8, new Exp9AttacksHandle.ThunderBoltImpactAttack(this));
+        this.targetSelector.addGoal(7, new Exp9AttacksHandle.ThunderBoltAreaAttack(this));
     }
 
     @Override
@@ -248,6 +257,20 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
                 if (dodgeAbilityInstance != null && dodgeAbilityInstance.getMaxDodgeAmount() < 10) {
                     dodgeAbilityInstance.setMaxDodgeAmount(10);
                     dodgeAbilityInstance.setDodgeAmount(10);
+                }
+            }
+        }
+    }
+
+    @Mod.EventBusSubscriber(modid = ChangedAddonMod.MODID)
+    public static class WhenAttackAEntity {
+        @SubscribeEvent
+        public static void WhenAttack(LivingAttackEvent event) {
+            LivingEntity target = event.getEntityLiving();
+            Entity source = event.getSource().getEntity();
+            if (event.getSource().getDirectEntity() instanceof Experiment009BossEntity experiment009BossEntity) {
+                if (experiment009BossEntity.isPhase3()) {
+                    experiment009BossEntity.heal(0.5f);
                 }
             }
         }
@@ -449,8 +472,8 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
     public void baseTick() {
         super.baseTick();
         if (this.getUnderlyingPlayer() == null) {
-            if (shouldBleed && this.computeHealthRatio() > 0.10 && this.tickCount % 4 == 0) {
-                this.setHealth(this.getHealth() - 0.05f);
+            if (shouldBleed && (this.computeHealthRatio() / 0.4f) > 0.50 && this.tickCount % 4 == 0) {
+                this.setHealth(this.getHealth() - 0.25f);
             }
             if (this.AttackCoolDown < 100) {
                 this.AttackCoolDown += this.isPhase3() ? 2 : 1;
@@ -473,10 +496,11 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
 
 
             if (this.isPhase2()) {
-                if (this.computeHealthRatio() <= 0.35f) {
+                if (this.computeHealthRatio() <= 0.4f) {
                     removeStatModifiers();
                     applyStatModifierAllOutPhase();
                     this.shouldBleed = true;
+                    setPhase3(true);
                 } else {
                     applyStatModifier(this, 1.5);
                 }

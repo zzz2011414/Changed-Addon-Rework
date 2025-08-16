@@ -15,10 +15,12 @@ import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PlayMessages;
+import org.jetbrains.annotations.NotNull;
 
 public class MongooseEntity extends AbstractBasicChangedEntity implements CustomPatReaction {
     public MongooseEntity(EntityType<? extends ChangedEntity> type, Level level) {
@@ -32,6 +34,7 @@ public class MongooseEntity extends AbstractBasicChangedEntity implements Custom
     @Override
     protected void setAttributes(AttributeMap attributes) {
         AttributePresets.wolfLike(attributes);
+        attributes.getInstance(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0.7f);
     }
 
     @Override

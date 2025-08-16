@@ -51,10 +51,10 @@ import static net.ltxprogrammer.changed.entity.HairStyle.BALD;
 public class DazedLatexEntity extends ChangedEntity {
 
     // Definindo a chave de sincronização no seu código
-    private static final EntityDataAccessor<Boolean> DATA_PUDDLE_ID = SynchedEntityData.defineId(DazedLatexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DATA_PUDDLE_MORPHED = SynchedEntityData.defineId(DazedLatexEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_REPLICATION_TIMES = SynchedEntityData.defineId(DazedLatexEntity.class, EntityDataSerializers.INT);
     private static final Set<ResourceLocation> SPAWN_BIOMES = Set.of(new ResourceLocation("plains"));
     public static UseItemMode PuddleForm = UseItemMode.create("PuddleForm", false, false, false, true, false);
-    public boolean Morphed = false;
 
     public DazedLatexEntity(PlayMessages.SpawnEntity packet, Level world) {
         this(ChangedAddonEntities.DAZED_LATEX.get(), world);
@@ -120,11 +120,10 @@ public class DazedLatexEntity extends ChangedEntity {
         // Defina uma AABB (Área de Checagem) ao redor do spawn para verificar se há Oak Log por perto.
         AABB checkArea = new AABB(pos).inflate(32); // Raio de 32 blocos ao redor
 
-        boolean nearSpawnBlock = world.getBlockStatesIfLoaded(checkArea)
-                .anyMatch(state -> state.is(ChangedAddonBlocks.GOO_CORE.get()));
         //ChangedAddonMod.LOGGER.info("A Try To Spawn A Dazed Entity in " + pos + "\n" + nearSpawnBlock);
 
-        return nearSpawnBlock;
+        return world.getBlockStatesIfLoaded(checkArea)
+                .anyMatch(state -> state.is(ChangedAddonBlocks.GOO_CORE.get()));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -141,29 +140,34 @@ public class DazedLatexEntity extends ChangedEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_PUDDLE_ID, false); // Define o valor inicial como 'false'
+        this.entityData.define(DATA_PUDDLE_MORPHED, false); // Define o valor inicial como 'false'
+        this.entityData.define(DATA_REPLICATION_TIMES, 0);
     }
 
     // Getter para checar se está no estado morphed
     public boolean isMorphed() {
-        return this.entityData.get(DATA_PUDDLE_ID);
+        return this.entityData.get(DATA_PUDDLE_MORPHED);
     }
 
     // Setter para alterar o estado morphed
     public void setMorphed(boolean morphed) {
-        this.entityData.set(DATA_PUDDLE_ID, morphed);
+        this.entityData.set(DATA_PUDDLE_MORPHED, morphed);
     }
 
-    public boolean isMorphed(boolean nbt) {
-        return !nbt ? this.entityData.get(DATA_PUDDLE_ID) : isMorphed();
+    public int getReplicationTimes() {
+        return entityData.get(DATA_REPLICATION_TIMES);
     }
 
-    public void setMorphed(boolean morphed, boolean nbt) {
-        if (!nbt) {
-            this.entityData.set(DATA_PUDDLE_ID, morphed);
-        } else {
-            this.Morphed = morphed;
-        }
+    public void setReplicationTimes(int replicationTimes) {
+        this.entityData.set(DATA_REPLICATION_TIMES, replicationTimes);
+    }
+
+    public void subReplicationTimes(int replicationTimes) {
+        this.entityData.set(DATA_REPLICATION_TIMES, getReplicationTimes() - replicationTimes);
+    }
+
+    public void addReplicationTimes(int replicationTimes) {
+        this.entityData.set(DATA_REPLICATION_TIMES, getReplicationTimes() + replicationTimes);
     }
 
     protected void setAttributes(AttributeMap attributes) {
@@ -182,14 +186,18 @@ public class DazedLatexEntity extends ChangedEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("Morphed")) {
-            this.Morphed = tag.getBoolean("Morphed");
+            this.setMorphed(tag.getBoolean("Morphed"));
+        }
+        if (tag.contains("ReplicationTimes")) {
+            this.setReplicationTimes(tag.getInt("ReplicationTimes"));
         }
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
-        tag.putBoolean("Morphed", Morphed);
+        tag.putBoolean("Morphed", isMorphed());
+        tag.putInt("ReplicationTimes", getReplicationTimes());
     }
 
     @Override
@@ -233,13 +241,10 @@ public class DazedLatexEntity extends ChangedEntity {
 
     @Override
     public TransfurMode getTransfurMode() {
-        TransfurMode transfurMode = TransfurMode.REPLICATION;
-        if (level.random.nextInt(10) > 5) {
-            transfurMode = TransfurMode.ABSORPTION;
-        } else {
-            transfurMode = TransfurMode.REPLICATION;
+        if (this.getReplicationTimes() > 0) {
+            return TransfurMode.REPLICATION;
         }
-        return transfurMode;
+        return TransfurMode.ABSORPTION;
     }
 
     @Override
