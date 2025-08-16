@@ -117,7 +117,7 @@ public abstract class AbstractBasicOrganicChangedEntity extends ChangedEntity {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
 
-    public Color3 lerpColors(Color3 start, Color3 end) {q
+    public Color3 lerpColors(Color3 start, Color3 end) {
         if (this.getUnderlyingPlayer() != null) {
             TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
             if (transfurVariantInstance != null) {
