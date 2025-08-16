@@ -1,5 +1,6 @@
 package net.foxyas.changedaddon.entity.defaults;
 
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.HairStyle;
 import net.ltxprogrammer.changed.entity.LatexType;
@@ -113,16 +114,5 @@ public abstract class AbstractBasicOrganicChangedEntity extends ChangedEntity {
     @Override
     public @NotNull SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-                float t = transfurVariantInstance.getTransfurProgression(1);
-                return start.lerp(t, end);
-            }
-        }
-        return start;
     }
 }

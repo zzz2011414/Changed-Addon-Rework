@@ -4,6 +4,7 @@ import net.foxyas.changedaddon.entity.customHandle.AttributesHandle;
 import net.foxyas.changedaddon.entity.customHandle.BossAbilitiesHandle;
 import net.foxyas.changedaddon.entity.interfaces.IDynamicPawColor;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
@@ -172,21 +173,10 @@ public class Experiment10Entity extends ChangedEntity implements GenderedEntity,
         Color3 firstColor = Color3.getColor("#181818");
         Color3 secondColor = Color3.getColor("#ed1c24");
         if (secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, this.getUnderlyingPlayer());
         }
 
         return firstColor;
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-                float t = transfurVariantInstance.getTransfurProgression(1);
-                return start.lerp(t, end);
-            }
-        }
-        return start;
     }
 
     @Override

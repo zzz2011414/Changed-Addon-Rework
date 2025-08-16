@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.entity.simple;
 
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.foxyas.changedaddon.variants.ExtraVariantStats;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
@@ -85,24 +86,10 @@ public class LynxEntity extends ChangedEntity implements PowderSnowWalkable, Ext
         Color3 firstColor = Color3.getColor("#ebd182");
         Color3 secondColor = Color3.getColor("#eace7a");
         if (firstColor != null && secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, this.getUnderlyingPlayer());
         }
 
         return firstColor;
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        int startColorInt = start.toInt();
-        int endColorInt = end.toInt();
-
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-                float lerpValue = Mth.lerp(transfurVariantInstance.getTransfurProgression(1), startColorInt, endColorInt);
-                return Color3.fromInt(((int) lerpValue));
-            }
-        }
-        return start;
     }
 
     @Override

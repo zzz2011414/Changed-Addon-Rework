@@ -7,6 +7,7 @@ import net.foxyas.changedaddon.entity.goals.LeapSmashGoal;
 import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
@@ -190,21 +191,10 @@ public class Experiment10BossEntity extends ChangedEntity implements GenderedEnt
         Color3 firstColor = Color3.getColor("#181818");
         Color3 secondColor = Color3.getColor("#ed1c24");
         if (secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, this.getUnderlyingPlayer());
         }
 
         return firstColor;
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-                float t = transfurVariantInstance.getTransfurProgression(1);
-                return start.lerp(t, end);
-            }
-        }
-        return start;
     }
 
     @Override

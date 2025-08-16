@@ -9,6 +9,7 @@ import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
@@ -208,21 +209,10 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
         Color3 firstColor = Color3.WHITE;
         Color3 secondColor = Color3.parseHex("#E9E9E9");
         if (secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, this.getUnderlyingPlayer());
         }
 
         return firstColor;
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-                float t = transfurVariantInstance.getTransfurProgression(1);
-                return start.lerp(t, end);
-            }
-        }
-        return start;
     }
 
     @Override
