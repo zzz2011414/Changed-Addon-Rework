@@ -43,8 +43,8 @@ public class BorealisFemaleEntity extends AbstractBasicOrganicChangedEntity {
 
     @Override
     public Color3 getTransfurColor(TransfurCause cause) {
-        Color3 firstColor = Color3.parseHex("#6682C1FF");
-        Color3 secondColor = Color3.parseHex("1C2A4EFF");
+        Color3 firstColor = Color3.parseHex("#6682C1");
+        Color3 secondColor = Color3.parseHex("1C2A4E");
         if (firstColor != null && secondColor != null) {
             return lerpColors(firstColor, secondColor);
         }
