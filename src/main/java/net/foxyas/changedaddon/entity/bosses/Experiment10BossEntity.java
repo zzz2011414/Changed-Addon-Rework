@@ -7,12 +7,11 @@ import net.foxyas.changedaddon.entity.goals.LeapSmashGoal;
 import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.ltxprogrammer.changed.entity.*;
-import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
 import net.ltxprogrammer.changed.init.ChangedParticles;
 import net.ltxprogrammer.changed.init.ChangedSounds;
-import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -30,7 +29,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -192,24 +190,10 @@ public class Experiment10BossEntity extends ChangedEntity implements GenderedEnt
         Color3 firstColor = Color3.getColor("#181818");
         Color3 secondColor = Color3.getColor("#ed1c24");
         if (secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, getUnderlyingPlayer());
         }
 
         return firstColor;
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-				float t = transfurVariantInstance.getTransfurProgression(1);
-				int r = (int) Mth.lerp(t, start.getRed(),   end.getRed());
-                int g = (int) Mth.lerp(t, start.getGreen(), end.getGreen());
-                int b = (int) Mth.lerp(t, start.getBlue(),  end.getBlue());
-                return new Color3(r,g,b);
-            }
-        }
-        return start;
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.foxyas.changedaddon.entity.interfaces.BossWithMusic;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.init.ChangedAddonAbilities;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.foxyas.changedaddon.util.PlayerUtil;
 import net.ltxprogrammer.changed.entity.*;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
@@ -34,7 +35,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -210,24 +210,10 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
         Color3 firstColor = Color3.WHITE;
         Color3 secondColor = Color3.parseHex("#E9E9E9");
         if (secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, getUnderlyingPlayer());
         }
 
         return firstColor;
-    }
-
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-				float t = transfurVariantInstance.getTransfurProgression(1);
-				int r = (int) Mth.lerp(t, start.getRed(),   end.getRed());
-                int g = (int) Mth.lerp(t, start.getGreen(), end.getGreen());
-                int b = (int) Mth.lerp(t, start.getBlue(),  end.getBlue());
-                return new Color3(r,g,b);
-            }
-        }
-        return start;
     }
 
     @Override

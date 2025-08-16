@@ -5,6 +5,7 @@ import net.foxyas.changedaddon.entity.goals.prototype.*;
 import net.foxyas.changedaddon.entity.interfaces.CustomPatReaction;
 import net.foxyas.changedaddon.entity.interfaces.IDynamicPawColor;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
+import net.foxyas.changedaddon.util.ColorUtil;
 import net.foxyas.changedaddon.util.FoxyasUtils;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
 import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
@@ -231,7 +232,7 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         Color3 firstColor = Color3.parseHex("#AEBBF7");
         Color3 secondColor = Color3.parseHex("#71FFFF");
         if (firstColor != null && secondColor != null) {
-            return lerpColors(firstColor, secondColor);
+            return ColorUtil.lerpTFColor(firstColor, secondColor, getUnderlyingPlayer());
         }
 
         return firstColor;
