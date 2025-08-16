@@ -217,14 +217,14 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
     }
 
     public Color3 lerpColors(Color3 start, Color3 end) {
-        int startColorInt = start.toInt();
-        int endColorInt = end.toInt();
-
         if (this.getUnderlyingPlayer() != null) {
             TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
             if (transfurVariantInstance != null) {
-                float lerpValue = Mth.lerp(transfurVariantInstance.getTransfurProgression(1), startColorInt, endColorInt);
-                return Color3.fromInt(((int) lerpValue));
+				float t = transfurVariantInstance.getTransfurProgression(1);
+				int r = (int) Mth.lerp(t, start.getRed(),   end.getRed());
+                int g = (int) Mth.lerp(t, start.getGreen(), end.getGreen());
+                int b = (int) Mth.lerp(t, start.getBlue(),  end.getBlue());
+                return new Color3(r,g,b);
             }
         }
         return start;
