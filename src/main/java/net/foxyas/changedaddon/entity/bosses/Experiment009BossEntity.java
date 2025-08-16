@@ -472,7 +472,7 @@ public class Experiment009BossEntity extends ChangedEntity implements BossWithMu
     public void baseTick() {
         super.baseTick();
         if (this.getUnderlyingPlayer() == null) {
-            if (shouldBleed && (this.computeHealthRatio() / 0.4f) > 0.50 && this.tickCount % 4 == 0) {
+            if (shouldBleed && (this.computeHealthRatio() / 0.4f) > 0.25f && this.tickCount % 4 == 0) {
                 this.setHealth(this.getHealth() - 0.25f);
             }
             if (this.AttackCoolDown < 100) {

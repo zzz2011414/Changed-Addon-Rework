@@ -1,10 +1,16 @@
 package net.foxyas.changedaddon.entity.advanced;
 
+import net.foxyas.changedaddon.ChangedAddonMod;
+import net.foxyas.changedaddon.entity.defaults.AbstractLuminarcticLeopard;
 import net.foxyas.changedaddon.init.ChangedAddonBlocks;
 import net.foxyas.changedaddon.init.ChangedAddonEntities;
 import net.foxyas.changedaddon.init.ChangedAddonGameRules;
+import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;
+import net.ltxprogrammer.changed.ability.IAbstractChangedEntity;
 import net.ltxprogrammer.changed.entity.*;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
+import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.ltxprogrammer.changed.util.Color3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,6 +28,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.RestrictSunGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -223,6 +230,29 @@ public class DazedLatexEntity extends ChangedEntity {
             return PuddleForm;
         }
         return super.getItemUseMode();
+    }
+
+    @Override
+    public boolean tryTransfurTarget(Entity entity) {
+        return super.tryTransfurTarget(entity);
+    }
+
+    @Mod.EventBusSubscriber(modid = ChangedAddonMod.MODID)
+    public static class WhenTransfuredEntity {
+        @SubscribeEvent
+        public static void WhenDazedTransfur(ProcessTransfur.TransfurAttackEvent event) {
+            LivingEntity target = event.target;
+            IAbstractChangedEntity source = event.context.source;
+            if (source == null) {
+                return;
+            }
+            if (source.getChangedEntity() instanceof DazedLatexEntity dazedLatexEntity) {
+                if (ProcessTransfur.willTransfur(target, (float) dazedLatexEntity.getAttributeValue(ChangedAttributes.TRANSFUR_DAMAGE.get()))) {
+                    dazedLatexEntity.subReplicationTimes(1);
+                }
+            }
+
+        }
     }
 
     public Color3 getHairColor(int i) {
