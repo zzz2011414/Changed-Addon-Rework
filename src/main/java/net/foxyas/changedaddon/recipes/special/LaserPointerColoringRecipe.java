@@ -3,6 +3,7 @@ package net.foxyas.changedaddon.recipes.special;
 import com.google.gson.JsonObject;
 import net.foxyas.changedaddon.item.LaserPointer;
 import net.foxyas.changedaddon.recipes.ChangedAddonModRecipeTypes;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -51,7 +52,7 @@ public class LaserPointerColoringRecipe extends CustomRecipe {
         int totalR = 0;
         int totalG = 0;
         int totalB = 0;
-        int dyeCount = 0;
+        int colorCount = 0;
 
         for (int i = 0; i < container.getContainerSize(); ++i) {
             ItemStack stack = container.getItem(i);
@@ -64,19 +65,30 @@ public class LaserPointerColoringRecipe extends CustomRecipe {
                     totalR += (color >> 16) & 0xFF;
                     totalG += (color >> 8) & 0xFF;
                     totalB += color & 0xFF;
-                    dyeCount++;
+                    colorCount++;
                 }
             }
         }
 
-        if (!pointer.isEmpty() && dyeCount > 0) {
-            int r = totalR / dyeCount;
-            int g = totalG / dyeCount;
-            int b = totalB / dyeCount;
-            int finalColor = (r << 16) | (g << 8) | b;
-
+        if (!pointer.isEmpty() && colorCount > 0) {
             ItemStack result = pointer.copy();
             result.setCount(1);
+
+            // get existing color if present
+            int existingColor = LaserPointer.getColor(result);
+            if (existingColor != -1) {
+                totalR += (existingColor >> 16) & 0xFF;
+                totalG += (existingColor >> 8) & 0xFF;
+                totalB += existingColor & 0xFF;
+                colorCount++;
+            }
+
+            // average accumulated colors
+            int r = totalR / colorCount;
+            int g = totalG / colorCount;
+            int b = totalB / colorCount;
+            int finalColor = (r << 16) | (g << 8) | b;
+
             LaserPointer.setLaserColor(result, finalColor);
             return result;
         }
