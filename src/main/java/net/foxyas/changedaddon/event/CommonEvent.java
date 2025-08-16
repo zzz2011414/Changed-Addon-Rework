@@ -8,8 +8,12 @@ import net.foxyas.changedaddon.network.ChangedAddonModVariables;
 import net.foxyas.changedaddon.util.TransfurVariantUtils;
 import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurContext;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
+import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedItems;
+import net.ltxprogrammer.changed.init.ChangedSounds;
 import net.ltxprogrammer.changed.init.ChangedTransfurVariants;
+import net.ltxprogrammer.changed.item.Syringe;
 import net.ltxprogrammer.changed.process.ProcessTransfur;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementProgress;
@@ -24,6 +28,8 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = ChangedAddonMod.MODID)
 public class CommonEvent {
@@ -89,11 +95,20 @@ public class CommonEvent {
     private static void maskTransfur(Player player, Level level) {
         int doTransfur = level.getLevelData().getGameRules().getInt(ChangedAddonGameRules.DO_DARK_LATEX_MASK_TRANSFUR);
         if (doTransfur <= 0) return;
+        if (player.isCreative() || player.isSpectator()) {
+            return;
+        }
+
+        if (!player.getPersistentData().contains("HoldingDarkLatexMask")) {
+            player.getPersistentData().putInt("HoldingDarkLatexMask", 0);
+        }
 
         int maskHeldTimer = player.getPersistentData().getInt("HoldingDarkLatexMask");
         if (ProcessTransfur.isPlayerTransfurred(player)) {
             if (maskHeldTimer > 0) {
                 player.getPersistentData().putInt("HoldingDarkLatexMask", maskHeldTimer - 1);
+            } else {
+                player.getPersistentData().remove("HoldingDarkLatexMask");
             }
             return;
         }
@@ -106,6 +121,8 @@ public class CommonEvent {
         if (maskHand == null) {
             if (maskHeldTimer > 0) {
                 player.getPersistentData().putDouble("HoldingDarkLatexMask", maskHeldTimer - 1);
+            } else {
+                player.getPersistentData().remove("HoldingDarkLatexMask");
             }
             return;
         }
@@ -117,14 +134,18 @@ public class CommonEvent {
 
         ItemStack stack = player.getItemInHand(maskHand);
         stack.shrink(1);
-        player.setItemInHand(maskHand, stack);//TODO test whether this is necessary
         player.getInventory().setChanged();
 
-        ProcessTransfur.progressTransfur(player, Float.MAX_VALUE, player.getRandom().nextInt(3) < 2
-                ? ChangedTransfurVariants.Gendered.DARK_LATEX_WOLVES.getRandomVariant(player.getRandom())
-                : ChangedTransfurVariants.DARK_LATEX_WOLF_PARTIAL.get(), TransfurContext.hazard(TransfurCause.GRAB_REPLICATE));
+
+        if (ProcessTransfur.progressTransfur(player, (float) ProcessTransfur.getEntityTransfurTolerance(player) * 2, Syringe.getVariant(stack), TransfurContext.hazard(TransfurCause.GRAB_REPLICATE))) {
+            TransfurVariantInstance<?> instance = ProcessTransfur.getPlayerTransfurVariant(player);
+            if (instance != null) {
+                ChangedSounds.broadcastSound(player, instance.getParent().sound, 1, 1);
+            }
+        }
 
         player.getPersistentData().putInt("HoldingDarkLatexMask", 0);
+        player.getPersistentData().remove("HoldingDarkLatexMask");
     }
 
     private static void tickInfectionAndRes(Player player) {

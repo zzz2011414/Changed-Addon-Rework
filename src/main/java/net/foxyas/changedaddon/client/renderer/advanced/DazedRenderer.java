@@ -1,6 +1,7 @@
 package net.foxyas.changedaddon.client.renderer.advanced;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.model.DazedLatexModel;
 import net.foxyas.changedaddon.entity.advanced.DazedLatexEntity;
 import net.ltxprogrammer.changed.client.renderer.AdvancedHumanoidRenderer;
@@ -43,10 +44,10 @@ public class DazedRenderer extends AdvancedHumanoidRenderer<DazedLatexEntity, Da
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull DazedLatexEntity entity) {
         if (entity.isMorphed()) {
-            return new ResourceLocation("changed_addon:textures/entities/dazed_creature_puddle.png");
+            return ChangedAddonMod.textureLoc("textures/entities/dazed_creature_puddle");
         }
 
-        return new ResourceLocation("changed_addon:textures/entities/dazed_creature.png");
+        return ChangedAddonMod.textureLoc("textures/entities/dazed_creature");
     }
 
     public static class ConditionalCustomEyesLayer<M extends AdvancedHumanoidModel<T>, T extends ChangedEntity> extends RenderLayer<T, M> {

@@ -26,6 +26,7 @@ import java.util.List;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ChangedAddonEntities {
     //Todo: Make this Class a bit less Chaotic
+
     public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.ENTITIES, ChangedAddonMod.MODID);
     // --- PROJECTILES ---
     public static final RegistryObject<EntityType<ParticleProjectile>> PARTICLE_PROJECTILE = register("particle_projectile",
@@ -41,7 +42,6 @@ public class ChangedAddonEntities {
      * example -> ATTRIBUTES.put(PROTOTYPE, PrototypeEntity::createAttributes);
      */
 
-    //PlaceHolder
     public static List<EntityType<?>> canUseAccessories() {
         final List<EntityType<?>> ADDON_CHANGED_ENTITIES = getAddonHumanoidsChangedEntities();
         ADDON_CHANGED_ENTITIES.remove(REYN.get());

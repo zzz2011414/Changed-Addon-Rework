@@ -14,8 +14,9 @@ public class ChangedAddonAccessoryRenderers {
     @SubscribeEvent
     public static void registerAccessoryRenderers(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            AccessoryLayer.registerRenderer(ChangedAddonItems.DYEABLE_SHORTS.get(), SimpleColorfulClothingRenderer.of(ArmorModel.CLOTHING_INNER, EquipmentSlot.LEGS));
+            AccessoryLayer.registerRenderer(ChangedAddonItems.DYEABLE_SPORTS_BRA.get(), SimpleColorfulClothingRenderer.of(ArmorModel.CLOTHING_INNER, EquipmentSlot.CHEST));
             AccessoryLayer.registerRenderer(ChangedAddonItems.DYEABLE_SHIRT.get(), SimpleColorfulClothingRenderer.of(ArmorModel.CLOTHING_INNER, EquipmentSlot.CHEST));
+            AccessoryLayer.registerRenderer(ChangedAddonItems.DYEABLE_SHORTS.get(), SimpleColorfulClothingRenderer.of(ArmorModel.CLOTHING_INNER, EquipmentSlot.LEGS));
         });
     }
 }

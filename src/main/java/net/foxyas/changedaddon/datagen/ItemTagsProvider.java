@@ -40,7 +40,7 @@ public class ItemTagsProvider extends net.minecraft.data.tags.ItemTagsProvider {
 
 
         tag(ChangedTagsExtension.AccessoryItemsTags.BODY).add(
-                DYEABLE_SHIRT.get());
+                DYEABLE_SHIRT.get(), DYEABLE_SPORTS_BRA.get());
         tag(ChangedTagsExtension.AccessoryItemsTags.LEGS).add(
                 DYEABLE_SHORTS.get());
 
@@ -81,7 +81,7 @@ public class ItemTagsProvider extends net.minecraft.data.tags.ItemTagsProvider {
         tag(ChangedAddonTags.Items.SYRINGES).add(
                 ChangedItems.SYRINGE.get(),
                 SYRINGE.get());
-        tag(ChangedAddonTags.Items.UNTRANSFURS).add(
+        tag(ChangedAddonTags.Items.UNTRANSFUR_ITEMS).add(
                 POT_WITH_CAMONIA.get(),
                 SYRINGE_WITH_LITIX_CAMMONIA.get());
         tag(ChangedAddonTags.Items.LATEX_SOLVENT_APPLICABLE).add(

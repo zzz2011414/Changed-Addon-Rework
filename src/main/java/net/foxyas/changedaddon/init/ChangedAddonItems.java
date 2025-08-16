@@ -3,8 +3,10 @@ package net.foxyas.changedaddon.init;
 import net.foxyas.changedaddon.ChangedAddonMod;
 import net.foxyas.changedaddon.client.renderer.items.LaserItemDynamicRender;
 import net.foxyas.changedaddon.item.*;
-import net.foxyas.changedaddon.item.armor.DyeableShorts;
-import net.foxyas.changedaddon.item.armor.TShirtClothing;
+import net.foxyas.changedaddon.item.armor.*;
+import net.foxyas.changedaddon.item.clothes.DyeableShorts;
+import net.foxyas.changedaddon.item.clothes.DyeableSportsBra;
+import net.foxyas.changedaddon.item.clothes.TShirtClothing;
 import net.foxyas.changedaddon.procedures.DotValueOfViewProcedure;
 import net.foxyas.changedaddon.procedures.IsSignalCatcherCordsSetProcedure;
 import net.foxyas.changedaddon.procedures.LaethinPropertyValueProviderProcedure;
@@ -174,7 +176,7 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> FOXYAS_SPAWN_EGG = REGISTRY.register("foxyas_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.FOXYAS, -1, -26215, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> SPAWNEGGOFFOXYAS = REGISTRY.register("spawneggoffoxyas", SpawnEggOfFoxyasItem::new);
     // --- CHANGED ENTITIES SPAWN EGGS ---
-    public static final RegistryObject<Item> LATEX_SNOW_FOX_SPAWN_EGG = REGISTRY.register("latex_snow_fox_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LATEX_SNOW_FOX_MALE, 0xFFFFFFF, 0xfD6DDF7, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
+    public static final RegistryObject<Item> LATEX_SNOW_FOX_MALE_SPAWN_EGG = REGISTRY.register("latex_snow_fox_male_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LATEX_SNOW_FOX_MALE, 0xFFFFFFF, 0xfD6DDF7, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> LATEX_SNOW_FOX_FEMALE_SPAWN_EGG = REGISTRY.register("latex_snow_fox_female_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LATEX_SNOW_FOX_FEMALE, 0xFFFFFFF, 0xfD6DDF7, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> DAZED_LATEX_SPAWN_EGG = REGISTRY.register("latex_dazed_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.DAZED_LATEX, 0xFFFFFFF, 0xffCFCFCF, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> PURO_KIND_MALE_SPAWN_EGG = REGISTRY.register("puro_kind_male_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.PURO_KIND_MALE, Color3.getColor("#393939").toInt(), Color3.getColor("#303030").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
@@ -196,8 +198,8 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> EXP10_BOSS_SPAWN_EGG = REGISTRY.register("experiment_10_boss_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.EXPERIMENT_10_BOSS, Color3.getColor("#181818").toInt(), Color3.getColor("#ed1c24").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> PARTIAL_SNOW_LEOPARD_SPAWN_EGG = REGISTRY.register("latex_snow_leopard_partial_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.SNOW_LEOPARD_PARTIAL, Color3.getColor("#9C9C9C").toInt(), Color3.getColor("#484848").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> REYN_TRANSFUR_SPAWN_EGG = REGISTRY.register("reyn_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.REYN, Color3.getColor("#4C4C4C").toInt(), Color3.getColor("#464646").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
-    public static final RegistryObject<Item> LUMINARCTIC_LEOPARD_SPAWN_EGG = REGISTRY.register("luminarctic_leopard_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE, Color3.getColor("#414141").toInt(), Color3.getColor("#FFFFFF").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
-    public static final RegistryObject<Item> LUMINARCTIC_FEMALE_LEOPARD_SPAWN_EGG = REGISTRY.register("female_luminarctic_leopard_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE, Color3.getColor("#414141").toInt(), Color3.getColor("#FFFFFF").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
+    public static final RegistryObject<Item> LUMINARCTIC_LEOPARD_MALE_SPAWN_EGG = REGISTRY.register("luminarctic_leopard_male_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LUMINARCTIC_LEOPARD_MALE, Color3.getColor("#414141").toInt(), Color3.getColor("#FFFFFF").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
+    public static final RegistryObject<Item> LUMINARCTIC_FEMALE_LEOPARD_SPAWN_EGG = REGISTRY.register("luminarctic_leopard_female_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LUMINARCTIC_LEOPARD_FEMALE, Color3.getColor("#414141").toInt(), Color3.getColor("#FFFFFF").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> LATEX_SQUID_TIGER_SHARK_SPAWN_EGG = REGISTRY.register("latex_squid_tiger_shark_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LATEX_SQUID_TIGER_SHARK, Color3.getColor("#969696").toInt(), Color3.BLACK.toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> LYNX_SPAWN_EGG = REGISTRY.register("lynx_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.LYNX, Color3.getColor("#ebd182").toInt(), Color3.getColor("eace7a").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> FOXTA_FOXY_SPAWN_EGG = REGISTRY.register("foxta_foxy_spawn_egg", () -> new ForgeSpawnEggItem(ChangedAddonEntities.FOXTA_FOXY, Color3.getColor("#FF8F33").toInt(), Color3.getColor("#FFBC85").toInt(), new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
@@ -223,6 +225,7 @@ public class ChangedAddonItems {
     public static final RegistryObject<Item> DARK_LATEX_HEAD_CAP = REGISTRY.register("dark_latex_coat_cap",
             () -> new DarkLatexCoatItem.HeadPart(EquipmentSlot.HEAD, new Item.Properties().tab(ChangedAddonTabs.TAB_CHANGED_ADDON)));
     public static final RegistryObject<Item> LASER_POINTER = REGISTRY.register("laser_pointer", LaserPointer::new);
+    public static final RegistryObject<Item> DYEABLE_SPORTS_BRA = REGISTRY.register("dyeable_sports_bra", DyeableSportsBra::new);
     public static final RegistryObject<Item> DYEABLE_SHIRT = REGISTRY.register("dyeable_shirt", TShirtClothing::new);
     public static final RegistryObject<Item> DYEABLE_SHORTS = REGISTRY.register("dyeable_shorts", DyeableShorts::new);
     public static final RegistryObject<Item> TIMED_KEYPAD = RegisterBlockItem(REGISTRY, ChangedAddonBlocks.TIMED_KEYPAD, ChangedAddonTabs.TAB_CHANGED_ADDON);

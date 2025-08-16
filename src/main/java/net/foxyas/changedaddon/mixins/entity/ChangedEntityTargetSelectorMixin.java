@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.mixins.entity;
 
 import net.foxyas.changedaddon.configuration.ChangedAddonServerConfiguration;
-import net.foxyas.changedaddon.item.DarkLatexCoatItem;
+import net.foxyas.changedaddon.item.armor.DarkLatexCoatItem;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.beast.AbstractDarkLatexWolf;
 import net.minecraft.world.entity.EquipmentSlot;

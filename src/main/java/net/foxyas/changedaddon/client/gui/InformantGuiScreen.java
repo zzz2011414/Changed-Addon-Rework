@@ -137,6 +137,7 @@ public class InformantGuiScreen extends AbstractContainerScreen<InformantGuiMenu
         ChangedEntity entity = InformantBlockEntityRenderer.getDisplayEntity(tf);
 
         if (entity != null) {
+            assert Minecraft.getInstance().player != null;
             entity.tickCount = Minecraft.getInstance().player.tickCount;
 
             int centerX = leftPos + imageWidth / 2;

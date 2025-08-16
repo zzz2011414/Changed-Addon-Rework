@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.mixins.entity;
+package net.foxyas.changedaddon.mixins.entity.goals;
 
 import net.foxyas.changedaddon.init.ChangedAddonTags;
 import net.foxyas.changedaddon.variants.ChangedAddonTransfurVariants;

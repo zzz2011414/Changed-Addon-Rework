@@ -80,8 +80,8 @@ public class AccessoryEntityProvider implements DataProvider {
 
     protected void registerEntityAccessories() {
         this.add(ChangedTagsExtension.AccessoryEntityTags.HUMANOIDS)
-                //.entities(ChangedAddonEntities.accessoriesCompatibleAddonChangedEntities().toArray(new EntityType[0]))
-                .entityTypesTag(ChangedAddonTags.EntityTypes.CAN_USE_ACCESSORIES)
+                .entities(ChangedAddonEntities.canUseAccessories().toArray(new EntityType[0]))
+                //.entityTypesTag(ChangedAddonTags.EntityTypes.CAN_USE_ACCESSORIES)
                 .slots(getHumanoidSlots());
     }
 
@@ -149,7 +149,7 @@ public class AccessoryEntityProvider implements DataProvider {
                 entityAr.add(type.getRegistryName().toString());
             }
 
-            for (TagKey<EntityType<?>> typeTagKey : entityTypesTags){
+            for (TagKey<EntityType<?>> typeTagKey : entityTypesTags) {
                 entityAr.add("#" + typeTagKey.location());
             }
 

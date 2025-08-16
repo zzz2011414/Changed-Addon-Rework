@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.item;
+package net.foxyas.changedaddon.item.armor;
 
 import net.foxyas.changedaddon.client.model.ModelHazmat_Suit;
 import net.foxyas.changedaddon.init.ChangedAddonTabs;

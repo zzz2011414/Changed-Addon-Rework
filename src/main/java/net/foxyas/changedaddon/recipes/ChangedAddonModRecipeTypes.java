@@ -1,7 +1,7 @@
 package net.foxyas.changedaddon.recipes;
 
 import net.foxyas.changedaddon.ChangedAddonMod;
-import net.foxyas.changedaddon.recipes.special.DyeableShortsColoringRecipe;
+import net.foxyas.changedaddon.recipes.special.ColoringClothesRecipe;
 import net.foxyas.changedaddon.recipes.special.HaydenTransfurRecipe;
 import net.foxyas.changedaddon.recipes.special.LaserPointerColoringRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -21,8 +21,8 @@ public class ChangedAddonModRecipeTypes {
     // Registrar suas receitas especiais
     public static final RegistryObject<RecipeSerializer<?>> LAZER_POINTER_COLORING =
             SERIALIZERS.register("laser_pointer_coloring", LaserPointerColoringRecipe.Serializer::new);
-    public static final RegistryObject<RecipeSerializer<?>> SHORTS_COLORING =
-            SERIALIZERS.register("shorts_coloring", DyeableShortsColoringRecipe.Serializer::new);
+    public static final RegistryObject<RecipeSerializer<?>> COLORING_CLOTHES =
+            SERIALIZERS.register("coloring_clothes", ColoringClothesRecipe.Serializer::new);
     public static final RegistryObject<RecipeSerializer<?>> HAYDEN_SYRINGE_RECIPE =
             SERIALIZERS.register("hayden_syringe_recipe", HaydenTransfurRecipe.Serializer::new);
     public static final RegistryObject<RecipeSerializer<CatalyzerRecipe>> CATALYZER_RECIPE =

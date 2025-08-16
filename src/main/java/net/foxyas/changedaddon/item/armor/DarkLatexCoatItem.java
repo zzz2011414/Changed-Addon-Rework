@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.item;
+package net.foxyas.changedaddon.item.armor;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;

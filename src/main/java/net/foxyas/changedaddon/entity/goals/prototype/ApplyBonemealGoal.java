@@ -60,11 +60,6 @@ public class ApplyBonemealGoal extends Goal {
     @Override
     public void start() {
         if (targetPos == null) return;
-        if (entity.isTame()) {
-            if (entity.isFollowingOwner()) {
-                entity.setFollowOwner(false);
-            }
-        }
 
         entity.getLevel().playSound(null, entity.blockPosition(), ChangedAddonSounds.PROTOTYPE_IDEA, SoundSource.MASTER, 1, 1);
 
@@ -95,11 +90,6 @@ public class ApplyBonemealGoal extends Goal {
     @Override
     public void stop() {
         super.stop();
-        if (entity.isTame()) {
-            if (!entity.isFollowingOwner()) {
-                entity.setFollowOwner(true);
-            }
-        }
     }
 
     private ItemStack findBoneMeal() {

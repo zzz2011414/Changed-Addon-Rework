@@ -1,8 +1,8 @@
 package net.foxyas.changedaddon.mixins.entity.variant;
 
 import net.foxyas.changedaddon.entity.advanced.AvaliEntity;
-import net.foxyas.changedaddon.item.DarkLatexCoatItem;
-import net.foxyas.changedaddon.item.HazmatSuitItem;
+import net.foxyas.changedaddon.item.armor.DarkLatexCoatItem;
+import net.foxyas.changedaddon.item.armor.HazmatSuitItem;
 import net.foxyas.changedaddon.variants.ExtraVariantStats;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;

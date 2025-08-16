@@ -2,7 +2,7 @@ package net.foxyas.changedaddon.procedures;
 
 import net.foxyas.changedaddon.entity.advanced.LatexSnepEntity;
 import net.foxyas.changedaddon.entity.defaults.AbstractCanTameSnepChangedEntity;
-import net.foxyas.changedaddon.item.HazmatSuitItem;
+import net.foxyas.changedaddon.item.armor.HazmatSuitItem;
 import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.TamableLatexEntity;
 import net.ltxprogrammer.changed.entity.beast.DarkLatexWolfPup;

@@ -1,4 +1,4 @@
-package net.foxyas.changedaddon.item.armor;
+package net.foxyas.changedaddon.item.clothes;
 
 import net.foxyas.changedaddon.init.ChangedAddonTabs;
 import net.ltxprogrammer.changed.init.ChangedTabs;

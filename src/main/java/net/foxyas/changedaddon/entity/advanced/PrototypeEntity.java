@@ -12,6 +12,7 @@ import net.ltxprogrammer.changed.entity.ChangedEntity;
 import net.ltxprogrammer.changed.entity.EyeStyle;
 import net.ltxprogrammer.changed.entity.TransfurCause;
 import net.ltxprogrammer.changed.entity.TransfurMode;
+import net.ltxprogrammer.changed.entity.ai.LatexFollowOwnerGoal;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariant;
 import net.ltxprogrammer.changed.entity.variant.TransfurVariantInstance;
 import net.ltxprogrammer.changed.init.ChangedAttributes;
@@ -740,7 +741,7 @@ public class PrototypeEntity extends AbstractCanTameChangedEntity implements Inv
         public String getFormatedName() {
             String normalName = name();
             String lowerCaseName = name().substring(1).toLowerCase();
-            return normalName.toUpperCase() + lowerCaseName;
+            return normalName.toUpperCase().charAt(0) + lowerCaseName;
         }
 
 
