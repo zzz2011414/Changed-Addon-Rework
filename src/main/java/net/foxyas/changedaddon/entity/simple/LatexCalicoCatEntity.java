@@ -35,20 +35,6 @@ public class LatexCalicoCatEntity extends AbstractBasicChangedEntity {
         return firstColor;
     }
 
-    public Color3 lerpColors(Color3 start, Color3 end) {
-        int startColorInt = start.toInt();
-        int endColorInt = end.toInt();
-
-        if (this.getUnderlyingPlayer() != null) {
-            TransfurVariantInstance<?> transfurVariantInstance = ProcessTransfur.getPlayerTransfurVariant(this.getUnderlyingPlayer());
-            if (transfurVariantInstance != null) {
-                float lerpValue = Mth.lerp(transfurVariantInstance.getTransfurProgression(1), startColorInt, endColorInt);
-                return Color3.fromInt(((int) lerpValue));
-            }
-        }
-        return start;
-    }
-
     @Override
     protected void setAttributes(AttributeMap attributes) {
         AttributePresets.catLike(attributes);
